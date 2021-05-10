@@ -14,8 +14,12 @@ namespace ATMA {
 		virtual ~Game();
 		void run();
 
+
 		bool active = false;
 
 	};
+
+	Game* CreateGame();
+
 }
 

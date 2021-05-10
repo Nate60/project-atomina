@@ -154,10 +154,17 @@
   <ItemGroup>
     <ClInclude Include="api.h" />
     <ClInclude Include="atomina.h" />
+    <ClInclude Include="Entry.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="AtominaException.h" />
+    <ClInclude Include="MathUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AtominaException.cpp" />
     <ClCompile Include="Game.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,3 +5,6 @@
 
 #include "api.h"
 #include "Game.h"
+#include "Entry.h"
+#include "AtominaException.h"
+#include "MathUtil.h"

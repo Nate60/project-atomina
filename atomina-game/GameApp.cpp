@@ -8,8 +8,6 @@ GameApp::~GameApp() {
 
 }
 
-int main() {
-	GameApp* app = new GameApp();
-	app->run();
-	delete app;
+ATMA::Game* ATMA::CreateGame() {
+	return new GameApp();
 }
