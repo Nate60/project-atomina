@@ -4,7 +4,14 @@
 //so that only this file needs to be included
 
 #include "api.h"
+
+//Core
 #include "Game.h"
 #include "Entry.h"
+
+//Util
 #include "AtominaException.h"
 #include "MathUtil.h"
+
+//MATH
+#include "Vec2.h"

@@ -158,10 +158,13 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="AtominaException.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtominaException.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="MathUtil.cpp" />
+    <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
