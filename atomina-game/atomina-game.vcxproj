@@ -170,6 +170,7 @@
     <ClCompile Include="GameApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="blah.h" />
     <ClInclude Include="GameApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
