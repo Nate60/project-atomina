@@ -1,10 +1,10 @@
 #include "CppUnitTest.h"
-#include "TestMixin.h"
 #include <functional>
+#include <atomina.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace atominatest
+namespace MathUtils
 {
 
 	void lerpExec() throw() {

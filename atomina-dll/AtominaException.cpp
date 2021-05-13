@@ -2,15 +2,19 @@
 
 namespace ATMA {
 
-	AtominaException::AtominaException(const char* _Message) noexcept {
-			msg_ = _Message;
+	AtominaException::AtominaException(const char* l_message) noexcept {
+			msg_ = l_message;
 	}
 
-	InvalidParameterException::InvalidParameterException(const char* _Message) noexcept : AtominaException(_Message) {
-
-	}
+	InvalidParameterException::InvalidParameterException(const char* l_message) noexcept : AtominaException(l_message) {}
 
 	const char* InvalidParameterException::what() {
+		return msg_;
+	}
+
+	IOException::IOException(const char* l_message) noexcept : AtominaException(l_message) {}
+
+	const char* IOException::what() {
 		return msg_;
 	}
 

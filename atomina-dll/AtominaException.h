@@ -14,7 +14,7 @@ namespace ATMA {
 		const char* msg_;
 	public:
 
-		AtominaException(const char* _Message) noexcept;
+		AtominaException(const char* l_message) noexcept;
 
 		virtual const char* what() = 0;
 
@@ -26,9 +26,21 @@ namespace ATMA {
 	class ATMA_API InvalidParameterException : public AtominaException {
 
 	public:
-		InvalidParameterException(const char* _Message) noexcept;
+		InvalidParameterException(const char* l_message) noexcept;
 
 		const char* what();
+	};
+
+	/*
+	* Exception to be thrown when an input or output stream is in an invalid state
+	*/
+	class ATMA_API IOException : public AtominaException {
+
+	public:
+		IOException(const char* l_message) noexcept;
+
+		const char* what();
+
 	};
 
 }

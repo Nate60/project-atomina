@@ -1,3 +1,4 @@
+#pragma once
 #include <atomina.h>
 /*
 * Classes, members, or functions that are expected to be defined by the dll so that the test solution may compile
@@ -20,6 +21,4 @@ public:
 
 };
 
-ATMA::Game* ATMA::CreateGame() {
-	return new GameApp();
-}
+static ATMA::Game* ATMA::CreateGame();

@@ -38,7 +38,7 @@ namespace ATMA {
 	* @param v1 Ending Boundary of interpolation
 	* @param t The delta as a ratio of (v-v0)/v1-v0, must be between 0 and 1
 	*/
-	float cubeTerp(float a0, float a1, float w) {
+	inline float cubeTerp(float a0, float a1, float w) {
 		if (w > 1.0 || w < 0.0)
 			throw InvalidParameterException("delta must be between 0.0 and 1.0");
 		return (a1 - a0) * (3.0f - w * 2.0f) * w * w + a0;
@@ -50,7 +50,7 @@ namespace ATMA {
 	* @param v1 Ending Boundary of interpolation
 	* @param t The delta as a ratio of (v-v0)/v1-v0, must be between 0 and 1
 	*/
-	double cubeTerp(double a0, double a1, double w) {
+	inline double cubeTerp(double a0, double a1, double w) {
 		if (w > 1.0 || w < 0.0)
 			throw InvalidParameterException("delta must be between 0.0 and 1.0");
 		return (a1 - a0) * (3.0 - w * 2.0) * w * w + a0;
@@ -59,9 +59,23 @@ namespace ATMA {
 
 
 	//function headers need to be exported
-	ATMA_API double perlin(Vec2<double> gradient[4], std::function<double (double, double, double) > interpolate, double x, double y);
 
+	/*
+	* Used to generate perlin noise at a specific location on a gradient
+	* @param gradient: Array of 4 directional vectors that define the gradient around the point
+	* @param interpolate: interpolation function to interpolate values in the gradient
+	* @param l_x: x coordinate point to get the noise at
+	* @param l_y: y coordinate point to get the noise at
+	*/
+	ATMA_API double perlin(Vec2<double> gradient[4], std::function<double (double, double, double) > interpolate, double l_x, double l_y);
 
-	ATMA_API float perlin(Vec2<float> gradient[4], std::function<float (float, float, float)> interpolate, float x, float y);
+	/*
+	* Used to generate perlin noise at a specific location on a gradient using floats
+	* @param gradient: Array of 4 directional vectors that define the gradient around the point
+	* @param interpolate: interpolation function to interpolate values in the gradient
+	* @param l_x: x coordinate point to get the noise at
+	* @param l_y: y coordinate point to get the noise at
+	*/
+	ATMA_API float perlin(Vec2<float> gradient[4], std::function<float (float, float, float)> interpolate, float l_x, float l_y);
 
 }
