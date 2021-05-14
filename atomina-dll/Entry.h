@@ -2,6 +2,8 @@
 #include "api.h"
 #include "Game.h"
 
+//Unit Test Project does not behave well with main functions
+#ifndef TEST_PROJECT
 
 //factory function to be implemented by the game 
 extern ATMA::Game* ATMA::CreateGame();
@@ -14,3 +16,5 @@ int main() {
 	app->run();
 	delete app;
 }
+
+#endif
