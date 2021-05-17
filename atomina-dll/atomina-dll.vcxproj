@@ -158,6 +158,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="AtominaException.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="RandomGenerator.h" />
     <ClInclude Include="SysUtil.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
@@ -165,6 +166,7 @@
     <ClCompile Include="AtominaException.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="MathUtil.cpp" />
+    <ClCompile Include="RandomGenerator.cpp" />
     <ClCompile Include="SysUtil.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>

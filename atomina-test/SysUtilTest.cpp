@@ -17,8 +17,8 @@ namespace SystemUtils {
 			
 			Assert::AreEqual(
 				//Only the project path is relevant since the other parts will change
-				cwd.substr(cwd.size() - 25, cwd.size() - 1).c_str(), 
-				"\\project-atomina\\Release\\"
+				cwd.substr(cwd.size() - 9, cwd.size() - 1).c_str(), 
+				"\\Release\\"
 			);
 		}
 
