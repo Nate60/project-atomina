@@ -8,6 +8,9 @@
     <Filter Include="Util">
       <UniqueIdentifier>{65c81848-11b2-4555-93c1-2088e0c8fe73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{4daf55c5-82dc-47e8-b3a0-b53eded377cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MathUtilTest.cpp">
@@ -15,6 +18,12 @@
     </ClCompile>
     <ClCompile Include="SysUtilTest.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomGeneratorTest.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="VecTest.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -49,27 +49,27 @@ namespace ATMA {
 		return y_;
 	}
 
-	const Vec2<int> Vec2<int>::operator+(const Vec2& other) {
+	Vec2<int> Vec2<int>::operator+(const Vec2<int>& other) {
 		return Vec2<int>(this->x_ + other.x_, this->y_ + other.y_);
 	}
 
-	const Vec2<float> Vec2<float>::operator+(const Vec2& other) {
-		return Vec2<float>(this->x_ + other.x_, this->y_ + other.y_);
+	Vec2<float> Vec2<float>::operator+(const Vec2<float>& other) {
+		return Vec2<float>(this->x_ + other.x(), this->y_ + other.y());
 	}
 
-	const Vec2<double> Vec2<double>::operator+(const Vec2& other) {
-		return Vec2<double>(this->x_ + other.x_, this->y_ + other.y_);
+	Vec2<double> Vec2<double>::operator+(const Vec2<double>& other) {
+		return Vec2<double>(this->x_ + other.x(), this->y_ + other.y());
 	}
 
-	const Vec2<int> Vec2<int>::operator-(const Vec2& other) {
-		return Vec2<int>(this->x_ - other.x_, this->y_ - other.y_);
+	Vec2<int> Vec2<int>::operator-(const Vec2<int>& other) {
+		return Vec2<int>(this->x_ - other.x(), this->y_ - other.y());
 	}
 
-	const Vec2<float> Vec2<float>::operator-(const Vec2& other) {
-		return Vec2<float>(this->x_ - other.x_, this->y_ - other.y_);
+	Vec2<float> Vec2<float>::operator-(const Vec2<float>& other) {
+		return Vec2<float>(this->x_ - other.x(), this->y_ - other.y());
 	}
-	const Vec2<double> Vec2<double>::operator-(const Vec2& other) {
-		return Vec2<double>(this->x_ - other.x_, this->y_ - other.y_);
+	Vec2<double> Vec2<double>::operator-(const Vec2<double>& other) {
+		return Vec2<double>(this->x_ - other.x(), this->y_ - other.y());
 	}
 
 	int Vec2<int>::operator*(const Vec2<int>& other) {
@@ -84,15 +84,15 @@ namespace ATMA {
 		return (double)(this->x_ * other.x_ + this->y_ * other.y_);
 	}
 
-	const Vec2<int> Vec2<int>::operator*(const int& other) {
+	Vec2<int> Vec2<int>::operator*(const int& other) {
 		return Vec2<int>(this->x_ * other, this->y_ * other);
 	}
 
-	const Vec2<float> Vec2<float>::operator*(const float& other) {
+	Vec2<float> Vec2<float>::operator*(const float& other) {
 		return Vec2<float>(this->x_ * other, this->y_ * other);
 	}
 
-	const Vec2<double> Vec2<double>::operator*(const double& other) {
+	Vec2<double> Vec2<double>::operator*(const double& other) {
 		return Vec2<double>(this->x_ * other, this->y_ * other);
 	}
 
@@ -134,5 +134,31 @@ namespace ATMA {
 		this->y_ = other.y_;
 		return *this;
 	}
+
+	bool operator==(const Vec2<int>& a, const Vec2<int>& b) {
+		return(a.x() == b.x() && a.y() == b.y());
+	}
+
+	bool operator==(const Vec2<float>& a, const Vec2<float>& b) {
+		return(a.x() == b.x() && a.y() == b.y());
+	}
+
+	bool operator==(const Vec2<double>& a, const Vec2<double>& b) {
+		return(a.x() == b.x() && a.y() == b.y());
+	}
+
+	bool operator!=(const Vec2<int>& a, const Vec2<int>& b) {
+		return !(a == b);
+	}
+
+	bool operator!=(const Vec2<float>& a, const Vec2<float>& b) {
+		return !(a == b);
+	}
+
+	bool operator!=(const Vec2<double>& a, const Vec2<double>& b) {
+		return !(a == b);
+	}
+
+
 
 }
