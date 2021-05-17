@@ -169,7 +169,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MathUtilTest.cpp" />
+    <ClCompile Include="RandomGeneratorTest.cpp" />
     <ClCompile Include="SysUtilTest.cpp" />
+    <ClCompile Include="VecTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\atomina-dll\atomina-dll.vcxproj">
