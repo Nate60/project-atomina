@@ -34,7 +34,7 @@ jobs:
         vcpkgArguments: 'spdlog'
         vcpkgTriplet: 'x64-windows'
         vcpkgDirectory: '${{ env.GITHUB_WORKSPACE }}/b/vcpkg'
-        vcpkgGitCommitId: 'af0d805be43365fa03e92b5fe143e1b50e443cf7'
+        vcpkgGitCommitId: '30124253eecff36bc90f73341edbfb4f845e2a1e'
 
 
     - name: Build DLL
