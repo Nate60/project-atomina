@@ -39,6 +39,9 @@ jobs:
     - name: merge with VS
       run: vcpkg integrate install
 
+    - name: add spglog
+      run: vcpkg install spdlog
+
     - name: Build DLL
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
