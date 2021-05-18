@@ -42,6 +42,9 @@
     <ClInclude Include="RandomGenerator.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtominaException.cpp">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="RandomGenerator.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

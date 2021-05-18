@@ -27,6 +27,21 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: nuget restore ${{env.SOLUTION_FILE_PATH}}
 
+    - name: Restore artifacts, or run vcpkg, build and cache artifacts
+      uses: lukka/run-vcpkg@main
+      id: runvcpkg
+      with:
+        vcpkgArguments: 'spdlog'
+        vcpkgTriplet: 'x64-windows'
+        vcpkgDirectory: '${{ env.GITHUB_WORKSPACE }}/b/vcpkg'
+        vcpkgGitCommitId: '30124253eecff36bc90f73341edbfb4f845e2a1e'
+        
+    - name: merge with VS
+      run: vcpkg integrate install
+
+    - name: add spglog
+      run: vcpkg install spdlog
+
     - name: Build DLL
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).

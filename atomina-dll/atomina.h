@@ -5,14 +5,16 @@
 
 #include "api.h"
 
-//Core
-#include "Game.h"
-#include "Entry.h"
-
 //Util
 #include "AtominaException.h"
 #include "MathUtil.h"
 #include "SysUtil.h"
+#include "Log.h"
+
+//Core
+#include "Game.h"
+#include "Entry.h"
+
 
 //Math
 #include "Vec2.h"
