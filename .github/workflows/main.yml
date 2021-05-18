@@ -35,7 +35,9 @@ jobs:
         vcpkgTriplet: 'x64-windows'
         vcpkgDirectory: '${{ env.GITHUB_WORKSPACE }}/b/vcpkg'
         vcpkgGitCommitId: '30124253eecff36bc90f73341edbfb4f845e2a1e'
-
+        
+    - name: merge with VS
+      run: vcpkg integrate install
 
     - name: Build DLL
       working-directory: ${{env.GITHUB_WORKSPACE}}
