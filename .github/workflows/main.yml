@@ -33,7 +33,7 @@ jobs:
       with:
         vcpkgArguments: 'spdlog'
         vcpkgTriplet: 'x64-windows'
-        vcpkgDirectory: '${{ env.GITHUB_WORKSPACE }}/atomina-dll/vendor/'
+        vcpkgDirectory: '${{ env.GITHUB_WORKSPACE }}/b/vcpkg'
         vcpkgGitCommitId: 'af0d805be43365fa03e92b5fe143e1b50e443cf7'
 
 
