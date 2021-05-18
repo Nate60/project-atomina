@@ -12,6 +12,11 @@ extern ATMA::Game* ATMA::CreateGame();
 * DLL entry point into execution
 */
 int main() {
+
+	ATMA::Log::Init();
+	ATMA_ENGINE_WARN("Init logger!");
+	auto a = 5;
+	ATMA_ENGINE_INFO("This is a variable={0}", a);
 	ATMA::Game* app = ATMA::CreateGame();
 	app->run();
 	delete app;
