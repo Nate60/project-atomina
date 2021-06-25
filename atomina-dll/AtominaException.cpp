@@ -6,6 +6,14 @@ namespace ATMA {
 			msg_ = l_message;
 	}
 
+	ObjectNotFoundException::ObjectNotFoundException(const char* l_message) : AtominaException(l_message) {
+
+	}
+
+	const char * ObjectNotFoundException::what() {
+		return msg_;
+	}
+
 	InvalidParameterException::InvalidParameterException(const char* l_message) noexcept : AtominaException(l_message) {}
 
 	const char* InvalidParameterException::what() {
