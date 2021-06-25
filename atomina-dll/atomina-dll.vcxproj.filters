@@ -15,6 +15,18 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="OAS">
+      <UniqueIdentifier>{295593f6-c371-4757-9357-e32eb0860e09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Messaging">
+      <UniqueIdentifier>{b8d3df73-92d2-4f96-8f97-d5c9e5646e10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OAS\Attributes">
+      <UniqueIdentifier>{42ee6b43-f66b-48bf-8e5e-0cb6276219de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OAS\Systems">
+      <UniqueIdentifier>{333fec6a-c8cd-437b-9036-d29145ea81c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h">
@@ -45,6 +57,42 @@
     <ClInclude Include="Log.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="AttrBase.h">
+      <Filter>OAS</Filter>
+    </ClInclude>
+    <ClInclude Include="Attribute.h">
+      <Filter>OAS</Filter>
+    </ClInclude>
+    <ClInclude Include="SysBase.h">
+      <Filter>OAS</Filter>
+    </ClInclude>
+    <ClInclude Include="ATConst.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>OAS</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>OAS</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectMessage.h">
+      <Filter>OAS</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageHandler.h">
+      <Filter>Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="Communicator.h">
+      <Filter>Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="AttrTranslatable.h">
+      <Filter>OAS\Attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="SysTranslator.h">
+      <Filter>OAS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtominaException.cpp">
@@ -67,6 +115,27 @@
     </ClCompile>
     <ClCompile Include="Log.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.h">
+      <Filter>OAS</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>OAS</Filter>
+    </ClCompile>
+    <ClCompile Include="AttrTranslatable.cpp">
+      <Filter>OAS\Attributes</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemManager.cpp">
+      <Filter>OAS</Filter>
+    </ClCompile>
+    <ClCompile Include="AttrBase.cpp">
+      <Filter>OAS</Filter>
+    </ClCompile>
+    <ClCompile Include="SysBase.cpp">
+      <Filter>OAS</Filter>
+    </ClCompile>
+    <ClCompile Include="SysTranslator.cpp">
+      <Filter>OAS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,17 @@
 #include "Game.h"
 #include "Entry.h"
 
-
 //Math
 #include "Vec2.h"
 #include "RandomGenerator.h"
+
+//OAS
+#include "Attribute.h"
+#include "System.h"
+#include "AttrBase.h"
+#include "AttrTranslatable.h"
+#include "SysTranslator.h"
+#include "SysBase.h"
+#include "ObjectMessage.h"
+#include "ObjectManager.h"
+#include "SystemManager.h"

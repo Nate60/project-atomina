@@ -11,6 +11,9 @@
     <Filter Include="Math">
       <UniqueIdentifier>{4daf55c5-82dc-47e8-b3a0-b53eded377cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OAS">
+      <UniqueIdentifier>{2c4436eb-b2e7-49a5-a47e-2e180c125e9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MathUtilTest.cpp">
@@ -24,6 +27,12 @@
     </ClCompile>
     <ClCompile Include="VecTest.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManagerTest.cpp">
+      <Filter>OAS</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemManagerTest.cpp">
+      <Filter>OAS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

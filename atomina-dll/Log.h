@@ -15,7 +15,7 @@ namespace ATMA {
 	private: 
 		
 		static std::shared_ptr<spdlog::logger> EngineLogger_s;
-
+		static bool initialized;
 	};
 
 }
