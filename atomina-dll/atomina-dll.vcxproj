@@ -91,12 +91,16 @@
       <PreprocessorDefinitions>ATOMINADLL_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)atomina-dll\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -106,12 +110,16 @@
       <PreprocessorDefinitions>ATOMINADLL_EXPORTS;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)atomina-dll\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -123,6 +131,7 @@
       <PreprocessorDefinitions>ATOMINADLL_EXPORTS;WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)atomina-dll\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -131,6 +140,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -142,6 +154,7 @@
       <PreprocessorDefinitions>ATOMINADLL_EXPORTS;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)atomina-dll\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -150,23 +163,47 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
+    <ClInclude Include="ATConst.h" />
     <ClInclude Include="atomina.h" />
+    <ClInclude Include="Attribute.h" />
+    <ClInclude Include="AttrTranslatable.h" />
+    <ClInclude Include="Communicator.h" />
+    <ClInclude Include="ObjectMessage.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="AtominaException.h" />
+    <ClInclude Include="AttrBase.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="MessageHandler.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="RandomGenerator.h" />
+    <ClInclude Include="System.h" />
+    <ClInclude Include="SysBase.h" />
+    <ClInclude Include="SystemManager.h" />
+    <ClInclude Include="SysTranslator.h" />
     <ClInclude Include="SysUtil.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtominaException.cpp" />
+    <ClCompile Include="AttrBase.cpp" />
+    <ClCompile Include="AttrTranslatable.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="MathUtil.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="ObjectManager.h" />
     <ClCompile Include="RandomGenerator.cpp" />
+    <ClCompile Include="SysBase.cpp" />
+    <ClCompile Include="SystemManager.cpp" />
+    <ClCompile Include="SysTranslator.cpp" />
     <ClCompile Include="SysUtil.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>

@@ -20,6 +20,14 @@ namespace ATMA {
 
 	};
 
+	class ATMA_API ObjectNotFoundException: public AtominaException {
+	public:
+		ObjectNotFoundException(const char* l_message);
+
+		const char* what();
+
+	};
+
 	/*
 	* Exception to be thrown when a function encounters a parameter with invalid values
 	*/
