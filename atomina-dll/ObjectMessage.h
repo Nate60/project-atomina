@@ -1,6 +1,5 @@
 #pragma once
 
-#pragma once
 
 namespace ATMA {
 

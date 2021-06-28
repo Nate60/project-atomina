@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "AttrBase.h"
 
 namespace ATMA {
