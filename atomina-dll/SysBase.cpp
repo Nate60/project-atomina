@@ -4,7 +4,6 @@
 namespace ATMA {
 
 
-
 	bool SysBase::addObject(const ObjectId& l_id) {
 		if (std::count(objects_.begin(), objects_.end(), l_id)) {
 			return false;
@@ -17,8 +16,7 @@ namespace ATMA {
 	bool SysBase::hasObject(const ObjectId& l_id) const {
 		if (std::count(objects_.begin(), objects_.end(), l_id)) {
 			return true;
-		}
-		else {
+		}else {
 			return false;
 		}
 	}

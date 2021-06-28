@@ -2,7 +2,6 @@
 #include "pch.h"
 #include "api.h"
 
-
 namespace ATMA {
 	
 	class ATMA_API Log

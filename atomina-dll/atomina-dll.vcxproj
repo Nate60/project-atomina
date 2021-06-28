@@ -110,7 +110,7 @@
       <PreprocessorDefinitions>ATOMINADLL_EXPORTS;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)atomina-dll\vendor\spdlog\include;C:\Program Files\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)atomina-dll\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -157,7 +157,7 @@
       <PreprocessorDefinitions>ATOMINADLL_EXPORTS;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)atomina-dll\vendor\spdlog\include;C:\Program Files\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)atomina-dll\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -180,6 +180,11 @@
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="AttrTranslatable.h" />
     <ClInclude Include="Communicator.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventContext.h" />
+    <ClInclude Include="EventGroup.h" />
+    <ClInclude Include="EventManager.h" />
+    <ClInclude Include="EventType.h" />
     <ClInclude Include="ObjectMessage.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="Game.h" />
@@ -201,6 +206,8 @@
     <ClCompile Include="AtominaException.cpp" />
     <ClCompile Include="AttrBase.cpp" />
     <ClCompile Include="AttrTranslatable.cpp" />
+    <ClCompile Include="EventContext.cpp" />
+    <ClCompile Include="EventGroup.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="MathUtil.cpp" />
@@ -210,6 +217,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RandomGenerator.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="SysBase.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="SysTranslator.cpp" />
