@@ -1,7 +1,6 @@
 #pragma once
 #include "api.h"
 #include "Observer.h"
-#include <vector>
 
 namespace ATMA {
 
