@@ -31,6 +31,7 @@ namespace ATMA {
 		if (l_min != intDistribution_.min() || l_max != intDistribution_.max()) {
 			intDistribution_ = std::uniform_int_distribution<int>(l_min, l_max);
 		}
+		mtx_.unlock();
 
 		return intDistribution_(engine_);
 	}
@@ -45,6 +46,7 @@ namespace ATMA {
 		if (l_min != floatDistribution_.min() || l_max != floatDistribution_.max()) {
 			floatDistribution_ = std::uniform_real_distribution<float>(l_min, l_max);
 		}
+		mtx_.unlock();
 
 		return floatDistribution_(engine_);
 	}
@@ -58,7 +60,7 @@ namespace ATMA {
 		if (l_min != doubleDistribution_.min() || l_max != doubleDistribution_.max()) {
 			doubleDistribution_ = std::uniform_real_distribution<double>(l_min, l_max);
 		}
-
+		mtx_.unlock();
 		return doubleDistribution_(engine_);
 	}
 

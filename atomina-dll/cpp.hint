@@ -4,4 +4,4 @@
 #define ATMA_API __declspec(dllexport)
 #define ATMA_API __declspec(dllimport)
 #define VEC_DOT(vec_size, vec_type) inline &##vec_type operator * (sf::Vector##vec_size<##vec_Type> a, sf::Vector##vec_size<##vec_Type> b) { return a.x * b.x + a.y * b.y;}
-
+#define EVENT_CLASS_TYPE(type) static EventType getStaticType() {return EventType::##type; } virtual EventType getEventType() const override {return getStaticType(); }

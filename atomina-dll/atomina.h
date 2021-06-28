@@ -16,6 +16,12 @@
 #include "Game.h"
 #include "Entry.h"
 
+//Events
+#include "Event.h"
+#include "EventType.h"
+#include "KeyEvent.h"
+#include "MouseEvent.h"
+
 //Math
 #include "RandomGenerator.h"
 //OAS
