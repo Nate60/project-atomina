@@ -27,6 +27,9 @@
     <Filter Include="OAS\Systems">
       <UniqueIdentifier>{333fec6a-c8cd-437b-9036-d29145ea81c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{14cd01ef-ab8d-42bf-b831-a2966ae620ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h">
@@ -91,6 +94,21 @@
       <Filter>OAS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventType.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventContext.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventGroup.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtominaException.cpp">
@@ -133,6 +151,15 @@
       <Filter>OAS\Systems</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventGroup.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventContext.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
