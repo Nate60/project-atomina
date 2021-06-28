@@ -27,18 +27,21 @@ namespace ATMA {
 
 
 	void SystemManager::removeObject(const ObjectId& l_id) {
+		ATMA_ENGINE_INFO("Removing Object ID {:d} from all systems", l_id);
 		for (auto &system : systems_) {
 			system.second->removeObject(l_id);
 		}
 	}
 
 	void SystemManager::purgeObjects() {
+		ATMA_ENGINE_INFO("Purging objects from all systems");
 		for (auto& system : systems_) {
 			system.second->purge();
 		}
 	}
 
 	void SystemManager::purgeSystems() {
+		ATMA_ENGINE_INFO("Purging systems from SystemManager");
 		systems_.clear();
 	}
 
