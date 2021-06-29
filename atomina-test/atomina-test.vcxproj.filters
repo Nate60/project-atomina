@@ -25,9 +25,6 @@
     <ClCompile Include="RandomGeneratorTest.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="VecTest.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectManagerTest.cpp">
       <Filter>OAS</Filter>
     </ClCompile>

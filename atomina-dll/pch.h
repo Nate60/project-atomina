@@ -13,6 +13,11 @@
 #include <mutex>
 #include <random>
 #include <bitset>
+#include <SFML/Main.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Config.hpp>
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 
 #ifdef _WINDOWS
 	#include <Windows.h>
