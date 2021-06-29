@@ -3,3 +3,5 @@
 // For more information see https://go.microsoft.com/fwlink/?linkid=865984
 #define ATMA_API __declspec(dllexport)
 #define ATMA_API __declspec(dllimport)
+#define VEC_DOT(vec_size, vec_type) inline &##vec_type operator * (sf::Vector##vec_size<##vec_Type> a, sf::Vector##vec_size<##vec_Type> b) { return a.x * b.x + a.y * b.y;}
+
