@@ -304,11 +304,11 @@ namespace MathUtils
 	public:
 
 		TEST_METHOD(zero_magnitude_gradient_origin) {
-			ATMA::Vec2<double> v[4] = { 
-				ATMA::Vec2<double>(0, 0),
-				ATMA::Vec2<double>(0, 0),
-				ATMA::Vec2<double>(0, 0),
-				ATMA::Vec2<double>(0, 0) 
+			sf::Vector2<double> v[4] = { 
+				sf::Vector2<double>(0, 0),
+				sf::Vector2<double>(0, 0),
+				sf::Vector2<double>(0, 0),
+				sf::Vector2<double>(0, 0)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
 			Assert::AreEqual(ATMA::perlin(v, func , 0, 0), 0.0);
@@ -316,11 +316,11 @@ namespace MathUtils
 		}
 		
 		TEST_METHOD(parallel_equal_magnitude_gradient_origin) {
-			ATMA::Vec2<double> v[4] = {
-				ATMA::Vec2<double>(1, 1),
-				ATMA::Vec2<double>(1, 1),
-				ATMA::Vec2<double>(1, 1),
-				ATMA::Vec2<double>(1, 1)
+			sf::Vector2<double> v[4] = {
+				sf::Vector2<double>(1, 1),
+				sf::Vector2<double>(1, 1),
+				sf::Vector2<double>(1, 1),
+				sf::Vector2<double>(1, 1)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
 			Assert::AreEqual(ATMA::perlin(v, func, 0, 0), 0.0);
@@ -328,11 +328,11 @@ namespace MathUtils
 		}
 
 		TEST_METHOD(spread_equal_magnitude_gradient_origin) {
-			ATMA::Vec2<double> v[4] = {
-				ATMA::Vec2<double>(-1, 1),
-				ATMA::Vec2<double>(1, 1),
-				ATMA::Vec2<double>(-1, -1),
-				ATMA::Vec2<double>(1, -1)
+			sf::Vector2<double> v[4] = {
+				sf::Vector2<double>(-1, 1),
+				sf::Vector2<double>(1, 1),
+				sf::Vector2<double>(-1, -1),
+				sf::Vector2<double>(1, -1)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
 			Assert::AreEqual(ATMA::perlin(v, func, 0, 0), 0.0);
@@ -340,11 +340,11 @@ namespace MathUtils
 		}
 
 		TEST_METHOD(zero_magnitude_gradient_center) {
-			ATMA::Vec2<double> v[4] = {
-				ATMA::Vec2<double>(0, 0),
-				ATMA::Vec2<double>(0, 0),
-				ATMA::Vec2<double>(0, 0),
-				ATMA::Vec2<double>(0, 0)
+			sf::Vector2<double> v[4] = {
+				sf::Vector2<double>(0, 0),
+				sf::Vector2<double>(0, 0),
+				sf::Vector2<double>(0, 0),
+				sf::Vector2<double>(0, 0)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
 			Assert::AreEqual(ATMA::perlin(v, func, 0.5, 0.5), 0.0);
@@ -352,11 +352,11 @@ namespace MathUtils
 		}
 
 		TEST_METHOD(parallel_equal_magnitude_gradient_center) {
-			ATMA::Vec2<double> v[4] = {
-				ATMA::Vec2<double>(1, 1),
-				ATMA::Vec2<double>(1, 1),
-				ATMA::Vec2<double>(1, 1),
-				ATMA::Vec2<double>(1, 1)
+			sf::Vector2<double> v[4] = {
+				sf::Vector2<double>(1, 1),
+				sf::Vector2<double>(1, 1),
+				sf::Vector2<double>(1, 1),
+				sf::Vector2<double>(1, 1)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
 			Assert::AreEqual(ATMA::perlin(v, func, 0.5, 0.5), 0.0);
@@ -364,11 +364,11 @@ namespace MathUtils
 		}
 
 		TEST_METHOD(spread_equal_magnitude_gradient_center) {
-			ATMA::Vec2<double> v[4] = {
-				ATMA::Vec2<double>(-1, 1),
-				ATMA::Vec2<double>(1, 1),
-				ATMA::Vec2<double>(-1, -1),
-				ATMA::Vec2<double>(1, -1)
+			sf::Vector2<double> v[4] = {
+				sf::Vector2<double>(-1, 1),
+				sf::Vector2<double>(1, 1),
+				sf::Vector2<double>(-1, -1),
+				sf::Vector2<double>(1, -1)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
 			Assert::AreEqual(ATMA::perlin(v, func, 0.5, 0.5), 0.0);
@@ -376,11 +376,11 @@ namespace MathUtils
 		}
 
 		TEST_METHOD(spread_unequal_magnitude_gradient_center) {
-			ATMA::Vec2<double> v[4] = {
-				ATMA::Vec2<double>(-2, 1),
-				ATMA::Vec2<double>(10, 8),
-				ATMA::Vec2<double>(-1, -3),
-				ATMA::Vec2<double>(10, -1)
+			sf::Vector2<double> v[4] = {
+				sf::Vector2<double>(-2, 1),
+				sf::Vector2<double>(10, 8),
+				sf::Vector2<double>(-1, -3),
+				sf::Vector2<double>(10, -1)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
 			Assert::AreEqual(ATMA::perlin(v, func, 0.5, 0.5), -1.25);
