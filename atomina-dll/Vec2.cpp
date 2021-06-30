@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Vec2.h"
 
 namespace ATMA {

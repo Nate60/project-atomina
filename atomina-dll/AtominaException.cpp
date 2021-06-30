@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "AtominaException.h"
 
 namespace ATMA {

@@ -3,8 +3,6 @@
 #include "ObjectMessage.h"
 #include "Observer.h"
 #include "Communicator.h"
-#include <string>
-#include <unordered_map>
 
 namespace ATMA {
 

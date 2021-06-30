@@ -93,6 +93,7 @@
     <ClInclude Include="SysTranslator.h">
       <Filter>OAS\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtominaException.cpp">
@@ -137,6 +138,7 @@
     <ClCompile Include="SysTranslator.cpp">
       <Filter>OAS\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

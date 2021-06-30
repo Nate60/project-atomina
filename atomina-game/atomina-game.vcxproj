@@ -173,6 +173,11 @@
     <ClInclude Include="blah.h" />
     <ClInclude Include="GameApp.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\atomina-dll\atomina-dll.vcxproj">
+      <Project>{fedd2104-0f4e-4786-921a-1314f684ea59}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

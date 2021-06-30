@@ -1,8 +1,5 @@
 #pragma once
 #include "api.h"
-#include <string>
-#include <sstream>
-#include <vector>
 
 namespace ATMA {
 

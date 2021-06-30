@@ -1,7 +1,4 @@
 #pragma once
-#include <bitset>
-#include <string>
-#include <vector>
 #include "ATConst.h"
 #include "api.h"
 #include "System.h"
