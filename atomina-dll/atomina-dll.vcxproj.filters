@@ -44,9 +44,6 @@
     <ClInclude Include="AtominaException.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="Vec2.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="atomina.h" />
     <ClInclude Include="SysUtil.h">
       <Filter>Util</Filter>
@@ -99,9 +96,6 @@
     <ClCompile Include="AtominaException.cpp">
       <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="Vec2.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="MathUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -142,5 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

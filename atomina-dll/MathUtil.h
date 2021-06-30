@@ -1,6 +1,5 @@
 #pragma once
 #include "AtominaException.h"
-#include "Vec2.h"
 
 namespace ATMA {
 
@@ -66,7 +65,7 @@ namespace ATMA {
 	* @param l_x: x coordinate point to get the noise at
 	* @param l_y: y coordinate point to get the noise at
 	*/
-	ATMA_API double perlin(Vec2<double> gradient[4], std::function<double (double, double, double) > interpolate, double l_x, double l_y);
+	ATMA_API double perlin(sf::Vector2<double> gradient[4], std::function<double (double, double, double) > interpolate, double l_x, double l_y);
 
 	/*
 	* Used to generate perlin noise at a specific location on a gradient using floats
@@ -75,6 +74,16 @@ namespace ATMA {
 	* @param l_x: x coordinate point to get the noise at
 	* @param l_y: y coordinate point to get the noise at
 	*/
-	ATMA_API float perlin(Vec2<float> gradient[4], std::function<float (float, float, float)> interpolate, float l_x, float l_y);
+	ATMA_API float perlin(sf::Vector2f gradient[4], std::function<float (float, float, float)> interpolate, float l_x, float l_y);
+
+	//inline dot product for vectors
+
+#define VEC_DOT(vec_size,vec_type) operator * (sf::Vector##vec_size##vec_type a, sf::Vector##vec_size##vec_type b) { return a.x * b.x + a.y * b.y;}
+
+	inline double VEC_DOT(2, <double>)
+
+	inline float VEC_DOT(2, f)
+		
+	inline int VEC_DOT(2, i)
 
 }

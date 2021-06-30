@@ -17,7 +17,6 @@
 #include "Entry.h"
 
 //Math
-#include "Vec2.h"
 #include "RandomGenerator.h"
 //OAS
 #include "Attribute.h"
