@@ -1,12 +1,5 @@
+#include "pch.h"
 #include "SysUtil.h"
-#include <stdlib.h>
-
-//windows libraries 
-#ifdef _WINDOWS
-	#include <Windows.h>
-	#include <Shlwapi.h>
-#endif
-
 #include "AtominaException.h"
 
 

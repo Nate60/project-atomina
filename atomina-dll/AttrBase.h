@@ -1,7 +1,6 @@
 #pragma once
 #include "api.h"
 #include "Attribute.h"
-#include <sstream>
 
 
 namespace ATMA {

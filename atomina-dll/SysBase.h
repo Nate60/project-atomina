@@ -1,5 +1,4 @@
 #pragma once
-#include <bitset>
 #include "ATConst.h"
 #include "api.h"
 #include "Observer.h"

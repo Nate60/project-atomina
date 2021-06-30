@@ -2,7 +2,6 @@
 #include "api.h"
 #include "Attribute.h"
 #include "AttrBase.h"
-#include <sstream>
 
 
 namespace ATMA {

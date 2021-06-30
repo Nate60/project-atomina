@@ -1,8 +1,4 @@
 #pragma once
-//warnings are sent by standard library classes which will always be included
-#pragma warning(disable: 4251)
-#include <mutex>
-#include <random>
 #include "api.h"
 
 namespace ATMA {

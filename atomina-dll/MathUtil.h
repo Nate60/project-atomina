@@ -1,7 +1,6 @@
 #pragma once
 #include "AtominaException.h"
 #include "Vec2.h"
-#include <functional>
 
 namespace ATMA {
 
