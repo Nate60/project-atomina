@@ -30,6 +30,9 @@
     <Filter Include="Event">
       <UniqueIdentifier>{14cd01ef-ab8d-42bf-b831-a2966ae620ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{8c0fd427-baa1-4e6f-8eea-cf3da335adb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h">
@@ -108,6 +111,9 @@
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -18,8 +18,14 @@ namespace ATMA {
 	};
 
 }
-
-#define ATMA_ENGINE_ERROR(...) ::ATMA::Log::GetEngineLogger()->error(__VA_ARGS__)
-#define ATMA_ENGINE_WARN(...)  ::ATMA::Log::GetEngineLogger()->warn(__VA_ARGS__)
-#define ATMA_ENGINE_INFO(...)  ::ATMA::Log::GetEngineLogger()->info(__VA_ARGS__)
-#define ATMA_ENGINE_TRACE(...) ::ATMA::Log::GetEngineLogger()->trace(__VA_ARGS__)
+#ifdef _DEBUG
+	#define ATMA_ENGINE_ERROR(...) ::ATMA::Log::GetEngineLogger()->error(__VA_ARGS__)
+	#define ATMA_ENGINE_WARN(...)  ::ATMA::Log::GetEngineLogger()->warn(__VA_ARGS__)
+	#define ATMA_ENGINE_INFO(...)  ::ATMA::Log::GetEngineLogger()->info(__VA_ARGS__)
+	#define ATMA_ENGINE_TRACE(...) ::ATMA::Log::GetEngineLogger()->trace(__VA_ARGS__)
+#else
+	#define ATMA_ENGINE_ERROR(...) 
+	#define ATMA_ENGINE_WARN(...)  
+	#define ATMA_ENGINE_INFO(...)  
+	#define ATMA_ENGINE_TRACE(...) 
+#endif
