@@ -19,8 +19,6 @@
 //Events
 #include "Event.h"
 #include "EventType.h"
-#include "KeyEvent.h"
-#include "MouseEvent.h"
 
 //Math
 #include "RandomGenerator.h"

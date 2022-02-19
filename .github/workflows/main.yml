@@ -15,11 +15,10 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     steps:
-    - uses: actions/checkout@v2
-
+    
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
         
@@ -27,18 +26,23 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: nuget restore ${{env.SOLUTION_FILE_PATH}}
 
-    - name: Restore artifacts, or run vcpkg, build and cache artifacts
-      uses: lukka/run-vcpkg@main
-      id: runvcpkg
+    - name: update
+      run: vcpkg update
+
+    - name: checkout repo branch
+      uses: actions/checkout@v2
       with:
-        vcpkgArguments: 'spdlog'
-        vcpkgTriplet: 'x64-windows'
-        vcpkgDirectory: '${{ env.GITHUB_WORKSPACE }}/b/vcpkg'
-        vcpkgGitCommitId: '30124253eecff36bc90f73341edbfb4f845e2a1e'
-        
+        fetch-depth: 2
+        submodules: 'recursive'
+    - run: git checkout HEAD^
+      
     - name: merge with VS
       run: vcpkg integrate install
-
+      
+    - name: Restore NuGet packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+      
     - name: add spglog
       run: vcpkg install spdlog
 
