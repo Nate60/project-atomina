@@ -34,7 +34,7 @@ jobs:
       with:
         fetch-depth: 2
         submodules: 'recursive'
-    - run: git checkout HEAD^
+    - run: git checkout HEAD
       
     - name: merge with VS
       run: vcpkg integrate install
