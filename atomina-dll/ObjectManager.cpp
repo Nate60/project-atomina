@@ -83,7 +83,7 @@ namespace ATMA {
 		auto pair = std::pair<int, AttrBase*>((int)l_attr, attr);
 		objects_[l_id].second.insert(pair);
 		
-		ATMA_ENGINE_INFO("object id {1:d} is now {0:d}", l_attr, l_id);
+		ATMA_ENGINE_INFO("object id {1:d} is now {0:d}", (int)l_attr, l_id);
 
 		return true;
 
