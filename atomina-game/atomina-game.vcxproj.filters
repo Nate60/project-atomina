@@ -23,8 +23,8 @@
     <ClInclude Include="GameApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="blah.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
