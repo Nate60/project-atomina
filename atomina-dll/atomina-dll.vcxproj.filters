@@ -96,7 +96,6 @@
     <ClInclude Include="SysTranslator.h">
       <Filter>OAS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="Event.h">
       <Filter>Event</Filter>
     </ClInclude>
@@ -115,6 +114,7 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>Resource</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtominaException.cpp">
