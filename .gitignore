@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# generated dlls and libs
+**/atomina-game/atomina-api.*
+**/atomina-test/atomina-api.*

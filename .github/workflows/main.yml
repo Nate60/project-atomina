@@ -7,11 +7,13 @@ env:
   SOLUTION_FILE_PATH: .
   API_PROJECT_PATH: ./atomina-dll/atomina-dll.vcxproj
   GAME_PROJECT_PATH: ./atomina-game/atomina-game.vcxproj
+  TEST_PROJECT_PATH: ./atomina-test/atomina-test.vcxproj
 
   # Configuration type to build.
   # You can convert this to a build matrix if you need coverage of multiple configuration types.
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Release
+  BUILD_PLATFORM: x64
 
 jobs:
   build:
@@ -22,29 +24,40 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: update
+    - name: Update vcpkg
       run: vcpkg update
 
-    - name: checkout repo branch
+    - name: Checkout action repo branch
       uses: actions/checkout@v2
       with:
         fetch-depth: 2
         submodules: 'recursive'
     - run: git checkout HEAD
       
-    - name: merge with VS
-      run: vcpkg integrate install
-      
     - name: Restore NuGet packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: nuget restore ${{env.SOLUTION_FILE_PATH}}
       
-    - name: add spglog
-      run: vcpkg install spdlog
+    - name: Add spglog
+      run: vcpkg install spdlog:x64-windows
+      
+    - name: Add sfml-windows
+      run: vcpkg install sfml:x64-windows
+      
+    - name: Merge with VS
+      run: vcpkg integrate install
 
     - name: Build DLL
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.API_PROJECT_PATH}} /v:d 
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} ${{env.API_PROJECT_PATH}}
+      
+    - name: Build Game
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} ${{env.GAME_PROJECT_PATH}}
+      
+    - name: Build Test Project
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} ${{env.TEST_PROJECT_PATH_PATH}}
       
