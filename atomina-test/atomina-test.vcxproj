@@ -94,6 +94,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>..\atomina-game;..\atomina-dll;$(IncludePath)</IncludePath>
     <SourcePath>../atomina-game;$(SourcePath)</SourcePath>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -161,6 +162,10 @@ xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-ap
       <Command>xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-api.dll" "$(ProjectDir)"
 xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-api.lib" "$(ProjectDir)"</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-api.dll" "$(ProjectDir)$(Platform)\$(Configuration)"
+xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-api.lib" "$(ProjectDir)$(Platform)\$(Configuration)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -186,6 +191,10 @@ xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-ap
       <Command>xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-api.dll" "$(ProjectDir)"
 xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-api.lib" "$(ProjectDir)"</Command>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-api.dll" "$(ProjectDir)$(Platform)\$(Configuration)"
+xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-api.lib" "$(ProjectDir)$(Platform)\$(Configuration)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MathUtilTest.cpp" />
