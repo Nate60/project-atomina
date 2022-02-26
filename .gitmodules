@@ -1,3 +1,6 @@
 [submodule "atomina-dll/vendor/spdlog"]
 	path = atomina-dll/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "atomina-dll/vendor/sfml"]
+	path = atomina-dll/vendor/sfml
+	url = https://github.com/SFML/SFML.git
