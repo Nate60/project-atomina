@@ -5,6 +5,7 @@ on: [push]
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: .
+  EXTERNAL_LIB_DIR: extlib
   API_PROJECT_PATH: ./atomina-dll/atomina-dll.vcxproj
   GAME_PROJECT_PATH: ./atomina-game/atomina-game.vcxproj
   TEST_PROJECT_PATH: ./atomina-test/atomina-test.vcxproj
@@ -30,7 +31,31 @@ jobs:
       with:
         fetch-depth: 2
         submodules: 'recursive'
-    - run: git checkout HEAD
+    - run: git checkout HEAD    
+            
+    - name: Make Directory for External Libraries
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      shell: cmd
+      run: mkdir extlib
+      
+    - name: Set Env
+      shell: cmd
+      working-directory: ${{env.EXTERNAL_LIB_DIR}}
+      run: C:\"Program Files (x86)"\"Microsoft Visual Studio"\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
+    
+    - name: CL.exe
+      uses: ilammy/msvc-dev-cmd@v1
+      
+    - name: SFML CMAKE
+      working-directory: ${{env.EXTERNAL_LIB_DIR}}
+      run: |
+        cmake -G"NMake Makefiles" ..\atomina-dll\vendor\sfml\
+        nmake
+
+    - name: check dlls
+      shell: cmd
+      working-directory: ${{env.EXTERNAL_LIB_DIR}}
+      run: dir
 
     - name: Build DLL
       working-directory: ${{env.GITHUB_WORKSPACE}}
