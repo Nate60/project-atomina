@@ -17,6 +17,9 @@
     <Filter Include="Event">
       <UniqueIdentifier>{ad2f1ff6-5594-458f-9332-f41958b22bd7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{d32894a4-0319-47ba-822e-92c81a0395f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MathUtilTest.cpp">
@@ -33,6 +36,9 @@
     </ClCompile>
     <ClCompile Include="SystemManagerTest.cpp">
       <Filter>OAS</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkTest.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
