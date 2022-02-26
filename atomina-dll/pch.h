@@ -13,7 +13,9 @@
 #include <mutex>
 #include <random>
 #include <bitset>
+#include <SFML/Network/TcpSocket.hpp>
 #include <SFML/Main.hpp>
+#include <SFML/Network.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Config.hpp>
 #include <SFML/Window/Event.hpp>

@@ -16,6 +16,11 @@
 #include "Game.h"
 #include "Entry.h"
 
+//Network
+
+#include "NetworkClient.h"
+#include "NetworkHost.h"
+
 //Events
 #include "Event.h"
 #include "EventType.h"
