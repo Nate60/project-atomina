@@ -8,7 +8,7 @@ namespace ATMA {
 		KeyReleased = sf::Event::KeyReleased,
 		MousePressed = sf::Event::MouseButtonPressed,
 		MouseReleased = sf::Event::MouseButtonReleased,
-		MouseScrolled = sf::Event::MouseWheelMoved,
+		//MouseScrolled = sf::Event::MouseWheelMoved,
 		WindowResized = sf::Event::Resized,
 		GainedFocus = sf::Event::GainedFocus,
 		LostFocus = sf::Event::LostFocus,

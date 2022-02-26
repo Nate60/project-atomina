@@ -25,28 +25,12 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: Update vcpkg
-      run: vcpkg update
-
     - name: Checkout action repo branch
       uses: actions/checkout@v2
       with:
         fetch-depth: 2
         submodules: 'recursive'
     - run: git checkout HEAD
-      
-    - name: Restore NuGet packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
-      
-    - name: Add spglog
-      run: vcpkg install spdlog:x64-windows
-      
-    - name: Add sfml-windows
-      run: vcpkg install sfml:x64-windows
-      
-    - name: Merge with VS
-      run: vcpkg integrate install
 
     - name: Build DLL
       working-directory: ${{env.GITHUB_WORKSPACE}}
