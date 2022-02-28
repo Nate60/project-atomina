@@ -11,20 +11,20 @@ namespace ATMA {
 	class ATMA_API AtominaException{
 
 	protected:
-		const char* msg_;
+		std::string msg_;
 	public:
 
-		AtominaException(const char* l_message) noexcept;
+		AtominaException(const std::string l_message) noexcept;
 
-		virtual const char* what() = 0;
+		virtual const std::string what() = 0;
 
 	};
 
 	class ATMA_API ObjectNotFoundException: public AtominaException {
 	public:
-		ObjectNotFoundException(const char* l_message);
+		ObjectNotFoundException(const std::string l_message);
 
-		const char* what();
+		const std::string what();
 
 	};
 
@@ -34,9 +34,9 @@ namespace ATMA {
 	class ATMA_API InvalidParameterException : public AtominaException {
 
 	public:
-		InvalidParameterException(const char* l_message) noexcept;
+		InvalidParameterException(const std::string l_message) noexcept;
 
-		const char* what();
+		const std::string what();
 	};
 
 	/*
@@ -45,9 +45,9 @@ namespace ATMA {
 	class ATMA_API IOException : public AtominaException {
 
 	public:
-		IOException(const char* l_message) noexcept;
+		IOException(const std::string l_message) noexcept;
 
-		const char* what();
+		const std::string what();
 
 	};
 

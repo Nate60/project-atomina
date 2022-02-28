@@ -37,12 +37,7 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       shell: cmd
       run: mkdir extlib
-      
-    - name: Set Env
-      shell: cmd
-      working-directory: ${{env.EXTERNAL_LIB_DIR}}
-      run: C:\"Program Files (x86)"\"Microsoft Visual Studio"\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
-    
+          
     - name: CL.exe
       uses: ilammy/msvc-dev-cmd@v1
       
@@ -51,11 +46,6 @@ jobs:
       run: |
         cmake -G"NMake Makefiles" ..\atomina-dll\vendor\sfml\
         nmake
-
-    - name: check dlls
-      shell: cmd
-      working-directory: ${{env.EXTERNAL_LIB_DIR}}
-      run: dir
 
     - name: Build DLL
       working-directory: ${{env.GITHUB_WORKSPACE}}
