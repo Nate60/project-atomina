@@ -193,6 +193,10 @@ xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-ap
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -218,6 +222,7 @@ xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-ap
     <ClCompile Include="NetworkTest.cpp" />
     <ClCompile Include="ObjectManagerTest.cpp" />
     <ClCompile Include="RandomGeneratorTest.cpp" />
+    <ClCompile Include="StateManagerTest.cpp" />
     <ClCompile Include="SystemManagerTest.cpp" />
     <ClCompile Include="SysUtilTest.cpp" />
   </ItemGroup>

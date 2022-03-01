@@ -15,11 +15,11 @@ namespace ATMA {
 
 		//unordered map uses unique ids so last id needs to be updated atomically
 
-		mtx_.lock();
+		_mtx.lock();
 
 		auto id = lastId_++;
 
-		mtx_.unlock();
+		_mtx.unlock();
 
 		for (int i = 0; i < ATConst::OBJECT_BIT_SIZE; i++) {
 
@@ -37,11 +37,11 @@ namespace ATMA {
 
 	int ObjectManager::createObject() {
 
-		mtx_.lock();
+		_mtx.lock();
 
 		auto id = lastId_++;
 
-		mtx_.unlock();
+		_mtx.unlock();
 
 		return id;
 
