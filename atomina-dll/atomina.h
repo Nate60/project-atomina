@@ -12,6 +12,9 @@
 #include "SysUtil.h"
 #include "Log.h"
 
+//Math
+#include "RandomGenerator.h"
+
 //Core
 #include "Game.h"
 #include "Entry.h"
@@ -25,8 +28,13 @@
 #include "Event.h"
 #include "EventType.h"
 
-//Math
-#include "RandomGenerator.h"
+//States
+
+#include "State.h"
+#include "BaseState.h"
+#include "DummyState.h"
+#include "StateManager.h"
+
 //OAS
 #include "Attribute.h"
 #include "System.h"

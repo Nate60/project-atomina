@@ -20,6 +20,9 @@
     <Filter Include="Network">
       <UniqueIdentifier>{d32894a4-0319-47ba-822e-92c81a0395f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="State">
+      <UniqueIdentifier>{a4293d06-3d3d-49f4-a3b5-76f785af6fcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MathUtilTest.cpp">
@@ -39,6 +42,9 @@
     </ClCompile>
     <ClCompile Include="NetworkTest.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManagerTest.cpp">
+      <Filter>State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
