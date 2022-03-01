@@ -185,6 +185,8 @@ xcopy /y /d "$(ProjectDir)..\extlib\lib\*.dll" "$(ProjectDir)"
       <AdditionalIncludeDirectories>$(ProjectDir)..\atomina-dll\vendor\sfml\include;$(ProjectDir)..\atomina-dll;$(ProjectDir)..\atomina-dll\vendor\spdlog\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>apch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

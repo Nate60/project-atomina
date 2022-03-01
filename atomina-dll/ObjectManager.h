@@ -89,7 +89,7 @@ namespace ATMA {
 
 	private:
 		
-		std::mutex mtx_;
+		std::mutex _mtx;
 		ObjectId lastId_;
 		std::unordered_map<ObjectId, ObjectAttributes> objects_;
 		std::unordered_map<Attribute, std::function<AttrBase* (void)>> attrFactory_;

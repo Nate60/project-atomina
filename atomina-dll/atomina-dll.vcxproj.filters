@@ -36,6 +36,15 @@
     <Filter Include="Network">
       <UniqueIdentifier>{73abe658-678b-4a21-8ede-14d30f145b62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="State">
+      <UniqueIdentifier>{1b33dafc-f7c1-421a-b414-800bb0c582e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\File">
+      <UniqueIdentifier>{a199fce5-a5d2-4e5c-a7f6-23d8b68204a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\Log">
+      <UniqueIdentifier>{521e2ec7-c1be-4700-b30a-da96a2b5c2fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h">
@@ -59,9 +68,6 @@
     </ClInclude>
     <ClInclude Include="RandomGenerator.h">
       <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Log.h">
-      <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="AttrBase.h">
       <Filter>OAS</Filter>
@@ -124,6 +130,27 @@
     <ClInclude Include="NetworkHost.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="BaseState.h">
+      <Filter>State</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>State</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>State</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Util\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="FileHandler.h">
+      <Filter>Util\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Worker.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyState.h">
+      <Filter>State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtominaException.cpp">
@@ -140,9 +167,6 @@
     </ClCompile>
     <ClCompile Include="RandomGenerator.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Log.cpp">
-      <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="ObjectManager.h">
       <Filter>OAS</Filter>
@@ -180,6 +204,24 @@
     </ClCompile>
     <ClCompile Include="NetworkHost.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Util\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="FileHandler.cpp">
+      <Filter>Util\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Worker.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseState.cpp">
+      <Filter>State</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>State</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyState.cpp">
+      <Filter>State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
