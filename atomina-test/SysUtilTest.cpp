@@ -17,8 +17,13 @@ namespace SystemUtils {
 			
 			Assert::AreEqual(
 				//Only the project path is relevant since the other parts will change
-				cwd.substr(cwd.size() - 9, cwd.size() - 1).c_str(), 
+#ifdef _DEBUG
+				cwd.substr(cwd.size() - 7, cwd.size() - 1).c_str(),
+				"\\Debug\\"
+#else
+				cwd.substr(cwd.size() - 9, cwd.size() - 1).c_str(),
 				"\\Release\\"
+#endif
 			);
 		}
 
