@@ -366,4 +366,5 @@ FodyWeavers.xsd
 **/atomina-game/atomina-api.*
 **/atomina-test/atomina-api.*
 extlib/**
+dlib/**
 *-3.dll
