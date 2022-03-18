@@ -66,7 +66,7 @@ namespace ATMA {
 		* @param l_bytes: byte buffer to send to all clients
 		* @param l_length: length of the buffert to send to all clients
 		*/
-		void broadcastBytes(const std::byte* l_bytes, const size_t l_length);
+		bool broadcastBytes(const std::byte* l_bytes, const size_t l_length);
 
 
 		/*

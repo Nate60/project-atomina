@@ -39,11 +39,11 @@
     <Filter Include="State">
       <UniqueIdentifier>{1b33dafc-f7c1-421a-b414-800bb0c582e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Util\File">
-      <UniqueIdentifier>{a199fce5-a5d2-4e5c-a7f6-23d8b68204a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Util\Log">
       <UniqueIdentifier>{521e2ec7-c1be-4700-b30a-da96a2b5c2fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{0091b7eb-03b9-4e72-ae76-6d789394d411}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -139,9 +139,6 @@
     <ClInclude Include="Log.h">
       <Filter>Util\Log</Filter>
     </ClInclude>
-    <ClInclude Include="FileHandler.h">
-      <Filter>Util\File</Filter>
-    </ClInclude>
     <ClInclude Include="Worker.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -150,6 +147,12 @@
     </ClInclude>
     <ClInclude Include="MathUtil.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="FileUtil.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="FileHandler.h">
+      <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,9 +208,6 @@
     <ClCompile Include="Log.cpp">
       <Filter>Util\Log</Filter>
     </ClCompile>
-    <ClCompile Include="FileHandler.cpp">
-      <Filter>Util\File</Filter>
-    </ClCompile>
     <ClCompile Include="Worker.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -219,6 +219,12 @@
     </ClCompile>
     <ClCompile Include="DummyState.cpp">
       <Filter>State</Filter>
+    </ClCompile>
+    <ClCompile Include="FileHandler.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUtil.cpp">
+      <Filter>File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
