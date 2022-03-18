@@ -27,8 +27,8 @@ namespace Network {
 			l_client.setBlocking(false);
 			l_client.connect();
 			l_host.startListening();
-			unsigned int id = l_host.acceptConnections();
-			Assert::AreEqual(id, 1u);
+			unsigned int id = l_host.acceptConnections().value_or(100u);
+			Assert::AreEqual(id, 0u);
 		}
 
 		TEST_METHOD(Client_Can_Receive)
@@ -36,7 +36,7 @@ namespace Network {
 			l_host.startListening();
 			l_client.connect();
 			l_client.setBlocking(true);
-			unsigned int id = l_host.acceptConnections();
+			unsigned int id = l_host.acceptConnections().value_or(100u);
 			l_host.setBlocking(id, false);
 			std::byte bytes[3] = { std::byte{ 0x60 }, std::byte{ 0x61 }, std::byte{ 0x62 }};
 			size_t len = 3;
@@ -55,7 +55,7 @@ namespace Network {
 			l_host.startListening();
 			l_client.connect();
 			l_client.setBlocking(false);
-			unsigned int id = l_host.acceptConnections();
+			unsigned int id = l_host.acceptConnections().value_or(100u);
 			l_host.setBlocking(id, true);
 			std::byte bytes[3] = { std::byte{ 0x60 }, std::byte{ 0x61 }, std::byte{ 0x62 } };
 			size_t len = 3;
@@ -77,8 +77,8 @@ namespace Network {
 			newClient.setBlocking(false);
 			l_client.connect();
 			newClient.connect();
-			unsigned int firstId = l_host.acceptConnections();
-			unsigned int secondId = l_host.acceptConnections();
+			unsigned int firstId = l_host.acceptConnections().value_or(100u);
+			unsigned int secondId = l_host.acceptConnections().value_or(100u);
 			std::byte bytes[3] = { std::byte{ 0x60 }, std::byte{ 0x61 }, std::byte{ 0x62 } };
 			size_t len = 3;
 			std::byte msg[3];

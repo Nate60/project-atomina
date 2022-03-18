@@ -23,28 +23,28 @@ namespace OAS {
 		}
 
 		TEST_METHOD(Two_objects_have_unique_ids) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
-			unsigned int objID2 = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+			unsigned int objID2 = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
 			Assert::AreNotEqual(objID, objID2);
 
 		}
 
 		TEST_METHOD(Add_Attr_Type) {
 
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
 			Assert::IsTrue(objMan.addAttribute(objID, ATMA::Attribute::Translatable));
 
 		}
 
 		TEST_METHOD(Add_same_Attr) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
 			Assert::IsFalse(objMan.addAttribute(objID, ATMA::Attribute::Translatable));
 
 		}
 
 		TEST_METHOD(Add_Attr_None) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
 			Assert::IsFalse(objMan.addAttribute(objID, ATMA::Attribute::None));
 
 		}
@@ -55,21 +55,21 @@ namespace OAS {
 
 		}
 		TEST_METHOD(Remove_Attr) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
 			Assert::IsTrue(objMan.removeAttribute(objID, ATMA::Attribute::Translatable));
 
 		}
 
 		TEST_METHOD(Remove_same_Attr) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
 			objMan.removeAttribute(objID, ATMA::Attribute::Translatable);
 			Assert::IsFalse(objMan.removeAttribute(objID, ATMA::Attribute::Translatable));
 
 		}
 		TEST_METHOD(Remove_object) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
 			Assert::IsTrue(objMan.removeObject(objID));
 		}
@@ -83,23 +83,19 @@ namespace OAS {
 		}
 
 		TEST_METHOD(Get_Attr) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
-			ATMA::AttrTranslatable * attr = objMan.getAttribute<ATMA::AttrTranslatable>(objID, ATMA::Attribute::Translatable);
-			Assert::IsNotNull(attr);
+			Assert::IsTrue(objMan.getAttribute<ATMA::AttrTranslatable>(objID, ATMA::Attribute::Translatable).has_value());
 		}
 
 		TEST_METHOD(Get_none_Attr) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
-			auto func = [=]()  -> void {objMan.getAttribute<ATMA::AttrBase>(objID, ATMA::Attribute::None); };
-			Assert::ExpectException<ATMA::ObjectNotFoundException>(func);
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+			Assert::IsFalse(objMan.getAttribute<ATMA::AttrBase>(objID, ATMA::Attribute::None).has_value());
 
 		}
 
 		TEST_METHOD(Get_non_existent_object) {
-			auto func = [=]()  -> void {objMan.getAttribute<ATMA::AttrBase>(1, ATMA::Attribute::None); };
-			Assert::ExpectException<ATMA::ObjectNotFoundException>(func);
-
+			Assert::IsFalse(objMan.getAttribute<ATMA::AttrBase>(1, ATMA::Attribute::None).has_value());
 		}
 
 
