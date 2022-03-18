@@ -19,6 +19,7 @@
 #include <thread>
 #include <future>
 #include <chrono>
+#include <optional>
 #include <SFML/Network/TcpSocket.hpp>
 #include <SFML/Main.hpp>
 #include <SFML/Network.hpp>

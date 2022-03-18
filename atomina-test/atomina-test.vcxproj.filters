@@ -25,9 +25,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MathUtilTest.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="SysUtilTest.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -45,6 +42,9 @@
     </ClCompile>
     <ClCompile Include="StateManagerTest.cpp">
       <Filter>State</Filter>
+    </ClCompile>
+    <ClCompile Include="MathUtilTest.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

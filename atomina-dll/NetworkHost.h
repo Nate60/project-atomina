@@ -40,7 +40,7 @@ namespace ATMA {
 		* accept any active connections on the socket and give the id for that connection
 		* @return the id of the connection, if no connection was made 0 is returned instead
 		*/
-		ClientId acceptConnections();
+		std::optional<ClientId> acceptConnections();
 
 		/*
 		* close the connection of the given client id
@@ -94,10 +94,10 @@ namespace ATMA {
 
 	protected:
 
-		int _port;
-		sf::TcpListener _listener;
-		std::unordered_map<ClientId, sf::TcpSocket*> _clients;
-		ClientId _nextId = 1;
+		int m_port;
+		sf::TcpListener m_listener;
+		std::unordered_map<ClientId, sf::TcpSocket*> m_clients;
+		ClientId m_nextId = 0;
 
 	};
 
