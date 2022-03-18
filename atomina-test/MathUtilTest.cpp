@@ -75,13 +75,13 @@ namespace MathUtils
 		TEST_METHOD(extra_point_float)
 		{
 			auto func = [] { ATMA::lerp(0.0f, 0.0f, 2.0f); };
-			Assert::ExpectException<ATMA::InvalidParameterException>(func);
+			Assert::ExpectException<std::invalid_argument>(func);
 		}
 
 		TEST_METHOD(neg_extra_point_float)
 		{
 			auto func = [] { ATMA::lerp(0.0f, 0.0f, -1.0f); };
-			Assert::ExpectException<ATMA::InvalidParameterException>(func);
+			Assert::ExpectException<std::invalid_argument>(func);
 		}
 
 
@@ -145,13 +145,13 @@ namespace MathUtils
 		TEST_METHOD(extra_point_double)
 		{
 			auto func = [] { ATMA::lerp(0.0, 0.0, 2.0); };
-			Assert::ExpectException<ATMA::InvalidParameterException>(func);
+			Assert::ExpectException<std::invalid_argument>(func);
 		}
 
 		TEST_METHOD(neg_extra_point_double)
 		{
 			auto func = [] { ATMA::lerp(0.0, 0.0, -1.0); };
-			Assert::ExpectException<ATMA::InvalidParameterException>(func);
+			Assert::ExpectException<std::invalid_argument>(func);
 		}
 
 	};
@@ -219,13 +219,13 @@ namespace MathUtils
 		TEST_METHOD(extra_point_float)
 		{
 			auto func = [] { ATMA::cubeTerp(0.0f, 0.0f, 2.0f); };
-			Assert::ExpectException<ATMA::InvalidParameterException>(func);
+			Assert::ExpectException<std::invalid_argument>(func);
 		}
 
 		TEST_METHOD(neg_extra_point_float)
 		{
 			auto func = [] { ATMA::cubeTerp(0.0f, 0.0f, -1.0f); };
-			Assert::ExpectException<ATMA::InvalidParameterException>(func);
+			Assert::ExpectException<std::invalid_argument>(func);
 		}
 
 
@@ -289,13 +289,13 @@ namespace MathUtils
 		TEST_METHOD(extra_point_double)
 		{
 			auto func = [] { ATMA::cubeTerp(0.0, 0.0, 2.0); };
-			Assert::ExpectException<ATMA::InvalidParameterException>(func);
+			Assert::ExpectException<std::invalid_argument>(func);
 		}
 
 		TEST_METHOD(neg_extra_point_double)
 		{
 			auto func = [] { ATMA::cubeTerp(0.0, 0.0, -1.0); };
-			Assert::ExpectException<ATMA::InvalidParameterException>(func);
+			Assert::ExpectException<std::invalid_argument>(func);
 		}
 
 	};
