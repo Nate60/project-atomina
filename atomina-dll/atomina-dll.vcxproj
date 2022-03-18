@@ -178,7 +178,6 @@
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Log.cpp" />
-    <ClCompile Include="MathUtil.cpp" />
     <ClCompile Include="NetworkClient.cpp" />
     <ClCompile Include="NetworkHost.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
