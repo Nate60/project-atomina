@@ -55,6 +55,7 @@ namespace ATMA {
 		}
 		catch (std::exception &e)
 		{
+			ATMA_ENGINE_WARN("attempt to get next to last state when it does not exist: {}", e.what());
 			return std::nullopt;
 		}
 
