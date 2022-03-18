@@ -3,6 +3,7 @@
 #include "ObjectMessage.h"
 #include "Observer.h"
 #include "Communicator.h"
+#include "pch.h"
 
 namespace ATMA {
 
