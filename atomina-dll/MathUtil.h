@@ -16,7 +16,7 @@ namespace ATMA
 	{
 		if(t > 1 || t < 0)
 		{
-			throw InvalidParameterException("delta must be between 0 and 1");
+			throw std::invalid_argument("delta must be between 0 and 1");
 		}
 		return (1 - t) * v0 + t * v1;
 	}
@@ -32,7 +32,7 @@ namespace ATMA
 	T cubeTerp(T a0, T a1, T w)
 	{
 		if(w > 1 || w < 0)
-			throw InvalidParameterException("delta must be between 0 and 1");
+			throw std::invalid_argument("delta must be between 0 and 1");
 		return (a1 - a0) * (3 - w * 2) * w * w + a0;
 	}
 

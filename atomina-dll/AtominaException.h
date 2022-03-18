@@ -1,5 +1,6 @@
 #pragma once
 #include "api.h"
+#include "pch.h"
 
 namespace ATMA {
 
@@ -8,46 +9,23 @@ namespace ATMA {
 	* Abstract Exception class, provides basic constructor and message storage
 	* No default constructor is provided
 	*/
-	class ATMA_API AtominaException{
+	class ATMA_API AtominaException: public std::exception{
 
 	protected:
-		std::string msg_;
+		std::string m_msg;
 	public:
 
-		AtominaException(const std::string l_message) noexcept;
+		AtominaException(const std::string &l_message) noexcept;
 
-		virtual const std::string what() = 0;
+		virtual const char *what() const noexcept override = 0;
 
 	};
 
 	class ATMA_API ObjectNotFoundException: public AtominaException {
 	public:
-		ObjectNotFoundException(const std::string l_message);
+		ObjectNotFoundException(const std::string &l_message) noexcept;
 
-		const std::string what();
-
-	};
-
-	/*
-	* Exception to be thrown when a function encounters a parameter with invalid values
-	*/
-	class ATMA_API InvalidParameterException : public AtominaException {
-
-	public:
-		InvalidParameterException(const std::string l_message) noexcept;
-
-		const std::string what();
-	};
-
-	/*
-	* Exception to be thrown when an input or output stream is in an invalid state
-	*/
-	class ATMA_API IOException : public AtominaException {
-
-	public:
-		IOException(const std::string l_message) noexcept;
-
-		const std::string what();
+		virtual const char *what() const noexcept override;
 
 	};
 

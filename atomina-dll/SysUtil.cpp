@@ -10,10 +10,10 @@ namespace ATMA {
 	std::string getWorkingDir() {
 
 		char full[_MAX_PATH];
-		if (_fullpath(full, ".\\", _MAX_PATH) != NULL)
+		if(_fullpath(full, ".\\", _MAX_PATH) != NULL)
 			return full;
 		else
-			throw IOException("unable to get current directory");
+			throw std::filesystem::filesystem_error(std::string("unable to get current directory"),std::error_code());
 
 	}
 
@@ -41,7 +41,7 @@ namespace ATMA {
 
 #elif _LINUX
 
-	//TODO: PA-4
+
 
 #endif
 
