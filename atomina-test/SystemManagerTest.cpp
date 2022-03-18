@@ -27,24 +27,24 @@ namespace OAS {
 		}
 
 		TEST_METHOD(Modified_object_moves_systems) {
-			auto id = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			auto id = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value();
 			std::bitset<ATConst::OBJECT_BIT_SIZE> bits = std::bitset<ATConst::OBJECT_BIT_SIZE>();
 			bits.set((int)ATMA::Attribute::Translatable);
 			objMan.addAttribute(id, ATMA::Attribute::Translatable);
 			sysMan.objectModified(id, bits);
-			ATMA::SysTranslator *sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator);
+			ATMA::SysTranslator *sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator).value();
 			Assert::IsTrue(sys->hasObject(id));
 		}
 
 
 		TEST_METHOD(Removing_object) {
-			auto id = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			auto id = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value();
 			std::bitset<ATConst::OBJECT_BIT_SIZE> bits = std::bitset<ATConst::OBJECT_BIT_SIZE>();
 			bits.set((int)ATMA::Attribute::Translatable);
 			objMan.addAttribute(id, ATMA::Attribute::Translatable);
 			sysMan.objectModified(id, bits);
 			sysMan.removeObject(id);
-			ATMA::SysTranslator* sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator);
+			ATMA::SysTranslator* sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator).value();
 			Assert::IsFalse(sys->hasObject(id));
 		}
 

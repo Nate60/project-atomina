@@ -43,7 +43,7 @@ namespace ATMA
 		* get second highest priority state
 		* @return type of state
 		*/
-		State getNextToLast() const;
+		std::optional<State> getNextToLast() const;
 
 		/*
 		* moves state to front
@@ -63,7 +63,7 @@ namespace ATMA
 		* @return state object
 		*/
 		template <class T>
-		std::shared_ptr<T> getState(const State& l_type)
+		std::optional<std::shared_ptr<T>> getState(const State& l_type)
 		{
 			auto result = std::find_if(m_states.begin(), m_states.end(), [&l_type](auto state)
 				{

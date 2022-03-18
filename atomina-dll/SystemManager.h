@@ -28,9 +28,9 @@ namespace ATMA {
 		* Gets a system from the system manager but throws exception if it does not exist
 		*/
 		template <class T>
-		T* getSystem(const System& l_sys) {
+		std::optional<T*> getSystem(const System& l_sys) {
 			if (systems_.count(l_sys) == 0) {
-				throw ObjectNotFoundException(std::string("System " + std::to_string((int)l_sys) + " does not exist").c_str());
+				return std::nullopt;
 			}
 			return (T*)systems_[l_sys];
 		}

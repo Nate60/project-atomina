@@ -23,13 +23,13 @@ namespace ATMA {
 		* Increments the id of the objectmanager and creates attributes for each active bit in the given bitset
 		* assigns attributes to the id in the object map and returns the new id
 		*/
-		int createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE>&);
+		std::optional<ObjectId> createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE>&);
 
 		/**
 		* Increments the id of the objectmanager and returns the id
 		* note that since no attributes were created the id does not yet exist in the object map
 		*/
-		int createObject();
+		std::optional<ObjectId> createObject();
 
 		/**
 		* removes the object and all attributes from the object map
@@ -51,7 +51,7 @@ namespace ATMA {
 		void addAttributeType(const Attribute& l_attr) {
 			//lambda to add factory function, allows correspondence of template and enum
 			ATMA_ENGINE_INFO("Adding {0} to object manager", l_attr);
-			attrFactory_[l_attr] = []()->AttrBase* { return new T(); };
+			m_attrFactory[l_attr] = []()->AttrBase* { return new T(); };
 		}
 
 		/**
@@ -59,15 +59,15 @@ namespace ATMA {
 		* throws an ObjectNotFoundException when the object or attribute does not exist in the objects map
 		*/
 		template<class T>
-		T* getAttribute(const ObjectId& l_id, const Attribute& l_attr) {
-			if (objects_.count(l_id) <= 0) {
-				throw ObjectNotFoundException(std::string("object with id: " + std::to_string(l_id) + " was not found").c_str());
+		std::optional<T*> getAttribute(const ObjectId& l_id, const Attribute& l_attr) {
+			if (m_objects.count(l_id) <= 0) {
+				return std::nullopt;
 			}
-			if (!objects_[l_id].first[(int)l_attr]) {
-				throw ObjectNotFoundException(std::string("object with id: " + std::to_string(l_id) + " does not contain attribute: " + std::to_string((int)l_attr)).c_str());
+			if (!m_objects[l_id].first[(int)l_attr]) {
+				return std::nullopt;
 			}
 
-			return (T*)objects_[l_id].second[(int)l_attr];
+			return (T*)m_objects[l_id].second[(int)l_attr];
 
 		}
 
@@ -89,10 +89,10 @@ namespace ATMA {
 
 	private:
 		
-		std::mutex _mtx;
-		ObjectId lastId_;
-		std::unordered_map<ObjectId, ObjectAttributes> objects_;
-		std::unordered_map<Attribute, std::function<AttrBase* (void)>> attrFactory_;
+		std::mutex m_mtx;
+		ObjectId m_lastId;
+		std::unordered_map<ObjectId, ObjectAttributes> m_objects;
+		std::unordered_map<Attribute, std::function<AttrBase* (void)>> m_attrFactory;
 		
 
 	};
