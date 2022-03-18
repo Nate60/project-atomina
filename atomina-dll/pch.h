@@ -14,6 +14,7 @@
 #include <unordered_set>
 #include <utility>
 #include <mutex>
+#include <regex>
 #include <random>
 #include <bitset>
 #include <thread>

@@ -71,12 +71,15 @@ namespace ATMA {
 		m_nextId = 1;
 	}
 
-	void NetworkHost::broadcastBytes(const std::byte* l_bytes, const size_t l_length)
+	bool NetworkHost::broadcastBytes(const std::byte* l_bytes, const size_t l_length)
 	{
+		bool b{true};
 		for (auto &l_client : m_clients)
 		{
-			l_client.second->send(l_bytes, l_length);
+			if(l_client.second->send(l_bytes, l_length) != sf::Socket::Done)
+				b = false;
 		}
+		return b;
 	}
 
 	void NetworkHost::setBlocking(ClientId l_client, const bool l_block)
