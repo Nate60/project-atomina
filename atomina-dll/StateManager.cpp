@@ -46,11 +46,18 @@ namespace ATMA {
 
 	}
 
-	State StateManager::getNextToLast() const
+	std::optional<State> StateManager::getNextToLast() const
 	{
+		try
+		{
+			auto itr = (m_states.end() - 2);
+			return (*itr)->getId();
+		}
+		catch (std::exception &e)
+		{
+			return std::nullopt;
+		}
 
-		auto itr = (m_states.end() - 2);
-		return (*itr)->getId();
 	}
 
 	void StateManager::changeState(const State& l_type)

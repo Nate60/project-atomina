@@ -1,5 +1,6 @@
 #pragma once
 #include "api.h"
+#include "pch.h"
 
 template <typename derived, typename T>
 class ATMA_API ResourceManager {
@@ -15,12 +16,12 @@ public:
 
 	}
 
-	T* getResource(const std::string& l_id)
+	std::optional<T*> getResource(const std::string& l_id)
 	{
-
+		
 	}
 
-	std::string getPath(const std::string& l_id)
+	std::optional<std::string> getPath(const std::string& l_id)
 	{
 
 	}

@@ -20,7 +20,7 @@ namespace ATMA {
 	void SysTranslator::update(float l_dt) {
 		ObjectManager* objMan = sysMan_->getObjectManager();
 		for (auto& obj : objects_) {
-			AttrTranslatable* attr = objMan->getAttribute<AttrTranslatable>(obj, Attribute::Translatable);
+			AttrTranslatable* attr = objMan->getAttribute<AttrTranslatable>(obj, Attribute::Translatable).value();
 			attr->x_ += attr->dx_ * l_dt;
 			attr->y_ += attr->dy_ * l_dt;
 		}
