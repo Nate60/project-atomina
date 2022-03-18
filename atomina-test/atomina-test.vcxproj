@@ -131,7 +131,7 @@ xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-ap
     <ClCompile Include="RandomGeneratorTest.cpp" />
     <ClCompile Include="StateManagerTest.cpp" />
     <ClCompile Include="SystemManagerTest.cpp" />
-    <ClCompile Include="SysUtilTest.cpp" />
+    <ClCompile Include="FileTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\atomina-dll\atomina-dll.vcxproj">

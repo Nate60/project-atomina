@@ -5,9 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Util">
-      <UniqueIdentifier>{65c81848-11b2-4555-93c1-2088e0c8fe73}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{4daf55c5-82dc-47e8-b3a0-b53eded377cf}</UniqueIdentifier>
     </Filter>
@@ -23,11 +20,11 @@
     <Filter Include="State">
       <UniqueIdentifier>{a4293d06-3d3d-49f4-a3b5-76f785af6fcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{fed9c3e9-bb3a-495c-b70e-77cd5554e9d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SysUtilTest.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="RandomGeneratorTest.cpp">
       <Filter>Math</Filter>
     </ClCompile>
@@ -45,6 +42,9 @@
     </ClCompile>
     <ClCompile Include="MathUtilTest.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTest.cpp">
+      <Filter>File</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
