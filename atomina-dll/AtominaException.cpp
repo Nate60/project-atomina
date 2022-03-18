@@ -3,28 +3,18 @@
 
 namespace ATMA {
 
-	AtominaException::AtominaException(const std::string l_message) noexcept {
-			msg_ = l_message;
+	AtominaException::AtominaException(const std::string &l_message) noexcept : exception(m_msg.c_str()) {
+			m_msg = l_message;
 	}
 
-	ObjectNotFoundException::ObjectNotFoundException(const std::string l_message) : AtominaException(l_message) {
-
+	ObjectNotFoundException::ObjectNotFoundException(const std::string &l_message) noexcept : AtominaException(l_message) {
+		
 	}
 
-	const std::string ObjectNotFoundException::what() {
-		return msg_;
+	const char *ObjectNotFoundException::what() const noexcept
+	{
+		return m_msg.c_str();
 	}
-
-	InvalidParameterException::InvalidParameterException(const std::string l_message) noexcept : AtominaException(l_message) {}
-
-	const std::string InvalidParameterException::what() {
-		return msg_;
-	}
-
-	IOException::IOException(const std::string l_message) noexcept : AtominaException(l_message) {}
-
-	const std::string IOException::what() {
-		return msg_;
-	}
+	
 
 }
