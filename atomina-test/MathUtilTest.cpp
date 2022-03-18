@@ -311,7 +311,7 @@ namespace MathUtils
 				sf::Vector2<double>(0, 0)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
-			Assert::AreEqual(ATMA::perlin(v, func , 0, 0), 0.0);
+			Assert::AreEqual(ATMA::perlin<double>(v, func , 0, 0), 0.0);
 
 		}
 		
@@ -323,7 +323,7 @@ namespace MathUtils
 				sf::Vector2<double>(1, 1)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
-			Assert::AreEqual(ATMA::perlin(v, func, 0, 0), 0.0);
+			Assert::AreEqual(ATMA::perlin<double>(v, func, 0, 0), 0.0);
 
 		}
 
@@ -335,7 +335,7 @@ namespace MathUtils
 				sf::Vector2<double>(1, -1)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
-			Assert::AreEqual(ATMA::perlin(v, func, 0, 0), 0.0);
+			Assert::AreEqual(ATMA::perlin<double>(v, func, 0, 0), 0.0);
 
 		}
 
@@ -347,7 +347,7 @@ namespace MathUtils
 				sf::Vector2<double>(0, 0)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
-			Assert::AreEqual(ATMA::perlin(v, func, 0.5, 0.5), 0.0);
+			Assert::AreEqual(ATMA::perlin<double>(v, func, 0.5, 0.5), 0.0);
 
 		}
 
@@ -359,7 +359,7 @@ namespace MathUtils
 				sf::Vector2<double>(1, 1)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
-			Assert::AreEqual(ATMA::perlin(v, func, 0.5, 0.5), 0.0);
+			Assert::AreEqual(ATMA::perlin<double>(v, func, 0.5, 0.5), 0.0);
 
 		}
 
@@ -371,7 +371,7 @@ namespace MathUtils
 				sf::Vector2<double>(1, -1)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
-			Assert::AreEqual(ATMA::perlin(v, func, 0.5, 0.5), 0.0);
+			Assert::AreEqual(ATMA::perlin<double>(v, func, 0.5, 0.5), 0.0);
 
 		}
 
@@ -383,7 +383,7 @@ namespace MathUtils
 				sf::Vector2<double>(10, -1)
 			};
 			auto func = [](double a, double b, double c) { return ATMA::lerp(a, b, c); };
-			Assert::AreEqual(ATMA::perlin(v, func, 0.5, 0.5), -1.25);
+			Assert::AreEqual(ATMA::perlin<double>(v, func, 0.5, 0.5), -1.25);
 
 		}
 
