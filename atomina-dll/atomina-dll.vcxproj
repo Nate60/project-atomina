@@ -144,6 +144,7 @@
     <ClInclude Include="BaseState.h" />
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="DummyState.h" />
+    <ClInclude Include="FileUtil.h" />
     <ClInclude Include="NetworkClient.h" />
     <ClInclude Include="NetworkHost.h" />
     <ClInclude Include="ObjectMessage.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="EventContext.cpp" />
     <ClCompile Include="EventGroup.cpp" />
     <ClCompile Include="FileHandler.cpp" />
+    <ClCompile Include="FileUtil.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="NetworkClient.cpp" />
