@@ -11,6 +11,7 @@ namespace ATMA {
 	class ATMA_API NetworkHost 
 	{
 		using ClientId = unsigned int;
+		using ClientMap = std::unordered_map<ClientId, std::unique_ptr<sf::TcpSocket>>;
 	public:
 
 		NetworkHost(const int l_port);
@@ -66,7 +67,7 @@ namespace ATMA {
 		* @param l_bytes: byte buffer to send to all clients
 		* @param l_length: length of the buffert to send to all clients
 		*/
-		bool broadcastBytes(const std::byte* l_bytes, const size_t l_length);
+		bool broadcastBytes(const std::byte *l_bytes, const size_t l_length);
 
 
 		/*
@@ -76,7 +77,7 @@ namespace ATMA {
 		* @param l_length: length of byte buffer 
 		* @return if successful
 		*/
-		bool sendBytes(ClientId l_client, const std::byte* l_bytes, const size_t l_length);
+		bool sendBytes(ClientId l_client, const std::byte *l_bytes, const size_t l_length);
 
 
 		/*
@@ -87,16 +88,16 @@ namespace ATMA {
 		* @param l_receivedBytes: the amount of bytes received
 		* @return if successful
 		*/
-		bool receiveBytes(ClientId l_client, std::byte* l_buffer, const size_t l_maxBufferLength, size_t & l_receivedBytes);
+		bool receiveBytes(ClientId l_client, std::byte *l_buffer, const size_t l_maxBufferLength, size_t & l_receivedBytes);
 
 		//copy operator
-		NetworkHost& operator=(const NetworkHost& l_other);
+		NetworkHost& operator=(NetworkHost&& l_other) noexcept;
 
 	protected:
 
 		int m_port;
 		sf::TcpListener m_listener;
-		std::unordered_map<ClientId, sf::TcpSocket*> m_clients;
+		ClientMap m_clients;
 		ClientId m_nextId = 0;
 
 	};

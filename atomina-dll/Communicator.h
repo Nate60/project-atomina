@@ -9,17 +9,17 @@ namespace ATMA {
 	public:
 		virtual ~Communicator();
 
-		bool addOverserver(Observer* l_observer);
+		bool addOverserver(std::shared_ptr<Observer> l_observer);
 
-		bool removeObserver(Observer* l_observer);
+		bool removeObserver(std::shared_ptr<Observer> l_observer);
 
-		bool hasObserver(const Observer* l_observer) const;
+		bool hasObserver(const std::shared_ptr<Observer> l_observer) const;
 
 		void broadcast(const Message& l_msg);
 
 
 	private:
-		std::vector<Observer*> observers_;
+		std::vector<std::shared_ptr<Observer>> m_observers;
 
 	};
 

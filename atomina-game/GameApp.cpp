@@ -9,6 +9,6 @@ GameApp::~GameApp() {
 
 }
 
-ATMA::Game* ATMA::CreateGame() {
-	return new GameApp();
+std::unique_ptr<ATMA::Game> ATMA::CreateGame() {
+	return std::unique_ptr<ATMA::Game>{new GameApp()};
 }
