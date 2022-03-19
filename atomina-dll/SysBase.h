@@ -12,7 +12,7 @@ namespace ATMA {
 	class ATMA_API SysBase : public Observer {
 		using ObjectId = unsigned int;
 	public:
-		SysBase(const System& l_type, SystemManager* l_sysMan) : type_(l_type), sysMan_(l_sysMan) {
+		SysBase(const System& l_type, SystemManager &l_man) : m_type(l_type), m_sysMan(l_man){
 
 		}
 
@@ -58,11 +58,11 @@ namespace ATMA {
 		virtual void update(float l_dt) = 0;
 		
 	protected:
-		System type_;
-		std::bitset<ATConst::OBJECT_BIT_SIZE> req_;
-		std::vector<ObjectId> objects_;
+		System m_type;
+		std::bitset<ATConst::OBJECT_BIT_SIZE> m_req;
+		std::vector<ObjectId> m_objects;
 
-		SystemManager* sysMan_;
+		SystemManager& m_sysMan;
 
 		//TODO: Events
 

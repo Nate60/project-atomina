@@ -9,17 +9,17 @@ namespace ATMA {
 
 	struct EventGroup {
 
-		EventGroup(const std::string& l_name) : name_(l_name), ec_(l_name), count_(0) {}
+		EventGroup(const std::string& l_name) : m_name(l_name), m_ec(l_name), m_count(0) {}
 
 		/*
 		* Add event to this group of events
 		*/
 		void groupEvent(EventType l_type, Event l_events);
 
-		std::vector<std::pair<EventType, Event>> events_;
-		std::string name_;
-		EventContext ec_;
-		int count_;
+		std::vector<std::pair<EventType, Event>> m_events;
+		std::string m_name;
+		EventContext m_ec;
+		int m_count;
 
 	};
 

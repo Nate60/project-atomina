@@ -15,11 +15,9 @@ namespace ATMA {
 
 		//unordered map uses unique ids so last id needs to be updated atomically
 
-		m_mtx.lock();
+		std::lock_guard<std::mutex> lock{m_mtx};
 
 		auto id = m_lastId++;
-
-		m_mtx.unlock();
 
 		for (int i = 0; i < ATConst::OBJECT_BIT_SIZE; i++) {
 
@@ -38,11 +36,9 @@ namespace ATMA {
 
 	std::optional<ObjectManager::ObjectId> ObjectManager::createObject() {
 
-		m_mtx.lock();
+		std::lock_guard<std::mutex> lock{m_mtx};
 
 		auto id = m_lastId++;
-
-		m_mtx.unlock();
 
 		if(m_lastId < id)
 			return std::nullopt;
@@ -82,8 +78,8 @@ namespace ATMA {
 			return false;
 		}
 
-		AttrBase* attr = m_attrFactory[l_attr]();
-		auto pair = std::pair<int, AttrBase*>((int)l_attr, attr);
+		std::shared_ptr<AttrBase> attr = m_attrFactory[l_attr]();
+		auto pair = std::pair<int, std::shared_ptr<AttrBase>>((int)l_attr, attr);
 		m_objects[l_id].second.insert(pair);
 		
 		ATMA_ENGINE_INFO("object id {1:d} is now {0:d}", (int)l_attr, l_id);
