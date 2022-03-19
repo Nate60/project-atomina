@@ -4,7 +4,7 @@
 namespace ATMA {
 
 	Attribute AttrBase::getType() const {
-		return type_;
+		return m_type;
 	}
 
 	std::stringstream& operator >> (std::stringstream& l_stream, AttrBase& b) {

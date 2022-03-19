@@ -27,13 +27,21 @@ namespace OAS {
 		}
 
 		TEST_METHOD(Modified_object_moves_systems) {
-			auto id = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value();
-			std::bitset<ATConst::OBJECT_BIT_SIZE> bits = std::bitset<ATConst::OBJECT_BIT_SIZE>();
-			bits.set((int)ATMA::Attribute::Translatable);
-			objMan.addAttribute(id, ATMA::Attribute::Translatable);
-			sysMan.objectModified(id, bits);
-			ATMA::SysTranslator *sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator).value();
-			Assert::IsTrue(sys->hasObject(id));
+			try
+			{
+				auto id = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+				std::bitset<ATConst::OBJECT_BIT_SIZE> bits = std::bitset<ATConst::OBJECT_BIT_SIZE>();
+				bits.set((int)ATMA::Attribute::Translatable);
+				objMan.addAttribute(id, ATMA::Attribute::Translatable);
+				sysMan.objectModified(id, bits);
+				std::shared_ptr<ATMA::SysTranslator> sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator).value();
+				Assert::IsTrue(sys->hasObject(id));
+			}
+			catch(std::exception e)
+			{
+				std::cout << "failed: " << e.what() << std::endl;
+			}
+
 		}
 
 
@@ -44,7 +52,7 @@ namespace OAS {
 			objMan.addAttribute(id, ATMA::Attribute::Translatable);
 			sysMan.objectModified(id, bits);
 			sysMan.removeObject(id);
-			ATMA::SysTranslator* sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator).value();
+			std::shared_ptr<ATMA::SysTranslator> sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator).value();
 			Assert::IsFalse(sys->hasObject(id));
 		}
 

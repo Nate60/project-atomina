@@ -5,6 +5,8 @@
 
 namespace ATMA {
 	
+	using EventGroupContainer = std::unordered_map<std::string, std::shared_ptr<EventGroup>>;
+
 	class ATMA_API EventManager {
 	public: 
 
@@ -33,7 +35,7 @@ namespace ATMA {
 
 	private:
 
-		std::unordered_map<std::string, EventGroup*> eventGroups_;
+		 EventGroupContainer m_eventGroups;
 
 	};
 

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "SysBase.h"
 #include "System.h"
 #include "AttrTranslatable.h"
@@ -8,7 +9,7 @@ namespace ATMA {
 	
 	class ATMA_API SysTranslator : public SysBase {
 	public:
-		SysTranslator(const System& l_type, SystemManager* l_sysMan);
+		SysTranslator(const System& l_type, SystemManager &l_man);
 
 		~SysTranslator();
 

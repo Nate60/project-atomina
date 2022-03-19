@@ -12,7 +12,7 @@ namespace ATMA {
 
 	class ATMA_API ObjectManager {
 		using ObjectId = unsigned int;
-		using ObjectAttributes = std::pair<std::bitset<ATConst::OBJECT_BIT_SIZE>, std::unordered_map<int,AttrBase*>>;
+		using ObjectAttributes = std::pair<std::bitset<ATConst::OBJECT_BIT_SIZE>, std::unordered_map<int,std::shared_ptr<AttrBase>>>;
 	public:
 
 		//TODO: add Texture Manager 
@@ -51,7 +51,7 @@ namespace ATMA {
 		void addAttributeType(const Attribute& l_attr) {
 			//lambda to add factory function, allows correspondence of template and enum
 			ATMA_ENGINE_INFO("Adding {0} to object manager", l_attr);
-			m_attrFactory[l_attr] = []()->AttrBase* { return new T(); };
+			m_attrFactory[l_attr] = []()->std::shared_ptr<AttrBase> { return std::shared_ptr<T>{new T()}; };
 		}
 
 		/**
@@ -59,7 +59,7 @@ namespace ATMA {
 		* throws an ObjectNotFoundException when the object or attribute does not exist in the objects map
 		*/
 		template<class T>
-		std::optional<T*> getAttribute(const ObjectId& l_id, const Attribute& l_attr) {
+		std::optional<std::shared_ptr<T>> getAttribute(const ObjectId& l_id, const Attribute& l_attr) {
 			if (m_objects.count(l_id) <= 0) {
 				return std::nullopt;
 			}
@@ -67,7 +67,7 @@ namespace ATMA {
 				return std::nullopt;
 			}
 
-			return (T*)m_objects[l_id].second[(int)l_attr];
+			return std::dynamic_pointer_cast<T>(m_objects[l_id].second[(int)l_attr]);
 
 		}
 
@@ -92,7 +92,7 @@ namespace ATMA {
 		std::mutex m_mtx;
 		ObjectId m_lastId;
 		std::unordered_map<ObjectId, ObjectAttributes> m_objects;
-		std::unordered_map<Attribute, std::function<AttrBase* (void)>> m_attrFactory;
+		std::unordered_map<Attribute, std::function<std::shared_ptr<AttrBase> (void)>> m_attrFactory;
 		
 
 	};

@@ -16,7 +16,7 @@ public:
 
 	}
 
-	std::optional<T*> getResource(const std::string& l_id)
+	std::optional<std::shared_ptr<T>> getResource(const std::string& l_id)
 	{
 		
 	}
@@ -43,9 +43,9 @@ public:
 
 protected:
 
-	bool load(T* l_resource, const std::string& l_path)
+	bool load(std::shared_ptr<T> l_resource, const std::string& l_path)
 	{
-		return static_cast<derived*>(this)->load(l_resource, l_path);
+		return static_cast<std::shared_ptr<derived>>(this)->load(l_resource, l_path);
 	}
 
 private:
