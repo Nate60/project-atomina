@@ -20,9 +20,9 @@ namespace ATMA {
 		void readIn(std::stringstream& l_stream);
 
 
-		float x_, y_, dx_, dy_;
+		float m_x, m_y, m_dx, m_dy;
 	protected:
-		Attribute type_;
+		Attribute m_type;
 	};
 
 }

@@ -40,7 +40,7 @@ namespace ATMA {
 		*  @param l_length: size of array
 		*  @return if send was successful or not
 		*/
-		bool sendBytes(const std::byte* l_bytes, const size_t l_length);
+		bool sendBytes(const std::byte *l_bytes, const size_t l_length);
 
 		/*
 		* receive bytes from socket. max length of buffer much match buffer size
@@ -49,15 +49,15 @@ namespace ATMA {
 		* @param l_receivedBytes: length of received buffer
 		* @return if bytes were received
 		*/
-		bool receiveBytes(std::byte* l_buffer, const size_t l_maxBufferLength, size_t & l_receivedBytes);
+		bool receiveBytes(std::byte *l_buffer, const size_t l_maxBufferLength, size_t & l_receivedBytes);
 
 		//copy operator
 		NetworkClient& operator=(const NetworkClient& l_other);
 
 	protected:
-		sf::TcpSocket _socket;
-		std::string _addr;
-		int _port;
+		sf::TcpSocket m_socket;
+		std::string m_addr;
+		int m_port;
 
 
 	};

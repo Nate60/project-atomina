@@ -5,16 +5,16 @@ namespace ATMA {
 
 
 	bool SysBase::addObject(const ObjectId& l_id) {
-		if (std::count(objects_.begin(), objects_.end(), l_id)) {
+		if (std::count(m_objects.begin(), m_objects.end(), l_id)) {
 			return false;
 		}
-		objects_.push_back(l_id);
+		m_objects.push_back(l_id);
 		return true;
 
 	}
 
 	bool SysBase::hasObject(const ObjectId& l_id) const {
-		if (std::count(objects_.begin(), objects_.end(), l_id)) {
+		if (std::count(m_objects.begin(), m_objects.end(), l_id)) {
 			return true;
 		}else {
 			return false;
@@ -22,9 +22,9 @@ namespace ATMA {
 	}
 
 	bool SysBase::removeObject(const ObjectId& l_id) {
-		for (auto it = objects_.begin(); it != objects_.end(); it++) {
+		for (auto it = m_objects.begin(); it != m_objects.end(); it++) {
 			if (*it == l_id) {
-				objects_.erase(it);
+				m_objects.erase(it);
 				return true;
 			}
 		}
@@ -33,15 +33,15 @@ namespace ATMA {
 	}
 
 	System SysBase::getType() const {
-		return type_;
+		return m_type;
 	}
 
 	bool SysBase::match(const std::bitset<ATConst::OBJECT_BIT_SIZE>& l_bits) const {
-		return (req_ ^ l_bits).none();
+		return (m_req ^ l_bits).none();
 	}
 
 	void SysBase::purge() {
-		objects_.clear();
+		m_objects.clear();
 	}
 
 }

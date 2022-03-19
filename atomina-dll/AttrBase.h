@@ -7,7 +7,7 @@ namespace ATMA {
 
 	class  ATMA_API AttrBase {
 	public:
-		AttrBase(const Attribute& l_type) : type_(l_type) {
+		AttrBase(const Attribute& l_type) :m_type(l_type) {
 
 		}
 
@@ -24,7 +24,7 @@ namespace ATMA {
 		virtual void readIn(std::stringstream& l_stream) = 0;
 
 	protected:
-		Attribute type_;
+		Attribute m_type;
 
 	};
 

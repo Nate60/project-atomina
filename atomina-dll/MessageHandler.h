@@ -11,14 +11,14 @@ namespace ATMA {
 		using Message = std::string;
 		using Subscriptions = std::unordered_map<ObjectMessage, Communicator>;
 	public:
-		bool subscribe(const ObjectMessage& l_type, Observer* l_observer);
+		bool subscribe(const ObjectMessage& l_type, std::shared_ptr<Observer> l_observer);
 
-		bool unsubscribe(const ObjectMessage& l_type, Observer* l_observer);
+		bool unsubscribe(const ObjectMessage& l_type, std::shared_ptr<Observer> l_observer);
 
 		void dispatch(const Message& l_msg);
 
 	private:
-		Subscriptions communicators_;
+		Subscriptions m_communicators;
 
 	};
 
