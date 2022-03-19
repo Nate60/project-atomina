@@ -4,18 +4,18 @@
 namespace ATMA {
 
 	bool EventManager::addEventGroup(EventGroup l_group) {
-		if (eventGroups_.find(l_group.name_) != eventGroups_.end())
+		if (m_eventGroups.find(l_group.m_name) != m_eventGroups.end())
 			return false;
 
-		eventGroups_[l_group.name_] = &l_group;
+		m_eventGroups[l_group.m_name] = std::shared_ptr<EventGroup>{&l_group};
 		return true;
 	}
 
 	bool EventManager::removeGroup(EventGroup l_group) {
-		auto itr = eventGroups_.find(l_group.name_);
-		if ( itr == eventGroups_.end())
+		auto itr = m_eventGroups.find(l_group.m_name);
+		if ( itr == m_eventGroups.end())
 			return false;
-		eventGroups_.erase(itr);
+		m_eventGroups.erase(itr);
 		return true;
 	}
 

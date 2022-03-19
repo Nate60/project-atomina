@@ -19,7 +19,7 @@ namespace ATMA {
 
 	};
 
-	Game* CreateGame();
+	std::unique_ptr<Game> CreateGame();
 
 }
 

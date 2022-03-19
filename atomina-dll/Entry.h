@@ -6,7 +6,7 @@
 #ifndef TEST_PROJECT
 
 //factory function to be implemented by the game 
-extern ATMA::Game* ATMA::CreateGame();
+extern std::unique_ptr<ATMA::Game> ATMA::CreateGame();
 
 /*
 * DLL entry point into execution
@@ -15,9 +15,8 @@ int main() {
 
 	ATMA::Log::Init();
 	ATMA_ENGINE_WARN("Init logger!");
-	ATMA::Game* app = ATMA::CreateGame();
+	std::unique_ptr<ATMA::Game> app = ATMA::CreateGame();
 	app->run();
-	delete app;
 }
 
 #endif

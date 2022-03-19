@@ -3,10 +3,10 @@
 
 namespace ATMA {
 
-	SysTranslator::SysTranslator(const System& l_type, SystemManager* l_sysMan) : SysBase(l_type, l_sysMan) {
+	SysTranslator::SysTranslator(const System& l_type, SystemManager &l_man) : SysBase(l_type, l_man) {
 		std::bitset<ATConst::OBJECT_BIT_SIZE> bits;
 		bits.set((int)Attribute::Translatable);
-		req_ = bits;
+		m_req = bits;
 	}
 
 	SysTranslator::~SysTranslator() {
@@ -18,11 +18,11 @@ namespace ATMA {
 	}
 
 	void SysTranslator::update(float l_dt) {
-		ObjectManager* objMan = sysMan_->getObjectManager();
-		for (auto& obj : objects_) {
-			AttrTranslatable* attr = objMan->getAttribute<AttrTranslatable>(obj, Attribute::Translatable).value();
-			attr->x_ += attr->dx_ * l_dt;
-			attr->y_ += attr->dy_ * l_dt;
+		std::shared_ptr<ObjectManager> objMan = m_sysMan.getObjectManager();
+		for (auto& obj : m_objects) {
+			std::shared_ptr<AttrTranslatable> attr = objMan->getAttribute<AttrTranslatable>(obj, Attribute::Translatable).value();
+			attr->m_x += attr->m_dx * l_dt;
+			attr->m_y += attr->m_dy * l_dt;
 		}
 	}
 
