@@ -3,23 +3,24 @@
 
 namespace ATMA {
 
-	/*
-	* Abstract class used as an entry point for the game
-	*/
-
 	class ATMA_API Game
 	{
 	public:
 		Game();
 		virtual ~Game();
-		void run();
-
+		virtual void run();
+		virtual void shutdown();
 
 		bool active = false;
 
 	};
 
 	std::unique_ptr<Game> CreateGame();
+	
+
+
+
+
 
 }
 
