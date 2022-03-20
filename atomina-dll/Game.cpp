@@ -17,4 +17,8 @@ namespace ATMA {
 
 	}
 
+	void Game::shutdown()
+	{
+
+	}
 }
