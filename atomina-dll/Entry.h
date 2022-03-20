@@ -12,11 +12,12 @@ extern std::unique_ptr<ATMA::Game> ATMA::CreateGame();
 * DLL entry point into execution
 */
 int main() {
-
+	
 	ATMA::Log::Init();
 	ATMA_ENGINE_WARN("Init logger!");
 	std::unique_ptr<ATMA::Game> app = ATMA::CreateGame();
 	app->run();
+	app->shutdown();
 }
 
 #endif

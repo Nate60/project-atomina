@@ -11,6 +11,8 @@ public:
 
 	GameApp();
 	~GameApp();
+	virtual void run() override;
+	virtual void shutdown() override;
 
 };
 
