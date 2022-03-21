@@ -3,7 +3,7 @@
 
 namespace ATMA {
 
-	SysTranslator::SysTranslator(const System& l_type, SystemManager &l_man) : SysBase(l_type, l_man) {
+	SysTranslator::SysTranslator(const SystemType& l_type, SystemManager &l_man) : SysBase(l_type, l_man) {
 		std::bitset<ATConst::OBJECT_BIT_SIZE> bits;
 		bits.set((int)Attribute::Translatable);
 		m_req = bits;

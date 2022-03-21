@@ -9,7 +9,7 @@ namespace ATMA {
 	
 	class ATMA_API SysTranslator : public SysBase {
 	public:
-		SysTranslator(const System& l_type, SystemManager &l_man);
+		SysTranslator(const SystemType& l_type, SystemManager &l_man);
 
 		~SysTranslator();
 

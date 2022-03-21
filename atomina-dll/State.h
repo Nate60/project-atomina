@@ -8,8 +8,8 @@ namespace ATMA
 
 	enum class ATMA_API State
 	{
-		Empty = 0,
-		Dummy = 1
+		Empty = 0u,
+		Dummy = 1u
 	};
 
 }

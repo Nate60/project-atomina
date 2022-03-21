@@ -8,16 +8,22 @@
 
 namespace ATMA
 {
-	//must be shared because update is parallelized
-	using StateContainer = std::vector<std::shared_ptr<BaseState>>;
-	
+
+
 	/*
 	* Manager for updating, drawing, and switching states
 	*/
+
+	using StateContainer = std::vector<std::shared_ptr<BaseState>>;
+	using StateType = unsigned int;
+
 	class ATMA_API StateManager
 	{
-
 	public:
+
+			//must be shared because update is parallelized
+
+
 		StateManager();
 		~StateManager();
 
@@ -37,25 +43,38 @@ namespace ATMA
 		* @param State type enum
 		* @return if it is found or not
 		*/
-		bool hasState(const State& l_type) const;
+		bool hasState(const State &l_type) const;
+
+		/*
+		* checks for state in manager
+		* @param State type enum
+		* @return if it is found or not
+		*/
+		bool hasState(const StateType &l_type) const;
 
 		/*
 		* get second highest priority state
 		* @return type of state
 		*/
-		std::optional<State> getNextToLast() const;
+		std::optional<StateType> getNextToLast() const;
 
 		/*
 		* moves state to front
 		* @param type of state
 		*/
-		void changeState(const State& l_type);
+		void changeState(const StateType &l_type);
+
+				/*
+		* removes the specified state type from the manager
+		* @param type of state
+		*/
+		void remove(const State &l_type);
 
 		/*
 		* removes the specified state type from the manager
 		* @param type of state
 		*/
-		void remove(const State& l_type);
+		void remove(const StateType &l_type);
 
 		/*
 		* returns the state object of a given state type
@@ -63,7 +82,7 @@ namespace ATMA
 		* @return state object
 		*/
 		template <class T>
-		std::optional<std::shared_ptr<T>> getState(const State& l_type)
+		std::optional<std::shared_ptr<T>> getState(const StateType &l_type)
 		{
 			auto result = std::find_if(m_states.begin(), m_states.end(), [&l_type](auto state)
 				{
@@ -79,6 +98,16 @@ namespace ATMA
 		*/
 		template <class T>
 		void registerState(const State &l_type)
+		{
+			registerState<T>(static_cast<StateType>(l_type));
+		}
+	
+		/*
+		* registers the state to the manager
+		* @param type of state to register
+		*/
+		template <class T>
+		void registerState(const StateType &l_type)
 		{
 			if constexpr (std::is_base_of_v<BaseState, T>)
 			{
