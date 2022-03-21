@@ -11,6 +11,8 @@ namespace ATMA {
 	class SysBase;
 	class ObjectManager;
 
+	using SystemType = unsigned int;
+
 	class ATMA_API SystemManager : std::enable_shared_from_this<SystemManager> {
 		using ObjectId = unsigned int;
 	public:
@@ -19,16 +21,34 @@ namespace ATMA {
 		* Adds a System to system-class relation to the system manager
 		*/
 		template <class T>
-		void addSystem(const System& l_sys) {
+		void addSystem(const System &l_sys)
+		{
+			addSystem<T>(static_cast<SystemType>(l_sys));
+		}
+
+		/**
+		* Adds a System to system-class relation to the system manager
+		*/
+		template <class T>
+		void addSystem(const SystemType &l_sys) {
 			auto func = [=]()->std::shared_ptr<SysBase> { return std::shared_ptr<T>{new T(l_sys,*this)}; };
 			m_systems[l_sys] = func();
 		}
+
 
 		/**
 		* Gets a system from the system manager but throws exception if it does not exist
 		*/
 		template <class T>
-		std::optional<std::shared_ptr<T>> getSystem(const System& l_sys) {
+		std::optional<std::shared_ptr<T>> getSystem(const System &l_sys)
+		{
+			return getSystem<T>(static_cast<SystemType>(l_sys));
+		}
+		/**
+		* Gets a system from the system manager but throws exception if it does not exist
+		*/
+		template <class T>
+		std::optional<std::shared_ptr<T>> getSystem(const SystemType &l_sys) {
 			if (m_systems.count(l_sys) == 0) {
 				return std::nullopt;
 			}
@@ -77,7 +97,7 @@ namespace ATMA {
 
 	private:
 		std::shared_ptr<ObjectManager> m_objMan;
-		std::unordered_map<System, std::shared_ptr<SysBase>> m_systems;
+		std::unordered_map<SystemType, std::shared_ptr<SysBase>> m_systems;
 
 	};
 

@@ -10,6 +10,11 @@ namespace ATMA {
 
 	}
 
+	BaseState::BaseState(BaseState &&b) noexcept: m_communicable(b.m_communicable), m_transcendent(b.m_transcendent), m_transparent(b.m_transparent), m_view(b.m_view)
+	{
+
+	}
+
 	BaseState::~BaseState()
 	{
 		ATMA_ENGINE_INFO("Unspecified State Destroyed");

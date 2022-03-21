@@ -32,7 +32,7 @@ namespace ATMA {
 
 	}
 
-	System SysBase::getType() const {
+	SystemType SysBase::getType() const {
 		return m_type;
 	}
 

@@ -7,6 +7,8 @@
 
 namespace ATMA {
 
+	using StateType = unsigned int;
+
 	class ATMA_API BaseState
 	{
 	public:
@@ -24,9 +26,9 @@ namespace ATMA {
 		virtual void update(const sf::Time& l_time) = 0;
 		virtual void draw() = 0;
 
-		virtual State getId() const
+		virtual StateType getId() const
 		{
-			return State::Empty;
+			return static_cast<StateType>(State::Empty);
 		}
 
 		sf::View& getView();
