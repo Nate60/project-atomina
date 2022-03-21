@@ -4,9 +4,8 @@
 namespace ATMA {
 
 	enum class ATMA_API System {
-		None = 0,
-		Translator = 1,
-		COUNT = 2
+		None = 0u,
+		Translator = 1u
 	};
 
 }

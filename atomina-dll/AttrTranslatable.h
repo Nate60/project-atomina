@@ -21,8 +21,6 @@ namespace ATMA {
 
 
 		float m_x, m_y, m_dx, m_dy;
-	protected:
-		Attribute m_type;
 	};
 
 }
