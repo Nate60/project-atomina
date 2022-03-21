@@ -34,8 +34,13 @@ namespace ATMA {
 		);
 	}
 
+	bool StateManager::hasState(const State &l_type) const
+	{
+		return hasState(static_cast<StateType>(l_type));
 
-	bool StateManager::hasState(const State& l_type) const
+	}
+
+	bool StateManager::hasState(const StateType &l_type) const
 	{
 		auto result = std::find_if(m_states.begin(), m_states.end(), [&l_type](auto state)
 			{
@@ -46,7 +51,7 @@ namespace ATMA {
 
 	}
 
-	std::optional<State> StateManager::getNextToLast() const
+	std::optional<StateType> StateManager::getNextToLast() const
 	{
 		try
 		{
@@ -61,12 +66,17 @@ namespace ATMA {
 
 	}
 
-	void StateManager::changeState(const State& l_type)
+	void StateManager::changeState(const StateType &l_type)
 	{
 
 	}
 
-	void StateManager::remove(const State& l_type)
+	void StateManager::remove(const State &l_type)
+	{
+		remove(static_cast<StateType>(l_type));
+	}
+
+	void StateManager::remove(const StateType &l_type)
 	{
 		auto result = std::find_if(m_states.begin(), m_states.end(), [&l_type](auto state)
 			{

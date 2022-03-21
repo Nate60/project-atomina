@@ -8,11 +8,13 @@
 
 namespace ATMA {
 
+	using SystemType = unsigned int;
+
 	class SystemManager;
 	class ATMA_API SysBase : public Observer {
 		using ObjectId = unsigned int;
 	public:
-		SysBase(const System& l_type, SystemManager &l_man) : m_type(l_type), m_sysMan(l_man){
+		SysBase(const SystemType &l_type, SystemManager &l_man) : m_type(l_type), m_sysMan(l_man){
 
 		}
 
@@ -40,7 +42,7 @@ namespace ATMA {
 		/**
 		* gives the enumerator for the type of system
 		*/
-		System getType() const;
+		SystemType getType() const;
 
 		/**
 		* returns true if the bitset matches the required bitset completely
@@ -58,7 +60,7 @@ namespace ATMA {
 		virtual void update(float l_dt) = 0;
 		
 	protected:
-		System m_type;
+		SystemType m_type;
 		std::bitset<ATConst::OBJECT_BIT_SIZE> m_req;
 		std::vector<ObjectId> m_objects;
 

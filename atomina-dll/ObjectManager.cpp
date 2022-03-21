@@ -11,7 +11,7 @@ namespace ATMA {
 
 	}
 
-	std::optional<ObjectManager::ObjectId> ObjectManager::createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE>& l_bits){
+	std::optional<ObjectManager::ObjectId> ObjectManager::createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits){
 
 		//unordered map uses unique ids so last id needs to be updated atomically
 
@@ -46,7 +46,7 @@ namespace ATMA {
 
 	}
 
-	bool ObjectManager::removeObject(const ObjectId& l_id) {
+	bool ObjectManager::removeObject(const ObjectId &l_id) {
 
 		if (m_objects.erase(l_id) > 0) {
 			ATMA_ENGINE_INFO("erased object with id {0:d}", l_id);
@@ -59,7 +59,12 @@ namespace ATMA {
 
 	}
 
-	bool ObjectManager::addAttribute(const ObjectId& l_id, const Attribute& l_attr) {
+	bool ObjectManager::addAttribute(const ObjectId &l_id, const Attribute &l_attr)
+	{
+		return addAttribute(l_id, static_cast<AttributeType>(l_attr));
+	}
+
+	bool ObjectManager::addAttribute(const ObjectId &l_id, const AttributeType &l_attr) {
 
 		if (l_id > m_lastId) {
 			ATMA_ENGINE_WARN("unable to add attribute {0:d} as object id {1:d} does not exist", (int)l_attr, l_id);
@@ -88,7 +93,12 @@ namespace ATMA {
 
 	}
 
-	bool ObjectManager::removeAttribute(const ObjectId& l_id, const Attribute& l_attr) {
+	bool ObjectManager::removeAttribute(const ObjectId &l_id, const Attribute &l_attr)
+	{
+		return removeAttribute(l_id, static_cast<AttributeType>(l_attr));
+	}
+
+	bool ObjectManager::removeAttribute(const ObjectId &l_id, const AttributeType &l_attr) {
 
 		if (m_objects.count(l_id) <= 0) {
 			ATMA_ENGINE_WARN("unable to remove attribute {0:d} as object id {1:d} does not exist", (int)l_attr, l_id);
@@ -110,7 +120,13 @@ namespace ATMA {
 
 	}
 
-	bool ObjectManager::hasAttribute(const ObjectId& l_id, const Attribute& l_attr) {
+
+	bool ObjectManager::hasAttribute(const ObjectId &l_id, const Attribute &l_attr)
+	{
+		return hasAttribute(l_id, static_cast<AttributeType>(l_attr));
+	}
+
+	bool ObjectManager::hasAttribute(const ObjectId &l_id, const AttributeType &l_attr) {
 
 		if (m_objects.count(l_id) <= 0)
 			return false;

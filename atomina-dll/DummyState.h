@@ -16,9 +16,9 @@ namespace ATMA
 		virtual void activate();
 		virtual void deactivate();
 
-		virtual State getId() const override
+		virtual StateType getId() const override
 		{
-			return State::Dummy;
+			return static_cast<StateType>(State::Dummy);
 		}
 
 		virtual void update(const sf::Time &l_time);
