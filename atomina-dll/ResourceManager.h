@@ -16,6 +16,7 @@ public:
 
 	}
 
+	//TODO: remove optional as optional of shared pointer makes a dangling pointer
 	std::optional<std::shared_ptr<T>> getResource(const std::string& l_id)
 	{
 		

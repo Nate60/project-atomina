@@ -5,16 +5,15 @@
 #include "SysBase.h"
 #include "ObjectManager.h"
 #include "AtominaException.h"
+#include "Event.h"
 
 namespace ATMA {
 
 	class SysBase;
 	class ObjectManager;
 
-	using SystemType = unsigned int;
+	class ATMA_API SystemManager {
 
-	class ATMA_API SystemManager : std::enable_shared_from_this<SystemManager> {
-		using ObjectId = unsigned int;
 	public:
 		
 		/**
@@ -40,7 +39,7 @@ namespace ATMA {
 		* Gets a system from the system manager but throws exception if it does not exist
 		*/
 		template <class T>
-		std::optional<std::shared_ptr<T>> getSystem(const System &l_sys)
+		std::shared_ptr<T> getSystem(const System &l_sys)
 		{
 			return getSystem<T>(static_cast<SystemType>(l_sys));
 		}
@@ -48,11 +47,11 @@ namespace ATMA {
 		* Gets a system from the system manager but throws exception if it does not exist
 		*/
 		template <class T>
-		std::optional<std::shared_ptr<T>> getSystem(const SystemType &l_sys) {
+		std::shared_ptr<T> getSystem(const SystemType &l_sys) {
 			if (m_systems.count(l_sys) == 0) {
-				return std::nullopt;
+				throw new std::domain_error{"system does not exist"};
 			}
-			return std::dynamic_pointer_cast<T>(m_systems[l_sys]);
+			return std::static_pointer_cast<T>(m_systems[l_sys]);
 		}
 
 
@@ -61,7 +60,7 @@ namespace ATMA {
 			return m_objMan;
 		}
 
-		//TODO events:
+		void addEvent(const ObjectId& l_object, Event &l_event);
 
 
 		//updates all attributes of all systems
@@ -96,8 +95,9 @@ namespace ATMA {
 
 
 	private:
-		std::shared_ptr<ObjectManager> m_objMan;
-		std::unordered_map<SystemType, std::shared_ptr<SysBase>> m_systems;
+		std::shared_ptr<ObjectManager> m_objMan{new ObjectManager{}};
+		std::unordered_map<SystemType, std::shared_ptr<SysBase>> m_systems{};
+		std::unordered_map<ObjectId, std::vector<Event>> m_object_event_queue{};
 
 	};
 
