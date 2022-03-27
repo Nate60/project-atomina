@@ -7,12 +7,16 @@
 
 namespace ATMA {
 
+
 	using StateType = unsigned int;
 
+	class StateManager;
 	class ATMA_API BaseState
 	{
+
+
 	public:
-		BaseState();
+		BaseState(StateManager &l_stateMan);
 		BaseState(BaseState &&b) noexcept;
 
 
@@ -39,6 +43,7 @@ namespace ATMA {
 
 	protected:
 
+		StateManager &m_stateMan;
 		bool m_transparent;
 		bool m_transcendent;
 		bool m_communicable;

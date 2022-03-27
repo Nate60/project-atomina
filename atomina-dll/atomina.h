@@ -19,6 +19,7 @@
 //Core
 #include "Game.h"
 #include "Entry.h"
+#include "ATMAContext.h"
 
 //Messaging
 #include "Communicator.h"
@@ -36,7 +37,8 @@
 
 //Events
 #include "Event.h"
-#include "EventType.h"
+#include "EventContext.h"
+#include "EventManager.h"
 
 //States
 

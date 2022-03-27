@@ -102,16 +102,7 @@
     <ClInclude Include="SysTranslator.h">
       <Filter>OAS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Event</Filter>
-    </ClInclude>
-    <ClInclude Include="EventType.h">
-      <Filter>Event</Filter>
-    </ClInclude>
     <ClInclude Include="EventContext.h">
-      <Filter>Event</Filter>
-    </ClInclude>
-    <ClInclude Include="EventGroup.h">
       <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
@@ -154,6 +145,18 @@
     <ClInclude Include="FileHandler.h">
       <Filter>File</Filter>
     </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Binding.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="StateSensitive.h">
+      <Filter>State</Filter>
+    </ClInclude>
+    <ClInclude Include="ATMAContext.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AtominaException.cpp">
@@ -193,12 +196,6 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>Event</Filter>
     </ClCompile>
-    <ClCompile Include="EventGroup.cpp">
-      <Filter>Event</Filter>
-    </ClCompile>
-    <ClCompile Include="EventContext.cpp">
-      <Filter>Event</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkClient.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -226,6 +223,10 @@
     <ClCompile Include="FileUtil.cpp">
       <Filter>File</Filter>
     </ClCompile>
+    <ClCompile Include="MessageHandler.cpp">
+      <Filter>Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="Communicator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

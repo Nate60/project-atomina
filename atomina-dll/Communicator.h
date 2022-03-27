@@ -7,11 +7,12 @@ namespace ATMA {
 	class ATMA_API Communicator {
 
 	public:
-		virtual ~Communicator();
+		virtual ~Communicator()
+		{}
 
-		bool addOverserver(std::shared_ptr<Observer> l_observer);
+		void addOverserver(std::shared_ptr<Observer> l_observer);
 
-		bool removeObserver(std::shared_ptr<Observer> l_observer);
+		void removeObserver(std::shared_ptr<Observer> l_observer);
 
 		bool hasObserver(const std::shared_ptr<Observer> l_observer) const;
 

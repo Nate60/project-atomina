@@ -15,7 +15,9 @@ namespace ATMA {
 
 		void notify(const Message& l_message);
 
-		void update(float l_dt);
+		void update(float l_dt) override;
+		
+		void handleEvent(const ObjectId &l_obj, Event &l_id) override;
 
 	};
 

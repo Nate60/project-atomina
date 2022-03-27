@@ -46,5 +46,16 @@
     <ClCompile Include="FileTest.cpp">
       <Filter>File</Filter>
     </ClCompile>
+    <ClCompile Include="EventManagerTest.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestState.h">
+      <Filter>State</Filter>
+    </ClInclude>
+    <ClInclude Include="TestSystem.h">
+      <Filter>OAS</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

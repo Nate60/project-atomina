@@ -7,7 +7,7 @@ namespace ATMA
 	{
 	public:
 
-		DummyState();
+		DummyState(StateManager &l_stateMan);
 
 		virtual ~DummyState();
 
