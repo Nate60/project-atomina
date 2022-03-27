@@ -21,9 +21,34 @@ namespace ATMA {
 	}
 
 	void SystemManager::handleEvents() {
-
+		for(auto &object_event : m_object_event_queue)
+		{
+			for(auto &system : m_systems)
+			{
+				if(system.second->hasObject(object_event.first))
+				{
+					for(auto &e : object_event.second)
+					{
+						system.second->handleEvent(object_event.first, e);
+					}
+					
+				}
+			}
+		}
 	}
 
+	void SystemManager::addEvent(const ObjectId& l_id, Event& l_event)
+	{
+		if(auto queue = m_object_event_queue.find(l_id); queue == m_object_event_queue.end())
+		{
+			m_object_event_queue[l_id] = std::vector<Event>{l_event};
+		}
+		else
+		{
+			m_object_event_queue[l_id].push_back(l_event);
+		}
+
+	}
 
 	void SystemManager::removeObject(const ObjectId& l_id) {
 		ATMA_ENGINE_INFO("Removing Object ID {:d} from all systems", l_id);

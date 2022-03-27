@@ -34,7 +34,7 @@ namespace OAS {
 				bits.set((int)ATMA::Attribute::Translatable);
 				objMan.addAttribute(id, ATMA::Attribute::Translatable);
 				sysMan.objectModified(id, bits);
-				std::shared_ptr<ATMA::SysTranslator> sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator).value();
+				std::shared_ptr<ATMA::SysTranslator> sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator);
 				Assert::IsTrue(sys->hasObject(id));
 			}
 			catch(std::exception e)
@@ -52,7 +52,7 @@ namespace OAS {
 			objMan.addAttribute(id, ATMA::Attribute::Translatable);
 			sysMan.objectModified(id, bits);
 			sysMan.removeObject(id);
-			std::shared_ptr<ATMA::SysTranslator> sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator).value();
+			std::shared_ptr<ATMA::SysTranslator> sys = sysMan.getSystem<ATMA::SysTranslator>(ATMA::System::Translator);
 			Assert::IsFalse(sys->hasObject(id));
 		}
 

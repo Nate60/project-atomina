@@ -1,58 +1,44 @@
 #pragma once
 #include "pch.h"
 #include "api.h"
-#include "EventType.h"
+#include "EventContext.h"
 
-namespace ATMA {
+namespace ATMA
+{
 
-	struct ATMA_API Event {
+	using EventType = unsigned int;
 
-	public:
+	struct ATMA_API Event
+	{
+		Event(const std::string &l_name) : m_type(0), m_context(l_name)
+		{}
 
-		Event() : m_type(EventInfoType::RAW), m_code(0) {}
+		Event(EventContext &l_ctx): m_type(0), m_context(l_ctx)
+		{}
 
-		Event(int l_code) : m_type(EventInfoType::RAW), m_code(l_code) {}
+		Event(const EventType &l_type, const std::string &l_name): m_type(l_type), m_context(l_name)
+		{}
 
-		Event(const Event& l_event) {
-			move(l_event);
-		}
+		Event(const EventType &l_type, EventContext &l_ctx): m_type(l_type), m_context(l_ctx)
+		{}
 
-		//copy operator
-		Event& operator=(const Event& l_event) {
-			if (&l_event != this) { move(l_event); }
+		Event(const EventType &l_type, sf::Event &l_e): m_type(l_type), m_context(l_e)
+		{}
+
+		Event(const Event &e): m_type(e.m_type), m_context(e.m_context)
+		{}
+
+		Event &operator=(const Event &e)
+		{
+			m_type = e.m_type;
+			m_context = e.m_context;
 			return *this;
 		}
 
-		~Event() {
+		EventType m_type;
+		std::variant<EventContext, sf::Event> m_context;
+
 	
-		}
-
-		union {
-			int m_code;
-		};
-
-		EventInfoType m_type;
-
-		/**
-		* prints out members of the class, mainly for debugging and logging
-		*/
-		virtual std::string toString() const {
-			std::stringstream ss;
-			ss << "Event: " << m_code;
-			return ss.str();
-		}
-
-	private:
-		void move(const Event& l_event) {
-			m_type = l_event.m_type;
-			if (m_type == EventInfoType::RAW) { m_code = l_event.m_code; }
-		}
-
+		
 	};
-
-
-	inline std::ostream& operator<<(std::ostream& l_o, const Event& l_e) {
-		return l_o << l_e.toString();
-	}
-
 }

@@ -125,6 +125,7 @@ xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-ap
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EventManagerTest.cpp" />
     <ClCompile Include="MathUtilTest.cpp" />
     <ClCompile Include="NetworkTest.cpp" />
     <ClCompile Include="ObjectManagerTest.cpp" />
@@ -137,6 +138,10 @@ xcopy /y /d "$(ProjectDir)..\atomina-dll\$(Platform)\$(Configuration)\atomina-ap
     <ProjectReference Include="..\atomina-dll\atomina-dll.vcxproj">
       <Project>{fedd2104-0f4e-4786-921a-1314f684ea59}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestState.h" />
+    <ClInclude Include="TestSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

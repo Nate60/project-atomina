@@ -3,7 +3,7 @@
 
 namespace ATMA {
 
-	StateManager::StateManager()
+	StateManager::StateManager(ATMAContext &l_ctx): m_context(l_ctx)
 	{
 
 	}
@@ -14,6 +14,15 @@ namespace ATMA {
 		purge();
 	}
 
+	void StateManager::addStateDependent(std::shared_ptr<StateSensitive> l_dep)
+	{
+		m_deps.push_back(l_dep);
+	}
+
+	void StateManager::removeStateDependent(std::shared_ptr<StateSensitive> l_dep)
+	{
+
+	}
 
 	void StateManager::update(const sf::Time& l_time)
 	{
@@ -68,7 +77,7 @@ namespace ATMA {
 
 	void StateManager::changeState(const StateType &l_type)
 	{
-
+		
 	}
 
 	void StateManager::remove(const State &l_type)
@@ -89,6 +98,10 @@ namespace ATMA {
 		}
 	}
 
+	ATMAContext &StateManager::getContext()
+	{
+		return m_context;
+	}
 
 	void StateManager::purge()
 	{
