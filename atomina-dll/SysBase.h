@@ -5,14 +5,18 @@
 #include "System.h"
 #include "SystemManager.h"
 #include "ATConst.h"
+#include "Event.h"
 
 namespace ATMA {
 
 	using SystemType = unsigned int;
 
 	class SystemManager;
+
+	using ObjectId = unsigned int;
+	using EventId = unsigned int;
 	class ATMA_API SysBase : public Observer {
-		using ObjectId = unsigned int;
+
 	public:
 		SysBase(const SystemType &l_type, SystemManager &l_man) : m_type(l_type), m_sysMan(l_man){
 
@@ -58,6 +62,8 @@ namespace ATMA {
 		* updates all attributes of all the objects contained in the system
 		*/
 		virtual void update(float l_dt) = 0;
+
+		virtual void handleEvent(const ObjectId& l_id, Event &l_event) = 0;
 		
 	protected:
 		SystemType m_type;
@@ -65,8 +71,6 @@ namespace ATMA {
 		std::vector<ObjectId> m_objects;
 
 		SystemManager& m_sysMan;
-
-		//TODO: Events
 
 	};
 

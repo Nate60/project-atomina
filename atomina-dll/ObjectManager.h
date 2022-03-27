@@ -10,11 +10,11 @@
 
 namespace ATMA {
 
-	using AttributeType = unsigned int;
+	using ObjectId = unsigned int;
 
 	class ATMA_API ObjectManager {
-		using ObjectId = unsigned int;
-		using ObjectAttributes = std::pair<std::bitset<ATConst::OBJECT_BIT_SIZE>, std::unordered_map<int,std::shared_ptr<AttrBase>>>;
+
+		using ObjectAttributes = std::pair<std::bitset<ATConst::OBJECT_BIT_SIZE>, std::unordered_map<AttributeType,std::shared_ptr<AttrBase>>>;
 	public:
 
 		//TODO: add Texture Manager 
@@ -77,9 +77,23 @@ namespace ATMA {
 		* throws an ObjectNotFoundException when the object or attribute does not exist in the objects map
 		*/
 		template<class T>
-		std::optional<std::shared_ptr<T>> getAttribute(const ObjectId &l_id, const Attribute &l_attr)
+		std::shared_ptr<T> getAttribute(const ObjectId &l_id, const Attribute &l_attr)
 		{
-			return getAttribute<T>(l_id,static_cast<AttributeType>(l_attr));
+			auto attr = static_cast<AttributeType>(l_attr);
+			if(m_objects.count(l_id) <= 0)
+			{
+				throw new std::overflow_error{"object id overflow"};
+			}
+			else if(m_objects.find(l_id) == m_objects.end())
+			{
+				throw new std::domain_error{"object id does not exist"};
+			}
+			else if(!m_objects[l_id].first[attr])
+			{
+				throw new std::domain_error{"object id does not contain attribute"};
+			}
+
+			return std::static_pointer_cast<T>(m_objects[l_id].second[attr]);
 		}
 
 		/**
@@ -87,15 +101,21 @@ namespace ATMA {
 		* throws an ObjectNotFoundException when the object or attribute does not exist in the objects map
 		*/
 		template<class T>
-		std::optional<std::shared_ptr<T>> getAttribute(const ObjectId& l_id, const AttributeType &l_attr) {
-			if (m_objects.count(l_id) <= 0) {
-				return std::nullopt;
+		std::shared_ptr<T> getAttribute(const ObjectId& l_id, const AttributeType &l_attr) {
+			if(m_objects.count(l_id) <= 0)
+			{
+				throw new std::overflow_error{"object id overflow"};
 			}
-			if (!m_objects[l_id].first[(int)l_attr]) {
-				return std::nullopt;
+			else if(m_objects.find(l_id) == m_objects.end())
+			{
+				throw new std::domain_error{"object id does not exist"};
+			}
+			else if(!m_objects[l_id].first[l_attr])
+			{
+				throw new std::domain_error{"object id does not contain attribute"};
 			}
 
-			return std::dynamic_pointer_cast<T>(m_objects[l_id].second[(int)l_attr]);
+			return std::static_pointer_cast<T>(m_objects[l_id].second[l_attr]);
 
 		}
 
@@ -129,10 +149,10 @@ namespace ATMA {
 
 	private:
 		
-		std::mutex m_mtx;
-		ObjectId m_lastId;
-		std::unordered_map<ObjectId, ObjectAttributes> m_objects;
-		std::unordered_map<AttributeType, std::function<std::shared_ptr<AttrBase> (void)>> m_attrFactory;
+		std::mutex m_mtx{};
+		ObjectId m_lastId{0u};
+		std::unordered_map<ObjectId, ObjectAttributes> m_objects{};
+		std::unordered_map<AttributeType, std::function<std::shared_ptr<AttrBase>(void)>> m_attrFactory{};
 		
 
 	};

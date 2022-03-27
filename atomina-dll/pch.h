@@ -21,6 +21,7 @@
 #include <future>
 #include <chrono>
 #include <optional>
+#include <variant>
 #include <exception>
 #include <filesystem>
 #include <SFML/Network/TcpSocket.hpp>

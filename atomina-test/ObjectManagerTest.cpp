@@ -85,17 +85,25 @@ namespace OAS {
 		TEST_METHOD(Get_Attr) {
 			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
-			Assert::IsTrue(objMan.getAttribute<ATMA::AttrTranslatable>(objID, ATMA::Attribute::Translatable).has_value());
+			Assert::IsTrue(objMan.getAttribute<ATMA::AttrTranslatable>(objID, ATMA::Attribute::Translatable)->m_x == 0);
 		}
 
-		TEST_METHOD(Get_none_Attr) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
-			Assert::IsFalse(objMan.getAttribute<ATMA::AttrBase>(objID, ATMA::Attribute::None).has_value());
-
-		}
 
 		TEST_METHOD(Get_non_existent_object) {
-			Assert::IsFalse(objMan.getAttribute<ATMA::AttrBase>(1, ATMA::Attribute::None).has_value());
+			try
+			{
+				auto func = []()
+				{
+					ATMA::ObjectManager objMan;
+					objMan.getAttribute<ATMA::AttrBase>(1, ATMA::Attribute::None)->getType();
+				};
+				Assert::ExpectException<std::domain_error>(func);
+			}
+			catch(...)
+			{
+
+			}
+
 		}
 
 

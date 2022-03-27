@@ -10,7 +10,8 @@ namespace State
 
 	TEST_CLASS(State_Manager)
 	{
-		ATMA::StateManager sm{};
+		ATMA::ATMAContext ctx;
+		ATMA::StateManager sm{ctx};
 
 		TEST_METHOD_INITIALIZE(Add_Attr_and_Sys_types)
 		{
