@@ -9,7 +9,7 @@ namespace ATMA
 	class ATMA_API StateSensitive
 	{
 	public:
-		virtual void onCreateState(const StateType &l_type) = 0;
+		virtual void onStateCreate(const StateType &l_type) = 0;
 		virtual void onStateChange(const StateType &l_type) = 0;
 		virtual void onStateRemove(const StateType &l_type) = 0;
 	protected:

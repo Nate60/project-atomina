@@ -14,7 +14,7 @@ extern std::unique_ptr<ATMA::Game> ATMA::CreateGame();
 int main() {
 	
 	ATMA::Log::Init();
-	ATMA_ENGINE_WARN("Init logger!");
+	ATMA_ENGINE_INFO("Init logger!");
 	std::unique_ptr<ATMA::Game> app = ATMA::CreateGame();
 	app->run();
 	app->shutdown();

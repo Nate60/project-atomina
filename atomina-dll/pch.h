@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <array>
 #include <functional>
 #include <memory>
 #include <execution>
@@ -22,7 +23,7 @@
 #include <chrono>
 #include <optional>
 #include <variant>
-#include <exception>
+#include <stdexcept>
 #include <filesystem>
 #include <SFML/Network/TcpSocket.hpp>
 #include <SFML/Main.hpp>

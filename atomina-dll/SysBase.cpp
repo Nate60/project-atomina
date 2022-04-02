@@ -6,9 +6,11 @@ namespace ATMA {
 
 	bool SysBase::addObject(const ObjectId& l_id) {
 		if (std::count(m_objects.begin(), m_objects.end(), l_id)) {
+			ATMA_ENGINE_WARN("Unable to add object id: {1:d} as it already exists in system: {2:d} ", l_id, getType());
 			return false;
 		}
 		m_objects.push_back(l_id);
+		ATMA_ENGINE_INFO("Added object id: {1:d} to system: {2:d} ", l_id, getType());
 		return true;
 
 	}
@@ -25,9 +27,11 @@ namespace ATMA {
 		for (auto it = m_objects.begin(); it != m_objects.end(); it++) {
 			if (*it == l_id) {
 				m_objects.erase(it);
+				ATMA_ENGINE_INFO("Removed object id: {1:d} from system: {2:d} ", l_id, getType());
 				return true;
 			}
 		}
+		ATMA_ENGINE_WARN("Unable to remove object id: {1:d} in system: {2:d} as it does not exist", l_id, getType());
 		return false;
 
 	}
@@ -41,6 +45,7 @@ namespace ATMA {
 	}
 
 	void SysBase::purge() {
+		ATMA_ENGINE_INFO("Cleared all objects from system: {1:d} ", getType());
 		m_objects.clear();
 	}
 

@@ -1,6 +1,8 @@
 #pragma once
+#pragma warning(disable: 26812)
 #include "pch.h"
 #include "api.h"
+#include "AtominaException.h"
 
 namespace ATMA {
 
@@ -19,9 +21,8 @@ namespace ATMA {
 		/*
 		* open connection on Client's port and address
 		* 
-		* @return if the connection is successful
 		*/
-		bool connect();
+		void connect();
 
 		/*
 		* close Clients connection
@@ -34,22 +35,31 @@ namespace ATMA {
 		void setBlocking(const bool l_bool);
 
 		/*
-		*  sends bytes over the socket. length specified must match the length of the byte array
+		*  sends bytes over the socket uses std::array to enforce buffer is correct size 
+		*  to avoid buffer underflow
 		* 
 		*  @param l_bytes: array of bytes to send
-		*  @param l_length: size of array
-		*  @return if send was successful or not
 		*/
-		bool sendBytes(const std::byte *l_bytes, const size_t l_length);
+		template<size_t N>
+		void sendBytes(const std::array<std::byte, N> l_bytes)
+		{
+			auto result = m_socket.send(l_bytes.data(), N) == sf::Socket::Done;
+			if(!result)
+				throw NetworkException("Unable to send bytes to remote address [" + m_addr + ":" + std::to_string(m_port) + "]");
+		}
 
 		/*
-		* receive bytes from socket. max length of buffer much match buffer size
+		* receive bytes from socket. enforces buffer size so that way there is not buffer overflow
 		* @param l_buffer: buffer to put bytes into
-		* @param l_maxBufferLength: max size of the buffer
 		* @param l_receivedBytes: length of received buffer
-		* @return if bytes were received
 		*/
-		bool receiveBytes(std::byte *l_buffer, const size_t l_maxBufferLength, size_t & l_receivedBytes);
+		template<size_t N>
+		void receiveBytes(std::array<std::byte,N> &l_buffer, size_t &l_receivedBytes)
+		{
+			auto result = m_socket.receive(l_buffer.data(), N, l_receivedBytes) == sf::Socket::Done;
+			if(!result)
+				throw NetworkException("Unable to receive bytes");
+		}
 
 		//copy operator
 		NetworkClient& operator=(const NetworkClient& l_other);

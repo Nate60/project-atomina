@@ -65,19 +65,32 @@ namespace ATMA {
 		/*
 		* send byte buffer on all active connections
 		* @param l_bytes: byte buffer to send to all clients
-		* @param l_length: length of the buffert to send to all clients
+		* @return if all message sends were successful
 		*/
-		bool broadcastBytes(const std::byte *l_bytes, const size_t l_length);
+		template <size_t N>
+		bool broadcastBytes(const std::array<std::byte,N> l_bytes)
+		{
+			bool b{true};
+			for(auto &l_client : m_clients)
+			{
+				if(l_client.second->send(l_bytes.data(), N) != sf::Socket::Done)
+					b = false;
+			}
+			return b;
+		}
 
 
 		/*
 		* send bytes to corresponding client
 		* @param l_client: cliend id of connection
 		* @param l_bytes: byte buffer containing bytes to send
-		* @param l_length: length of byte buffer 
 		* @return if successful
 		*/
-		bool sendBytes(ClientId l_client, const std::byte *l_bytes, const size_t l_length);
+		template <size_t N>
+		bool sendBytes(ClientId l_client, const std::array<std::byte,N> l_bytes)
+		{
+			return m_clients[l_client]->send(l_bytes.data(), N) == sf::Socket::Done;
+		}
 
 
 		/*
@@ -88,7 +101,11 @@ namespace ATMA {
 		* @param l_receivedBytes: the amount of bytes received
 		* @return if successful
 		*/
-		bool receiveBytes(ClientId l_client, std::byte *l_buffer, const size_t l_maxBufferLength, size_t & l_receivedBytes);
+		template <size_t N>
+		bool receiveBytes(ClientId l_client, std::array<std::byte,N> &l_buffer, size_t &l_receivedBytes)
+		{
+			return m_clients[l_client]->receive(l_buffer.data(), N, l_receivedBytes) == sf::Socket::Done;
+		}
 
 		//copy operator
 		NetworkHost& operator=(NetworkHost&& l_other) noexcept;
