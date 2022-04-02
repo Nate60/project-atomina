@@ -11,6 +11,11 @@ namespace Network {
 	TEST_CLASS(Network_Client)
 	{
 
+		TEST_CLASS_INITIALIZE(network_startup)
+		{
+			ATMA::Log::Init();
+		}
+
 		int port = 22112;
 		std::string addr = "127.0.0.1";
 		ATMA::NetworkHost l_host{ port };
@@ -24,9 +29,10 @@ namespace Network {
 
 		TEST_METHOD(Client_Can_Connect)
 		{
-			l_client.setBlocking(false);
-			l_client.connect();
+
 			l_host.startListening();
+			l_client.connect();
+			l_client.setBlocking(false);
 			unsigned int id = l_host.acceptConnections().value_or(100u);
 			Assert::AreEqual(id, 0u);
 		}
@@ -38,12 +44,12 @@ namespace Network {
 			l_client.setBlocking(true);
 			unsigned int id = l_host.acceptConnections().value_or(100u);
 			l_host.setBlocking(id, false);
-			std::byte bytes[3] = { std::byte{ 0x60 }, std::byte{ 0x61 }, std::byte{ 0x62 }};
 			size_t len = 3;
-			l_host.broadcastBytes(bytes, len);
-			std::byte msg[3];
+			std::array<std::byte,3> bytes = { std::byte{ 0x60 }, std::byte{ 0x61 }, std::byte{ 0x62 }};
+			l_host.broadcastBytes<3>(bytes);
+			std::array<std::byte, 3> msg{};
 			size_t receivedBytesLen = 0;
-			l_client.receiveBytes(msg, len, receivedBytesLen);
+			l_client.receiveBytes<3>(msg, receivedBytesLen);
 
 			Assert::AreEqual(len, receivedBytesLen);
 			for (int i = 0; i < len; i++)
@@ -57,12 +63,12 @@ namespace Network {
 			l_client.setBlocking(false);
 			unsigned int id = l_host.acceptConnections().value_or(100u);
 			l_host.setBlocking(id, true);
-			std::byte bytes[3] = { std::byte{ 0x60 }, std::byte{ 0x61 }, std::byte{ 0x62 } };
 			size_t len = 3;
-			l_client.sendBytes(bytes, len);
-			std::byte msg[3];
+			std::array<std::byte,3> bytes = { std::byte{ 0x60 }, std::byte{ 0x61 }, std::byte{ 0x62 } };
+			l_client.sendBytes<3>(bytes);
+			std::array<std::byte, 3> msg{};
 			size_t receivedBytesLen = 0;
-			l_host.receiveBytes(id, msg, len, receivedBytesLen);
+			l_host.receiveBytes<3>(id, msg, receivedBytesLen);
 
 			Assert::AreEqual(len, receivedBytesLen);
 			for(int i = 0; i < len; i++)
@@ -73,26 +79,26 @@ namespace Network {
 		{
 			ATMA::NetworkClient newClient{ addr, port };
 			l_host.startListening();
-			l_client.setBlocking(false);
-			newClient.setBlocking(false);
 			l_client.connect();
 			newClient.connect();
+			l_client.setBlocking(false);
+			newClient.setBlocking(false);
 			unsigned int firstId = l_host.acceptConnections().value_or(100u);
 			unsigned int secondId = l_host.acceptConnections().value_or(100u);
-			std::byte bytes[3] = { std::byte{ 0x60 }, std::byte{ 0x61 }, std::byte{ 0x62 } };
+			std::array<std::byte,3> bytes = {std::byte{0x60}, std::byte{0x61}, std::byte{0x62}};
 			size_t len = 3;
-			std::byte msg[3];
+			std::array<std::byte, 3> msg{};
 			size_t receivedBytesLen = 0;
-			l_client.sendBytes(bytes, len);
-			l_host.receiveBytes(firstId, msg, len, receivedBytesLen);
+			l_client.sendBytes<3>(bytes);
+			l_host.receiveBytes<3>(firstId, msg, receivedBytesLen);
 
 			Assert::AreEqual(len, receivedBytesLen);
 			for (int i = 0; i < len; i++)
 				Assert::AreEqual(std::to_integer<int>(msg[i]), std::to_integer<int>(bytes[i]));
 
-			std::byte msg2[3];
-			newClient.sendBytes(bytes, len);
-			l_host.receiveBytes(secondId, msg2, len, receivedBytesLen);
+			std::array<std::byte, 3> msg2{};
+			newClient.sendBytes<3>(bytes);
+			l_host.receiveBytes<3>(secondId, msg2, receivedBytesLen);
 
 			Assert::AreEqual(len, receivedBytesLen);
 			for (int i = 0; i < len; i++)
@@ -101,6 +107,53 @@ namespace Network {
 
 		}
 
+		TEST_METHOD(No_connection_throws)
+		{
+			ATMA::NetworkClient client{"0.0.0.0", port};
+			client.setBlocking(false);
+			try
+			{
+				auto func = [&]()
+				{
+					client.connect();
+				};
+				Assert::ExpectException<ATMA::NetworkException>(func);
+			}
+			catch(...)
+			{
+
+			}
+		}
+
+		TEST_METHOD(partial_buffer_receive)
+		{
+			l_host.startListening();
+			l_client.connect();
+			l_client.setBlocking(false);
+			unsigned int id = l_host.acceptConnections().value_or(100u);
+			l_host.setBlocking(id, true);
+			std::array<std::byte,3> bytes = {std::byte{ 0x60 }, std::byte{ 0x61 }, std::byte{ 0x62 }};
+			size_t len = 3;
+			l_client.sendBytes<3>(bytes);
+			std::array<std::byte, 1> msg{};
+			size_t receivedBytesLen = 0;
+			std::array<std::byte, 3> assembled{};
+			l_host.receiveBytes<1>(id, msg, receivedBytesLen);
+			Assert::IsTrue(receivedBytesLen == 1);
+			assembled[0] = msg[0];
+			l_host.receiveBytes<1>(id, msg, receivedBytesLen);
+			Assert::IsTrue(receivedBytesLen == 1);
+			assembled[1] = msg[0];
+			l_host.receiveBytes<1>(id, msg, receivedBytesLen);
+			Assert::IsTrue(receivedBytesLen == 1);
+			assembled[2] = msg[0];
+			for(int i = 0; i < len; i++)
+			{
+				Assert::IsTrue(bytes[i] == assembled[i]);
+			}
+		
+
+		}
 
 		TEST_METHOD_CLEANUP(close_connections)
 		{

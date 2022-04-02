@@ -25,13 +25,13 @@ namespace ATMA {
 		* Increments the id of the objectmanager and creates attributes for each active bit in the given bitset
 		* assigns attributes to the id in the object map and returns the new id
 		*/
-		std::optional<ObjectId> createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE>&);
+		ObjectId createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE>&);
 
 		/**
 		* Increments the id of the objectmanager and returns the id
 		* note that since no attributes were created the id does not yet exist in the object map
 		*/
-		std::optional<ObjectId> createObject();
+		ObjectId createObject();
 
 		/**
 		* removes the object and all attributes from the object map
@@ -67,9 +67,16 @@ namespace ATMA {
 		template<class T>
 		void addAttributeType(const AttributeType &l_attr)
 		{
-            //lambda to add factory function, allows correspondence of template and enum
-			ATMA_ENGINE_INFO("Adding {0} to object manager", l_attr);
-			m_attrFactory[l_attr] = []()->std::shared_ptr<AttrBase> { return std::shared_ptr<T>{new T()}; };
+			if constexpr(std::is_base_of_v<AttrBase, T>)
+			{
+			//lambda to add factory function, allows correspondence of template and enum
+				ATMA_ENGINE_INFO("Adding {0} to object manager", l_attr);
+				m_attrFactory[l_attr] = []()->std::shared_ptr<AttrBase> { return std::shared_ptr<T>{new T()}; };
+			}
+			else
+			{
+				throw std::bad_cast{};
+			}
 		}
 
 		/**
@@ -79,21 +86,24 @@ namespace ATMA {
 		template<class T>
 		std::shared_ptr<T> getAttribute(const ObjectId &l_id, const Attribute &l_attr)
 		{
-			auto attr = static_cast<AttributeType>(l_attr);
-			if(m_objects.count(l_id) <= 0)
+			if constexpr(std::is_base_of_v<AttrBase, T>)
 			{
-				throw new std::overflow_error{"object id overflow"};
-			}
-			else if(m_objects.find(l_id) == m_objects.end())
-			{
-				throw new std::domain_error{"object id does not exist"};
-			}
-			else if(!m_objects[l_id].first[attr])
-			{
-				throw new std::domain_error{"object id does not contain attribute"};
-			}
+				auto attr = static_cast<AttributeType>(l_attr);
+				if(m_objects.find(l_id) == m_objects.end())
+				{
+					throw ValueNotFoundException("object id: " + std::to_string(l_id) + " does not exist");
+				}
+				else if(!m_objects[l_id].first[attr])
+				{
+					throw ValueNotFoundException("object id: " + std::to_string(l_id) + " does not contain attribute: " + std::to_string(static_cast<unsigned int>(l_attr)));
+				}
 
-			return std::static_pointer_cast<T>(m_objects[l_id].second[attr]);
+				return std::static_pointer_cast<T>(m_objects[l_id].second[attr]);
+			}
+			else
+			{
+				throw std::bad_cast{};
+			}
 		}
 
 		/**
@@ -102,20 +112,23 @@ namespace ATMA {
 		*/
 		template<class T>
 		std::shared_ptr<T> getAttribute(const ObjectId& l_id, const AttributeType &l_attr) {
-			if(m_objects.count(l_id) <= 0)
+			if constexpr(std::is_base_of_v<AttrBase, T>)
 			{
-				throw new std::overflow_error{"object id overflow"};
-			}
-			else if(m_objects.find(l_id) == m_objects.end())
-			{
-				throw new std::domain_error{"object id does not exist"};
-			}
-			else if(!m_objects[l_id].first[l_attr])
-			{
-				throw new std::domain_error{"object id does not contain attribute"};
-			}
+				if(m_objects.find(l_id) == m_objects.end())
+				{
+					throw ValueNotFoundException("object id: " + std::to_string(l_id) + " does not exist");
+				}
+				else if(!m_objects[l_id].first[l_attr])
+				{
+					throw ValueNotFoundException("object id: " + std::to_string(l_id) + " does not contain attribute: " + std::to_string(l_attr));
+				}
 
-			return std::static_pointer_cast<T>(m_objects[l_id].second[l_attr]);
+				return std::static_pointer_cast<T>(m_objects[l_id].second[l_attr]);
+			}
+			else
+			{
+				throw std::bad_cast("unable to cast as type is not subclass of AttrBase");
+			}
 
 		}
 

@@ -21,7 +21,7 @@ namespace ATMA {
 
 	void StateManager::removeStateDependent(std::shared_ptr<StateSensitive> l_dep)
 	{
-
+		
 	}
 
 	void StateManager::update(const sf::Time& l_time)
@@ -80,12 +80,12 @@ namespace ATMA {
 		
 	}
 
-	void StateManager::remove(const State &l_type)
+	bool StateManager::remove(const State &l_type)
 	{
-		remove(static_cast<StateType>(l_type));
+		return remove(static_cast<StateType>(l_type));
 	}
 
-	void StateManager::remove(const StateType &l_type)
+	bool StateManager::remove(const StateType &l_type)
 	{
 		auto result = std::find_if(m_states.begin(), m_states.end(), [&l_type](auto state)
 			{
@@ -94,7 +94,14 @@ namespace ATMA {
 		);
 		if(result != m_states.end())
 		{
+			ATMA_ENGINE_INFO("Removed state of type {0:d}", l_type);
 			m_states.erase(result);
+			return true;
+		}
+		else
+		{
+			ATMA_ENGINE_WARN("Unable to remove state of type {0:d} as it does not exist", l_type);
+			return false;
 		}
 	}
 
@@ -105,6 +112,7 @@ namespace ATMA {
 
 	void StateManager::purge()
 	{
+		ATMA_ENGINE_INFO("Clearing states..");
 		m_states.clear();
 	}
 }

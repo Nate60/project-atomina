@@ -3,16 +3,16 @@
 
 namespace ATMA {
 
-	std::shared_ptr<spdlog::logger> Log::EngineLogger_s;
+	std::shared_ptr<spdlog::logger> Log::s_EngineLogger;
 
-	bool Log::initialized = false;
+	bool Log::s_initialized = false;
 
 	void Log::Init() {
-		if (!initialized) {
+		if (!s_initialized) {
 			spdlog::set_pattern("%^[%T] %n: %v%$");
-			EngineLogger_s = spdlog::stdout_color_mt("ATMA");
-			EngineLogger_s->set_level(spdlog::level::trace);
-			initialized = true;
+			s_EngineLogger = spdlog::stdout_color_mt("ATMA");
+			s_EngineLogger->set_level(spdlog::level::trace);
+			s_initialized = true;
 		}
 	}
 

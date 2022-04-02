@@ -23,53 +23,51 @@ namespace OAS {
 		}
 
 		TEST_METHOD(Two_objects_have_unique_ids) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
-			unsigned int objID2 = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
+			unsigned int objID2 = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
 			Assert::AreNotEqual(objID, objID2);
 
 		}
 
 		TEST_METHOD(Add_Attr_Type) {
 
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
 			Assert::IsTrue(objMan.addAttribute(objID, ATMA::Attribute::Translatable));
-
 		}
 
 		TEST_METHOD(Add_same_Attr) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
 			Assert::IsFalse(objMan.addAttribute(objID, ATMA::Attribute::Translatable));
 
 		}
 
 		TEST_METHOD(Add_Attr_None) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
 			Assert::IsFalse(objMan.addAttribute(objID, ATMA::Attribute::None));
 
 		}
-
 
 		TEST_METHOD(Add_non_existent_object) {
 			Assert::IsFalse(objMan.addAttribute(1, ATMA::Attribute::Translatable));
 
 		}
 		TEST_METHOD(Remove_Attr) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
 			Assert::IsTrue(objMan.removeAttribute(objID, ATMA::Attribute::Translatable));
 
 		}
 
 		TEST_METHOD(Remove_same_Attr) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
 			objMan.removeAttribute(objID, ATMA::Attribute::Translatable);
 			Assert::IsFalse(objMan.removeAttribute(objID, ATMA::Attribute::Translatable));
 
 		}
 		TEST_METHOD(Remove_object) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
 			Assert::IsTrue(objMan.removeObject(objID));
 		}
@@ -83,7 +81,7 @@ namespace OAS {
 		}
 
 		TEST_METHOD(Get_Attr) {
-			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>()).value_or(100u);
+			unsigned int objID = objMan.createObject(std::bitset<ATConst::OBJECT_BIT_SIZE>());
 			objMan.addAttribute(objID, ATMA::Attribute::Translatable);
 			Assert::IsTrue(objMan.getAttribute<ATMA::AttrTranslatable>(objID, ATMA::Attribute::Translatable)->m_x == 0);
 		}
@@ -97,13 +95,26 @@ namespace OAS {
 					ATMA::ObjectManager objMan;
 					objMan.getAttribute<ATMA::AttrBase>(1, ATMA::Attribute::None)->getType();
 				};
-				Assert::ExpectException<std::domain_error>(func);
+				Assert::ExpectException<ATMA::ValueNotFoundException>(func);
 			}
 			catch(...)
 			{
 
 			}
 
+		}
+
+		TEST_METHOD(add_nonsubclass_attr)
+		{
+			try
+			{
+				auto func = [=](){ objMan.addAttributeType<ATMA::AtominaException>(0u); };
+				Assert::ExpectException<std::bad_cast>(func);
+			}
+			catch(...)
+			{
+
+			}
 		}
 
 

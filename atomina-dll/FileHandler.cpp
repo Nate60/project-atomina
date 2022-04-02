@@ -43,6 +43,7 @@ namespace ATMA {
 		{
 			if (path_itr->first.empty())
 			{
+				ATMA_ENGINE_WARN("File path is empty, skipping... ");
 				m_files.erase(path_itr);
 				continue;
 			}

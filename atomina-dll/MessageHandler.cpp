@@ -10,6 +10,7 @@ namespace ATMA
 		{
 			m_communicators[l_type] = Communicator{};
 			m_communicators[l_type].addOverserver(l_observer);
+			return true;
 		}
 		else if(itr->second.hasObserver(l_observer))
 		{
@@ -31,6 +32,7 @@ namespace ATMA
 		else if(itr->second.hasObserver(l_observer))
 		{
 			itr->second.removeObserver(l_observer);
+			return true;
 		}
 		else
 		{
