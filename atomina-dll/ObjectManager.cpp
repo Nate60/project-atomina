@@ -10,7 +10,7 @@ namespace ATMA {
 
 	}
 
-	std::optional<ObjectId> ObjectManager::createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits){
+	ObjectId ObjectManager::createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits){
 
 		//unordered map uses unique ids so last id needs to be updated atomically
 
@@ -26,22 +26,23 @@ namespace ATMA {
 
 		}
 
-		ATMA_ENGINE_INFO("created object with id {:d}", id);
+		ATMA_ENGINE_INFO("Created object with id {:d}", id);
 		if(m_lastId < id)
-			return std::nullopt;
+			throw std::overflow_error("object id count overflow");
 		return id;
 
 	}
 
-	std::optional<ObjectId> ObjectManager::createObject() {
+	ObjectId ObjectManager::createObject() {
 
 
 		const std::lock_guard<std::mutex> lock{m_mtx};
 
 		auto id = m_lastId++;
 
+		ATMA_ENGINE_INFO("Created object with id {:d}", id);
 		if(m_lastId < id)
-			return std::nullopt;
+			throw std::overflow_error("object id count overflow");
 		return id;
 	
 	}
@@ -66,6 +67,7 @@ namespace ATMA {
 
 	bool ObjectManager::addAttribute(const ObjectId &l_id, const AttributeType &l_attr) {
 
+		//if an object is added that is greater than the highest id, create object may override it in the future
 		if (l_id > m_lastId) {
 			ATMA_ENGINE_WARN("unable to add attribute {0:d} as object id {1:d} does not exist", l_attr, l_id);
 			return false;
@@ -76,13 +78,12 @@ namespace ATMA {
 			return false;
 		}
 
-		m_objects[l_id].first.set(l_attr);
-
-		if (m_attrFactory.count(l_attr) == 0) {
+		if (m_attrFactory.find(l_attr) == m_attrFactory.end()) {
 			ATMA_ENGINE_WARN("unable to add attribute {0:d} as there is no factory for it", l_attr);
 			return false;
 		}
 
+		m_objects[l_id].first.set(l_attr);
 		std::shared_ptr<AttrBase> attr = m_attrFactory[l_attr]();
 		auto pair = std::pair<int, std::shared_ptr<AttrBase>>(l_attr, attr);
 		m_objects[l_id].second.insert(pair);
@@ -100,7 +101,7 @@ namespace ATMA {
 
 	bool ObjectManager::removeAttribute(const ObjectId &l_id, const AttributeType &l_attr) {
 
-		if (m_objects.count(l_id) <= 0) {
+		if (m_objects.find(l_id) == m_objects.end()) {
 			ATMA_ENGINE_WARN("unable to remove attribute {0:d} as object id {1:d} does not exist", l_attr, l_id);
 			return false;
 		}

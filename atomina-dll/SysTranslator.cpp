@@ -20,6 +20,8 @@ namespace ATMA {
 	void SysTranslator::update(float l_dt) {
 		std::shared_ptr<ObjectManager> objMan = m_sysMan.getObjectManager();
 		for (auto& obj : m_objects) {
+			if(!objMan->hasAttribute(obj, Attribute::Translatable))
+				continue;
 			std::shared_ptr<AttrTranslatable> attr = objMan->getAttribute<AttrTranslatable>(obj, Attribute::Translatable);
 			attr->m_x += attr->m_dx * l_dt;
 			attr->m_y += attr->m_dy * l_dt;

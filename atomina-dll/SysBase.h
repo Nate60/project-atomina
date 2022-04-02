@@ -6,6 +6,7 @@
 #include "SystemManager.h"
 #include "ATConst.h"
 #include "Event.h"
+#include "Log.h"
 
 namespace ATMA {
 

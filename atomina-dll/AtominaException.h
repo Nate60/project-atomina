@@ -9,25 +9,37 @@ namespace ATMA {
 	* Abstract Exception class, provides basic constructor and message storage
 	* No default constructor is provided
 	*/
-	class ATMA_API AtominaException: public std::exception{
-
-	protected:
-		std::string m_msg;
+	class ATMA_API AtominaException: public std::runtime_error{
 	public:
 
-		AtominaException(const std::string &l_message) noexcept;
-
-		virtual const char *what() const noexcept override = 0;
+		AtominaException(const std::string &l_message) noexcept: runtime_error(l_message)
+		{}
 
 	};
 
-	class ATMA_API ObjectNotFoundException: public AtominaException {
-	public:
-		ObjectNotFoundException(const std::string &l_message) noexcept;
+	struct ATMA_API ValueNotFoundException: public AtominaException {
 
-		virtual const char *what() const noexcept override;
+		ValueNotFoundException(const std::string &l_message) noexcept: AtominaException(l_message)
+		{}
+
 
 	};
+
+	struct ATMA_API LoggerNotInitializedException: public AtominaException
+	{
+		LoggerNotInitializedException(const std::string &l_message) noexcept: AtominaException(l_message)
+		{}
+
+
+	};	
+
+	struct ATMA_API NetworkException: public AtominaException
+	{
+		NetworkException(const std::string &l_message) noexcept: AtominaException(l_message)
+		{}
+
+	};
+
 
 }
 

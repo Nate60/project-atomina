@@ -134,6 +134,7 @@
     <ClInclude Include="ATConst.h" />
     <ClInclude Include="ATMAContext.h" />
     <ClInclude Include="atomina.h" />
+    <ClInclude Include="AtominaException.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="AttrTranslatable.h" />
     <ClInclude Include="Binding.h" />
@@ -150,7 +151,6 @@
     <ClInclude Include="ObjectMessage.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="AtominaException.h" />
     <ClInclude Include="AttrBase.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="MathUtil.h" />
@@ -170,7 +170,6 @@
     <ClInclude Include="Worker.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AtominaException.cpp" />
     <ClCompile Include="AttrBase.cpp" />
     <ClCompile Include="AttrTranslatable.cpp" />
     <ClCompile Include="BaseState.cpp" />

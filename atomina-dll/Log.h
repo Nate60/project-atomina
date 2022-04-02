@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "api.h"
+#include "AtominaException.h"
 
 namespace ATMA {
 	
@@ -9,12 +10,22 @@ namespace ATMA {
 	public:
 		static void Init();
 
-		inline static std::shared_ptr<spdlog::logger>& GetEngineLogger() { return EngineLogger_s; }
+		inline static std::shared_ptr<spdlog::logger>& GetEngineLogger() 
+		{
+			if(s_initialized)
+			{
+				return s_EngineLogger;
+			}
+			else
+			{
+				throw LoggerNotInitializedException("must call Log.Init() before calling logger");
+			}
+		}
 
 	private: 
 		
-		static std::shared_ptr<spdlog::logger> EngineLogger_s;
-		static bool initialized;
+		static std::shared_ptr<spdlog::logger> s_EngineLogger;
+		static bool s_initialized;
 	};
 
 }

@@ -69,31 +69,13 @@ namespace ATMA {
 		m_nextId = 1;
 	}
 
-	bool NetworkHost::broadcastBytes(const std::byte *l_bytes, const size_t l_length)
-	{
-		bool b{true};
-		for (auto &l_client : m_clients)
-		{
-			if(l_client.second->send(l_bytes, l_length) != sf::Socket::Done)
-				b = false;
-		}
-		return b;
-	}
+
 
 	void NetworkHost::setBlocking(ClientId l_client, const bool l_block)
 	{
 		m_clients[l_client]->setBlocking(l_block);
 	}
 
-	bool NetworkHost::sendBytes(ClientId l_client, const std::byte *l_bytes, const size_t l_length)
-	{
-		return m_clients[l_client]->send(l_bytes, l_length) == sf::Socket::Done;
-	}
-
-	bool NetworkHost::receiveBytes(ClientId l_client, std::byte *l_buffer, const size_t l_maxBufferLength, size_t & l_receivedBytes)
-	{
-		return m_clients[l_client]->receive(l_buffer, l_maxBufferLength, l_receivedBytes) == sf::Socket::Done;
-	}
 
 	NetworkHost& NetworkHost::operator=(NetworkHost&& l_other) noexcept
 	{

@@ -72,13 +72,13 @@ namespace ATMA
 		* removes the specified state type from the manager
 		* @param type of state
 		*/
-		void remove(const State &l_type);
+		bool remove(const State &l_type);
 
 		/*
 		* removes the specified state type from the manager
 		* @param type of state
 		*/
-		void remove(const StateType &l_type);
+		bool remove(const StateType &l_type);
 
 		/*
 		* returns the state object of a given state type
@@ -88,12 +88,22 @@ namespace ATMA
 		template <class T>
 		std::shared_ptr<T> getState(const StateType &l_type)
 		{
-			auto result = std::find_if(m_states.begin(), m_states.end(), [&l_type](auto state)
-				{
-					return state->getId() == l_type;
-				}
-			);
-			return result;
+			if constexpr(std::is_base_of_v<BaseState, T>)
+			{
+				auto result = std::find_if(m_states.begin(), m_states.end(), [&l_type](auto state)
+					{
+						return state->getId() == l_type;
+					}
+				);
+				if(result == m_states.end())
+					throw ValueNotFoundException("State of type " + std::to_string(l_type) + " not found");
+				return result;
+			}
+			else
+			{
+				throw std::bad_cast("unable to cast as type is not subclass of BaseState");
+			}
+
 		}
 
 		/*
@@ -101,9 +111,9 @@ namespace ATMA
 		* @param type of state to register
 		*/
 		template <class T>
-		void registerState(const State &l_type)
+		bool registerState(const State &l_type)
 		{
-			registerState<T>(static_cast<StateType>(l_type));
+			return registerState<T>(static_cast<StateType>(l_type));
 		}
 	
 		/*
@@ -111,7 +121,7 @@ namespace ATMA
 		* @param type of state to register
 		*/
 		template <class T>
-		void registerState(const StateType &l_type)
+		bool registerState(const StateType &l_type)
 		{
 			if constexpr (std::is_base_of_v<BaseState, T>)
 			{
@@ -126,13 +136,27 @@ namespace ATMA
 					if(auto state = m_states.back(); state->getId() != l_type)
 					{
 						m_states.pop_back();
+						ATMA_ENGINE_WARN("Unable to register state of type {0:d} as it does not match type of state class", l_type);
+						return false;
 					}
 					else
 					{
 						state->onCreate();
+						ATMA_ENGINE_INFO("Registered state of type {0:d}", l_type);
+						return true;
 					}
 				}
+				else
+				{
+					ATMA_ENGINE_WARN("Unable to register state of type {0:d} as it already exists", l_type);
+					return false;
+				}
 
+			}
+			else
+			{
+				ATMA_ENGINE_WARN("Unable to register state of type {0:d} as class type is not subclass of BaseState", l_type);
+				return false;
 			}
 
 		}
