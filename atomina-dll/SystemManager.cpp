@@ -3,6 +3,9 @@
 
 namespace ATMA {
 
+	SystemManager::SystemManager(): m_objMan(new ObjectManager{})
+	{}
+
 	void SystemManager::update(float l_dt) {
 		for (auto& system : m_systems) {
 			system.second->update(l_dt);
@@ -37,7 +40,7 @@ namespace ATMA {
 		}
 	}
 
-	void SystemManager::addEvent(const ObjectId& l_id, Event& l_event)
+	void SystemManager::addEvent(const ObjectId  &l_id, Event& l_event)
 	{
 		if(auto queue = m_object_event_queue.find(l_id); queue == m_object_event_queue.end())
 		{

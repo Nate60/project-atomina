@@ -6,32 +6,55 @@
 #include "ObjectManager.h"
 #include "AtominaException.h"
 #include "Event.h"
+#include "Log.h"
 
 namespace ATMA {
 
 	class SysBase;
 	class ObjectManager;
 
+	using ObjectId = unsigned int;
+
 	class ATMA_API SystemManager {
 
 	public:
 		
+		SystemManager();
+
 		/**
 		* Adds a System to system-class relation to the system manager
 		*/
 		template <class T>
-		void addSystem(const System &l_sys)
+		bool addSystem(const System &l_sys)
 		{
-			addSystem<T>(static_cast<SystemType>(l_sys));
+			return addSystem<T>(static_cast<SystemType>(l_sys));
 		}
 
 		/**
 		* Adds a System to system-class relation to the system manager
 		*/
 		template <class T>
-		void addSystem(const SystemType &l_sys) {
-			auto func = [=]()->std::shared_ptr<SysBase> { return std::shared_ptr<T>{new T(l_sys,*this)}; };
-			m_systems[l_sys] = func();
+		bool addSystem(const SystemType &l_sys) {
+			if constexpr(std::is_base_of_v<SysBase, T>)
+			{
+				auto func = [=]()->std::shared_ptr<SysBase> { return std::shared_ptr<T>{new T(l_sys, *this)}; };
+				if(m_systems.find(l_sys) == m_systems.end())
+				{
+					m_systems[l_sys] = func();
+					ATMA_ENGINE_INFO("added system of type {0:d} to manager", l_sys);
+					return true;
+				}
+				else
+				{
+					ATMA_ENGINE_WARN("unable system of type {0:d} to manager as it already exists", l_sys);
+					return false;
+				}
+		
+			}
+			else
+			{
+				throw std::bad_cast{};
+			}
 		}
 
 
@@ -48,10 +71,18 @@ namespace ATMA {
 		*/
 		template <class T>
 		std::shared_ptr<T> getSystem(const SystemType &l_sys) {
-			if (m_systems.count(l_sys) == 0) {
-				throw new std::domain_error{"system does not exist"};
+			if constexpr(std::is_base_of_v<SysBase, T>)
+			{
+				if(m_systems.find(l_sys) == m_systems.end())
+				{
+					throw ValueNotFoundException("System type " + std::to_string(l_sys) + " does not exist");
+				}
+				return std::static_pointer_cast<T>(m_systems[l_sys]);
 			}
-			return std::static_pointer_cast<T>(m_systems[l_sys]);
+			else
+			{
+				throw std::bad_cast{};
+			}
 		}
 
 
@@ -60,7 +91,7 @@ namespace ATMA {
 			return m_objMan;
 		}
 
-		void addEvent(const ObjectId& l_object, Event &l_event);
+		void addEvent(const ObjectId &l_object, Event &l_event);
 
 
 		//updates all attributes of all systems
@@ -95,7 +126,7 @@ namespace ATMA {
 
 
 	private:
-		std::shared_ptr<ObjectManager> m_objMan{new ObjectManager{}};
+		std::shared_ptr<ObjectManager> m_objMan;
 		std::unordered_map<SystemType, std::shared_ptr<SysBase>> m_systems{};
 		std::unordered_map<ObjectId, std::vector<Event>> m_object_event_queue{};
 

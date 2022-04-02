@@ -19,10 +19,11 @@ namespace ATMA {
 		m_socket.disconnect();
 	}
 
-	bool NetworkClient::connect() 
+	void NetworkClient::connect() 
 	{
 		auto result = m_socket.connect(m_addr, m_port) == sf::Socket::Done;
-		return result;
+		if(!result)
+			throw NetworkException("Unable to connect to remote address [" + m_addr + ":" + std::to_string(m_port) + "]" );
 	}
 
 	void NetworkClient::disconnect() 
@@ -35,16 +36,6 @@ namespace ATMA {
 		m_socket.setBlocking(l_bool);
 	}
 	
-	bool NetworkClient::sendBytes(const std::byte *l_bytes, const size_t l_length) 
-	{
-		return m_socket.send(l_bytes, l_length) == sf::Socket::Done;
-	}
-
-	bool NetworkClient::receiveBytes(std::byte *l_buffer, const size_t l_maxBufferLength, size_t & l_receivedBytes)
-	{
-		return m_socket.receive(l_buffer, l_maxBufferLength, l_receivedBytes) == sf::Socket::Done;
-	}
-
 	NetworkClient& NetworkClient::operator=(const NetworkClient& l_other)
 	{
 		m_socket.disconnect();
@@ -53,6 +44,5 @@ namespace ATMA {
 		return *this;
 
 	}
-
 
 }
