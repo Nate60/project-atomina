@@ -167,6 +167,7 @@
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="SysTranslator.h" />
     <ClInclude Include="SysUtil.h" />
+    <ClInclude Include="Window.h" />
     <ClInclude Include="Worker.h" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +196,7 @@
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="SysTranslator.cpp" />
     <ClCompile Include="SysUtil.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="Worker.cpp" />
   </ItemGroup>
   <ItemGroup>
