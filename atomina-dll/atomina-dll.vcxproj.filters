@@ -48,6 +48,9 @@
     <Filter Include="Util\Error">
       <UniqueIdentifier>{343428c5-412f-4f8a-9b2d-57c749393085}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{959e586b-3f2e-40de-97bc-877605e3c6f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h">
@@ -160,6 +163,9 @@
     <ClInclude Include="AtominaException.h">
       <Filter>Util\Error</Filter>
     </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -227,6 +233,9 @@
       <Filter>Messaging</Filter>
     </ClCompile>
     <ClCompile Include="Communicator.cpp" />
+    <ClCompile Include="Window.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

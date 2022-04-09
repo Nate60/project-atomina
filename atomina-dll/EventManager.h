@@ -41,8 +41,6 @@ namespace ATMA {
 
 		void update();
 
-		//TODO: Windows
-
 	private:
 
 		 Bindings m_bindings;
