@@ -13,6 +13,10 @@ void GameApp::run()
 {
 	ATMA_ENGINE_INFO("Game is now running");
 	active = true;
+	ATMA::Window win{};
+	std::string lol;
+	std::cin >> lol;
+	win.close();
 
 }
 

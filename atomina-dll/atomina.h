@@ -57,3 +57,6 @@
 #include "ObjectMessage.h"
 #include "ObjectManager.h"
 #include "SystemManager.h"
+
+//Graphic
+#include "Window.h"
