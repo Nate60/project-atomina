@@ -51,6 +51,9 @@
     <Filter Include="Graphics">
       <UniqueIdentifier>{959e586b-3f2e-40de-97bc-877605e3c6f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Animation">
+      <UniqueIdentifier>{da9bedc8-c911-42c6-8046-5b6f3fa99e0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h">
@@ -166,6 +169,18 @@
     <ClInclude Include="Window.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteSheet.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimBase.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimIdle.h">
+      <Filter>Graphics\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -232,12 +247,28 @@
     <ClCompile Include="MessageHandler.cpp">
       <Filter>Messaging</Filter>
     </ClCompile>
-    <ClCompile Include="Communicator.cpp" />
     <ClCompile Include="Window.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Communicator.cpp">
+      <Filter>Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimBase.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSheet.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimIdle.cpp">
+      <Filter>Graphics\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="atomina-api.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
