@@ -130,6 +130,8 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimBase.h" />
+    <ClInclude Include="AnimIdle.h" />
     <ClInclude Include="api.h" />
     <ClInclude Include="ATConst.h" />
     <ClInclude Include="ATMAContext.h" />
@@ -158,7 +160,9 @@
     <ClInclude Include="Observer.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RandomGenerator.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="StateSensitive.h" />
@@ -171,6 +175,8 @@
     <ClInclude Include="Worker.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimBase.cpp" />
+    <ClCompile Include="AnimIdle.cpp" />
     <ClCompile Include="AttrBase.cpp" />
     <ClCompile Include="AttrTranslatable.cpp" />
     <ClCompile Include="BaseState.cpp" />
@@ -191,6 +197,7 @@
     </ClCompile>
     <ClCompile Include="RandomGenerator.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="SysBase.cpp" />
     <ClCompile Include="SystemManager.cpp" />
@@ -201,6 +208,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="atomina-api.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

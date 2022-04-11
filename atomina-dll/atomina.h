@@ -60,3 +60,6 @@
 
 //Graphic
 #include "Window.h"
+#include "SpriteSheet.h"
+#include "AnimBase.h"
+#include "AnimIdle.h"

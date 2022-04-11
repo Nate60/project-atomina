@@ -74,4 +74,16 @@ namespace ATMA
 		
 	}
 
+	void Window::display()
+	{
+		m_window.display();
+	}
+
+	void Window::draw(const sf::Drawable &l_drawable, const sf::RenderStates &l_states)
+	{
+		m_window.draw(l_drawable, l_states);
+	}
+
+	
+
 }
