@@ -26,6 +26,9 @@ namespace ATMA
 
 		sf::Vector2u getWindowSize();
 		sf::Rect<float> getViewSpace();
+
+		void display();
+		void draw(const sf::Drawable &l_drawable, const sf::RenderStates &l_states = sf::RenderStates::Default);
 	private:
 		std::unordered_map<ViewId, sf::View> m_layers;
 		bool m_done{false};
