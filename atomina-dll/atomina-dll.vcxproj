@@ -162,6 +162,8 @@
     <ClInclude Include="RandomGenerator.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SoundProperties.h" />
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateManager.h" />
@@ -197,6 +199,7 @@
     </ClCompile>
     <ClCompile Include="RandomGenerator.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="SysBase.cpp" />

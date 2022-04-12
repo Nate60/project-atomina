@@ -54,6 +54,9 @@
     <Filter Include="Graphics\Animation">
       <UniqueIdentifier>{da9bedc8-c911-42c6-8046-5b6f3fa99e0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{bd8116fd-068d-4f06-a556-194e447d08af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h">
@@ -181,6 +184,12 @@
     <ClInclude Include="AnimIdle.h">
       <Filter>Graphics\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="SoundProperties.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -261,6 +270,9 @@
     </ClCompile>
     <ClCompile Include="AnimIdle.cpp">
       <Filter>Graphics\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
