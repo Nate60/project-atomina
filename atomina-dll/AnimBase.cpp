@@ -33,7 +33,7 @@ namespace ATMA
 
 	void AnimBase::update(float l_dt)
 	{
-		if(l_dt > 1)
+		if(l_dt >= 1)
 			step();
 	}
 

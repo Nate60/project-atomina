@@ -1,6 +1,8 @@
+#pragma once
 #include "pch.h"
 #include "api.h"
 #include "AnimBase.h"
+#include "Log.h"
 
 namespace ATMA
 {
@@ -18,7 +20,7 @@ namespace ATMA
 		void positionAnimation(const std::string &l_name, const float &l_x, const float &l_y);
 		void positionAnimation(const std::string &l_name, const sf::Vector2f &l_pos);
 
-		void draw(sf::RenderTarget &target, const sf::RenderStates &states) const override;
+		void draw(sf::RenderTarget &target, const sf::RenderStates &states = sf::RenderStates::Default) const override;
 		void update();
 
 	private:

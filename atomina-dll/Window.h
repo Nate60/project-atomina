@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "api.h"
+#include "Event.h"
 
 namespace ATMA
 {
@@ -27,8 +28,12 @@ namespace ATMA
 		sf::Vector2u getWindowSize();
 		sf::Rect<float> getViewSpace();
 
+		void popEvent(Event &l_e);
+
+		void clear();
 		void display();
 		void draw(const sf::Drawable &l_drawable, const sf::RenderStates &l_states = sf::RenderStates::Default);
+	
 	private:
 		std::unordered_map<ViewId, sf::View> m_layers;
 		bool m_done{false};

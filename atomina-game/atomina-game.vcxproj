@@ -122,6 +122,7 @@ xcopy /y /d "$(ProjectDir)..\extlib\lib\*.dll" "$(ProjectDir)"
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameApp.h" />
+    <ClInclude Include="GameState.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\atomina-dll\atomina-dll.vcxproj">
