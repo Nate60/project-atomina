@@ -137,6 +137,8 @@
     <ClInclude Include="ATMAContext.h" />
     <ClInclude Include="atomina.h" />
     <ClInclude Include="AtominaException.h" />
+    <ClInclude Include="AttrControllable.h" />
+    <ClInclude Include="AttrDrawable.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="AttrTranslatable.h" />
     <ClInclude Include="Binding.h" />
@@ -168,6 +170,8 @@
     <ClInclude Include="State.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="StateSensitive.h" />
+    <ClInclude Include="SysController.h" />
+    <ClInclude Include="SysRenderer.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="SysBase.h" />
     <ClInclude Include="SystemManager.h" />
@@ -180,6 +184,8 @@
     <ClCompile Include="AnimBase.cpp" />
     <ClCompile Include="AnimIdle.cpp" />
     <ClCompile Include="AttrBase.cpp" />
+    <ClCompile Include="AttrControllable.cpp" />
+    <ClCompile Include="AttrDrawable.cpp" />
     <ClCompile Include="AttrTranslatable.cpp" />
     <ClCompile Include="BaseState.cpp" />
     <ClCompile Include="Communicator.cpp" />
@@ -203,6 +209,8 @@
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="SysBase.cpp" />
+    <ClCompile Include="SysController.cpp" />
+    <ClCompile Include="SysRenderer.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="SysTranslator.cpp" />
     <ClCompile Include="SysUtil.cpp" />
@@ -214,6 +222,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="atomina-api.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\res\shaggysheet.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
