@@ -22,7 +22,17 @@ namespace ATMA
 	{}
 
 	void SpriteSheet::positionAnimation(const std::string & l_name, const float &l_x, const float &l_y)
-	{}
+	{
+		for(auto &anim : m_anims)
+		{
+			if(anim.first->m_name == l_name)
+			{
+				sf::Sprite &sprite = anim.second;
+
+				sprite.setPosition({l_x, l_y});
+			}
+		}
+	}
 
 	void SpriteSheet::positionAnimation(const std::string & l_name, const sf::Vector2f & l_pos)
 	{}
@@ -31,9 +41,10 @@ namespace ATMA
 	{
 		for(auto &anim : m_anims)
 		{
+			anim.first->update(1.0f);
 			auto frame = anim.first->getCurrentFrameId();
 			auto &sprite = anim.second;
-			sf::Vector2i v{static_cast<int>(sprite.getTextureRect().width * frame), static_cast<int>(sprite.getPosition().y)};
+			sf::Vector2i v{static_cast<int>(sprite.getTextureRect().width * frame), static_cast<int>(sprite.getTextureRect().top)};
 			sf::Vector2i size{sprite.getTextureRect().width, sprite.getTextureRect().height};
 			sprite.setTextureRect({v, size});
 		}

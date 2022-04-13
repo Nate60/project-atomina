@@ -1,5 +1,6 @@
 #pragma once
 #include <atomina.h>
+#include "GameState.h"
 
 /*
 * extension of the Game class from atomina-api

@@ -190,6 +190,18 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="AttrDrawable.h">
+      <Filter>OAS\Attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="SysRenderer.h">
+      <Filter>OAS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="AttrControllable.h">
+      <Filter>OAS\Attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="SysController.h">
+      <Filter>OAS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -274,6 +286,18 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
+    <ClCompile Include="AttrDrawable.cpp">
+      <Filter>OAS\Attributes</Filter>
+    </ClCompile>
+    <ClCompile Include="SysRenderer.cpp">
+      <Filter>OAS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="AttrControllable.cpp">
+      <Filter>OAS\Attributes</Filter>
+    </ClCompile>
+    <ClCompile Include="SysController.cpp">
+      <Filter>OAS\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -282,5 +306,10 @@
     <ResourceCompile Include="atomina-api.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\res\shaggysheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

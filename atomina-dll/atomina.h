@@ -52,14 +52,24 @@
 #include "System.h"
 #include "AttrBase.h"
 #include "AttrTranslatable.h"
-#include "SysTranslator.h"
+#include "AttrControllable.h"
+#include "AttrDrawable.h"
 #include "SysBase.h"
+#include "SysTranslator.h"
+#include "SysRenderer.h"
+#include "SysController.h"
 #include "ObjectMessage.h"
 #include "ObjectManager.h"
 #include "SystemManager.h"
+
 
 //Graphic
 #include "Window.h"
 #include "SpriteSheet.h"
 #include "AnimBase.h"
 #include "AnimIdle.h"
+
+//Sound
+#include "SoundManager.h"
+#include "SoundProperties.h"
+
