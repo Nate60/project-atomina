@@ -31,8 +31,8 @@ namespace ATMA
 	void AnimIdle::step()
 	{
 		++m_currentFrame;
-		//if(m_currentFrame > m_activeEnd)
-		//	m_currentFrame = 0;
+		if(m_currentFrame > m_endFrame)
+			m_currentFrame = 0;
 	}
 
 }

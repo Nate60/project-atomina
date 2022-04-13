@@ -40,7 +40,7 @@ namespace ATMA {
 
 	void EventManager::onStateChange(const StateType &l_type)
 	{
-
+		m_currentState = l_type;
 	}
 
 	void EventManager::onStateRemove(const StateType &l_type)

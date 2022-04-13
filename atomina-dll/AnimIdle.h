@@ -1,3 +1,4 @@
+#pragma once
 #include "pch.h"
 #include "api.h"
 #include "AnimBase.h"
