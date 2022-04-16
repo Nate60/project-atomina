@@ -19,12 +19,16 @@ env:
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     steps:
     
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        msbuild-architecture: x64
+        vswhere-path: 'C:\Program Files (x86)\Microsoft Visual Studio\Installer'  
+        vs-prerelease: true
 
     - name: Checkout action repo branch
       uses: actions/checkout@v2
@@ -39,7 +43,7 @@ jobs:
       run: mkdir extlib
           
     - name: CL.exe
-      uses: ilammy/msvc-dev-cmd@v1
+      uses: ilammy/msvc-dev-cmd@master
       
     - name: SFML CMAKE
       working-directory: ${{env.EXTERNAL_LIB_DIR}}
