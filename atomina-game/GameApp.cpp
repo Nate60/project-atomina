@@ -1,5 +1,5 @@
 
-#include "GameApp.h"
+#include "GameApp.hpp"
 
 GameApp::GameApp() {
 
