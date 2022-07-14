@@ -362,9 +362,26 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# generated dlls and libs
-**/atomina-game/atomina-api.*
-**/atomina-test/atomina-api.*
-extlib/**
-dlib/**
-*-3.dll
+#CMake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+Atomina_Game
+Atomina_Test
+**/cmake/**
+ext/**
+*.cmake
+*.pc
+
+#pre-compiled libraries
+*.so
+*.so.*
+

@@ -1,15 +1,11 @@
-name: MSBuild
+name: Atomina
 
 on: [push]
 
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: .
-  EXTERNAL_LIB_DIR: extlib
-  API_PROJECT_PATH: ./atomina-dll/atomina-dll.vcxproj
-  GAME_PROJECT_PATH: ./atomina-game/atomina-game.vcxproj
-  TEST_PROJECT_PATH: ./atomina-test/atomina-test.vcxproj
-  TEST_PROJECT_DIR: ./atomina-test
+
 
   # Configuration type to build.
   # You can convert this to a build matrix if you need coverage of multiple configuration types.
@@ -19,16 +15,17 @@ env:
 
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: ubuntu-20.04
 
     steps:
     
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
+    - name: Setup cmake
+      uses: jwlawson/actions-setup-cmake@v1.12
       with:
-        msbuild-architecture: x64
-        vswhere-path: 'C:\Program Files (x86)\Microsoft Visual Studio\Installer'  
-        vs-prerelease: true
+        cmake-version: '3.23.x'
+
+    - name: Setup SFML Prerequisites
+      run: sudo apt-get install -y g++ libgl1-mesa-dev libx11-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev libfreetype-dev libxrandr-dev libogg-dev libvorbisenc2 libvorbisfile3 libxcursor-dev libtbb-dev libbtbb-dev
 
     - name: Checkout action repo branch
       uses: actions/checkout@v2
@@ -36,38 +33,18 @@ jobs:
         fetch-depth: 2
         submodules: 'recursive'
     - run: git checkout HEAD    
-            
-    - name: Make Directory for External Libraries
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      shell: cmd
-      run: mkdir extlib
-          
-    - name: CL.exe
-      uses: ilammy/msvc-dev-cmd@master
       
-    - name: SFML CMAKE
-      working-directory: ${{env.EXTERNAL_LIB_DIR}}
-      run: |
-        cmake -G"NMake Makefiles" ..\atomina-dll\vendor\sfml\
-        nmake
+    - name: Build Modules
+      working-directory: ${{env.SOLUTION_FILE_PATH}} 
+      run: bash sbin/buildmodules.sh
+      
+    - name: Build Project
+      working-directory: ${{env.SOLUTION_FILE_PATH}} 
+      run: bash sbin/buildproject.sh -DIntel_Processor:BOOL=true
 
-    - name: Build DLL
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} ${{env.API_PROJECT_PATH}}
-      
-    - name: Build Game
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} ${{env.GAME_PROJECT_PATH}}
-      
-    - name: Build Test Project
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM}} ${{env.TEST_PROJECT_PATH_PATH}}
-      
-    - name: Setup VSTest path
-      uses: darenm/Setup-VSTest@v1
-      
-    - name: Run Test Project
-      run: vstest.console.exe /Platform:${{env.BUILD_PLATFORM}} ${{env.TEST_PROJECT_DIR}}\${{env.BUILD_PLATFORM}}\${{env.BUILD_CONFIGURATION}}\atomina-test.dll
+    - name: Run Tests
+      working-directory: ${{env.SOLUTION_FILE_PATH}} 
+      env:
+        LD_LIBRARY_PATH: $HOME/work/project-atomina/project-atomina/ext/lib
+      run: ls $HOME/work/project-atomina/project-atomina/ext/lib && echo $LD_LIBRARY_PATH && bash sbin/runtests.sh
       
