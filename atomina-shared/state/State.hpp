@@ -13,4 +13,23 @@ namespace ATMA
 		COUNT
 	};
 
+	class ATMA_API StateType{
+	public:
+		StateType(const State &l_type): m_type(l_type)
+		{}
+
+		//conversion constructor
+		StateType(const unsigned int &l_int): m_type(static_cast<State>(l_int))		
+		{}
+
+		//conversion operator
+		operator unsigned int()
+		{
+			return static_cast<unsigned int>(m_type);
+		}
+
+	private:
+		const State m_type;
+	};
+
 }
