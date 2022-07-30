@@ -5,6 +5,12 @@ namespace ATMA
 {
 
 
+	SpriteSheet::SpriteSheet()
+	{
+		if(!m_sheet.loadFromImage(ATConst::getDefaultImage()))
+			throw 1;
+	}
+
 	SpriteSheet::SpriteSheet(const std::string &l_filename)
 	{
 		if(!m_sheet.loadFromFile(l_filename))

@@ -3,7 +3,7 @@
 
 namespace ATMA
 {
-	AttrControllable::AttrControllable(): AttrBase(static_cast<AttributeType>(Attribute::Controllable))
+	AttrControllable::AttrControllable(): AttrBase(AttrType(Attribute::Controllable))
 	{}
 
 	AttrControllable::~AttrControllable()

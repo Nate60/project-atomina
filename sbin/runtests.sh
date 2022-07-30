@@ -1,4 +1,4 @@
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 cd $SCRIPTPATH/../
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SCRIPTPATH/../ext/lib
-./target/release/atomina-test/Atomina_Test
+xvfb-run ./target/release/atomina-test/Atomina_Test

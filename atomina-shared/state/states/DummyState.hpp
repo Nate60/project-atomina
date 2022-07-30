@@ -8,22 +8,22 @@ namespace ATMA
 	{
 	public:
 
-		DummyState(StateManager &l_stateMan);
+		DummyState();
 
 		virtual ~DummyState();
 
-		virtual void onCreate();
-		virtual void onDestroy();
-		virtual void activate();
-		virtual void deactivate();
+		virtual void onCreate() override;
+		virtual void onDestroy() override;
+		virtual void activate() override;
+		virtual void deactivate() override;
 
-		virtual StateType getId() const override
+		virtual unsigned int getId() const override
 		{
-			return static_cast<StateType>(State::Dummy);
+			return StateType(State::Dummy);
 		}
 
-		virtual void update(const sf::Time &l_time);
-		virtual void draw();
+		virtual void update(const sf::Time &l_time) override;
+		virtual void draw() override;
 
 	};
 }
