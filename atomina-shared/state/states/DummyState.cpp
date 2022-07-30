@@ -3,7 +3,7 @@
 
 namespace ATMA
 {
-	DummyState::DummyState(StateManager &l_stateMan) : BaseState(l_stateMan)
+	DummyState::DummyState() : BaseState()
 	{
 
 	}

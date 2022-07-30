@@ -4,28 +4,25 @@
 namespace ATMA
 {
 
-	void SysRenderer::update(float l_dt)
+	SysRenderer::SysRenderer() : SysBase(SystemType(System::Renderer)) 
+	{
+		m_req.set(1);
+		m_req.set(2);
+	}
+
+	void SysRenderer::update(const float &l_dt)
 	{
 
 	}
-
-	void SysRenderer::handleEvent(const ObjectId &l_id, Event &l_event)
-	{
-
-	}
-
-	void SysRenderer::notify(const Message &l_message)
-	{}
 
 	void SysRenderer::draw(sf::RenderTarget & target, const sf::RenderStates &l_states) const
 	{
-		auto objMan = m_sysMan.getObjectManager();
+		auto &context = ATMAContext::getContext();
 		for(auto &obj : m_objects)
 		{
-			auto pos = objMan->getAttribute<AttrTranslatable>(obj, 1);
-			std::shared_ptr<AttrDrawable> drawable = objMan->getAttribute<AttrDrawable>(obj, 2);
-			std::shared_ptr<AttrTranslatable> translatable = objMan->getAttribute<AttrTranslatable>(obj, 1);
-			drawable->updateScreenPosition(translatable->m_x, translatable->m_y);
+			auto pos = context.getAttribute<AttrTranslatable>(obj, AttrType(Attribute::Translatable));
+			std::shared_ptr<AttrDrawable> drawable = context.getAttribute<AttrDrawable>(obj, AttrType(Attribute::Drawable));
+			drawable->updateScreenPosition(pos->m_x, pos->m_y);
 			drawable->draw(target);
 		}
 	}

@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Network/IpAddress.hpp>
 #pragma warning(disable: 26812)
 #include "../pch.hpp"
 #include "../core/api.hpp"
@@ -12,7 +13,7 @@ namespace ATMA {
 	class ATMA_API NetworkClient
 	{
 	public:
-		NetworkClient(const std::string l_addr, const int l_port);
+		NetworkClient(const sf::IpAddress l_addr, const unsigned short l_port);
 
 		NetworkClient(const NetworkClient & l_other);
 
@@ -45,7 +46,7 @@ namespace ATMA {
 		{
 			auto result = m_socket.send(l_bytes.data(), N) == sf::Socket::Done;
 			if(!result)
-				throw NetworkException("Unable to send bytes to remote address [" + m_addr + ":" + std::to_string(m_port) + "]");
+				throw NetworkException("Unable to send bytes to remote address [" + m_addr.toString() + ":" + std::to_string(m_port) + "]");
 		}
 
 		/*
@@ -66,8 +67,8 @@ namespace ATMA {
 
 	protected:
 		sf::TcpSocket m_socket;
-		std::string m_addr;
-		int m_port;
+		sf::IpAddress m_addr;
+		unsigned short m_port;
 
 
 	};

@@ -1,6 +1,6 @@
 #include "../pch.hpp"
 #include "../core/api.hpp"
-#include "../event/Event.hpp"
+#include "../event/EventContext.hpp"
 
 namespace ATMA
 {
@@ -28,7 +28,7 @@ namespace ATMA
 		sf::Vector2u getWindowSize();
 		sf::Rect<float> getViewSpace();
 
-		void popEvent(Event &l_e);
+		EventContext popEvent();
 
 		void clear();
 		void display();

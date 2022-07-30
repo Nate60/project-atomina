@@ -8,15 +8,13 @@
 namespace ATMA {
 
 
-	using StateType = unsigned int;
-
 	class StateManager;
 	class ATMA_API BaseState
 	{
 
 
 	public:
-		BaseState(StateManager &l_stateMan);
+		BaseState();
 		BaseState(BaseState &&b) noexcept;
 
 
@@ -30,9 +28,14 @@ namespace ATMA {
 		virtual void update(const sf::Time& l_time) = 0;
 		virtual void draw() = 0;
 
-		virtual StateType getId() const
+		virtual bool isActive() const
 		{
-			return static_cast<StateType>(State::Empty);
+			return m_active;
+		}
+
+		virtual unsigned int getId() const
+		{
+			return StateType(State::Empty);
 		}
 
 		sf::View& getView();
@@ -43,7 +46,7 @@ namespace ATMA {
 
 	protected:
 
-		StateManager &m_stateMan;
+		bool m_active;
 		bool m_transparent;
 		bool m_transcendent;
 		bool m_communicable;

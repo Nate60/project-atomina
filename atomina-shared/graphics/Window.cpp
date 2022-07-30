@@ -84,11 +84,13 @@ namespace ATMA
 		m_window.display();
 	}
 
-	void Window::popEvent(Event &l_e)
+	EventContext Window::popEvent()
 	{
-		auto &sfEvent = std::get<sf::Event>(l_e.m_context);
-		m_window.pollEvent(sfEvent);
-		l_e.m_type = sfEvent.type;
+		sf::Event e{};
+		if(m_window.pollEvent(e))
+			return EventContext{e};
+		else
+			return EventContext{};
 	}
 
 	void Window::draw(const sf::Drawable &l_drawable, const sf::RenderStates &l_states)
