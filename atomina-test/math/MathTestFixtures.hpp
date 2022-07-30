@@ -1,10 +1,10 @@
 #pragma once
 #include "../AtominaTest.hpp"
-#include "math/MathFuncs.hpp"
 
 
 template <class T>
-class InterpolationTestFixture : public ::testing::Test{
+class InterpolationTestFixture : public ::testing::Test
+{
 protected:
 
     void interpolateTest(std::function<T(T,T,float)> f)

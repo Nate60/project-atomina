@@ -14,7 +14,7 @@ namespace ATMA {
 		using ClientMap = std::unordered_map<ClientId, std::unique_ptr<sf::TcpSocket>>;
 	public:
 
-		NetworkHost(const int l_port);
+		NetworkHost(const unsigned short l_port);
 
 		NetworkHost(const NetworkHost & l_other);
 
@@ -112,7 +112,7 @@ namespace ATMA {
 
 	protected:
 
-		int m_port;
+		unsigned short m_port;
 		sf::TcpListener m_listener;
 		ClientMap m_clients;
 		ClientId m_nextId = 0;

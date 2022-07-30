@@ -20,7 +20,7 @@ namespace ATMA
 		virtual void draw(sf::RenderTarget &l_target);
 		virtual void readIn(std::stringstream &l_stream) override;
 
-	protected:
+		
 		SpriteSheet m_sheet;
 
 	};

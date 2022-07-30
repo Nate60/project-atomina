@@ -4,7 +4,7 @@
 namespace ATMA
 {
 
-	AttrDrawable::AttrDrawable(): AttrBase(static_cast<AttributeType>(ATMA::Attribute::Drawable)), m_sheet(getWorkingDirectory() + "..\\res\\shaggysheet.png")
+	AttrDrawable::AttrDrawable(): AttrBase(AttrType(ATMA::Attribute::Drawable)), m_sheet()
 	{
 		std::shared_ptr<AnimIdle> idle{new AnimIdle{ "shaggy", 64, 64, 0, 1}};
 		m_sheet.addAnimation(idle);

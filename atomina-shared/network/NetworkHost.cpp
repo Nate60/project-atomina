@@ -4,7 +4,7 @@
 
 namespace ATMA {
 
-	NetworkHost::NetworkHost(const int l_port) : m_port(l_port)
+	NetworkHost::NetworkHost(const unsigned short l_port) : m_port(l_port)
 	{
 
 	}

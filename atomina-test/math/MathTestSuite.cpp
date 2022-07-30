@@ -2,7 +2,8 @@
 
 TYPED_TEST_SUITE(InterpolationTestFixture, InterpolationTestTypes);
 TYPED_TEST_SUITE(PerlinTestFixture, PerlinTestTypes);
-TYPED_TEST(InterpolationTestFixture, LinearInterpolation){
+TYPED_TEST(InterpolationTestFixture, LinearInterpolation)
+{
 
     std::array<std::array<int,10>,15> array;
 
@@ -10,14 +11,16 @@ TYPED_TEST(InterpolationTestFixture, LinearInterpolation){
     this->interpolateTest(f);
 };
 
-TYPED_TEST(InterpolationTestFixture, CubicInterpolation){
+TYPED_TEST(InterpolationTestFixture, CubicInterpolation)
+{
 
 
     auto f = ATMA::cubeTerp<TypeParam,float>;
     this->interpolateTest(f);
 };
 
-TYPED_TEST(PerlinTestFixture, PerlinNoiseWithLerp){
+TYPED_TEST(PerlinTestFixture, PerlinNoiseWithLerp)
+{
 
     auto f = ATMA::lerp<TypeParam,float>;
     TypeParam exp = -0.5;
@@ -25,7 +28,8 @@ TYPED_TEST(PerlinTestFixture, PerlinNoiseWithLerp){
 
 };
 
-TYPED_TEST(PerlinTestFixture, PerlinNoiseWithCubeTerp){
+TYPED_TEST(PerlinTestFixture, PerlinNoiseWithCubeTerp)
+{
 
     auto f = ATMA::cubeTerp<TypeParam,float>;
     TypeParam exp = -0.5;
@@ -35,13 +39,15 @@ TYPED_TEST(PerlinTestFixture, PerlinNoiseWithCubeTerp){
 
 using IntPerlinTestFixture = PerlinTestFixture<int>;
 
-TEST_F(IntPerlinTestFixture, PerlinNoiseWithLerpInt){
+TEST_F(IntPerlinTestFixture, PerlinNoiseWithLerpInt)
+{
     auto f = ATMA::lerp<int,float>;
     int exp = 0;
     this-> perlinTest(f, exp);
 }
 
-TEST_F(IntPerlinTestFixture, PerlinNoiseWithCubeTerpInt){
+TEST_F(IntPerlinTestFixture, PerlinNoiseWithCubeTerpInt)
+{
     auto f = ATMA::cubeTerp<int,float>;
     int exp = 0;
     this-> perlinTest(f, exp);

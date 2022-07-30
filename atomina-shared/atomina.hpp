@@ -21,11 +21,6 @@
 #include "core/Entry.hpp"
 #include "core/ATMAContext.hpp"
 
-//Messaging
-#include "message/Communicator.hpp"
-#include "message/MessageHandler.hpp"
-#include "message/Observer.hpp"
-
 //File
 #include "file/FileHandler.hpp"
 #include "file/FileFuncs.hpp"
@@ -36,16 +31,14 @@
 #include "network/NetworkHost.hpp"
 
 //Events
-#include "event/Event.hpp"
+#include "event/CallBackKey.hpp"
 #include "event/EventContext.hpp"
-#include "event/EventManager.hpp"
 
 //States
 
 #include "state/State.hpp"
 #include "state/BaseState.hpp"
 #include "state/states/DummyState.hpp"
-#include "state/StateManager.hpp"
 
 //OAS
 #include "OAS/Attribute.hpp"
@@ -58,9 +51,6 @@
 #include "OAS/systems/SysTranslator.hpp"
 #include "OAS/systems/SysRenderer.hpp"
 #include "OAS/systems/SysController.hpp"
-#include "OAS/ObjectMessage.hpp"
-#include "OAS/ObjectManager.hpp"
-#include "OAS/SystemManager.hpp"
 
 
 //Graphic
@@ -70,6 +60,5 @@
 #include "graphics/animation/AnimIdle.hpp"
 
 //Sound
-#include "sound/SoundManager.hpp"
 #include "sound/SoundProperties.hpp"
 

@@ -3,6 +3,8 @@
 #include "../../core/api.hpp"
 #include "../SysBase.hpp"
 #include "../attributes/AttrTranslatable.hpp"
+#include "../../event/EventContext.hpp"
+#include "../System.hpp"
 
 namespace ATMA
 {
@@ -10,17 +12,12 @@ namespace ATMA
 	class ATMA_API SysController: public SysBase
 	{
 	public:
-		SysController(const SystemType &l_type, SystemManager &l_sysMan): SysBase(l_type, l_sysMan)
-		{
-			m_req.set(1);
-			m_req.set(3);
-		}
+		SysController();
 
-		virtual void update(float l_dt) override;
+		virtual void update(const float &l_dt) override;
 
-		virtual void handleEvent(const ObjectId &l_id, Event &l_event) override;
-	
-		virtual void notify(const Message &l_message) override;
+		virtual void move(const EventContext& l_context);
+
 
 	};
 

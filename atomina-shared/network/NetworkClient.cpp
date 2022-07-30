@@ -4,15 +4,14 @@
 
 namespace ATMA {
 
-	NetworkClient::NetworkClient(const std::string l_addr, const int l_port) : m_addr(l_addr), m_port(l_port)
+	NetworkClient::NetworkClient(const sf::IpAddress l_addr, const unsigned short l_port) : m_addr(l_addr), m_port(l_port)
 	{
 
 	}
 
-	NetworkClient::NetworkClient(const NetworkClient& l_other)
+	NetworkClient::NetworkClient(const NetworkClient& l_other) : m_addr(l_other.m_addr), m_port(l_other.m_port)
 	{
-		m_addr = l_other.m_addr;
-		m_port = l_other.m_port;
+
 	}
 
 	NetworkClient::~NetworkClient()
@@ -22,10 +21,9 @@ namespace ATMA {
 
 	void NetworkClient::connect() 
 	{
-		auto ip_addr = sf::IpAddress::resolve(m_addr);
-		auto result = m_socket.connect(ip_addr.value(), m_port) == sf::Socket::Done;
+		auto result = m_socket.connect(m_addr, m_port) == sf::Socket::Done;
 		if(!result)
-			throw NetworkException("Unable to connect to remote address [" + m_addr + ":" + std::to_string(m_port) + "]" );
+			throw NetworkException("Unable to connect to remote address [" + m_addr.toString() + ":" + std::to_string(m_port) + "]" );
 	}
 
 	void NetworkClient::disconnect() 

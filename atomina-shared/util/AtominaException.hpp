@@ -17,6 +17,15 @@ namespace ATMA {
 
 	};
 
+
+	struct ATMA_API RegistrationException: public AtominaException
+	{
+
+		RegistrationException(const std::string &l_message) noexcept: AtominaException(l_message)
+		{}
+
+	};
+
 	struct ATMA_API ValueNotFoundException: public AtominaException {
 
 		ValueNotFoundException(const std::string &l_message) noexcept: AtominaException(l_message)

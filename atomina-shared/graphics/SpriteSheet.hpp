@@ -3,6 +3,7 @@
 #include "../core/api.hpp"
 #include "AnimBase.hpp"
 #include "../util/Log.hpp"
+#include "../util/ATConst.hpp"
 
 namespace ATMA
 {
@@ -13,6 +14,7 @@ namespace ATMA
 	{
 	public:
 
+		SpriteSheet();
 		SpriteSheet(const std::string &l_filename);
 
 		void addAnimation(std::shared_ptr<AnimBase> l_anim);

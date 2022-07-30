@@ -1,25 +1,23 @@
 #pragma once
 #include "../util/ATConst.hpp"
 #include "../core/api.hpp"
-#include "../message/Observer.hpp"
-#include "System.hpp"
-#include "SystemManager.hpp"
 #include "../util/ATConst.hpp"
-#include "../event/Event.hpp"
 #include "../util/Log.hpp"
+#include "../core/ATMAContext.hpp"
 
 namespace ATMA {
 
+	class ATMAContext;
 	using SystemType = unsigned int;
 
-	class SystemManager;
-
 	using ObjectId = unsigned int;
-	using EventId = unsigned int;
-	class ATMA_API SysBase : public Observer {
+	class ATMA_API SysBase {
 
 	public:
-		SysBase(const SystemType &l_type, SystemManager &l_man) : m_type(l_type), m_sysMan(l_man){
+
+		bool m_enabled = true;
+
+		SysBase(const SystemType &l_type) : m_type(l_type) {
 
 		}
 
@@ -62,16 +60,12 @@ namespace ATMA {
 		/**
 		* updates all attributes of all the objects contained in the system
 		*/
-		virtual void update(float l_dt) = 0;
-
-		virtual void handleEvent(const ObjectId& l_id, Event &l_event) = 0;
+		virtual void update(const float &l_dt) = 0;
 		
 	protected:
 		SystemType m_type;
 		std::bitset<ATConst::OBJECT_BIT_SIZE> m_req;
 		std::vector<ObjectId> m_objects;
-
-		SystemManager& m_sysMan;
 
 	};
 
