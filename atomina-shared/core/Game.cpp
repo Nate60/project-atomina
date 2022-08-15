@@ -1,24 +1,18 @@
-#include "../pch.hpp"
+#include "pch.hpp"
 #include "Game.hpp"
 
-namespace ATMA {
-	
-	Game::Game() {
+namespace ATMA
+{
 
-	}
+    Game::Game() {}
 
-	Game::~Game() {
+    Game::~Game() {}
 
-	}
+    void Game::run()
+    {
 
-	void Game::run() {
-		
-		active = true;
+        active = true;
+    }
 
-	}
-
-	void Game::shutdown()
-	{
-
-	}
+    void Game::shutdown() {}
 }

@@ -1,16 +1,11 @@
-#include "../../pch.hpp"
+#include "pch.hpp"
 #include "AttrControllable.hpp"
 
 namespace ATMA
 {
-	AttrControllable::AttrControllable(): AttrBase(AttrType(Attribute::Controllable))
-	{}
+    AttrControllable::AttrControllable(): AttrBase(AttrType(Attribute::Controllable)) {}
 
-	AttrControllable::~AttrControllable()
-	{}
+    AttrControllable::~AttrControllable() {}
 
-	void AttrControllable::readIn(std::stringstream &l_stream)
-	{}
+    void AttrControllable::readIn(std::stringstream &l_stream) {}
 }
-
-
