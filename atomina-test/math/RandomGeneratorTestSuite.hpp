@@ -1,5 +1,5 @@
 #pragma once
-#include "../AtominaTest.hpp"
+#include "AtominaTest.hpp"
 #include "MathTestFixtures.hpp"
 
-using RandomGeneratorTestTypes = ::testing::Types<float,double>;
+using RandomGeneratorTestTypes = ::testing::Types<float, double>;

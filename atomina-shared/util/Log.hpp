@@ -3,30 +3,29 @@
 #include "../core/api.hpp"
 #include "AtominaException.hpp"
 
-namespace ATMA {
-	
-	class ATMA_API Log
-	{
-	public:
-		static void Init();
+namespace ATMA
+{
 
-		inline static std::shared_ptr<spdlog::logger>& GetEngineLogger() 
-		{
-			if(s_initialized)
-			{
-				return s_EngineLogger;
-			}
-			else
-			{
-				throw LoggerNotInitializedException("must call Log.Init() before calling logger");
-			}
-		}
+    class ATMA_API Log
+    {
+    public:
+        static void Init();
 
-	private: 
-		
-		static std::shared_ptr<spdlog::logger> s_EngineLogger;
-		static bool s_initialized;
-	};
+        inline static std::shared_ptr<spdlog::logger> &GetEngineLogger()
+        {
+            if(s_initialized)
+            {
+                return s_EngineLogger;
+            }
+            else
+            {
+                throw LoggerNotInitializedException("must call Log.Init() before calling logger");
+            }
+        }
+    private:
+        static std::shared_ptr<spdlog::logger> s_EngineLogger;
+        static bool s_initialized;
+    };
 
 }
 
