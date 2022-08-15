@@ -1,7 +1,4 @@
 #include "StateTestSuite.hpp"
-#include "TestState.hpp"
-#include "util/AtominaException.hpp"
-#include <gtest/gtest.h>
 
 TEST_F(StateFixture, CanAddState)
 {
@@ -17,7 +14,7 @@ TEST_F(StateFixture, AddDuplicateState)
     std::unique_ptr<TestState> state2{new TestState{}};
     auto id = state->getId();
     this->ctx.addState(id, std::move(state));
-    EXPECT_THROW(this->ctx.addState(id,std::move(state2)), ATMA::RegistrationException);
+    EXPECT_THROW(this->ctx.addState(id, std::move(state2)), ATMA::RegistrationException);
 }
 
 TEST_F(StateFixture, RemoveNonExistentState)
@@ -42,15 +39,15 @@ TEST_F(StateFixture, CanRemoveState)
 
 TEST_F(StateFixture, OnStateChangeCanDisableSystem)
 {
-    std::unique_ptr<TestState> state{new TestState{}};;
+    std::unique_ptr<TestState> state{new TestState{}};
+    ;
     std::unique_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
-    TestSystem sys{};
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
-    auto sysType = sys.getType();
+    auto sysType = TestSystem{}.getType();
     auto &ctx = ATMA::ATMAContext::getContext();
     ctx.registerAttributeType<TestAttribute>(0u);
-    ctx.addSystem(sysType, std::make_unique<TestSystem>(sys));
+    ctx.addSystemType<TestSystem>(sysType);
     auto obj = ctx.createObject();
     ctx.addAttribute(obj, 0u);
     ctx.addState(stateType, std::move(state));
@@ -62,15 +59,15 @@ TEST_F(StateFixture, OnStateChangeCanDisableSystem)
 
 TEST_F(StateFixture, OnStateChangeCanEnableSystem)
 {
-    std::unique_ptr<TestState> state{new TestState{}};;
+    std::unique_ptr<TestState> state{new TestState{}};
+    ;
     std::unique_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
-    TestSystem sys{};
-    auto sysType = sys.getType();
+    auto sysType = TestSystem{}.getType();
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
     auto &ctx = ATMA::ATMAContext::getContext();
     ctx.registerAttributeType<TestAttribute>(0u);
-    ctx.addSystem(sysType, std::make_unique<TestSystem>(sys));
+    ctx.addSystemType<TestSystem>(sysType);
     auto obj = ctx.createObject();
     ctx.addAttribute(obj, 0u);
     ctx.addState(stateType, std::move(state));
@@ -85,15 +82,15 @@ TEST_F(StateFixture, OnStateChangeCanEnableSystem)
 
 TEST_F(StateFixture, OnStateCanChangeAddCallback)
 {
-    std::unique_ptr<TestState> state{new TestState{}};;
+    std::unique_ptr<TestState> state{new TestState{}};
+    ;
     state->failOnCallback = true;
     std::unique_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
-    TestSystem sys{};
-    auto sysType = sys.getType();
+    auto sysType = TestSystem{}.getType();
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
     auto &ctx = ATMA::ATMAContext::getContext();
-    ctx.addSystem(sysType, std::make_unique<TestSystem>(sys));
+    ctx.addSystemType<TestSystem>(sysType);
     ctx.addState(dummyType, std::move(dummyState));
     ctx.addState(stateType, std::move(state));
     ctx.switchToState(dummyType);
@@ -106,14 +103,13 @@ TEST_F(StateFixture, OnStateCanChangeAddCallback)
 TEST_F(StateFixture, OnStateCanChangeRemoveCallback)
 {
     std::unique_ptr<TestState> state{new TestState{}};
-    
+
     std::unique_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
-    TestSystem sys{};
-    auto sysType = sys.getType();
+    auto sysType = TestSystem{}.getType();
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
     auto &ctx = ATMA::ATMAContext::getContext();
-    ctx.addSystem(sysType, std::make_unique<TestSystem>(sys));
+    ctx.addSystemType<TestSystem>(sysType);
     ctx.addState(dummyType, std::move(dummyState));
     ctx.addState(stateType, std::move(state));
     ctx.switchToState(dummyType);
