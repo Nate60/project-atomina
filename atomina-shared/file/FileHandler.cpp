@@ -1,118 +1,100 @@
-#include "../pch.hpp"
+#include "pch.hpp"
 #include "FileHandler.hpp"
-#include "../util/Log.hpp"
+#include "util/Log.hpp"
 
+namespace ATMA
+{
+    FileHandler::FileHandler(): m_totalLines(0), m_currentLine(0) {}
 
-namespace ATMA {
-	FileHandler::FileHandler() : m_totalLines(0), m_currentLine(0)
-	{
+    void FileHandler::addFile(const std::string &l_file) {}
 
-	}
+    size_t FileHandler::getTotalLines() const
+    {
+        return m_totalLines;
+    }
 
-	void FileHandler::addFile(const std::string& l_file)
-	{
+    size_t FileHandler::getCurrentLine() const
+    {
+        return m_currentLine;
+    }
 
-	}
+    void FileHandler::saveToFile(const std::string &l_file) {}
 
-	size_t FileHandler::getTotalLines() const
-	{
-		return m_totalLines;
-	}
+    void FileHandler::reset() {}
 
-	size_t FileHandler::getCurrentLine() const
-	{
-		return m_currentLine;
-	}
+    void FileHandler::count()
+    {
+        m_totalLines = 0;
+        m_currentLine = 0;
 
-	void FileHandler::saveToFile(const std::string& l_file)
-	{
+        for(auto path_itr = m_files.begin(); path_itr != m_files.end();)
+        {
+            if(path_itr->first.empty())
+            {
+                ATMA_ENGINE_WARN("File path is empty, skipping... ");
+                m_files.erase(path_itr);
+                continue;
+            }
 
-	}
+            std::ifstream file{path_itr->first};
 
-	void FileHandler::reset()
-	{
+            if(!file.is_open())
+            {
+                ATMA_ENGINE_ERROR("Failed to load file {}", path_itr->first);
+                m_files.erase(path_itr);
+                continue;
+            }
 
-	}
+            file.unsetf(std::ios_base::skipws);
 
-	void FileHandler::count()
-	{
-		m_totalLines = 0;
-		m_currentLine = 0;
+            // MUTEX LOCK
+            std::lock_guard<std::mutex> lock{m_mtx};
+            path_itr->second = static_cast<size_t>(std::count(
+                std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>(), '\n'
+            ));
 
-		for (auto path_itr = m_files.begin(); path_itr != m_files.end();)
-		{
-			if (path_itr->first.empty())
-			{
-				ATMA_ENGINE_WARN("File path is empty, skipping... ");
-				m_files.erase(path_itr);
-				continue;
-			}
+            ++path_itr;
+            file.close();
+        }
+    }
 
-			std::ifstream file{ path_itr->first };
+    void FileHandler::work()
+    {
+        m_started = true;
+        count();
+        if(!m_totalLines)
+        {
+            return;
+        }
 
-			if (!file.is_open())
-			{
-				ATMA_ENGINE_ERROR("Failed to load file {}", path_itr->first);
-				m_files.erase(path_itr);
-				continue;
-			}
+        for(auto &path_itr: m_files)
+        {
+            reset();
+            std::ifstream file{path_itr.first};
+            std::string line;
+            std::string name;
+            std::atomic<size_t> linesLeft = path_itr.second;
 
-			file.unsetf(std::ios_base::skipws);
+            while(std::getline(file, line))
+            {
+                ++m_currentLine;
+                --linesLeft;
 
-			//MUTEX LOCK
-			std::lock_guard<std::mutex> lock{m_mtx};
-			path_itr->second = static_cast<size_t>
-				(
-					std::count(
-						std::istreambuf_iterator<char>(file),
-						std::istreambuf_iterator<char>(),
-						'\n'
-					)
-					);
+                if(line[0] == '|')
+                {
+                    continue;
+                }
 
-			++path_itr;
-			file.close();
-		}
-	}
-
-	void FileHandler::work()
-	{
-		m_started = true;
-		count();
-		if (!m_totalLines)
-		{
-			return;
-		}
-
-		for (auto& path_itr : m_files)
-		{
-			reset();
-			std::ifstream file{ path_itr.first };
-			std::string line;
-			std::string name;
-			std::atomic<size_t> linesLeft = path_itr.second;
-
-			while (std::getline(file, line))
-			{
-				++m_currentLine;
-				--linesLeft;
-
-				if (line[0] == '|')
-				{
-					continue;
-				}
-
-				std::stringstream keystream(line);
-				if (!nextLine(keystream))
-				{
-					ATMA_ENGINE_ERROR("File Handler terminated due to an internal error");
-					m_currentLine += linesLeft;
-					break;
-				}
-
-			}
-			file.close();
-		}
-	}
+                std::stringstream keystream(line);
+                if(!nextLine(keystream))
+                {
+                    ATMA_ENGINE_ERROR("File Handler terminated due to an internal error");
+                    m_currentLine += linesLeft;
+                    break;
+                }
+            }
+            file.close();
+        }
+    }
 
 }
