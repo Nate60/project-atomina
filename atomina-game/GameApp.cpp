@@ -1,83 +1,82 @@
 
 #include "GameApp.hpp"
-#include "OAS/Attribute.hpp"
-#include "OAS/SysBase.hpp"
-#include "OAS/attributes/AttrAnimatable.hpp"
-#include "OAS/attributes/AttrDrawable.hpp"
-#include "OAS/attributes/AttrTranslatable.hpp"
-#include "OAS/systems/SysAnimator.hpp"
-#include "OAS/systems/SysController.hpp"
-#include "OAS/systems/SysRenderer.hpp"
-#include "core/ATMAContext.hpp"
-#include "event/CallBackKey.hpp"
-#include "event/EventContext.hpp"
-#include "util/Log.hpp"
 
-GameApp::GameApp() {}
+GameApp::GameApp() {
 
-GameApp::~GameApp() {}
-
-void
-GameApp::run()
-{
-    ATMA_ENGINE_INFO("Game is now running");
-    active = true;
-    ATMA::Window win{};
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
-    std::unique_ptr<GameState> gameState{new GameState{}};
-
-    ctx.addState(ATMA::StateType(ATMA::State::COUNT), std::move(gameState));
-    ctx.addSystemType<ATMA::SysRenderer>(ATMA::SystemType(ATMA::System::Renderer));
-    ctx.addSystemType<ATMA::SysAnimator>(ATMA::SystemType(ATMA::System::Animator));
-    ctx.registerAttributeType<ATMA::AttrTranslatable>(ATMA::AttrType(ATMA::Attribute::Translatable)
-    );
-    ctx.registerAttributeType<ATMA::AttrDrawable>(ATMA::AttrType(ATMA::Attribute::Drawable));
-    ctx.registerAttributeType<ATMA::AttrAnimatable>(ATMA::AttrType(ATMA::Attribute::Animatable));
-    auto objID = ctx.createObject();
-    ctx.addAttribute(objID, ATMA::AttrType(ATMA::Attribute::Translatable));
-    ctx.addAttribute(objID, ATMA::AttrType(ATMA::Attribute::Drawable));
-    ctx.addAttribute(objID, ATMA::AttrType(ATMA::Attribute::Animatable));
-    auto sysRenderer = ctx.getSystem<ATMA::SysRenderer>(ATMA::SystemType(ATMA::System::Renderer));
-    auto attrDraw =
-        ctx.getAttribute<ATMA::AttrDrawable>(objID, ATMA::AttrType(ATMA::Attribute::Drawable));
-    auto attrTrans = ctx.getAttribute<ATMA::AttrTranslatable>(
-        objID, ATMA::AttrType(ATMA::Attribute::Translatable)
-    );
-    attrTrans->m_x = 100;
-    attrTrans->m_y = 100;
-    attrDraw->m_sprite.scale({4.f, 4.f});
-    // attrDraw->m_sprite.setColor(sf::Color::Magenta);
-
-    for(;;)
-    {
-        ATMA::EventContext e = win.popEvent();
-        sf::Event sfE = e.m_sfEvent.value_or(sf::Event{});
-
-        if(sfE.type == sf::Event::EventType::KeyPressed
-           || sfE.type == sf::Event::EventType::KeyReleased)
-        {
-            if(sfE.key.code == sf::Keyboard::Escape)
-            {
-                ATMA_ENGINE_INFO("Escape key pressed");
-                break;
-            }
-        }
-        ctx.update();
-        win.clear();
-        win.draw(*sysRenderer);
-        win.display();
-    }
 }
 
-void
-GameApp::shutdown()
-{
-    ATMA_ENGINE_INFO("Shutting down game");
-    active = false;
+GameApp::~GameApp() {
+
 }
 
-std::unique_ptr<ATMA::Game>
-ATMA::CreateGame()
+void GameApp::run()
 {
-    return std::unique_ptr<ATMA::Game>{new GameApp()};
+	// ATMA_ENGINE_INFO("Game is now running");
+	// active = true;
+	// ATMA::Window win{};
+	// ATMA::ATMAContext ctx{};
+	// ctx.m_event_manager = std::shared_ptr<ATMA::EventManager>{new ATMA::EventManager{}};
+	// ctx.m_system_manager = std::shared_ptr<ATMA::SystemManager>{new ATMA::SystemManager{}};
+
+	// ctx.m_system_manager->addSystem<ATMA::SysTranslator>(ATMA::System::Translator);
+	// ctx.m_system_manager->addSystem<ATMA::SysController>(ATMA::System::Controller);
+	// ctx.m_system_manager->addSystem<ATMA::SysRenderer>(ATMA::System::Renderer);
+	// auto objMan = ctx.m_system_manager->getObjectManager();
+	// auto objId = objMan->createObject();
+	// objMan->addAttributeType<ATMA::AttrTranslatable>(ATMA::Attribute::Translatable);
+	// objMan->addAttributeType<ATMA::AttrControllable>(ATMA::Attribute::Controllable);
+	// objMan->addAttributeType<ATMA::AttrDrawable>(ATMA::Attribute::Drawable);
+	// objMan->addAttribute(objId, ATMA::Attribute::Translatable);
+	// objMan->addAttribute(objId, ATMA::Attribute::Controllable);
+	// objMan->addAttribute(objId, ATMA::Attribute::Drawable);
+
+	// std::bitset<ATConst::OBJECT_BIT_SIZE> bits = std::bitset<ATConst::OBJECT_BIT_SIZE>();
+	// bits.set((int)ATMA::Attribute::Translatable);
+	// bits.set((int)ATMA::Attribute::Controllable);
+	// bits.set((int)ATMA::Attribute::Drawable);
+	// ctx.m_system_manager->objectModified(objId, bits);
+
+
+	// ATMA::StateManager stateMan{ctx};
+	// GameState gameState{stateMan};
+
+	// stateMan.registerState<GameState>(ATMA::State::COUNT);
+	// ctx.m_event_manager->onStateChange(static_cast<ATMA::StateType>(ATMA::State::COUNT));
+
+	// for(;;)
+	// {
+	// 	sf::Event sfE{};
+	// 	ATMA::Event e{0, sfE};
+	// 	win.popEvent(e);
+	// 	auto &inner = std::get<sf::Event>(e.m_context);
+
+	// 	if(e.m_type == sf::Event::EventType::KeyPressed || e.m_type == sf::Event::EventType::KeyReleased)
+	// 	{
+	// 		if(inner.key.code == sf::Keyboard::Escape)
+	// 		{
+	// 			ATMA_ENGINE_INFO("Escape key pressed");
+	// 			break;
+	// 		}
+	// 		ctx.m_event_manager->handleEvent(e);
+	// 		ctx.m_system_manager->handleEvents();
+	// 	}
+			
+	// 	ctx.m_system_manager->update(1.0f);
+	// 	std::shared_ptr<ATMA::SysRenderer> sys = ctx.m_system_manager->getSystem<ATMA::SysRenderer>(ATMA::System::Renderer);
+	// 	win.clear();
+	// 	win.draw(*sys);
+	// 	win.display();
+	// }
+	// win.close();
+
+}
+
+void GameApp::shutdown()
+{
+	ATMA_ENGINE_INFO("Shutting down game");
+	active = false;
+}
+
+std::unique_ptr<ATMA::Game> ATMA::CreateGame() {
+	return std::unique_ptr<ATMA::Game>{new GameApp()};
 }
