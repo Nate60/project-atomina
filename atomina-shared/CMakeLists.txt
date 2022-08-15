@@ -32,5 +32,4 @@ else()
 endif()
 
 target_sources(Atomina_Shared PRIVATE ${atomina_shared_src})
-target_include_directories(Atomina_Shared PRIVATE "../atomina-shared")
 target_compile_features(Atomina_Shared PRIVATE cxx_std_17)
