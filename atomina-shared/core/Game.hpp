@@ -1,26 +1,21 @@
 #pragma once
 #include "api.hpp"
-#include "../util/Log.hpp"
-namespace ATMA {
+#include "util/Log.hpp"
 
-	class ATMA_API Game
-	{
-	public:
-		Game();
-		virtual ~Game();
-		virtual void run();
-		virtual void shutdown();
+namespace ATMA
+{
 
-		bool active = false;
+    class ATMA_API Game
+    {
+    public:
+        Game();
+        virtual ~Game();
+        virtual void run();
+        virtual void shutdown();
 
-	};
+        bool active = false;
+    };
 
-	std::unique_ptr<Game> CreateGame();
-	
-
-
-
-
+    std::unique_ptr<Game> CreateGame();
 
 }
-
