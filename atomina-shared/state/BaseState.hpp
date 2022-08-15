@@ -1,59 +1,53 @@
 #pragma once
 
-#include "../pch.hpp"
-#include "../core/api.hpp"
+#include "pch.hpp"
+#include "core/api.hpp"
 #include "State.hpp"
-#include "../util/Log.hpp"
+#include "util/Log.hpp"
 
-namespace ATMA {
+namespace ATMA
+{
 
+    class StateManager;
 
-	class StateManager;
-	class ATMA_API BaseState
-	{
+    class ATMA_API BaseState
+    {
+    public:
+        BaseState();
+        BaseState(BaseState &&b) noexcept;
 
+        virtual ~BaseState();
 
-	public:
-		BaseState();
-		BaseState(BaseState &&b) noexcept;
+        virtual void onCreate() = 0;
+        virtual void onDestroy() = 0;
+        virtual void activate() = 0;
+        virtual void deactivate() = 0;
 
+        virtual void update(const sf::Time &l_time) = 0;
+        virtual void draw() = 0;
 
-		virtual ~BaseState();
+        virtual bool isActive() const
+        {
+            return m_active;
+        }
 
-		virtual void onCreate() = 0;
-		virtual void onDestroy() = 0;
-		virtual void activate() = 0;
-		virtual void deactivate() = 0;
+        virtual unsigned int getId() const
+        {
+            return StateType(State::Empty);
+        }
 
-		virtual void update(const sf::Time& l_time) = 0;
-		virtual void draw() = 0;
+        sf::View &getView();
 
-		virtual bool isActive() const
-		{
-			return m_active;
-		}
+        bool operator==(const BaseState &b) const;
+        bool operator<(const BaseState &b) const;
+        bool operator>(const BaseState &b) const;
+    protected:
+        bool m_active;
+        bool m_transparent;
+        bool m_transcendent;
+        bool m_communicable;
 
-		virtual unsigned int getId() const
-		{
-			return StateType(State::Empty);
-		}
-
-		sf::View& getView();
-
-		bool operator == (const BaseState &b) const;
-		bool operator < (const BaseState &b) const;
-		bool operator > (const BaseState &b) const;
-
-	protected:
-
-		bool m_active;
-		bool m_transparent;
-		bool m_transcendent;
-		bool m_communicable;
-
-		sf::View m_view;
-
-	};
-
+        sf::View m_view;
+    };
 
 }

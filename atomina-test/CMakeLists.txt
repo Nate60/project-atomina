@@ -32,5 +32,5 @@ else()
     target_link_libraries(Atomina_Test sfml-graphics sfml-window sfml-system sfml-network spdlog::spdlog Atomina_Shared gtest)
 endif()
 
-target_include_directories(Atomina_Test PRIVATE "../ext/include" "../atomina-shared")
+target_include_directories(Atomina_Test PRIVATE "../ext/include" "../atomina-shared" "../atomina-test")
 
