@@ -1,22 +1,47 @@
-#include "pch.hpp"
+#include "../../pch.hpp"
 #include "DummyState.hpp"
 
 namespace ATMA
 {
-    DummyState::DummyState(): BaseState() {}
+	DummyState::DummyState() : BaseState()
+	{
 
-    DummyState::~DummyState() {}
+	}
 
-    void DummyState::onCreate() {}
+	DummyState::~DummyState()
+	{
 
-    void DummyState::onDestroy() {}
+	}
 
-    void DummyState::activate() {}
+	void DummyState::onCreate()
+	{
 
-    void DummyState::deactivate() {}
+	}
 
-    void DummyState::update(const sf::Time &l_dt) {}
+	void DummyState::onDestroy()
+	{
 
-    void DummyState::draw() {}
+	}
+
+	void DummyState::activate()
+	{
+
+	}
+
+	void DummyState::deactivate()
+	{
+
+	}
+
+	void DummyState::update(const sf::Time &l_dt)
+	{
+
+	}
+
+	void DummyState::draw()
+	{
+
+	}
+
 
 }

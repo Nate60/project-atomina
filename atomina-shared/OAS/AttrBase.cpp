@@ -1,17 +1,14 @@
-#include "pch.hpp"
+#include "../pch.hpp"
 #include "AttrBase.hpp"
 
-namespace ATMA
-{
+namespace ATMA {
 
-    AttributeType AttrBase::getType() const
-    {
-        return m_type;
-    }
+	AttributeType AttrBase::getType() const {
+		return m_type;
+	}
 
-    std::stringstream &operator>>(std::stringstream &l_stream, AttrBase &b)
-    {
-        return l_stream;
-    }
+	std::stringstream& operator >> (std::stringstream &l_stream, AttrBase &b) {
+		return l_stream;
+	}
 
 }
