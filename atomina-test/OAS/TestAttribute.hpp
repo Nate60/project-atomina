@@ -1,20 +1,17 @@
 #pragma once
-#include "../AtominaTest.hpp"
+#include "AtominaTest.hpp"
 
-class TestAttribute : public ATMA::AttrBase
+class TestAttribute: public ATMA::AttrBase
 {
 public:
+    TestAttribute();
 
-        TestAttribute();
+    ~TestAttribute();
 
-		~TestAttribute();
+    // friend function to output attributes
+    friend std::stringstream &operator>>(std::stringstream &l_stream, AttrBase &b);
 
-		//friend function to output attributes 
-		friend std::stringstream& operator >> (std::stringstream& l_stream, AttrBase& b);
+    void readIn(std::stringstream &l_stream);
 
-
-		void readIn(std::stringstream& l_stream);
-
-		bool flag = false;
-        
+    bool flag = false;
 };

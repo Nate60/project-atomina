@@ -34,8 +34,8 @@
 #include <spdlog/fmt/ostr.h>
 
 #ifdef _WINDOWS
-	#include <Windows.h>
-	#include <Shlwapi.h>
-	#undef min
-	#undef max
+#    include <Windows.h>
+#    include <Shlwapi.h>
+#    undef min
+#    undef max
 #endif
