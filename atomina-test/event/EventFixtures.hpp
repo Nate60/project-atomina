@@ -1,7 +1,7 @@
 #pragma once
-#include "../AtominaTest.hpp"
+#include "AtominaTest.hpp"
 
-class EventFixture : public ::testing::Test
+class EventFixture: public ::testing::Test
 {
 public:
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
@@ -10,5 +10,4 @@ public:
     {
         ctx.purge();
     }
-
 };

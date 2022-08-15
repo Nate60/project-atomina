@@ -1,64 +1,68 @@
 
 #pragma once
 #include "pch.hpp"
-//Client facing header file that has all the includes needed,
-//so that only this file needs to be included
+// Client facing header file that has all the includes needed,
+// so that only this file needs to be included
 
 #include "core/api.hpp"
 
-//Util
+// Util
 #include "util/AtominaException.hpp"
 #include "util/Log.hpp"
 #include "util/ATConst.hpp"
 #include "util/Worker.hpp"
 
-//Math
+// Math
 #include "math/RandomGenerator.hpp"
 #include "math/MathFuncs.hpp"
 
-//Core
+// Core
 #include "core/Game.hpp"
 #include "core/Entry.hpp"
 #include "core/ATMAContext.hpp"
 
-//File
+// File
 #include "file/FileHandler.hpp"
 #include "file/FileFuncs.hpp"
 
-//Network
+// Network
 
 #include "network/NetworkClient.hpp"
 #include "network/NetworkHost.hpp"
 
-//Events
+// Events
 #include "event/CallBackKey.hpp"
 #include "event/EventContext.hpp"
 
-//States
+// States
 
 #include "state/State.hpp"
 #include "state/BaseState.hpp"
 #include "state/states/DummyState.hpp"
 
-//OAS
+// OAS
 #include "OAS/Attribute.hpp"
 #include "OAS/System.hpp"
 #include "OAS/AttrBase.hpp"
 #include "OAS/attributes/AttrTranslatable.hpp"
 #include "OAS/attributes/AttrControllable.hpp"
 #include "OAS/attributes/AttrDrawable.hpp"
+#include "OAS/attributes/AttrAnimatable.hpp"
 #include "OAS/SysBase.hpp"
 #include "OAS/systems/SysTranslator.hpp"
 #include "OAS/systems/SysRenderer.hpp"
 #include "OAS/systems/SysController.hpp"
+#include "OAS/systems/SysAnimator.hpp"
 
+// Graphics
+#include "resource/graphics/SpriteSheet.hpp"
+#include "resource/graphics/AnimBase.hpp"
+#include "resource/graphics/animation/AnimIdle.hpp"
+#include "resource/graphics/animation/AnimDefault.hpp"
 
-//Graphic
-#include "graphics/Window.hpp"
-#include "graphics/SpriteSheet.hpp"
-#include "graphics/AnimBase.hpp"
-#include "graphics/animation/AnimIdle.hpp"
+// Sound
+#include "resource/sound/SoundProperties.hpp"
+#include "resource/sound/Music.hpp"
 
-//Sound
-#include "sound/SoundProperties.hpp"
-
+// GUI
+#include "GUI/Window.hpp"
