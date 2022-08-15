@@ -1,18 +1,39 @@
 {
-  "editor.formatOnSave": true,
-  "clang-format.executable.linux": "/usr/bin/clang-format",
-  "clang-format.language.c.enable": false,
-  "clang-format.language.csharp.enable": false,
-  "clang-format.assumeFilename": "",
-  "clang-format.executable": "clang-format",
-  "clang-format.fallbackStyle": "Mozilla",
-  "clang-format.language.apex.enable": false,
-  "clang-format.language.java.enable": false,
-  "clang-format.language.javascript.enable": false,
-  "clang-format.language.objective-c.enable": false,
-  "clang-format.language.objective-cpp.enable": false,
-  "clang-format.language.proto.enable": false,
-  "clang-format.language.typescript.enable": false,
-  "clang-format.style": "file",
-  "editor.defaultFormatter": "xaver.clang-format"
+  "C_Cpp_Runner.cCompilerPath": "/usr/bin/gcc",
+  "C_Cpp_Runner.cppCompilerPath": "/usr/bin/g++",
+  "C_Cpp_Runner.debuggerPath": "/usr/bin/gdb",
+  "C_Cpp_Runner.cStandard": "",
+  "C_Cpp_Runner.cppStandard": "",
+  "C_Cpp_Runner.msvcBatchPath": "",
+  "C_Cpp_Runner.warnings": [
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic"
+  ],
+  "C_Cpp_Runner.enableWarnings": true,
+  "C_Cpp_Runner.warningsAsError": false,
+  "C_Cpp_Runner.compilerArgs": [
+    "-lsmfl-graphics",
+    "-lsfml-window",
+    "-lsfml-network",
+    "-lsfml-system",
+    "-lsfml-audio",
+    "-L${workspaceFolder}/vendor/SFML/lib"
+  ],
+  "C_Cpp_Runner.linkerArgs": [],
+  "C_Cpp_Runner.includePaths": [
+    "${workspaceFolder}/vendor/SFML/include"
+  ],
+  "C_Cpp_Runner.includeSearch": [
+    "*",
+    "**/*"
+  ],
+  "C_Cpp_Runner.excludeSearch": [
+    "**/build",
+    "**/build/**",
+    "**/.*",
+    "**/.*/**",
+    "**/.vscode",
+    "**/.vscode/**"
+  ]
 }

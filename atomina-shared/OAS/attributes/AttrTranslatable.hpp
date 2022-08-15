@@ -1,24 +1,26 @@
 #pragma once
-#include "core/api.hpp"
-#include "OAS/Attribute.hpp"
-#include "OAS/AttrBase.hpp"
+#include "../../core/api.hpp"
+#include "../Attribute.hpp"
+#include "../AttrBase.hpp"
 
-namespace ATMA
-{
 
-    class ATMA_API AttrTranslatable: public AttrBase
-    {
-    public:
-        AttrTranslatable();
+namespace ATMA {
 
-        ~AttrTranslatable();
+	class ATMA_API AttrTranslatable : public AttrBase {
+	public:
 
-        // friend function to output attributes
-        friend std::stringstream &operator>>(std::stringstream &l_stream, AttrBase &b);
+		AttrTranslatable();
 
-        void readIn(std::stringstream &l_stream);
+		~AttrTranslatable();
 
-        float m_x, m_y, m_dx, m_dy;
-    };
+		//friend function to output attributes 
+		friend std::stringstream& operator >> (std::stringstream& l_stream, AttrBase& b);
+
+
+		void readIn(std::stringstream& l_stream);
+
+
+		float m_x, m_y, m_dx, m_dy;
+	};
 
 }

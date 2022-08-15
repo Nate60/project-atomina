@@ -1,8 +1,8 @@
 #include "StateFixtures.hpp"
 
-void
-StateFixture::TearDown()
-{
-    auto &ctx = ATMA::ATMAContext::getContext();
-    ctx.purge();
-}
+
+    void StateFixture::TearDown()
+    {
+        auto &ctx = ATMA::ATMAContext::getContext();
+        ctx.purge();
+    }

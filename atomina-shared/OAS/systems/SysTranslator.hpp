@@ -1,22 +1,21 @@
 #pragma once
-#include "pch.hpp"
-#include "OAS/SysBase.hpp"
-#include "OAS/System.hpp"
-#include "OAS/attributes/AttrTranslatable.hpp"
-#include "OAS/Attribute.hpp"
-#include "core/api.hpp"
+#include "../../pch.hpp"
+#include "../SysBase.hpp"
+#include "../System.hpp"
+#include "../attributes/AttrTranslatable.hpp"
+#include "../Attribute.hpp"
+#include "../../core/api.hpp"
 
-namespace ATMA
-{
+namespace ATMA {
+	
+	class ATMA_API SysTranslator : public SysBase {
+	public:
+		SysTranslator();
 
-    class ATMA_API SysTranslator: public SysBase
-    {
-    public:
-        SysTranslator();
+		~SysTranslator();
 
-        ~SysTranslator();
+		void update(const float &l_dt) override;
 
-        void update(const float &l_dt) override;
-    };
+	};
 
 }
