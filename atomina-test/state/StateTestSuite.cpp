@@ -45,7 +45,6 @@ TEST_F(StateFixture, OnStateChangeCanDisableSystem)
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
     auto sysType = TestSystem{}.getType();
-    auto &ctx = ATMA::ATMAContext::getContext();
     ctx.registerAttributeType<TestAttribute>(0u);
     ctx.addSystemType<TestSystem>(sysType);
     auto obj = ctx.createObject();
@@ -60,12 +59,10 @@ TEST_F(StateFixture, OnStateChangeCanDisableSystem)
 TEST_F(StateFixture, OnStateChangeCanEnableSystem)
 {
     std::unique_ptr<TestState> state{new TestState{}};
-    ;
     std::unique_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
     auto sysType = TestSystem{}.getType();
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
-    auto &ctx = ATMA::ATMAContext::getContext();
     ctx.registerAttributeType<TestAttribute>(0u);
     ctx.addSystemType<TestSystem>(sysType);
     auto obj = ctx.createObject();
@@ -78,44 +75,4 @@ TEST_F(StateFixture, OnStateChangeCanEnableSystem)
     ctx.switchToState(stateType);
     ctx.update();
     EXPECT_TRUE(ctx.getAttribute<TestAttribute>(obj, 0u)->flag);
-}
-
-TEST_F(StateFixture, OnStateCanChangeAddCallback)
-{
-    std::unique_ptr<TestState> state{new TestState{}};
-    ;
-    state->failOnCallback = true;
-    std::unique_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
-    auto sysType = TestSystem{}.getType();
-    auto stateType = state->getId();
-    auto dummyType = dummyState->getId();
-    auto &ctx = ATMA::ATMAContext::getContext();
-    ctx.addSystemType<TestSystem>(sysType);
-    ctx.addState(dummyType, std::move(dummyState));
-    ctx.addState(stateType, std::move(state));
-    ctx.switchToState(dummyType);
-    ctx.switchToState(stateType);
-    ATMA::EventContext e{};
-    ctx.addEvent(0u, stateType, std::move(e));
-    EXPECT_THROW(ctx.update(), ATMA::ValueNotFoundException);
-}
-
-TEST_F(StateFixture, OnStateCanChangeRemoveCallback)
-{
-    std::unique_ptr<TestState> state{new TestState{}};
-
-    std::unique_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
-    auto sysType = TestSystem{}.getType();
-    auto stateType = state->getId();
-    auto dummyType = dummyState->getId();
-    auto &ctx = ATMA::ATMAContext::getContext();
-    ctx.addSystemType<TestSystem>(sysType);
-    ctx.addState(dummyType, std::move(dummyState));
-    ctx.addState(stateType, std::move(state));
-    ctx.switchToState(dummyType);
-    ctx.switchToState(stateType);
-    ATMA::EventContext e{};
-    ctx.addEvent(0u, stateType, std::move(e));
-    ctx.update();
-    SUCCEED();
 }

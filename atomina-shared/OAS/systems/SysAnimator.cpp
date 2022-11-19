@@ -6,8 +6,8 @@ namespace ATMA
 
     SysAnimator::SysAnimator(): SysBase(SystemType(System::Animator))
     {
-        m_req.set(AttrType(Attribute::Drawable));
-        m_req.set(AttrType(Attribute::Animatable));
+        m_req.set(AttrType(Attribute::Graphic));
+        m_req.set(AttrType(Attribute::Animation));
     }
 
     void SysAnimator::update(const float &l_dt)
@@ -16,10 +16,12 @@ namespace ATMA
         for(auto obj: m_objects)
         {
             auto &sprite =
-                ctx.getAttribute<AttrDrawable>(obj, AttrType(Attribute::Drawable))->m_sprite;
-            auto attrAnim = ctx.getAttribute<AttrAnimatable>(obj, AttrType(Attribute::Animatable));
+                ctx.getAttribute<AttrGraphic>(obj, AttrType(Attribute::Graphic))->m_sprite;
+            auto attrAnim = ctx.getAttribute<AttrAnimation>(obj, AttrType(Attribute::Animation));
             attrAnim->m_spriteSheet->updateSprite(attrAnim->m_animation, sprite);
         }
     }
+
+    void SysAnimator::notify(const ObjectEventContext &l_e) {}
 
 }

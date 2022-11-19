@@ -6,9 +6,13 @@ TestSystem::TestSystem(): SysBase(0u)
 }
 
 void
-TestSystem::doSomething(ATMA::EventContext &ectx)
+TestSystem::notify(const ATMA::ObjectEventContext &l_e)
 {
-    throw ATMA::ValueNotFoundException("test exception");
+    for(auto &obj: m_objects)
+    {
+        std::shared_ptr<TestAttribute> attr = ctx.getAttribute<TestAttribute>(obj, 0u);
+        attr->flag = true;
+    }
 }
 
 void
@@ -17,8 +21,7 @@ TestSystem::update(const float &l_dt)
     if(m_enabled)
         for(auto &obj: m_objects)
         {
-            std::shared_ptr<TestAttribute> attr =
-                ATMA::ATMAContext::getContext().getAttribute<TestAttribute>(obj, 0u);
+            std::shared_ptr<TestAttribute> attr = ctx.getAttribute<TestAttribute>(obj, 0u);
             attr->flag = true;
         }
 }

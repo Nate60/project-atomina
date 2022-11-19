@@ -14,10 +14,10 @@ TYPED_TEST(AttributeFixture, AddAttribute)
 // adding an attribute that has not been registered should throw an exception
 TEST_F(UntypedAttributeFixture, AddBadAttribute)
 {
-    ATMA::AttrDrawable attr{};
+    ATMA::AttrGraphic attr{};
     auto &ctx = ATMA::ATMAContext::getContext();
     unsigned int obj = ctx.createObject();
-    ctx.registerAttributeType<ATMA::AttrDrawable>(0);
+    ctx.registerAttributeType<ATMA::AttrGraphic>(0);
     EXPECT_THROW(ctx.addAttribute(obj, 20), ATMA::ValueNotFoundException);
 }
 
@@ -26,7 +26,7 @@ TEST_F(UntypedAttributeFixture, AddBadAttribute)
 TEST_F(UntypedAttributeFixture, RegisterDuplicateAttributeType)
 {
     auto &ctx = ATMA::ATMAContext::getContext();
-    ctx.registerAttributeType<ATMA::AttrDrawable>(0);
+    ctx.registerAttributeType<ATMA::AttrGraphic>(0);
     EXPECT_THROW(ctx.registerAttributeType<ATMA::AttrControllable>(0), ATMA::RegistrationException);
 }
 
@@ -89,11 +89,11 @@ TYPED_TEST(AttributeFixture, GetNonExistentAttribute)
 
 TEST_F(UntypedAttributeFixture, GetWrongTypeAttribute)
 {
-    ATMA::AttrDrawable attr{};
+    ATMA::AttrGraphic attr{};
     ATMA::AttrControllable attr2{};
     auto &ctx = ATMA::ATMAContext::getContext();
     unsigned int obj = ctx.createObject();
-    ctx.registerAttributeType<ATMA::AttrDrawable>(0);
+    ctx.registerAttributeType<ATMA::AttrGraphic>(0);
     ctx.registerAttributeType<ATMA::AttrControllable>(1);
     ctx.addAttribute(0, 0);
     ctx.addAttribute(0, 1);
