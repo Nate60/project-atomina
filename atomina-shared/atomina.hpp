@@ -31,8 +31,9 @@
 #include "network/NetworkHost.hpp"
 
 // Events
-#include "event/CallBackKey.hpp"
-#include "event/EventContext.hpp"
+#include "event/ObjectEventContext.hpp"
+#include "event/ObjectEvent.hpp"
+#include "event/WindowEvent.hpp"
 
 // States
 
@@ -44,15 +45,18 @@
 #include "OAS/Attribute.hpp"
 #include "OAS/System.hpp"
 #include "OAS/AttrBase.hpp"
-#include "OAS/attributes/AttrTranslatable.hpp"
+#include "OAS/attributes/AttrPosition.hpp"
 #include "OAS/attributes/AttrControllable.hpp"
-#include "OAS/attributes/AttrDrawable.hpp"
-#include "OAS/attributes/AttrAnimatable.hpp"
+#include "OAS/attributes/AttrGraphic.hpp"
+#include "OAS/attributes/AttrAnimation.hpp"
+#include "OAS/attributes/AttrMouseRegion.hpp"
+#include "OAS/attributes/AttrMouseTrigger.hpp"
 #include "OAS/SysBase.hpp"
 #include "OAS/systems/SysTranslator.hpp"
 #include "OAS/systems/SysRenderer.hpp"
 #include "OAS/systems/SysController.hpp"
 #include "OAS/systems/SysAnimator.hpp"
+#include "OAS/systems/SysGUI.hpp"
 
 // Graphics
 #include "resource/graphics/SpriteSheet.hpp"

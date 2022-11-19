@@ -4,6 +4,7 @@
 #include "core/api.hpp"
 #include "State.hpp"
 #include "util/Log.hpp"
+#include "event/WindowEvent.hpp"
 
 namespace ATMA
 {
@@ -20,8 +21,10 @@ namespace ATMA
 
         virtual void onCreate() = 0;
         virtual void onDestroy() = 0;
-        virtual void activate() = 0;
-        virtual void deactivate() = 0;
+        virtual void activate();
+        virtual void deactivate();
+
+        virtual void handleEvent(const WindowEvent &l_e);
 
         virtual void update(const sf::Time &l_time) = 0;
         virtual void draw() = 0;

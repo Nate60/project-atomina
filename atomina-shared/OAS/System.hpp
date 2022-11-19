@@ -13,6 +13,7 @@ namespace ATMA
         Renderer,
         Controller,
         Animator,
+        GUI,
         COUNT
     };
 

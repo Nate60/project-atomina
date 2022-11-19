@@ -1,6 +1,6 @@
+#pragma once
 #include "pch.hpp"
 #include "core/api.hpp"
-#include "event/EventContext.hpp"
 
 namespace ATMA
 {
@@ -14,6 +14,9 @@ namespace ATMA
             const std::string &l_name = "Project Atomina",
             const sf::Vector2u &l_dimensions = {640, 480}
         );
+
+        Window(const Window &l_other);
+
         ~Window();
 
         void beginDraw();
@@ -31,7 +34,7 @@ namespace ATMA
         sf::Vector2u getWindowSize();
         sf::Rect<float> getViewSpace();
 
-        EventContext popEvent();
+        bool poll(sf::Event &l_e);
 
         void clear();
         void display();
@@ -44,6 +47,7 @@ namespace ATMA
         bool m_done{false};
         bool m_fullscreen{false};
         bool m_focused{false};
+        std::string m_name{""};
         sf::RenderWindow m_window;
     };
 

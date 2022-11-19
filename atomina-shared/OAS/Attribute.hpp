@@ -9,10 +9,13 @@ namespace ATMA
     enum class ATMA_API Attribute
     {
         None = 0,
-        Translatable,
-        Drawable,
+        Position,
+        Velocity,
+        Graphic,
         Controllable,
-        Animatable,
+        Animation,
+        MouseRegion,
+        MouseTrigger,
         COUNT
     };
 

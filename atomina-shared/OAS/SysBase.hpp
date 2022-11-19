@@ -1,6 +1,8 @@
 #pragma once
 #include "util/ATConst.hpp"
 #include "core/api.hpp"
+#include "event/ObjectEventContext.hpp"
+#include "event/ObjectEventListener.hpp"
 #include "util/ATConst.hpp"
 #include "util/Log.hpp"
 #include "core/ATMAContext.hpp"
@@ -13,7 +15,7 @@ namespace ATMA
 
     using ObjectId = unsigned int;
 
-    class ATMA_API SysBase
+    class ATMA_API SysBase: public ObjectEventListener
     {
     public:
         SysBase(const SystemType &l_type): m_type(l_type) {}
@@ -37,8 +39,6 @@ namespace ATMA
 
         friend class ATMAContext;
     protected:
-        bool m_enabled = true;
-
         /**
          * adds object to the system, returns true only if successful
          */
@@ -53,6 +53,8 @@ namespace ATMA
          * removes object from the system, returns true only if succesful
          */
         bool removeObject(const ObjectId &l_id);
+
+        virtual void notify(const ObjectEventContext &l_e) = 0;
 
         /**
          * removes all objects
