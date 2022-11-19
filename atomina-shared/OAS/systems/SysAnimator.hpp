@@ -2,8 +2,8 @@
 #include "pch.hpp"
 #include "core/api.hpp"
 #include "OAS/SysBase.hpp"
-#include "OAS/attributes/AttrDrawable.hpp"
-#include "OAS/attributes/AttrAnimatable.hpp"
+#include "OAS/attributes/AttrGraphic.hpp"
+#include "OAS/attributes/AttrAnimation.hpp"
 #include "OAS/System.hpp"
 
 namespace ATMA
@@ -15,6 +15,8 @@ namespace ATMA
         SysAnimator();
 
         virtual void update(const float &l_dt) override;
+
+        virtual void notify(const ObjectEventContext &l_e) override;
     };
 
 }

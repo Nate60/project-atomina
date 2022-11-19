@@ -2,10 +2,7 @@
 #include "ATMAContext.hpp"
 #include "util/AtominaException.hpp"
 #include "util/Log.hpp"
-#include <bitset>
-#include <mutex>
-#include <string>
-#include <utility>
+#include <memory>
 
 namespace ATMA
 {
@@ -39,52 +36,19 @@ namespace ATMA
         }
     }
 
-    void ATMAContext::addCallback(
-        const unsigned int &l_eventType,
-        const unsigned int &l_stateType,
-        CallBackFunction l_func
-    )
+    void ATMAContext::pushWindowEvent(const WindowEvent &l_e)
     {
-        CallBackKey pair{l_eventType, l_stateType};
-        m_callbacks[pair] = l_func;
-        ATMA_ENGINE_INFO(
-            "Registered Callback for event type {0:d} and state type {1:d}",
-            l_eventType,
-            l_stateType
-        );
-    }
-
-    void
-    ATMAContext::removeCallback(const unsigned int &l_eventType, const unsigned int &l_stateType)
-    {
-        CallBackKey pair{l_eventType, l_stateType};
-        auto itr = m_callbacks.find(pair);
-        if(itr != m_callbacks.end())
+        ATMA_ENGINE_INFO("Pushed window event of type {0:d}", int(l_e.m_event.type));
+        for(auto &state: m_states)
         {
-            m_callbacks.erase(itr);
-            ATMA_ENGINE_INFO(
-                "Removed Callback for event type {0:d} and state type {1:d}",
-                l_eventType,
-                l_stateType
-            );
+            state.second->handleEvent(l_e);
         }
-    }
-
-    void ATMAContext::addEvent(
-        const unsigned int &l_eventType,
-        const unsigned int &l_stateType,
-        EventContext &&l_context
-    )
-    {
-        std::tuple<EventTypeID, StateTypeID, EventContext> tuple{
-            l_eventType, l_stateType, std::move(l_context)};
-        m_eventQueue.emplace_back(tuple);
     }
 
     unsigned int ATMAContext::createObject()
     {
         std::lock_guard<std::mutex> lock{m_mtx};
-        auto id = m_lastId++;
+        auto id = m_lastObjectID++;
         ATMA_ENGINE_INFO("Created Object ID {0:d}", id);
         return id;
     }
@@ -92,7 +56,7 @@ namespace ATMA
     unsigned int ATMAContext::createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits)
     {
         std::lock_guard<std::mutex> lock{m_mtx};
-        auto id = m_lastId++;
+        auto id = m_lastObjectID++;
         ATMA_ENGINE_INFO("Created Object ID {0:d}", id);
         for(unsigned int i = 0; i < ATConst::OBJECT_BIT_SIZE; i++)
         {
@@ -106,7 +70,7 @@ namespace ATMA
 
     void ATMAContext::addAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType)
     {
-        if(l_objectID >= m_lastId)
+        if(l_objectID >= m_lastObjectID)
             throw ValueNotFoundException(
                 "Object id: " + std::to_string(l_objectID) + " was not found"
             );
@@ -362,38 +326,100 @@ namespace ATMA
         }
     }
 
+    unsigned int ATMAContext::createWindow()
+    {
+        m_windows[m_lastWindowID] = std::make_shared<Window>(Window{});
+        ATMA_ENGINE_INFO("Created window with id: {0:d}", m_lastWindowID);
+        unsigned int id = m_lastWindowID++;
+        return id;
+    }
+
+    std::shared_ptr<Window> ATMAContext::getWindow(const unsigned int &l_windowID)
+    {
+        auto itr = m_windows.find(l_windowID);
+        if(itr == m_windows.end())
+        {
+            throw ValueNotFoundException(
+                "Window of id: " + std::to_string(l_windowID) + " does not exist"
+            );
+        }
+        else
+        {
+            return itr->second;
+        }
+    }
+
+    void ATMAContext::deleteWindow(const unsigned int &l_windowID)
+    {
+        auto itr = m_windows.find(l_windowID);
+        if(itr == m_windows.end())
+        {
+            throw ValueNotFoundException(
+                "Window of id: " + std::to_string(l_windowID) + " does not exist"
+            );
+        }
+        else
+        {
+            m_windows.erase(itr);
+            ATMA_ENGINE_INFO("Deleted Window with id: {0:d}", l_windowID);
+        }
+    }
+
+    void ATMAContext::dispatchObjectEvent(const ObjectEventContext &l_e)
+    {
+        for(auto &listenerVec: m_listeners)
+        {
+            if(l_e.m_objectEventType == listenerVec.first)
+            {
+                for(auto &listener: listenerVec.second)
+                {
+                    if(listener->isEnabled()){
+                        ATMA_ENGINE_INFO("Listener for event type {0:d} notified", l_e.m_objectEventType);
+                        listener->notify(l_e);
+                    }
+                }
+            }
+        }
+    }
+
+    void ATMAContext::addObjectEventListener(
+        const ObjectEventID &l_id,
+        std::shared_ptr<ObjectEventListener> l_listener
+    )
+    {
+        auto itr = m_listeners.find(l_id);
+        if(itr == m_listeners.end())
+        {
+            std::vector<std::shared_ptr<ObjectEventListener>> newVec{l_listener};
+            m_listeners[l_id] = newVec;
+        }
+        else
+        {
+            m_listeners[l_id].emplace_back(l_listener);
+        }
+    }
+
     void ATMAContext::update()
     {
-        for(auto &e: m_eventQueue)
+
+        for(auto &win: m_windows)
         {
-            auto &[eType, sType, eCtx] = e;
-            CallBackKey key{eType, sType};
-            auto itr = m_callbacks.find(key);
-            if(itr == m_callbacks.end())
+            sf::Event e{};
+            while(win.second->poll(e))
             {
-                ATMA_ENGINE_INFO(
-                    "No matching Callback was found for eventType: {0:d} , StateType: {1:d} ",
-                    eType,
-                    sType
-                );
-                continue;
+                pushWindowEvent(WindowEvent{e});
             }
-            else
-            {
-                itr->second(eCtx);
-                ATMA_ENGINE_INFO("Handled EventType {0:d} for StateType {1:d}", eType, sType);
-            }
+        }
+
+        for(auto &state: m_states)
+        {
+            state.second->update(sf::Time{});
         }
 
         for(auto &sys: m_systems)
         {
             if(sys.second->m_enabled)
                 sys.second->update(0.0f);
-        }
-
-        for(auto &state: m_states)
-        {
-            state.second->update(sf::Time{});
         }
     }
 
@@ -405,7 +431,7 @@ namespace ATMA
         {
             system.second->purge();
         }
-        m_lastId = 0;
+        m_lastObjectID = 0;
     }
 
     void ATMAContext::purgeSystems()
@@ -419,15 +445,20 @@ namespace ATMA
         m_currentStateID = 0;
     }
 
-    void ATMAContext::purgeEvents()
-    {
-        m_eventQueue.clear();
-    }
-
     void ATMAContext::purgeResources()
     {
         m_resources.clear();
         m_loadedResources.clear();
+    }
+
+    void ATMAContext::purgeWindows()
+    {
+        m_windows.clear();
+    }
+
+    void ATMAContext::purgeListeners()
+    {
+        m_listeners.clear();
     }
 
     void ATMAContext::purge()
@@ -437,11 +468,12 @@ namespace ATMA
         m_attrFactory.clear();
         m_systems.clear();
         m_states.clear();
-        m_eventQueue.clear();
         m_resources.clear();
         m_loadedResources.clear();
-        m_callbacks.clear();
-        m_lastId = 0;
+        m_windows.clear();
+        m_listeners.clear();
+        m_lastObjectID = 0;
+        m_lastWindowID = 0;
         m_currentStateID = 0;
     }
 
