@@ -22,7 +22,6 @@ protected:
 
     void TearDown() override
     {
-        auto &ctx = ATMA::ATMAContext::getContext();
         ctx.purge();
     }
 };
@@ -34,7 +33,6 @@ public:
 protected:
     void TearDown() override
     {
-        auto &ctx = ATMA::ATMAContext::getContext();
         ctx.purge();
     }
 };

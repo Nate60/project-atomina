@@ -2,7 +2,8 @@
 #include "pch.hpp"
 #include "OAS/SysBase.hpp"
 #include "OAS/System.hpp"
-#include "OAS/attributes/AttrTranslatable.hpp"
+#include "OAS/attributes/AttrPosition.hpp"
+#include "OAS/attributes/AttrVelocity.hpp"
 #include "OAS/Attribute.hpp"
 #include "core/api.hpp"
 
@@ -17,6 +18,8 @@ namespace ATMA
         ~SysTranslator();
 
         void update(const float &l_dt) override;
+
+        virtual void notify(const ObjectEventContext &l_e) override;
     };
 
 }

@@ -6,11 +6,11 @@
 namespace ATMA
 {
 
-    class ATMA_API AttrDrawable: public AttrBase, sf::Drawable
+    class ATMA_API AttrGraphic: public AttrBase, sf::Drawable
     {
     public:
-        AttrDrawable();
-        ~AttrDrawable();
+        AttrGraphic();
+        ~AttrGraphic();
 
         virtual void updateScreenPosition(const float &l_x, const float &l_y);
         virtual void draw(sf::RenderTarget &l_target, const sf::RenderStates &l_states)
