@@ -6,8 +6,7 @@ namespace ATMA
 
     SysRenderer::SysRenderer(): SysBase(SystemType(System::Renderer))
     {
-        m_req.set(1);
-        m_req.set(2);
+        m_req.set(AttrType(Attribute::Graphic));
     }
 
     void SysRenderer::update(const float &l_dt) {}
@@ -17,13 +16,12 @@ namespace ATMA
         auto &context = ATMAContext::getContext();
         for(auto &obj: m_objects)
         {
-            auto pos =
-                context.getAttribute<AttrTranslatable>(obj, AttrType(Attribute::Translatable));
-            std::shared_ptr<AttrDrawable> drawable =
-                context.getAttribute<AttrDrawable>(obj, AttrType(Attribute::Drawable));
-            drawable->updateScreenPosition(pos->m_x, pos->m_y);
+            std::shared_ptr<AttrGraphic> drawable =
+                context.getAttribute<AttrGraphic>(obj, AttrType(Attribute::Graphic));
             drawable->draw(l_target, l_states);
         }
     }
+
+    void SysRenderer::notify(const ObjectEventContext &l_e) {}
 
 }

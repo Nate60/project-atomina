@@ -5,9 +5,6 @@ class EventFixture: public ::testing::Test
 {
 public:
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
-
-    void TearDown() override
-    {
-        ctx.purge();
-    }
+protected:
+    void TearDown() override;
 };

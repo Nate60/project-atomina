@@ -12,11 +12,13 @@ public:
         // auto &ctx = m_stateMan.getContext();
         // ctx.m_event_manager->addCallBack(static_cast<ATMA::EventType>(sf::Event::EventType::KeyPressed),
         // [&](ATMA::Event &e){
-        // 	m_stateMan.getContext().m_system_manager->addEvent(static_cast<ATMA::ObjectId>(0u), e);
+        // 	m_stateMan.getContext().m_system_manager->addEvent(static_cast<ATMA::ObjectId>(0u),
+        // e);
         // 	}, getId());
         // ctx.m_event_manager->addCallBack(static_cast<ATMA::EventType>(sf::Event::EventType::KeyReleased),
         // [&](ATMA::Event &e){
-        // 	m_stateMan.getContext().m_system_manager->addEvent(static_cast<ATMA::ObjectId>(0u), e);
+        // 	m_stateMan.getContext().m_system_manager->addEvent(static_cast<ATMA::ObjectId>(0u),
+        // e);
         // 	}, getId());
     }
 

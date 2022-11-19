@@ -9,12 +9,12 @@
 namespace ATMA
 {
 
-    class ATMA_API AttrAnimatable: public AttrBase
+    class ATMA_API AttrAnimation: public AttrBase
     {
     public:
-        AttrAnimatable();
+        AttrAnimation();
 
-        ~AttrAnimatable();
+        ~AttrAnimation();
 
         // friend function to output attributes
         friend std::stringstream &operator>>(std::stringstream &l_stream, AttrBase &b);

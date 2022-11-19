@@ -1,5 +1,6 @@
 #include "pch.hpp"
 #include "Window.hpp"
+#include <SFML/Window/VideoMode.hpp>
 
 namespace ATMA
 {
@@ -7,6 +8,13 @@ namespace ATMA
     Window::Window(const std::string &l_name, const sf::Vector2u &l_dimensions)
     {
         m_window.create(sf::VideoMode{l_dimensions}, l_name);
+        m_name = l_name;
+    }
+
+    Window::Window(const Window &l_other)
+    {
+        m_window.create(sf::VideoMode{l_other.m_window.getSize()}, l_other.m_name);
+        m_name = l_other.m_name;
     }
 
     Window::~Window() {}
@@ -30,7 +38,10 @@ namespace ATMA
         return m_focused;
     }
 
-    void Window::update() {}
+    bool Window::poll(sf::Event &l_e)
+    {
+        return m_window.pollEvent(l_e);
+    }
 
     void Window::close()
     {
@@ -67,15 +78,6 @@ namespace ATMA
     void Window::display()
     {
         m_window.display();
-    }
-
-    EventContext Window::popEvent()
-    {
-        sf::Event e{};
-        if(m_window.pollEvent(e))
-            return EventContext{e};
-        else
-            return EventContext{};
     }
 
     void Window::draw(const sf::Drawable &l_drawable, const sf::RenderStates &l_states)

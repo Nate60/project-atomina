@@ -1,3 +1,4 @@
+#include "OAS/attributes/AttrVelocity.hpp"
 #include "pch.hpp"
 #include "SysController.hpp"
 
@@ -6,44 +7,45 @@ namespace ATMA
 
     SysController::SysController(): SysBase(SystemType(System::Controller))
     {
-        m_req.set(1);
-        m_req.set(3);
+        m_req.set(AttrType(Attribute::Controllable));
+        m_req.set(AttrType(Attribute::Velocity));
     }
 
     void SysController::update(const float &l_dt) {}
 
-    void SysController::move(const EventContext &l_e)
+    void SysController::notify(const ObjectEventContext &l_e)
     {
 
-        auto &sfEvent = l_e.m_sfEvent.value();
-        auto &context = ATMAContext::getContext();
-        for(auto &obj: m_objects)
-        {
-            std::shared_ptr<AttrTranslatable> obj_comp =
-                context.getAttribute<AttrTranslatable>(obj, AttrType(Attribute::Translatable));
-            auto acceleration = 0.0f;
+        // auto &sfEvent = l_e.m_sfEvent.value();
+        // auto &context = ATMAContext::getContext();
+        // for(auto &obj: m_objects)
+        // {
+        //     std::shared_ptr<AttrVelocity> obj_vel =
+        //         context.getAttribute<AttrVelocity>(obj, AttrType(Attribute::Velocity));
 
-            if(sfEvent.type == sf::Event::EventType::KeyPressed)
-            {
-                acceleration = 1.0f;
-            }
-            else if(sfEvent.type == sf::Event::EventType::KeyReleased)
-            {
-                acceleration = 0;
-            }
+        //     auto acceleration = 0.0f;
 
-            switch(sfEvent.key.code)
-            {
-            case sf::Keyboard::W:
-                obj_comp->m_dy = -acceleration;
-                break;
-            case sf::Keyboard::S:
-                obj_comp->m_dy = acceleration;
-                break;
-            default:
-                break;
-            }
-        }
+        //     if(sfEvent.type == sf::Event::EventType::KeyPressed)
+        //     {
+        //         acceleration = 1.0f;
+        //     }
+        //     else if(sfEvent.type == sf::Event::EventType::KeyReleased)
+        //     {
+        //         acceleration = 0;
+        //     }
+
+        //     switch(sfEvent.key.code)
+        //     {
+        //     case sf::Keyboard::W:
+        //         obj_vel->m_dy = -acceleration;
+        //         break;
+        //     case sf::Keyboard::S:
+        //         obj_vel->m_dy = acceleration;
+        //         break;
+        //     default:
+        //         break;
+        //     }
+        // }
     }
 
 }
