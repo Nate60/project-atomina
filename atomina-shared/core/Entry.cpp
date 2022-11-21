@@ -23,6 +23,5 @@ main()
     {
         ATMA_ENGINE_ERROR("Fatal error {0} shutting down...", e.what());
     }
-
-    app->shutdown();
+    
 }
