@@ -38,7 +38,6 @@ namespace ATMA
 
     void ATMAContext::pushWindowEvent(const WindowEvent &l_e)
     {
-        ATMA_ENGINE_INFO("Pushed window event of type {0:d}", int(l_e.m_event.type));
         for(auto &state: m_states)
         {
             state.second->handleEvent(l_e);
@@ -373,8 +372,11 @@ namespace ATMA
             {
                 for(auto &listener: listenerVec.second)
                 {
-                    if(listener->isEnabled()){
-                        ATMA_ENGINE_INFO("Listener for event type {0:d} notified", l_e.m_objectEventType);
+                    if(listener->isEnabled())
+                    {
+                        ATMA_ENGINE_INFO(
+                            "Listener for event type {0:d} notified", l_e.m_objectEventType
+                        );
                         listener->notify(l_e);
                     }
                 }
@@ -392,10 +394,16 @@ namespace ATMA
         {
             std::vector<std::shared_ptr<ObjectEventListener>> newVec{l_listener};
             m_listeners[l_id] = newVec;
+            ATMA_ENGINE_INFO(
+                "Object Event Listener for Object Event ID: {0:d} has been added", l_id
+            );
         }
         else
         {
             m_listeners[l_id].emplace_back(l_listener);
+            ATMA_ENGINE_INFO(
+                "Object Event Listener for Object Event ID: {0:d} has been added", l_id
+            );
         }
     }
 
