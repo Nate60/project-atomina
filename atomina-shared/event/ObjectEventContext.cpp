@@ -3,8 +3,12 @@
 
 namespace ATMA
 {
-    ObjectEventContext::ObjectEventContext(const unsigned int &l_objectEventType):
-        m_objectEventType(l_objectEventType)
+    ObjectEventContext::ObjectEventContext(
+        const unsigned int &l_objectEventType,
+        const Props &l_props
+    ):
+        m_objectEventType(l_objectEventType),
+        m_properties(l_props)
     {
     }
 

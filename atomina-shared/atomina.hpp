@@ -11,6 +11,7 @@
 #include "util/Log.hpp"
 #include "util/ATConst.hpp"
 #include "util/Worker.hpp"
+#include "util/Props.hpp"
 
 // Math
 #include "math/RandomGenerator.hpp"

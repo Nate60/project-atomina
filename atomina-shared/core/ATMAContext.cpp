@@ -210,6 +210,7 @@ namespace ATMA
             m_states[l_stateType] = std::move(l_state);
             if(initState)
                 switchToState(l_stateType);
+            m_states[l_stateType]->onCreate();
         }
         else
             throw RegistrationException(
