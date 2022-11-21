@@ -100,7 +100,10 @@ TEST_F(UntypedSystemFixture, GUISystemShouldTriggerWhenMouseOver)
     std::unique_ptr<TestState> state{new TestState{}};
     state->m_onMouseMove = [this]() -> void
     {
-        ATMA::ObjectEventContext eCtx{ATMA::ObjectEventType(ATMA::ObjectEvent::MouseOver)};
+        ATMA::Props eventProps{};
+        eventProps["mousepos"] = sf::Vector2i{0, 0};
+        ATMA::ObjectEventContext eCtx{
+            ATMA::ObjectEventType(ATMA::ObjectEvent::MouseOver), eventProps};
         ctx.dispatchObjectEvent(eCtx);
     };
     auto id = state->getId();
@@ -139,6 +142,7 @@ TEST_F(UntypedSystemFixture, GUISystemShouldTriggerWhenMouseOver)
     sf::Event e{};
     e.type = sf::Event::MouseMoved;
     e.mouseMove.x = 20;
+    e.mouseMove.y = 20;
     this->ctx.pushWindowEvent(ATMA::WindowEvent(e));
     EXPECT_TRUE(flag);
 }
@@ -150,7 +154,10 @@ TEST_F(UntypedSystemFixture, GUISystemShouldTriggerWhenMouseClicked)
     std::unique_ptr<TestState> state{new TestState{}};
     state->m_onMousePress = [this]() -> void
     {
-        ATMA::ObjectEventContext eCtx{ATMA::ObjectEventType(ATMA::ObjectEvent::MousePressed)};
+        ATMA::Props eventProps{};
+        eventProps["mousepos"] = sf::Vector2i{0, 0};
+        ATMA::ObjectEventContext eCtx{
+            ATMA::ObjectEventType(ATMA::ObjectEvent::MousePressed), eventProps};
         ctx.dispatchObjectEvent(eCtx);
     };
     auto id = state->getId();
@@ -189,6 +196,8 @@ TEST_F(UntypedSystemFixture, GUISystemShouldTriggerWhenMouseClicked)
     sf::Event e{};
     e.type = sf::Event::MouseButtonPressed;
     e.mouseButton.button = sf::Mouse::Button::Left;
+    e.mouseButton.x = 20;
+    e.mouseButton.y = 20;
     this->ctx.pushWindowEvent(ATMA::WindowEvent(e));
     EXPECT_TRUE(flag);
 }
@@ -200,8 +209,11 @@ TEST_F(UntypedSystemFixture, GUISystemShouldTriggerWhenMouseReleased)
     std::unique_ptr<TestState> state{new TestState{}};
     state->m_onMouseRelease = [this]() -> void
     {
+        ATMA::Props eventProps{};
+        eventProps["mousepos"] = sf::Vector2i{0, 0};
         ATMA_ENGINE_INFO("State window event handler function called");
-        ATMA::ObjectEventContext eCtx{ATMA::ObjectEventType(ATMA::ObjectEvent::MouseReleased)};
+        ATMA::ObjectEventContext eCtx{
+            ATMA::ObjectEventType(ATMA::ObjectEvent::MouseReleased), eventProps};
         ctx.dispatchObjectEvent(eCtx);
     };
     auto id = state->getId();
@@ -232,7 +244,7 @@ TEST_F(UntypedSystemFixture, GUISystemShouldTriggerWhenMouseReleased)
     auto regionAttr = this->ctx.getAttribute<ATMA::AttrMouseRegion>(
         objID, ATMA::AttributeType(ATMA::Attribute::MouseRegion)
     );
-    
+
     regionAttr->m_region.height = 2;
     regionAttr->m_region.width = 2;
     triggerAttr->m_mouseReleaseFunc = [&flag](const ATMA::ObjectEventContext &e) -> void
@@ -245,6 +257,8 @@ TEST_F(UntypedSystemFixture, GUISystemShouldTriggerWhenMouseReleased)
     sf::Event e{};
     e.type = sf::Event::MouseButtonReleased;
     e.mouseButton.button = sf::Mouse::Button::Left;
+    e.mouseButton.x = 20;
+    e.mouseButton.y = 20;
     ATMA_ENGINE_INFO("Is State registered {0}", this->ctx.hasState(id));
     this->ctx.pushWindowEvent(ATMA::WindowEvent{e});
     EXPECT_TRUE(flag);
