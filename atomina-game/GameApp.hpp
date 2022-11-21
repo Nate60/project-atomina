@@ -14,3 +14,18 @@ public:
     virtual void run() override;
     virtual void shutdown() override;
 };
+
+class ShutDownManager: public ATMA::ObjectEventListener
+{
+public:
+    ShutDownManager(std::function<void()> onShutdown): m_callback(onShutdown) {}
+
+    ~ShutDownManager() {}
+
+    virtual void notify(const ATMA::ObjectEventContext &l_e) override
+    {
+        m_callback();
+    }
+
+    const std::function<void()> m_callback;
+};
