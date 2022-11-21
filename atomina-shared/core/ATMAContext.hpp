@@ -52,6 +52,7 @@ namespace ATMA
     class ATMA_API ATMAContext
     {
     protected:
+        bool initialized{false};
         std::mutex m_mtx{};
         ObjectID m_lastObjectID{0u};
         AttributeFactory m_attrFactory{};
@@ -93,6 +94,8 @@ namespace ATMA
 
         ATMAContext(ATMAContext const &) = delete;
         void operator=(ATMAContext const &) = delete;
+
+        void initalize();
 
         // add factory function
         template<class T>
