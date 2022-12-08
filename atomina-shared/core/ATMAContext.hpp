@@ -41,7 +41,7 @@ namespace ATMA
     using ResourceTypeID = unsigned int;
     using WindowID = unsigned int;
     using ResourceContainer =
-        std::unordered_map<ResourceID, std::pair<ResourceTypeID, std::optional<std::string>>>;
+        std::unordered_map<ResourceID, std::tuple<ResourceTypeID, std::string, std::optional<std::string>>>;
     using LoadedResourceContainer = std::unordered_map<ResourceID, std::shared_ptr<Resource>>;
     using WindowContainer = std::unordered_map<WindowID, std::shared_ptr<Window>>;
 
@@ -219,6 +219,7 @@ namespace ATMA
 
         // register resource
         [[nodiscard]] unsigned int registerResource(
+            const std::string &l_name,
             const unsigned int &l_resourceType,
             const std::optional<std::string> &l_filename = std::nullopt
         );
@@ -229,7 +230,6 @@ namespace ATMA
         template<class T>
         [[nodiscard]] std::shared_ptr<T> loadResource(const unsigned int &l_resourceID)
         {
-            ATMA_ENGINE_TRACE("trying to load resource with id {}", l_resourceID);
             auto itr = m_resources.find(l_resourceID);
             if(itr == m_resources.end())
             {
@@ -244,34 +244,21 @@ namespace ATMA
                 if(auto loadeditr = m_loadedResources.find(l_resourceID);
                    loadeditr == m_loadedResources.end())
                 {
-                    ATMA_ENGINE_TRACE(
-                        "resource with id {} has not been loaded into memory so loading now", l_resourceID
-                    );
-                    if(auto &filename = itr->second.second; filename.has_value())
+                    auto &name = std::get<1>(itr->second);
+                    if(auto &filename = std::get<2>(itr->second); filename.has_value())
                     {
-                        ATMA_ENGINE_TRACE(
-                            "resource with id {0:d} has filename of {1}",
-                            l_resourceID,
-                            filename.value()
-                        );
+
                         m_loadedResources[l_resourceID] =
-                            std::shared_ptr<T>{new T{filename.value()}};
+                            std::shared_ptr<T>{new T{name, filename.value()}};
                     }
                     else
                     {
-                        ATMA_ENGINE_TRACE(
-                            "resource with id {0:d} has no filename; creating default resource",
-                            l_resourceID
-                        );
-                        m_loadedResources[l_resourceID] = std::shared_ptr<T>{new T{}};
+                        m_loadedResources[l_resourceID] = std::shared_ptr<T>{new T{name}};
                     }
                     return std::static_pointer_cast<T>(m_loadedResources[l_resourceID]);
                 }
                 else
                 {
-                    ATMA_ENGINE_TRACE(
-                        "resource with id {} already has been loaded, loading from cache", l_resourceID
-                    );
                     return std::static_pointer_cast<T>(loadeditr->second);
                 }
             }

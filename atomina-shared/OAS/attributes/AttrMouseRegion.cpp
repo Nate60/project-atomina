@@ -1,9 +1,10 @@
 #include "pch.hpp"
 #include "AttrMouseRegion.hpp"
 
-namespace ATMA{
+namespace ATMA
+{
 
-    AttrMouseRegion::AttrMouseRegion() : AttrBase(AttrType(Attribute::MouseRegion))
+    AttrMouseRegion::AttrMouseRegion(): AttrBase(AttrType(Attribute::MouseRegion), "Mouse Region")
     {
     }
 

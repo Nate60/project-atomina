@@ -1,6 +1,10 @@
 #include "ObjectEventSuite.hpp"
 #include "event/ObjectEvent.hpp"
 
+/**
+ * Object events should be dispatched to any system that 
+ * has been registered to listen to that event type
+ */
 TEST_F(EventFixture, ObjectEventPassedToSystem)
 {
     this->ctx.addSystemType<TestSystem>(0u);
@@ -14,6 +18,11 @@ TEST_F(EventFixture, ObjectEventPassedToSystem)
     EXPECT_TRUE(this->ctx.getAttribute<TestAttribute>(id, 0u)->flag);
 }
 
+/**
+ * Object events should be not be passed to a disabled system
+ * even if it has been registered to listen to that event
+ * type
+ */
 TEST_F(EventFixture, ObjectEventNotPassedToDisabledSystem)
 {
     this->ctx.addSystemType<TestSystem>(0u);

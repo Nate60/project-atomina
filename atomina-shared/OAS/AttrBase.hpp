@@ -11,7 +11,13 @@ namespace ATMA
     class ATMA_API AttrBase
     {
     public:
-        AttrBase(const AttributeType &l_type): m_type(l_type) {}
+        const std::string m_attrTypeName;
+
+        AttrBase(const AttributeType &l_type, const std::string &l_typeName):
+            m_type(l_type),
+            m_attrTypeName(l_typeName)
+        {
+        }
 
         virtual ~AttrBase() {}
 

@@ -265,12 +265,14 @@ namespace ATMA
     }
 
     unsigned int ATMAContext::registerResource(
+        const std::string &l_name,
         const unsigned int &l_resourceType,
         const std::optional<std::string> &l_filename
     )
     {
         auto id = m_lastResourceId++;
-        m_resources[id] = std::make_pair(l_resourceType, l_filename);
+        m_resources[id] = std::make_tuple(l_resourceType, l_name, l_filename);
+        ATMA_ENGINE_INFO("registered resource {0} with id {1:d}", l_name, l_resourceType);
         return id;
     }
 
@@ -441,39 +443,45 @@ namespace ATMA
             system.second->purge();
         }
         m_lastObjectID = 0;
+        ATMA_ENGINE_INFO("purged objects from context");
     }
 
     void ATMAContext::purgeSystems()
     {
         m_systems.clear();
+        ATMA_ENGINE_INFO("purged systems from context");
     }
 
     void ATMAContext::purgeStates()
     {
         m_states.clear();
         m_currentStateID = 0;
+        ATMA_ENGINE_INFO("purged states from context");
     }
 
     void ATMAContext::purgeResources()
     {
         m_resources.clear();
         m_loadedResources.clear();
+        m_lastResourceId = 0;
+        ATMA_ENGINE_INFO("purged resources from context");
     }
 
     void ATMAContext::purgeWindows()
     {
         m_windows.clear();
+        m_lastWindowID = 0;
+        ATMA_ENGINE_INFO("purged windows from context");
     }
 
     void ATMAContext::purgeListeners()
     {
         m_listeners.clear();
+        ATMA_ENGINE_INFO("purged listeners from context");
     }
 
     void ATMAContext::purge()
     {
-        ATMA_ENGINE_INFO("Purging ATMA Context; locking mutex");
-        std::lock_guard<std::mutex> lock{m_mtx};
         m_objects.clear();
         m_attrFactory.clear();
         m_systems.clear();
@@ -486,6 +494,7 @@ namespace ATMA
         m_lastWindowID = 0;
         m_currentStateID = 0;
         m_lastResourceId = 0;
+        ATMA_ENGINE_INFO("purged everything from context");
     }
 
 }

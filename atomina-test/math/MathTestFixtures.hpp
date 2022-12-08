@@ -1,10 +1,19 @@
 #pragma once
 #include "AtominaTest.hpp"
 
+/**
+ * Test fixture for running interpolation tests
+ * against Atomina's interpolation function
+ */
 template<class T>
 class InterpolationTestFixture: public ::testing::Test
 {
 protected:
+    /**
+     * function to run tests against a given interpolation
+     * function
+     * @param f Interpolation function that returns a float value
+     */
     void interpolateTest(std::function<T(T, T, float)> f)
     {
         // middle
@@ -35,10 +44,20 @@ protected:
     }
 };
 
+/**
+ * Test fixture for running perlin noise function tests
+ * against Atomina's perlin noise function
+ */
 template<class T>
 class PerlinTestFixture: public ::testing::Test
 {
 protected:
+    /**
+     * function to run tests against a given implementation of
+     * perlin noise
+     * @param f function that implements perlin noise and returns a float
+     * @param l_exp expected value of the given function
+     */
     void perlinTest(std::function<T(T, T, float)> f, T l_exp)
     {
         sf::Vector2<T> gradient[4] = {

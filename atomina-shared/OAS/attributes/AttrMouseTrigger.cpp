@@ -4,7 +4,10 @@
 namespace ATMA
 {
 
-    AttrMouseTrigger::AttrMouseTrigger(): AttrBase(AttrType(Attribute::MouseTrigger)) {}
+    AttrMouseTrigger::AttrMouseTrigger():
+        AttrBase(AttrType(Attribute::MouseTrigger), "Mouse Trigger")
+    {
+    }
 
     AttrMouseTrigger::~AttrMouseTrigger() {}
 

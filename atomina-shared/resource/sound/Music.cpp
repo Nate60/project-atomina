@@ -4,9 +4,9 @@
 namespace ATMA
 {
 
-    Music::Music(): Resource() {}
+    Music::Music(const std::string &l_name): Resource(l_name) {}
 
-    Music::Music(const std::string &l_filename): Resource(l_filename) {}
+    Music::Music(const std::string &l_name, const std::string &l_filename): Resource(l_name, l_filename) {}
 
     Music::~Music() {}
 

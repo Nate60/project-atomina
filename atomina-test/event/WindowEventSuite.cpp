@@ -2,6 +2,10 @@
 #include "event/WindowEvent.hpp"
 #include <SFML/Window/Keyboard.hpp>
 
+/**
+ * When key pressed window event is pushed from a window
+ * it should be pushed to all active states
+ */
 TEST_F(EventFixture, KeyPressedIsPassedToState)
 {
     bool flag{false};
@@ -16,6 +20,10 @@ TEST_F(EventFixture, KeyPressedIsPassedToState)
     EXPECT_TRUE(flag);
 }
 
+/**
+ * When key released window event is pushed from a window
+ * it should be pushed to all active states
+ */
 TEST_F(EventFixture, KeyReleasedIsPassedToState)
 {
     bool flag{false};
@@ -30,6 +38,10 @@ TEST_F(EventFixture, KeyReleasedIsPassedToState)
     EXPECT_TRUE(flag);
 }
 
+/**
+ * When mouse button pressed window event is pushed from a window
+ * it should be pushed to all active states
+ */
 TEST_F(EventFixture, MousePressedIsPassedToState) 
 {
     bool flag{false};
@@ -44,6 +56,10 @@ TEST_F(EventFixture, MousePressedIsPassedToState)
     EXPECT_TRUE(flag);
 }
 
+/**
+ * When mouse button released window event is pushed from a window
+ * it should be pushed to all active states
+ */
 TEST_F(EventFixture, MouseReleasedIsPassedToState) 
 {
     bool flag{false};
@@ -58,6 +74,10 @@ TEST_F(EventFixture, MouseReleasedIsPassedToState)
     EXPECT_TRUE(flag);
 }
 
+/**
+ * When mouse move window event is pushed from a window
+ * it should be pushed to all active states
+ */
 TEST_F(EventFixture, MouseMovedIsPassedToState) 
 {
     bool flag{false};
@@ -71,4 +91,28 @@ TEST_F(EventFixture, MouseMovedIsPassedToState)
     e.mouseMove.y = 0;
     this->ctx.pushWindowEvent(ATMA::WindowEvent(e));
     EXPECT_TRUE(flag);
+}
+/**
+ * When window event is pushed from a window
+ * it should be pushed to all active states even if
+ * there is more than one
+ */
+TEST_F(EventFixture, WindowEventIsPassedToAllActiveStates)
+{
+    bool flag{false};
+    bool flag2{false};
+    std::unique_ptr<TestState> state{new TestState{}};
+    std::unique_ptr<TestState> state2{new TestState{}};
+    state->m_onMouseMove = [&flag]() -> void { flag = true; };
+    state2->m_onMouseMove = [&flag2]() -> void {flag2 = true; };
+    auto id = state->getId();
+    this->ctx.addState(id, std::move(state));
+    this->ctx.addState(10, std::move(state2));
+    sf::Event e{};
+    e.type = sf::Event::MouseMoved;
+    e.mouseMove.x = 0;
+    e.mouseMove.y = 0;
+    this->ctx.pushWindowEvent(ATMA::WindowEvent(e));
+    EXPECT_TRUE(flag); 
+    EXPECT_TRUE(flag2);
 }

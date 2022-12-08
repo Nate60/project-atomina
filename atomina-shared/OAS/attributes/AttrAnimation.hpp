@@ -21,7 +21,7 @@ namespace ATMA
 
         void readIn(std::stringstream &l_stream);
 
-        std::shared_ptr<SpriteSheet> m_spriteSheet{new SpriteSheet{}};
+        std::shared_ptr<SpriteSheet> m_spriteSheet{new SpriteSheet{"[null]"}};
         std::unique_ptr<AnimBase> m_animation{new AnimDefault{}};
     };
 
