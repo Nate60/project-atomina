@@ -4,7 +4,7 @@
 namespace ATMA
 {
 
-    AttrAnimation::AttrAnimation(): AttrBase(AttrType(Attribute::Animation)) {}
+    AttrAnimation::AttrAnimation(): AttrBase(AttrType(Attribute::Animation), "Animation") {}
 
     AttrAnimation::~AttrAnimation() {}
 

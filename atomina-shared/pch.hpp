@@ -6,6 +6,7 @@
 #include <memory>
 #include <execution>
 #include <vector>
+#include <tuple>
 #include <set>
 #include <sstream>
 #include <iostream>
@@ -32,7 +33,9 @@
 #include <SFML/Window.hpp>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/sinks/ostream_sink.h>
 #include <spdlog/fmt/ostr.h>
+#include <spdlog/fmt/bundled/format.h>
 
 #ifdef _WINDOWS
 #    include <Windows.h>

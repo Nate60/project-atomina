@@ -4,7 +4,7 @@
 namespace ATMA
 {
 
-    AttrGraphic::AttrGraphic(): AttrBase(AttrType(ATMA::Attribute::Graphic)) {}
+    AttrGraphic::AttrGraphic(): AttrBase(AttrType(ATMA::Attribute::Graphic), "Graphic") {}
 
     AttrGraphic::~AttrGraphic() {}
 

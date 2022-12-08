@@ -49,6 +49,15 @@ namespace ATMA
             }
         }
 
+        template<class T>
+        const T &value_or(const std::string &l_key, const T &l_other) const
+        {
+            if(contains(l_key))
+                return getAs<T>(l_key);
+            else
+             return l_other;
+        }
+
         void remove(const std::string &l_key);
 
         bool contains(const std::string &l_key) const;

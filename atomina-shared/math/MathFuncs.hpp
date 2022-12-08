@@ -13,7 +13,7 @@ namespace ATMA
         return a.x * b.x + a.y * b.y;
     }
 
-    /*
+    /**
      * Linear Interpolation between two values, with a given delta
      * @param v0 Starting Boundary of interpolation
      * @param v1 Ending Boundary of interpolation
@@ -29,7 +29,7 @@ namespace ATMA
         return (1 - t) * v0 + t * v1;
     }
 
-    /*
+    /**
      * Cubic interpolation between two values with a given delta, used for smoother stepping
      * @param v0 Starting Boundary of interpolation
      * @param v1 Ending Boundary of interpolation
@@ -43,7 +43,7 @@ namespace ATMA
         return (a1 - a0) * (3 - w * 2) * w * w + a0;
     }
 
-    /*
+    /**
      * Used to generate perlin noise at a specific location on a gradient
      * @param gradient: Array of 4 directional vectors that define the gradient around the point
      * @param interpolate: interpolation function to interpolate values in the gradient

@@ -4,7 +4,7 @@
 namespace ATMA
 {
 
-    SysAnimator::SysAnimator(): SysBase(SystemType(System::Animator))
+    SysAnimator::SysAnimator(): SysBase(SystemType(System::Animator), "Animator")
     {
         m_req.set(AttrType(Attribute::Graphic));
         m_req.set(AttrType(Attribute::Animation));
