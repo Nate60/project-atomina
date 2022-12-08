@@ -9,8 +9,9 @@ namespace ATMA
     class ATMA_API Resource
     {
     public:
-        Resource();
-        Resource(const std::string &l_fileName);
+    const std::string m_resourceName;
+        Resource(const std::string &l_name);
+        Resource(const std::string &l_name, const std::string &l_fileName);
         ~Resource();
     };
 

@@ -4,7 +4,7 @@
 namespace ATMA
 {
 
-    SysRenderer::SysRenderer(): SysBase(SystemType(System::Renderer))
+    SysRenderer::SysRenderer(): SysBase(SystemType(System::Renderer), "Renderer")
     {
         m_req.set(AttrType(Attribute::Graphic));
     }

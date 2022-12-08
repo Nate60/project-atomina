@@ -1,6 +1,6 @@
 #include "TestAttribute.hpp"
 
-TestAttribute::TestAttribute(): AttrBase(0u) {}
+TestAttribute::TestAttribute(): AttrBase(0u, "Test") {}
 
 TestAttribute::~TestAttribute() {}
 

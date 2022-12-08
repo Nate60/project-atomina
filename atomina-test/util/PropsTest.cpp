@@ -61,3 +61,16 @@ TEST(PropsTest, CanBeCaseSensitve)
     props["key"] = "value"s;
     EXPECT_FALSE(props.contains("KeY"));
 }
+
+TEST(PropsTest, ValueOrGivesFoundValue)
+{
+    ATMA::Props props{};
+    props["key"] = "value"s;
+    EXPECT_EQ("value"s, props.value_or("key", "notValue"s));
+}
+
+TEST(PropsTest, ValueOrGivesOtherValueIfKeyNotFound)
+{
+    ATMA::Props props{};
+    EXPECT_EQ("notValue"s, props.value_or("key", "notValue"s));
+}

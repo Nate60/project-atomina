@@ -3,6 +3,9 @@
 TYPED_TEST_SUITE(InterpolationTestFixture, InterpolationTestTypes);
 TYPED_TEST_SUITE(PerlinTestFixture, PerlinTestTypes);
 
+/**
+ * Runs interpolation test function with linear interpolation function
+ */
 TYPED_TEST(InterpolationTestFixture, LinearInterpolation)
 {
 
@@ -12,6 +15,9 @@ TYPED_TEST(InterpolationTestFixture, LinearInterpolation)
     this->interpolateTest(f);
 };
 
+/**
+ * Runs interpolation helper test funciton with cubic interpolation function
+ */
 TYPED_TEST(InterpolationTestFixture, CubicInterpolation)
 {
 
@@ -19,6 +25,9 @@ TYPED_TEST(InterpolationTestFixture, CubicInterpolation)
     this->interpolateTest(f);
 };
 
+/**
+ * Runs perlin noise helper test function with linear interpolation function
+ */
 TYPED_TEST(PerlinTestFixture, PerlinNoiseWithLerp)
 {
 
@@ -27,6 +36,9 @@ TYPED_TEST(PerlinTestFixture, PerlinNoiseWithLerp)
     this->perlinTest(f, exp);
 };
 
+/**
+ * Runs perlin noise helper test funciton with cubic interpolation function
+ */
 TYPED_TEST(PerlinTestFixture, PerlinNoiseWithCubeTerp)
 {
 
@@ -37,6 +49,10 @@ TYPED_TEST(PerlinTestFixture, PerlinNoiseWithCubeTerp)
 
 using IntPerlinTestFixture = PerlinTestFixture<int>;
 
+/**
+ * Run perlin noise helper function with linear interpolation
+ * Only on int data type because of data truncation
+ */
 TEST_F(IntPerlinTestFixture, PerlinNoiseWithLerpInt)
 {
     auto f = ATMA::lerp<int, float>;
@@ -44,6 +60,10 @@ TEST_F(IntPerlinTestFixture, PerlinNoiseWithLerpInt)
     this->perlinTest(f, exp);
 }
 
+/**
+ * Run perlin noise helper function with cubic interpolation
+ * Only on int data type because of data truncation
+ */
 TEST_F(IntPerlinTestFixture, PerlinNoiseWithCubeTerpInt)
 {
     auto f = ATMA::cubeTerp<int, float>;

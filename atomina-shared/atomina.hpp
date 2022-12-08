@@ -21,6 +21,7 @@
 #include "core/Game.hpp"
 #include "core/Entry.hpp"
 #include "core/ATMAContext.hpp"
+#include "core/ATMAFormats.hpp"
 
 // File
 #include "file/FileHandler.hpp"

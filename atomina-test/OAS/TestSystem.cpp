@@ -1,6 +1,6 @@
 #include "TestSystem.hpp"
 
-TestSystem::TestSystem(): SysBase(0u)
+TestSystem::TestSystem(): SysBase(0u, "Test")
 {
     m_req.set(0);
 }

@@ -1,7 +1,9 @@
 #pragma once
 #include "AtominaTest.hpp"
 
-
+/**
+ * Test fixture for setting up networking sockets
+ */
 class NetworkFixture: public ::testing::Test
 {
 public:
@@ -11,6 +13,9 @@ public:
     ATMA::NetworkClient l_client{addr, port};
     ATMA::NetworkClient l_client2{addr, port};
 protected:
+    /**
+     * Creates all sockets
+     */
     void SetUp() override
     {
         l_host = ATMA::NetworkHost(port);
@@ -18,11 +23,14 @@ protected:
         l_client2 = ATMA::NetworkClient(addr, port);
     }
 
+    /**
+     * Closes all sockets
+     */
     void TearDown() override
     {
         l_host.stopListening();
         l_client.disconnect();
-        l_client.disconnect();
+        l_client2.disconnect();
         l_host.purgeConnections();
     }
 };

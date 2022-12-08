@@ -18,7 +18,9 @@ namespace ATMA
     class ATMA_API SysBase: public ObjectEventListener
     {
     public:
-        SysBase(const SystemType &l_type): m_type(l_type) {}
+        const std::string m_sysTypeName;
+
+        SysBase(const SystemType &l_type, const std::string &l_typeName): m_type(l_type), m_sysTypeName(l_typeName) {}
 
         virtual ~SysBase() {}
 
