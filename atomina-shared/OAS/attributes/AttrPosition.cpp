@@ -4,7 +4,12 @@
 namespace ATMA
 {
 
-    AttrPosition::AttrPosition(): AttrBase(AttrType(Attribute::Position)), m_x(0.0f), m_y(0.0f) {}
+    AttrPosition::AttrPosition():
+        AttrBase(AttrType(Attribute::Position), "Position"),
+        m_x(0.0f),
+        m_y(0.0f)
+    {
+    }
 
     AttrPosition::~AttrPosition() {}
 

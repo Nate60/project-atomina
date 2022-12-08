@@ -6,7 +6,7 @@
 namespace ATMA
 {
 
-    SysTranslator::SysTranslator(): SysBase(SystemType(System::Translator))
+    SysTranslator::SysTranslator(): SysBase(SystemType(System::Translator), "Translator")
     {
         m_req.set(AttrType(Attribute::Position));
         m_req.set(AttrType(Attribute::Velocity));

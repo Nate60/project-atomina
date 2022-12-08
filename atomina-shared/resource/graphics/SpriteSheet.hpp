@@ -11,10 +11,9 @@ namespace ATMA
     class ATMA_API SpriteSheet: public Resource
     {
     public:
-        SpriteSheet();
-        SpriteSheet(const std::string &l_filename);
+        SpriteSheet(const std::string &l_name);
+        SpriteSheet(const std::string &l_name, const std::string &l_filename);
         ~SpriteSheet();
-
 
         void updateSprite(const std::unique_ptr<AnimBase> &l_anim, sf::Sprite &l_sprite);
     private:

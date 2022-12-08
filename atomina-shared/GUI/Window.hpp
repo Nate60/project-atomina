@@ -42,6 +42,7 @@ namespace ATMA
             const sf::Drawable &l_drawable,
             const sf::RenderStates &l_states = sf::RenderStates::Default
         );
+        ATMA_API friend std::ostream& operator<<(std::ostream& os, const  std::shared_ptr<Window> w);
     private:
         std::unordered_map<ViewId, sf::View> m_layers;
         bool m_done{false};

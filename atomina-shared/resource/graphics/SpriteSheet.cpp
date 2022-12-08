@@ -5,15 +5,14 @@
 namespace ATMA
 {
 
-    SpriteSheet::SpriteSheet(): Resource()
+    SpriteSheet::SpriteSheet(const std::string &l_name): Resource(l_name)
     {
-        ATMA_ENGINE_TRACE("creating sprite sheet without filename");
         if(!m_sheet.loadFromImage(ATConst::getDefaultImage()))
             throw 1;
         m_sheet.setRepeated(true);
     }
 
-    SpriteSheet::SpriteSheet(const std::string &l_filename): Resource(l_filename)
+    SpriteSheet::SpriteSheet(const std::string &l_name, const std::string &l_filename): Resource(l_name, l_filename)
     {
         if(!m_sheet.loadFromFile(l_filename))
             throw 1;

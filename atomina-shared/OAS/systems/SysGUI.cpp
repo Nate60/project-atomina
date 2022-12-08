@@ -8,7 +8,7 @@
 namespace ATMA
 {
 
-    SysGUI::SysGUI(): SysBase(SystemType(System::GUI))
+    SysGUI::SysGUI(): SysBase(SystemType(System::GUI), "GUI")
     {
         m_req.set(AttributeType(Attribute::MouseRegion));
         m_req.set(AttributeType(Attribute::MouseRegion));
