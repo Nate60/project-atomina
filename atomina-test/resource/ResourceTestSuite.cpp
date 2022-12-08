@@ -89,13 +89,9 @@ TYPED_TEST(ResourceFixture, GetRemovedResource)
 TYPED_TEST(ResourceFixture, RemovingResourceUnloadsIt)
 {
     auto &ctx = this->ctx;
-    ATMA_ENGINE_INFO("loaded context");
     auto id = this->registerResource(0u);
-    ATMA_ENGINE_INFO("registered resource");
     auto res = this->loadResource(id);
-    ATMA_ENGINE_INFO("loaded resource");
     ctx.removeResource(id);
-    ATMA_ENGINE_INFO("removed resource");
     EXPECT_FALSE(ctx.hasLoadedResource(id));
 
 }
