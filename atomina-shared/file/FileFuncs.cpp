@@ -6,7 +6,7 @@ namespace ATMA
 
     std::string getWorkingDirectory()
     {
-        return stdfs::current_path();
+        return stdfs::current_path().string();
     }
 
     std::vector<stdfs::path> getDirectoryList(const stdfs::path &path, const std::string &filter)
