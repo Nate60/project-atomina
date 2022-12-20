@@ -10,11 +10,15 @@ env:
   # Configuration type to build.
   # You can convert this to a build matrix if you need coverage of multiple configuration types.
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-  BUILD_CONFIGURATION: Release
+
   BUILD_PLATFORM: x64
 
 jobs:
-  build:
+  build_linux:
+    strategy:
+      matrix:
+       build_type: [Release, Debug]
+
     runs-on: ubuntu-20.04
 
     steps:
@@ -37,17 +41,43 @@ jobs:
         submodules: 'recursive'
     - run: git checkout HEAD    
       
-    - name: Build Modules
-      working-directory: ${{env.SOLUTION_FILE_PATH}} 
-      run: bash sbin/buildmodules.sh
-      
     - name: Build Project
       working-directory: ${{env.SOLUTION_FILE_PATH}} 
-      run: bash sbin/buildproject.sh -DIntel_Processor:BOOL=true
+      run: bash sbin/buildproject.sh ${{matrix.build_type}} -DIntel_Processor:BOOL=true
 
     - name: Run Tests
       working-directory: ${{env.SOLUTION_FILE_PATH}} 
-      env:
-        LD_LIBRARY_PATH: $HOME/work/project-atomina/project-atomina/ext/lib
-      run: ls $HOME/work/project-atomina/project-atomina/ext/lib && echo $LD_LIBRARY_PATH && bash sbin/runtests.sh
-      
+      run: ls out/build/bin && bash sbin/runtests.sh ${{matrix.build_type}}
+  
+  build_windows:
+    strategy:
+      matrix:
+       build_type: [Release, Debug]
+
+    runs-on: windows-2019
+
+    steps:
+    
+    - name: Setup cmake
+      uses: jwlawson/actions-setup-cmake@v1.12
+      with:
+        cmake-version: '3.23.x'
+
+    - name: Enable Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1.12.0
+
+    - name: Checkout action repo branch
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+        submodules: 'recursive'
+    - run: git checkout HEAD    
+
+    - name: Build Project
+      working-directory: ${{env.SOLUTION_FILE_PATH}} 
+      run: sbin/buildproject.bat ${{matrix.build_type}} -DIntel_Processor:BOOL=true
+
+    - name: Run Tests
+      working-directory: ${{env.SOLUTION_FILE_PATH}} 
+      run: sbin/runtests.bat ${{matrix.build_type}}
+

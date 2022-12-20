@@ -13,6 +13,8 @@ namespace ATMA
     public:
         SpriteSheet();
         SpriteSheet(const std::string &l_filename);
+        ~SpriteSheet();
+
 
         void updateSprite(const std::unique_ptr<AnimBase> &l_anim, sf::Sprite &l_sprite);
     private:

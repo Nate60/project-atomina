@@ -7,6 +7,7 @@ namespace ATMA
 
     SpriteSheet::SpriteSheet(): Resource()
     {
+        ATMA_ENGINE_TRACE("creating sprite sheet without filename");
         if(!m_sheet.loadFromImage(ATConst::getDefaultImage()))
             throw 1;
         m_sheet.setRepeated(true);
@@ -16,6 +17,11 @@ namespace ATMA
     {
         if(!m_sheet.loadFromFile(l_filename))
             throw 1;
+    }
+
+    SpriteSheet::~SpriteSheet() 
+    {
+        
     }
 
     void SpriteSheet::updateSprite(const std::unique_ptr<AnimBase> &l_anim, sf::Sprite &l_sprite)
