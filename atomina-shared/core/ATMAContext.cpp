@@ -472,7 +472,8 @@ namespace ATMA
 
     void ATMAContext::purge()
     {
-        ATMA_ENGINE_INFO("Purging ATMA Context");
+        ATMA_ENGINE_INFO("Purging ATMA Context; locking mutex");
+        std::lock_guard<std::mutex> lock{m_mtx};
         m_objects.clear();
         m_attrFactory.clear();
         m_systems.clear();
@@ -484,6 +485,7 @@ namespace ATMA
         m_lastObjectID = 0;
         m_lastWindowID = 0;
         m_currentStateID = 0;
+        m_lastResourceId = 0;
     }
 
 }
