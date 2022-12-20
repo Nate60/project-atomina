@@ -42,6 +42,7 @@ protected:
      */
     void TearDown() override
     {
+        ATMA_ENGINE_TRACE("starting teardown");
         ctx.purge();
     }
 };
