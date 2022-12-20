@@ -229,6 +229,7 @@ namespace ATMA
         template<class T>
         [[nodiscard]] std::shared_ptr<T> loadResource(const unsigned int &l_resourceID)
         {
+            ATMA_ENGINE_TRACE("trying to load resource with id {}", l_resourceID);
             auto itr = m_resources.find(l_resourceID);
             if(itr == m_resources.end())
             {
@@ -239,22 +240,38 @@ namespace ATMA
             }
             else
             {
+
                 if(auto loadeditr = m_loadedResources.find(l_resourceID);
                    loadeditr == m_loadedResources.end())
                 {
+                    ATMA_ENGINE_TRACE(
+                        "resource with id {} has not been loaded into memory so loading now", l_resourceID
+                    );
                     if(auto &filename = itr->second.second; filename.has_value())
                     {
+                        ATMA_ENGINE_TRACE(
+                            "resource with id {0:d} has filename of {1}",
+                            l_resourceID,
+                            filename.value()
+                        );
                         m_loadedResources[l_resourceID] =
                             std::shared_ptr<T>{new T{filename.value()}};
                     }
                     else
                     {
+                        ATMA_ENGINE_TRACE(
+                            "resource with id {0:d} has no filename; creating default resource",
+                            l_resourceID
+                        );
                         m_loadedResources[l_resourceID] = std::shared_ptr<T>{new T{}};
                     }
                     return std::static_pointer_cast<T>(m_loadedResources[l_resourceID]);
                 }
                 else
                 {
+                    ATMA_ENGINE_TRACE(
+                        "resource with id {} already has been loaded, loading from cache", l_resourceID
+                    );
                     return std::static_pointer_cast<T>(loadeditr->second);
                 }
             }

@@ -30,6 +30,5 @@ namespace ATMA
         bool active = false;
     };
 
-    std::unique_ptr<Game> CreateGame();
-
 }
+
