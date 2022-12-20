@@ -47,8 +47,16 @@ GameApp::shutdown()
     active = false;
 }
 
+#ifdef _WINDOWS
+int
+main()
+{
+    ATMA::startGame(std::unique_ptr<ATMA::Game>(new GameApp{}));
+}
+#else
 std::unique_ptr<ATMA::Game>
 ATMA::CreateGame()
 {
     return std::unique_ptr<ATMA::Game>{new GameApp()};
 }
+#endif
