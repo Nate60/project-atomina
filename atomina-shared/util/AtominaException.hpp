@@ -15,12 +15,19 @@ namespace ATMA
         AtominaException(const std::string &l_message) noexcept: runtime_error(l_message) {}
     };
 
+    /**
+     * Exception to be thrown when an error occurs when registering an id or related object to
+     * a manager 
+     */
     struct ATMA_API RegistrationException: public AtominaException
     {
 
         RegistrationException(const std::string &l_message) noexcept: AtominaException(l_message) {}
     };
 
+    /**
+     * Exception to be thrown when a value cannot be found and cannot recover
+     */
     struct ATMA_API ValueNotFoundException: public AtominaException
     {
 
@@ -29,6 +36,9 @@ namespace ATMA
         }
     };
 
+    /**
+     * Exception thrown when the logger engine has not been initialized 
+     */
     struct ATMA_API LoggerNotInitializedException: public AtominaException
     {
         LoggerNotInitializedException(const std::string &l_message) noexcept:
@@ -37,6 +47,9 @@ namespace ATMA
         }
     };
 
+    /**
+     * exception for network related errors
+     */
     struct ATMA_API NetworkException: public AtominaException
     {
         NetworkException(const std::string &l_message) noexcept: AtominaException(l_message) {}

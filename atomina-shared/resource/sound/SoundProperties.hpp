@@ -5,6 +5,9 @@
 namespace ATMA
 {
 
+    /**
+     * structure containing all information about sound 
+     */
     struct ATMA_API SoundProperties
     {
         SoundProperties(const std::string &l_name):

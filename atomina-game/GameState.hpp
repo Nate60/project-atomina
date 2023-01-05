@@ -9,13 +9,22 @@
 #include <functional>
 #include <atomina.hpp>
 
+/**
+ * Game Implementation of state to implement a user defined extended state
+ * that is external to the engine
+ */
 class GameState: public ATMA::BaseState
 {
 public:
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
 
+    //default constructor
     GameState(): BaseState() {}
 
+    /**
+     * Game app implementation of onCreate function to be the initialization
+     * of the game app user defined objects
+     */
     virtual void onCreate() override
     {
         // create button
@@ -38,17 +47,35 @@ public:
         ctx.addAttribute(butID, ATMA::AttributeType(ATMA::Attribute::Graphic));
     }
 
+    /**
+     * stub implementation of onDestroy 
+     */
     virtual void onDestroy() override {}
 
+    /**
+     * stub implementation of activate function
+     */
     virtual void activate() override {}
 
+
+    /**
+     * stub implementation of deactive function 
+     */
     virtual void deactivate() override {}
 
+    /**
+     * gets state id
+     * @returns state id 
+     */
     virtual unsigned int getId() const override
     {
         return ATMA::StateType(ATMA::State::COUNT);
     }
 
+    /**
+     * handle user input event passed from window
+     * @param l_e user input event from window 
+     */
     virtual void handleEvent(const ATMA::WindowEvent &l_e) override
     {
         sf::Event e = l_e.m_event;
@@ -67,7 +94,14 @@ public:
         }
     }
 
+    /**
+     * stub implemenation of update
+     * @param l_time time passed since update 
+     */
     virtual void update(const sf::Time &l_time) override {}
 
+    /**
+     * stub implemenation of draw 
+     */
     virtual void draw() override {}
 };

@@ -16,7 +16,8 @@
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64",
-            "compileCommands": "${workspaceFolder}/out/build/x64-debug/compile_commands.json"
+            "compileCommands": "${workspaceFolder}/out/build/x64-debug/compile_commands.json",
+            "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
             "name": "Win64Release",

@@ -15,47 +15,67 @@ namespace ATMA
 
     using ObjectId = unsigned int;
 
+    /**
+     * Super class for systems which implement the behaviours of
+     * attributes for each object register in the context 
+     */
     class ATMA_API SysBase: public ObjectEventListener
     {
     public:
         const std::string m_sysTypeName;
-
+        
+        //constructor with system type and type name
         SysBase(const SystemType &l_type, const std::string &l_typeName): m_type(l_type), m_sysTypeName(l_typeName) {}
 
+        //destructor
         virtual ~SysBase() {}
 
         /**
          * gives the enumerator for the type of system
+         * @returns type enum of the system
          */
         SystemType getType() const;
 
         /**
          * returns true if the bitset matches the required bitset completely
+         * @param l_bits bitset of the object to see if it matches the requirements
+         * @returns if the bitset matches the requirement of the system
          */
         bool match(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits) const;
 
         /**
          * updates all attributes of all the objects contained in the system
+         * @param time time since last update
          */
         virtual void update(const float &l_dt) = 0;
 
         friend class ATMAContext;
     protected:
         /**
-         * adds object to the system, returns true only if successful
+         * adds object to the system
+         * @param l_id id of the object
+         * @returns if the operation was successful
          */
         bool addObject(const ObjectId &l_id);
 
         /**
-         * returns if object is in the system or not
+         * checks if the object is registering in the system
+         * @param l_id id of the object
+         * @returns if the object is registered
          */
         bool hasObject(const ObjectId &l_id) const;
 
         /**
-         * removes object from the system, returns true only if succesful
+         * removes object from the system
+         * @param l_id id of the object
+         * @returns if the operation was successful
          */
         bool removeObject(const ObjectId &l_id);
 
+        /**
+         * interface function for event listeners
+         * @param l_e event details
+         */
         virtual void notify(const ObjectEventContext &l_e) = 0;
 
         /**

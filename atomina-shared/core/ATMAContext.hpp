@@ -49,9 +49,15 @@ namespace ATMA
     using ObjectEventListeners =
         std::unordered_map<ObjectEventID, std::vector<std::shared_ptr<ObjectEventListener>>>;
 
+
+    /**
+     * Singleton that houses all internal state within the Atomina Engine.
+     * Manages all resources and objects available to the engine.
+     */
     class ATMA_API ATMAContext
     {
     protected:
+
         bool initialized{false};
         std::mutex m_mtx{};
         ObjectID m_lastObjectID{0u};
@@ -72,19 +78,42 @@ namespace ATMA
 
         ObjectEventListeners m_listeners{};
 
-        ATMAContext()
-        {
-            ATMA_ENGINE_INFO("ATMAContext has been initialized");
-        }
+        /**
+         * protected constructor that should only be called
+         * by the get context function to maintain a singleton
+         * pattern
+         */
+        ATMAContext();
 
-        // helper function
+        /**
+         * Called when an object has had an attribute added or removed
+         * and will let any relevant systems know.
+         * @param l_objectID object id of the object that was changed
+         * @param l_bits the bit set of the object describing which attributes it has
+         */
         void objectUpdated(
             const unsigned int &l_objectID,
             const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits
         );
+
+        /**
+         * Called when a system has been removed or added to the context and
+         * will notify the system of any potential relevant objects
+         * @param l_systemID id of the system that has changed
+         */
         void systemUpdated(const unsigned int &l_systemID);
+
     public:
-        // get context
+
+        //deleted functions
+        ATMAContext(ATMAContext const &) = delete;
+        void operator=(ATMAContext const &) = delete;
+        
+        /**
+         * Global function to obtain a reference to the global Atomina
+         * context
+         * @returns reference to global Atomina context 
+         */
         static ATMAContext &getContext()
         {
             static ATMAContext context; // Guaranteed to be destroyed.
@@ -92,12 +121,13 @@ namespace ATMA
             return context;
         }
 
-        ATMAContext(ATMAContext const &) = delete;
-        void operator=(ATMAContext const &) = delete;
 
-        void initalize();
-
-        // add factory function
+        /**
+         * Assigns an Attribute class type to an unsigned integer id
+         * @tparam class type to assign id to
+         * @param l_attrType id to assign class type to
+         * @throws RegistrationException if the id has a type already assigned
+         */
         template<class T>
         void registerAttributeType(const unsigned int &l_attrType)
         {
@@ -116,22 +146,54 @@ namespace ATMA
             }
         }
 
+        /**
+         * allocates an unique id for a new object but does not assign any attributes to
+         * it
+         * @returns id of the new object
+         */
         [[nodiscard]] unsigned int createObject();
 
-        [[nodiscard]] unsigned int createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits
-        );
+        /**
+         * allocates an unique id for a new object and creates the corresponding attributes listing
+         * in the given bit set
+         * @param l_bits
+         * @returns id of the new object
+         */
+        [[nodiscard]] unsigned int createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
 
-        // add attribute
+        /**
+         * Adds an attribute of the given id type to the given id
+         * @param l_objectID object id to add attribute to
+         * @param l_attrType id type of the attribute
+         * @throws ValueNotFound Exception if either the object id or attribute type is not registered to the context
+         */
         void addAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType);
 
-        // remove attribute
+        /**
+         * Removes an attribute of the given type from the specified object
+         * @param l_objectID object id to remove the attribute from
+         * @param l_attrType type id of the attribute to remove
+         * @throws ValueNotFound Exception if either the object id or attribute type is not registered to the context or if the object does not have the attribute
+         */
         void removeAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType);
 
-        // check attribute
+        /**
+         * checks if the object id has the given attribute
+         * @param l_objectID id of the object to check
+         * @param l_attrType type id to check for
+         * @returns if the attribute was found or not
+         */
         [[nodiscard]] bool
         hasAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType);
 
-        // get Attribute
+        /**
+         * gets a pointer to the specified attribute from the given object
+         * @tparam type class of the attribute
+         * @param l_objectID id of the object to get attribute from
+         * @param l_attrType type id of the attribute to grab
+         * @returns pointer to the attribute
+         * @throws ValueNotFound Exception if object or attribute cannot be found in the context 
+         */
         template<class T>
         [[nodiscard]] std::shared_ptr<T>
         getAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType)
@@ -161,7 +223,12 @@ namespace ATMA
             }
         }
 
-        // add system
+        /**
+         * Registers a system type to the context and associates it with the given class type
+         * @tparam Class Type of the system
+         * @param l_systemID type id of the system to register
+         * @throws Registration Exception if the type id already has an existing system class registered
+         */
         template<class T>
         void addSystemType(const unsigned int &l_systemID)
         {
@@ -180,12 +247,34 @@ namespace ATMA
             }
         }
 
+        /**
+         * Disables a system so it no longer is notifed for object events
+         * @param l_systemID type id of the system to disable 
+         * @throws ValueNotFound Exception if the type id is not registered
+         */
         void disableSystem(const unsigned int &l_systemID);
 
+        /**
+         * Enables a system to listen for object events
+         * @param l_systemID type id of the system to enable 
+         * @throws ValueNotFound Exception if the type id is not registered
+         */
         void enableSystem(const unsigned int &l_systemID);
 
+        /**
+         * checks if the context has the system type id registered
+         * @param l_systemID type id of the system to check for
+         * @returns if the system type id is registered 
+         */
         [[nodiscard]] bool hasSystem(const unsigned int &l_systemID);
 
+        /**
+         * gets a pointer to the corresponding system
+         * @tparam type class of the system
+         * @param l_systemID type id of the system to get
+         * @returns pointer of the system
+         * @throws ValueNotFound Exception if the system id is not registered
+         */
         template<class T>
         [[nodiscard]] std::shared_ptr<T> getSystem(const unsigned int &l_systemID)
         {
@@ -202,31 +291,70 @@ namespace ATMA
             }
         }
 
-        // remove system
+        /**
+         * Removes a system from the context registry 
+         * @param l_systemID type id of the system to unregister
+         * @throws ValueNotFound Exception when system id is not found in registry
+         */
         void removeSystem(const unsigned int &l_systemID);
 
-        // add state
+        /**
+         * Add state to the context as the owner
+         * @param l_stateType type id of the state to be associated with the state
+         * @param l_state unique pointer to the state
+         * @throws Registration Exception if the state id has a state already registered
+         */
         void addState(const unsigned int &l_stateType, std::unique_ptr<BaseState> l_state);
 
-        // remove state
+        /**
+         * Remove state from the context
+         * @param l_stateType type id of the state to remove
+         * @throws ValueNotFound Exception if the state type id has not state register
+         */
         void removeState(const unsigned int &l_stateType);
 
-        // switch to state
+        /**
+         * switches the state associated with the given type id to the active state
+         * @param l_stateType state type id of the state to switch to
+         * @throws ValueNotFound Exception when the state type id is not registered
+         */
         void switchToState(const unsigned int &l_stateType);
 
-        // check state
+        /**
+         * checks if the state is registered in the context
+         * @param l_stateType the type id to check for
+         * @returns if the state type id has been registered
+         */
         [[nodiscard]] bool hasState(const unsigned int &l_stateType);
 
-        // register resource
+        /**
+         * registers a resource to the context and assigns it an id
+         * @param l_name name of the resource
+         * @param l_resourceType type id of the resource
+         * @param l_filename full qualified path to the resource
+         * @returns id of the registered resource
+         */
         [[nodiscard]] unsigned int registerResource(
             const std::string &l_name,
             const unsigned int &l_resourceType,
             const std::optional<std::string> &l_filename = std::nullopt
         );
 
+        /**
+         * checks if the resource has been registered
+         * @param l_resourceID id of the resource to check for
+         * @returns if the resource has been found
+        */
         [[nodiscard]] bool hasResource(const unsigned int &l_resourceID);
 
-        // load resource
+        /**
+         * loads the resource into memory from its source and gives a pointer
+         * to the loaded resource
+         * @tparam type class of the resource
+         * @param l_resourceID id of the registered resource
+         * @returns pointer to the resource loaded in memory
+         * @throws ValueNotFound Exception if the id is not registered in the context
+         */
         template<class T>
         [[nodiscard]] std::shared_ptr<T> loadResource(const unsigned int &l_resourceID)
         {
@@ -264,43 +392,114 @@ namespace ATMA
             }
         }
 
+        /**
+         * checks if the resource id has been loaded into memory
+         * @param l_resourceID id of the resource
+         * @returns if the loaded resource is found 
+         */    
         [[nodiscard]] bool hasLoadedResource(const unsigned int &l_resourceID);
 
-        // unload resource
+        /**
+         * removes the loaded resource from the context so it can no new pointers can be grabbed
+         * from the context
+         * @param l_resourceID id of the loaded resource
+         * @throws ValueNotFound Exception if the id has no loaded resource
+         */
         void unloadResource(const unsigned int &l_resourceID);
 
-        // remove resource
+        /**
+         * removes the registered resource from the context so it cannot longer be loaded
+         * @param l_resourceID id of the registered resource
+         * @throws ValueNotFound Exception if the id has no registered resource 
+         */
         void removeResource(const unsigned int &l_resourceID);
 
+        /**
+         * creates a new window and assigns it an unique id
+         * @returns id of the new window
+         */
         [[nodiscard]] unsigned int createWindow();
 
+        /**
+         * get a pointer to the window from the given id
+         * @returns pointer to the associated window
+         * @throws ValueNotFound Exception if the id has no associated window 
+         */
         [[nodiscard]] std::shared_ptr<Window> getWindow(const unsigned int &l_windowID);
 
+        /**
+         * pushes the given window event to all active states
+         * should only be used for testing purposes
+         * @param l_e event to be pushed
+         */
         void pushWindowEvent(const WindowEvent &l_e);
 
+        /**
+         * deletes the window with the associated id from the context
+         * @param l_windowID window id to be deleted
+         * @throws ValueNotFound Exception if the id has not associated window 
+         */
         void deleteWindow(const unsigned int &l_windowID);
 
+        /**
+         * pushes object event to all registered object event listeners 
+         * for that object event type
+         * @param l_e object event details 
+         */
         void dispatchObjectEvent(const ObjectEventContext &l_e);
 
+        /**
+         * Adds object event listener to the notification interface
+         * of the context
+         * @param l_id type id of the object event that the listener is listening for
+         * @param l_listener pointer to the listener 
+         */
         void addObjectEventListener(
             const ObjectEventID &l_id,
             std::shared_ptr<ObjectEventListener> l_listener
         );
 
+        /**
+         * updates all the engine internals. To be called in the main game loop 
+         */
         void update();
 
+        /**
+         * removes all objects and attributes and resets the next id back to 0 
+         */
         void purgeObjects();
 
+        /**
+         * removes all systems and resets the next id back to 0 
+         */
         void purgeSystems();
 
+        /**
+         * removes and deletes all states from the context 
+         */
         void purgeStates();
 
+        /**
+         * removes and unloads all resources from the context and resets the next id
+         * back to 0 
+         */
         void purgeResources();
 
+        /**
+         * removes all windows from the context and resets the next id 
+         * back to 0 
+         */
         void purgeWindows();
 
+        /**
+         * unregisters all listeners from the context 
+         */
         void purgeListeners();
 
+        /**
+         * purges all memory items from the context and resets all next ids for each 
+         * registry back to 0 
+         */
         void purge();
     };
 
