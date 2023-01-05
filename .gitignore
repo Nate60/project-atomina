@@ -377,6 +377,7 @@ _deps
 Atomina_Game
 Atomina_Test
 **/cmake/**
+build/**
 ext/**
 *.cmake
 *.pc

@@ -36,6 +36,11 @@ namespace ATMA
         }
     }
 
+    ATMAContext::ATMAContext()
+    {
+        ATMA_ENGINE_INFO("ATMAContext has been initialized");
+    }
+
     void ATMAContext::pushWindowEvent(const WindowEvent &l_e)
     {
         for(auto &state: m_states)

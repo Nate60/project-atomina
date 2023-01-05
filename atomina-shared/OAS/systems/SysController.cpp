@@ -11,6 +11,9 @@ namespace ATMA
         m_req.set(AttrType(Attribute::Velocity));
     }
 
+    SysController::~SysController()
+    {}
+
     void SysController::update(const float &l_dt) {}
 
     void SysController::notify(const ObjectEventContext &l_e)
