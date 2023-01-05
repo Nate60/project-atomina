@@ -6,9 +6,14 @@
 namespace ATMA
 {
 
+    /**
+     * Animation for any object that is idle 
+     */
     class ATMA_API AnimIdle: public AnimBase
     {
     public:
+
+        //constructor specifying all parameters
         AnimIdle(
             const std::string &l_name,
             const unsigned int &l_width,
@@ -21,6 +26,7 @@ namespace ATMA
             const bool &l_loop = false
         );
 
+        //constructor specifying all parameters with vector for dimensions
         AnimIdle(
             const std::string &l_name,
             const sf::Vector2u &l_dimensions,
@@ -32,6 +38,10 @@ namespace ATMA
             const bool &l_loop = false
         );
     protected:
+
+        /**
+         * advances the frame index of the animation 
+         */
         virtual void step() override;
     };
 

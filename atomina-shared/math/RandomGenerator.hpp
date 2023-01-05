@@ -22,13 +22,26 @@ namespace ATMA
         // default constructor
         RandomGenerator(): m_engine(m_device()) {}
 
-        // calls the generate function with the given range
+        /**
+         * @overload of the function call operator
+         * used as a shorthand for calling the generate function
+         * @tparam numeric type for which the range and result should be
+         * @param l_min minimum value inclusive
+         * @param l_max maximum value inclusive 
+         * @returns random value in range of the given template type
+         */
         T operator()(T l_min, T l_max)
         {
             return generate(l_min, l_max);
         }
 
-        // generates a random number between the given range inclusive
+        /**
+         * generates a random number between the given range inclusive
+         * @tparam numeric type for the range and result
+         * @param l_min minimum value inclusive
+         * @param l_max maximum value inclusive
+         * @returns random value in range of the given template type
+         */
         T generate(T l_min, T l_max)
         {
             std::lock_guard<std::mutex> l_lock{m_mtx};
@@ -61,11 +74,21 @@ namespace ATMA
     public:
         // default constructor
         RandomGenerator(): m_engine(m_device()) {}
-
-        // calls the generate function with the given range
+        
+        /**
+         * used as a shorthand for calling the generate function
+         * @param l_min minimum value inclusive
+         * @param l_max maximum value inclusive 
+         * @returns random value in range
+         */
         int operator()(int l_min, int l_max);
 
-        // generates a random number between the given range inclusive
+        /**
+         * generates a random number between the given range inclusive
+         * @param l_min minimum value inclusive
+         * @param l_max maximum value inclusive
+         * @returns random value in range
+         */
         int generate(int l_min, int l_max);
     };
 

@@ -5,10 +5,15 @@
 namespace ATMA
 {
 
-    // inline dot product for vectors
-
+    /**
+     * inline dot product function for vectors
+     * @tparam numeric subtype of the vector
+     * @param a first vector
+     * @param b second vector
+     * @returns resulting scalar value
+     */
     template<class T>
-    T operator*(sf::Vector2<T> a, sf::Vector2<T> b)
+    inline T operator*(sf::Vector2<T> a, sf::Vector2<T> b)
     {
         return a.x * b.x + a.y * b.y;
     }

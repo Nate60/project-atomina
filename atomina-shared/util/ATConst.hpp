@@ -6,6 +6,12 @@
 namespace ATConst
 {
 
+    /**
+     * Default image that consideres of magenta and black pixels tiled
+     * to be used as a fall back for when the expected image
+     * cannot be found
+     * @returns Image of checkered pixels 
+     */
     static const sf::Image &getDefaultImage()
     {
         ATMA_ENGINE_INFO("Default Image is being used");

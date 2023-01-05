@@ -5,10 +5,16 @@
 namespace ATMA
 {
     using FrameId = unsigned int;
-
+ 
+    /**
+     * Animation superclass that defines behaviour of
+     * all animation objects 
+     */
     class ATMA_API AnimBase
     {
     public:
+
+        //constructor specifying all parameters 
         AnimBase(
             const std::string &l_name,
             const unsigned int &m_width,
@@ -21,6 +27,8 @@ namespace ATMA
             const bool &l_loop = false
         );
 
+        //constructor specifying all parameters except with vector
+        //for dimensions
         AnimBase(
             const std::string &l_name,
             const sf::Vector2u &l_dimensions,
@@ -44,11 +52,25 @@ namespace ATMA
 
         bool m_playing{false};
 
+        /**
+         * updates the animation timer according to the time
+         * given
+         * @param l_dt time since last update
+         */
         virtual void update(float l_dt);
 
+        /**
+         * gets the current frame id of the animation
+         * @returns frame index of the current frame
+         */
         virtual const unsigned int getCurrentFrameId() const;
     protected:
+        
+        /**
+         * advances the animation one frame 
+         */
         virtual void step() = 0;
+        
         FrameId m_currentFrame{0};
     };
 

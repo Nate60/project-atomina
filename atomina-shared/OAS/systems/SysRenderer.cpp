@@ -9,6 +9,11 @@ namespace ATMA
         m_req.set(AttrType(Attribute::Graphic));
     }
 
+    SysRenderer::~SysRenderer()
+    {
+        
+    }
+
     void SysRenderer::update(const float &l_dt) {}
 
     void SysRenderer::draw(sf::RenderTarget &l_target, const sf::RenderStates &l_states) const

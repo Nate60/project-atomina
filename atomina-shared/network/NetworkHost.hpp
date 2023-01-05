@@ -14,13 +14,17 @@ namespace ATMA
         using ClientId = unsigned int;
         using ClientMap = std::unordered_map<ClientId, std::unique_ptr<sf::TcpSocket>>;
     public:
+
+        //constructor specifying the port to listen on
         NetworkHost(const unsigned short l_port);
 
+        //copy constructor
         NetworkHost(const NetworkHost &l_other);
 
+        //deconstructor
         ~NetworkHost();
 
-        /*
+        /**
          * start up listener to start listening for connections on Host port
          * @return if successful
          */
@@ -31,37 +35,39 @@ namespace ATMA
          */
         void stopListening();
 
-        /*
+        /**
          * set if listenering should block waiting for connections
+         * @param l_block toggle blocking
          */
         void setListenerBlocking(const bool l_block);
 
-        /*
+        /**
          * accept any active connections on the socket and give the id for that connection
          * @return the id of the connection, if no connection was made 0 is returned instead
          */
         std::optional<ClientId> acceptConnections();
 
-        /*
+        /**
          * close the connection of the given client id
          * @param l_client: id of the client connection
          */
         void closeConnection(ClientId l_client);
 
-        /*
+        /**
          * close and remove all client connections
          */
         void purgeConnections();
 
-        /*
+        /**
          * sets if the client id's corresponding connection is blocking or not
          * @param l_client: id of the client connection
          * @param l_block: if the connection should block or not
          */
         void setBlocking(ClientId l_client, const bool l_block);
 
-        /*
+        /**
          * send byte buffer on all active connections
+         * @tparam the size of the buffer
          * @param l_bytes: byte buffer to send to all clients
          * @return if all message sends were successful
          */
@@ -77,8 +83,9 @@ namespace ATMA
             return b;
         }
 
-        /*
+        /**
          * send bytes to corresponding client
+         * @tparam size of the buffer
          * @param l_client: cliend id of connection
          * @param l_bytes: byte buffer containing bytes to send
          * @return if successful
@@ -89,8 +96,9 @@ namespace ATMA
             return m_clients[l_client]->send(l_bytes.data(), N) == sf::Socket::Done;
         }
 
-        /*
+        /**
          * receive bytes from a client connection
+         * @tparam size of the buffer
          * @param l_client: client id corresponding to the connection
          * @param l_buffer: byte buffer to store the bytes into
          * @param l_maxBufferLength: max size the buffer can hold
