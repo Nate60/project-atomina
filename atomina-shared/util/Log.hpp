@@ -6,11 +6,23 @@
 namespace ATMA
 {
 
+    /**
+     * static class to interface with spdlog
+     * and provide logging functionality macros
+     */
     class ATMA_API Log
     {
     public:
+
+        /**
+         * Starts the spdlog engine 
+         */
         static void Init();
 
+        /**
+         * gets the singleton engine logger
+         * @returns shared pointer of the logger
+         */
         inline static std::shared_ptr<spdlog::logger> &GetEngineLogger()
         {
             if(s_initialized)

@@ -5,7 +5,9 @@
 
 namespace ATMA
 {
-
+    /** 
+     * defines all possible states within the shared library
+     */
     enum class ATMA_API State
     {
         Empty = 0u,
@@ -13,9 +15,15 @@ namespace ATMA
         COUNT
     };
 
+    /**
+     * wrapper class for State Enum that allows for implicit
+     * coversion to unsigned int
+     */
     class ATMA_API StateType
     {
     public:
+
+        //normal constructor
         StateType(const State &l_type): m_type(l_type) {}
 
         // conversion constructor

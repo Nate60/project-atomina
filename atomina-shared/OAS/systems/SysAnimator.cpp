@@ -10,6 +10,9 @@ namespace ATMA
         m_req.set(AttrType(Attribute::Animation));
     }
 
+    SysAnimator::~SysAnimator()
+    {}
+
     void SysAnimator::update(const float &l_dt)
     {
         auto &ctx = ATMAContext::getContext();

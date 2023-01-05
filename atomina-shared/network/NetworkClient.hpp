@@ -14,32 +14,36 @@ namespace ATMA
     class ATMA_API NetworkClient
     {
     public:
+
+        //constructor specifying address and port of the host for connection
         NetworkClient(const sf::IpAddress l_addr, const unsigned short l_port);
 
+        //copy constructor
         NetworkClient(const NetworkClient &l_other);
 
+        //deconstructor
         ~NetworkClient();
 
-        /*
+        /**
          * open connection on Client's port and address
-         *
          */
         void connect();
 
-        /*
+        /**
          * close Clients connection
          */
         void disconnect();
 
-        /*
+        /**
          * Sets whether or not the socket will block on waiting for a connection
+         * @param l_bool toggles blocking
          */
         void setBlocking(const bool l_bool);
 
-        /*
+        /**
          *  sends bytes over the socket uses std::array to enforce buffer is correct size
          *  to avoid buffer underflow
-         *
+         *  @tparam size of the buffer
          *  @param l_bytes: array of bytes to send
          */
         template<size_t N>
@@ -53,8 +57,9 @@ namespace ATMA
                 );
         }
 
-        /*
+        /**
          * receive bytes from socket. enforces buffer size so that way there is not buffer overflow
+         * @tparam Size of the buffer
          * @param l_buffer: buffer to put bytes into
          * @param l_receivedBytes: length of received buffer
          */
