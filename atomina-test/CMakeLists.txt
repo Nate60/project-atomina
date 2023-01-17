@@ -31,9 +31,3 @@ target_include_directories(Atomina_Test PRIVATE "../atomina-shared" "../atomina-
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Atomina_Test PROPERTY CXX_STANDARD 17)
 endif()
-
-#dependencies
-
-#file(COPY "${CMAKE_CURRENT_BINARY_DIR}/../bin/" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-#file(COPY "${CMAKE_CURRENT_BINARY_DIR}/../_deps/sfml-build/lib/" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-#file(COPY "${CMAKE_CURRENT_BINARY_DIR}/../_deps/spdlog-build/" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
