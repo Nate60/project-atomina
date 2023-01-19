@@ -32,7 +32,7 @@ jobs:
       run: sudo apt-get update
 
     - name: Setup SFML Prerequisites
-      run: sudo apt-get install -y --fix-missing g++ libgl1-mesa-dev libx11-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev libfreetype-dev libxrandr-dev libogg-dev libvorbisenc2 libvorbisfile3 libxcursor-dev libtbb-dev libbtbb-dev
+      run: sudo apt-get install -y --fix-missing g++ xorg-dev libgl1-mesa-dev libx11-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev libfreetype-dev libxrandr-dev libogg-dev libvorbisenc2 libvorbisfile3 libxcursor-dev libtbb-dev libbtbb-dev
 
     - name: Checkout action repo branch
       uses: actions/checkout@v2
