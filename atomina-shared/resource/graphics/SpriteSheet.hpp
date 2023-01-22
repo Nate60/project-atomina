@@ -33,7 +33,8 @@ namespace ATMA
          */
         void updateSprite(const std::unique_ptr<AnimBase> &l_anim, sf::Sprite &l_sprite);
     private:
-        sf::Texture m_sheet;
+        //sf::Texture m_sheet;
+        bool m_sheet;
     };
 
     //equality operator

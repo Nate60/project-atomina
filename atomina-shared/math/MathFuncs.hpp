@@ -31,7 +31,7 @@ namespace ATMA
         {
             throw std::invalid_argument("delta must be between 0 and 1");
         }
-        return (1 - t) * v0 + t * v1;
+        return static_cast<T>((1 - t) * v0 + t * v1);
     }
 
     /**
@@ -45,7 +45,7 @@ namespace ATMA
     {
         if(w > 1 || w < 0)
             throw std::invalid_argument("delta must be between 0 and 1");
-        return (a1 - a0) * (3 - w * 2) * w * w + a0;
+        return static_cast<T>((a1 - a0) * (3 - w * 2) * w * w + a0);
     }
 
     /**
@@ -58,31 +58,31 @@ namespace ATMA
     template<class T, class V>
     T perlin(sf::Vector2<T> l_gradient[4], std::function<T(T, T, V)> l_lerp, T l_x, T l_y)
     {
-        T a0 = std::floor(l_x);
+        T a0 = static_cast<T>(std::floor(l_x));
         T a1 = a0 + 1;
-        T b0 = std::floor(l_y);
+        T b0 = static_cast<T>(std::floor(l_y));
         T b1 = b0 + 1;
 
-        T dx = l_x - a0;
-        T dy = l_y - b0;
+        V dx = static_cast<V>(l_x - a0);
+        V dy = static_cast<V>(l_y - b0);
 
         T temp1, temp2, inter1, inter2;
 
-        sf::Vector2<T> distanceVector = sf::Vector2<T>(dx, dy);
+        sf::Vector2<T> distanceVector = sf::Vector2<T>(static_cast<T>(dx), static_cast<T>(dy));
         temp1 = l_gradient[0] * distanceVector;
 
-        distanceVector = sf::Vector2<T>(l_x - a1, dy);
+        distanceVector = sf::Vector2<T>(l_x - a1, static_cast<T>(dy));
         temp2 = l_gradient[1] * distanceVector;
-        inter1 = l_lerp(temp1, temp2, dx);
+        inter1 = static_cast<T>(l_lerp(temp1, temp2, dx));
 
-        distanceVector = sf::Vector2<T>(dx, l_y - b1);
+        distanceVector = sf::Vector2<T>(static_cast<T>(dx), l_y - b1);
         temp1 = l_gradient[2] * distanceVector;
 
         distanceVector = sf::Vector2<T>(l_x - a1, l_y - b1);
         temp2 = l_gradient[3] * distanceVector;
-        inter2 = l_lerp(temp1, temp2, dx);
+        inter2 = static_cast<T>(l_lerp(temp1, temp2, dx));
 
-        return l_lerp(inter1, inter2, dy);
+        return static_cast<T>(l_lerp(inter1, inter2, dy));
     }
 
 }
