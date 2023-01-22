@@ -1,6 +1,4 @@
 #pragma once
-//conversion to template types causing warning
-#pragma warning(disable: 4244)
 #include "AtominaTest.hpp"
 
 /**
