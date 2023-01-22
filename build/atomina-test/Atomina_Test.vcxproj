@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A1BB275A-A2C5-32C8-A51E-79EB24341C45}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.20348.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>Atomina_Test</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Atomina_Test.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Atomina_Test</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Atomina_Test.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Atomina_Test</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Atomina_Test.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Atomina_Test</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Atomina_Test.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Atomina_Test</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Sixti/source/repos/Nate60/project-atomina/build/_deps/googletest-src/googletest/include" /external:I "C:/Users/Sixti/source/repos/Nate60/project-atomina/build/_deps/googletest-src/googletest"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <MASM>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <IncludePaths>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(IncludePaths)</IncludePaths>
+    </MASM>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\bin\Debug\Atomina_Shared.lib;..\lib\Debug\gtest.lib;..\_deps\sfml-build\lib\Debug\sfml-graphics-d.lib;..\_deps\sfml-build\lib\Debug\sfml-window-d.lib;..\_deps\sfml-build\lib\Debug\sfml-network-d.lib;..\_deps\sfml-build\lib\Debug\sfml-system-d.lib;..\_deps\spdlog-build\Debug\spdlogd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/../lib/Release;C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/../lib/Release/$(Configuration);C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-shared/../lib/Release;C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-shared/../lib/Release/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/bin/Debug/Atomina_Test.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/bin/Debug/Atomina_Test.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Sixti/source/repos/Nate60/project-atomina/build/_deps/googletest-src/googletest/include" /external:I "C:/Users/Sixti/source/repos/Nate60/project-atomina/build/_deps/googletest-src/googletest"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <MASM>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <IncludePaths>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(IncludePaths)</IncludePaths>
+    </MASM>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\bin\Release\Atomina_Shared.lib;..\lib\Release\gtest.lib;..\_deps\sfml-build\lib\Release\sfml-graphics.lib;..\_deps\sfml-build\lib\Release\sfml-window.lib;..\_deps\sfml-build\lib\Release\sfml-network.lib;..\_deps\sfml-build\lib\Release\sfml-system.lib;..\_deps\spdlog-build\Release\spdlog.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/../lib/Release;C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/../lib/Release/$(Configuration);C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-shared/../lib/Release;C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-shared/../lib/Release/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/bin/Release/Atomina_Test.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/bin/Release/Atomina_Test.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Sixti/source/repos/Nate60/project-atomina/build/_deps/googletest-src/googletest/include" /external:I "C:/Users/Sixti/source/repos/Nate60/project-atomina/build/_deps/googletest-src/googletest"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <MASM>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <IncludePaths>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(IncludePaths)</IncludePaths>
+    </MASM>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\bin\MinSizeRel\Atomina_Shared.lib;..\lib\MinSizeRel\gtest.lib;..\_deps\sfml-build\lib\MinSizeRel\sfml-graphics.lib;..\_deps\sfml-build\lib\MinSizeRel\sfml-window.lib;..\_deps\sfml-build\lib\MinSizeRel\sfml-network.lib;..\_deps\sfml-build\lib\MinSizeRel\sfml-system.lib;..\_deps\spdlog-build\MinSizeRel\spdlog.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/../lib/Release;C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/../lib/Release/$(Configuration);C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-shared/../lib/Release;C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-shared/../lib/Release/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/bin/MinSizeRel/Atomina_Test.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/bin/MinSizeRel/Atomina_Test.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/Sixti/source/repos/Nate60/project-atomina/build/_deps/googletest-src/googletest/include" /external:I "C:/Users/Sixti/source/repos/Nate60/project-atomina/build/_deps/googletest-src/googletest"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <MASM>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_SHARED_LIB;FMT_SHARED;SPDLOG_COMPILED_LIB;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <IncludePaths>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(IncludePaths)</IncludePaths>
+    </MASM>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-shared;C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\..\atomina-test;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-src\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest\include;C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-src\googletest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\bin\RelWithDebInfo\Atomina_Shared.lib;..\lib\RelWithDebInfo\gtest.lib;..\_deps\sfml-build\lib\RelWithDebInfo\sfml-graphics.lib;..\_deps\sfml-build\lib\RelWithDebInfo\sfml-window.lib;..\_deps\sfml-build\lib\RelWithDebInfo\sfml-network.lib;..\_deps\sfml-build\lib\RelWithDebInfo\sfml-system.lib;..\_deps\spdlog-build\RelWithDebInfo\spdlog.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/../lib/Release;C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/../lib/Release/$(Configuration);C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-shared/../lib/Release;C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-shared/../lib/Release/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/bin/RelWithDebInfo/Atomina_Test.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Sixti/source/repos/Nate60/project-atomina/build/bin/RelWithDebInfo/Atomina_Test.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Sixti/source/repos/Nate60/project-atomina/atomina-test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Sixti/source/repos/Nate60/project-atomina -BC:/Users/Sixti/source/repos/Nate60/project-atomina/build --check-stamp-file C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\atomina-test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/Sixti/source/repos/Nate60/project-atomina/atomina-test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Sixti/source/repos/Nate60/project-atomina -BC:/Users/Sixti/source/repos/Nate60/project-atomina/build --check-stamp-file C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\atomina-test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/Sixti/source/repos/Nate60/project-atomina/atomina-test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Sixti/source/repos/Nate60/project-atomina -BC:/Users/Sixti/source/repos/Nate60/project-atomina/build --check-stamp-file C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\atomina-test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/Sixti/source/repos/Nate60/project-atomina/atomina-test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Sixti/source/repos/Nate60/project-atomina -BC:/Users/Sixti/source/repos/Nate60/project-atomina/build --check-stamp-file C:/Users/Sixti/source/repos/Nate60/project-atomina/build/atomina-test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\CMakeFiles\cmake.verify_globs;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Sixti\source\repos\Nate60\project-atomina\build\atomina-test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\AtominaTest.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\AtominaTest.hpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\OAS\AttributeFixtures.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\OAS\AttributeTestSuite.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\OAS\AttributeTestSuite.hpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\OAS\SystemFixtures.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\OAS\SystemTestSuite.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\OAS\SystemTestSuite.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\OAS\TestAttribute.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\OAS\TestAttribute.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\OAS\TestSystem.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\OAS\TestSystem.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\core\GameTestSuite.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\core\GameTestSuite.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\event\EventFixture.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\event\EventFixture.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\event\ObjectEventSuite.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\event\ObjectEventSuite.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\event\WindowEventSuite.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\event\WindowEventSuite.hpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\math\MathTestFixtures.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\math\MathTestSuite.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\math\MathTestSuite.hpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\network\NetworkFixture.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\network\NetworkTestSuite.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\network\NetworkTestSuite.hpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\resource\ResourceFixtures.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\resource\ResourceTestSuite.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\resource\ResourceTestSuite.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\state\StateFixtures.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\state\StateFixtures.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\state\StateTestSuite.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\state\StateTestSuite.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\state\TestState.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\state\TestState.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\util\LogFixture.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\util\LogFixture.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\util\LogTest.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\util\LogTest.hpp" />
+    <ClCompile Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\util\PropsTest.cpp" />
+    <ClInclude Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\atomina-test\util\PropsTest.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\build\ZERO_CHECK.vcxproj">
+      <Project>{D04B5D62-157D-3445-94C8-0781AB81F66F}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\build\atomina-shared\Atomina_Shared.vcxproj">
+      <Project>{10DF3741-194C-38C0-A4A3-CF32E583959D}</Project>
+      <Name>Atomina_Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\googletest-build\googletest\gtest.vcxproj">
+      <Project>{6D4EE032-04AA-30C4-AB29-51E2B72AC390}</Project>
+      <Name>gtest</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-build\src\SFML\Graphics\sfml-graphics.vcxproj">
+      <Project>{A87EEC80-2F29-3CC7-8262-C9BAFC64B0A0}</Project>
+      <Name>sfml-graphics</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-build\src\SFML\Network\sfml-network.vcxproj">
+      <Project>{7E53A0F0-CACA-3E1B-8332-37DA46EE4637}</Project>
+      <Name>sfml-network</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-build\src\SFML\System\sfml-system.vcxproj">
+      <Project>{7CC6944F-6645-3263-B894-A4B9C75DB4F9}</Project>
+      <Name>sfml-system</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\sfml-build\src\SFML\Window\sfml-window.vcxproj">
+      <Project>{27C2C108-C549-311C-B7BE-BE0615BD022C}</Project>
+      <Name>sfml-window</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\build\_deps\spdlog-build\spdlog.vcxproj">
+      <Project>{A433B2D9-47B6-37C1-BD9A-CEA1C9AF2BB3}</Project>
+      <Name>spdlog</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>

@@ -1,9 +1,11 @@
 # set the project name and version
-cmake_minimum_required (VERSION 3.15 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.8)
 
 if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
 		cmake_policy(SET CMP0135 NEW)
 endif()
+
+
 
 if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
 		cmake_policy(SET CMP0048 NEW)
@@ -12,6 +14,8 @@ endif()
 project(Atomina_Main VERSION 0.1)
 
 set_property(GLOBAL PROPERTY POSITION_INDEPENDENT_CODE ON) # spdlog will not compile without this
+# CMakeList.txt : Top-level CMake project file, do global configuration
+# and include sub-projects here.
 
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
