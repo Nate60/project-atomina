@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Sixti\source\repos\Nate60\project-atomina\build\CMakeFiles\264686d92818d9cd01a853cc9042ea0e\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{03C6DBDB-FAA4-3E35-B114-244474534B55}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

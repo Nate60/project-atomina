@@ -48,17 +48,6 @@ namespace ATMA
     };
 
     /**
-     * Exception thrown when acquisition of resources fails 
-     */
-
-    struct ATMA_API ResourceAcquisitionException: public AtominaException
-    {
-        ResourceAcquisitionException(const std::string &l_message) noexcept: AtominaException(l_message)
-        {
-        }
-    };
-
-    /**
      * exception for network related errors
      */
     struct ATMA_API NetworkException: public AtominaException
