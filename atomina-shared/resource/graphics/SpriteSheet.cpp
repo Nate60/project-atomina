@@ -7,15 +7,19 @@ namespace ATMA
 
     SpriteSheet::SpriteSheet(const std::string &l_name): Resource(l_name)
     {
-        if(!m_sheet.loadFromImage(ATConst::getDefaultImage()))
-            throw 1;
+        sf::Image img;
+        img.create({2u, 2u}, ATConst::DEFAULT_PIXELS);
+        if(!m_sheet.loadFromImage(img))
+            throw ResourceAcquisitionException("SpriteSheet with name " + l_name + " was unable to be created from default image");
         m_sheet.setRepeated(true);
     }
 
     SpriteSheet::SpriteSheet(const std::string &l_name, const std::string &l_filename): Resource(l_name, l_filename)
     {
         if(!m_sheet.loadFromFile(l_filename))
-            throw 1;
+            throw ResourceAcquisitionException("SpriteSheet with name: " + l_name
+                                                   + " was unable to be created from file: " + l_filename
+            );
     }
 
     SpriteSheet::~SpriteSheet() 

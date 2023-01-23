@@ -1,4 +1,5 @@
 #pragma once
+//conversion to template types causing warning
 #include "AtominaTest.hpp"
 
 /**
@@ -38,7 +39,7 @@ protected:
         x1 = 5;
         x2 = -10;
         w = 0.5;
-        T exp = -2.5f; // int will truncate
+        T exp = static_cast<T>(- 2.5f); // int will truncate
         result = f(x1, x2, w);
         EXPECT_EQ(result, exp);
     }
@@ -66,8 +67,8 @@ protected:
             {0, 1},
             {1, 1}
         };
-        T x = 0.5;
-        T y = 0.5;
+        T x = static_cast<T>(0.5);
+        T y = static_cast<T>(0.5);
         T result = ATMA::perlin(gradient, f, x, y);
         EXPECT_EQ(result, l_exp);
     }
