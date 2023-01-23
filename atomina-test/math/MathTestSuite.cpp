@@ -9,8 +9,6 @@ TYPED_TEST_SUITE(PerlinTestFixture, PerlinTestTypes);
 TYPED_TEST(InterpolationTestFixture, LinearInterpolation)
 {
 
-    std::array<std::array<int, 10>, 15> array;
-
     auto f = ATMA::lerp<TypeParam, float>;
     this->interpolateTest(f);
 };
