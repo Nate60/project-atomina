@@ -41,14 +41,6 @@ namespace ATMA
         ATMA_ENGINE_INFO("ATMAContext has been initialized");
     }
 
-    void ATMAContext::pushWindowEvent(const WindowEvent &l_e)
-    {
-        for(auto &state: m_states)
-        {
-            state.second->handleEvent(l_e);
-        }
-    }
-
     unsigned int ATMAContext::createObject()
     {
         std::lock_guard<std::mutex> lock{m_mtx};
@@ -333,45 +325,6 @@ namespace ATMA
         }
     }
 
-    unsigned int ATMAContext::createWindow()
-    {
-        m_windows[m_lastWindowID] = std::make_shared<Window>(Window{});
-        ATMA_ENGINE_INFO("Created window with id: {0:d}", m_lastWindowID);
-        unsigned int id = m_lastWindowID++;
-        return id;
-    }
-
-    std::shared_ptr<Window> ATMAContext::getWindow(const unsigned int &l_windowID)
-    {
-        auto itr = m_windows.find(l_windowID);
-        if(itr == m_windows.end())
-        {
-            throw ValueNotFoundException(
-                "Window of id: " + std::to_string(l_windowID) + " does not exist"
-            );
-        }
-        else
-        {
-            return itr->second;
-        }
-    }
-
-    void ATMAContext::deleteWindow(const unsigned int &l_windowID)
-    {
-        auto itr = m_windows.find(l_windowID);
-        if(itr == m_windows.end())
-        {
-            throw ValueNotFoundException(
-                "Window of id: " + std::to_string(l_windowID) + " does not exist"
-            );
-        }
-        else
-        {
-            m_windows.erase(itr);
-            ATMA_ENGINE_INFO("Deleted Window with id: {0:d}", l_windowID);
-        }
-    }
-
     void ATMAContext::dispatchObjectEvent(const ObjectEventContext &l_e)
     {
         for(auto &listenerVec: m_listeners)
@@ -418,20 +371,6 @@ namespace ATMA
     void ATMAContext::update()
     {
 
-        for(auto &win: m_windows)
-        {
-            sf::Event e{};
-            while(win.second->poll(e))
-            {
-                pushWindowEvent(WindowEvent{e});
-            }
-        }
-
-        for(auto &state: m_states)
-        {
-            state.second->update(sf::Time{});
-        }
-
         for(auto &sys: m_systems)
         {
             if(sys.second->m_enabled)
@@ -472,12 +411,6 @@ namespace ATMA
         ATMA_ENGINE_INFO("purged resources from context");
     }
 
-    void ATMAContext::purgeWindows()
-    {
-        m_windows.clear();
-        m_lastWindowID = 0;
-        ATMA_ENGINE_INFO("purged windows from context");
-    }
 
     void ATMAContext::purgeListeners()
     {
@@ -493,10 +426,8 @@ namespace ATMA
         m_states.clear();
         m_resources.clear();
         m_loadedResources.clear();
-        m_windows.clear();
         m_listeners.clear();
         m_lastObjectID = 0;
-        m_lastWindowID = 0;
         m_currentStateID = 0;
         m_lastResourceId = 0;
         ATMA_ENGINE_INFO("purged everything from context");

@@ -15,8 +15,4 @@ namespace ATMA
 
     void DummyState::deactivate() {}
 
-    void DummyState::update(const sf::Time &l_dt) {}
-
-    void DummyState::draw() {}
-
 }

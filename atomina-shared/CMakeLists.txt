@@ -17,7 +17,6 @@ add_library(Atomina_Shared SHARED)
 set_property(TARGET Atomina_Shared PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 if(MSVC)
-  target_compile_options(Atomina_Shared PUBLIC "/ZI")
   target_link_options(Atomina_Shared PUBLIC "/INCREMENTAL")
 endif()
 
@@ -29,9 +28,9 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
 endif()
 
 if(${Intel_Processor})
-    target_link_libraries(Atomina_Shared sfml-graphics sfml-window sfml-system sfml-network spdlog::spdlog tbb)
+    target_link_libraries(Atomina_Shared spdlog::spdlog tbb)
 else()
-    target_link_libraries(Atomina_Shared sfml-graphics sfml-window sfml-system sfml-network spdlog::spdlog)
+    target_link_libraries(Atomina_Shared spdlog::spdlog)
 endif()
 
 target_sources(Atomina_Shared PRIVATE ${atomina_shared_src})

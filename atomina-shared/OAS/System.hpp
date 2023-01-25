@@ -13,10 +13,7 @@ namespace ATMA
     {
         None = 0u,
         Translator = 1u,
-        Renderer,
         Controller,
-        Animator,
-        GUI,
         COUNT
     };
 
