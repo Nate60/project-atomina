@@ -18,9 +18,9 @@ add_executable(Atomina_Game ${atomina_game_src})
 target_link_directories(Atomina_Game PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/../lib/${CMAKE_BUILD_TYPE}/)
 
 if(${Intel_Processor})
-    target_link_libraries(Atomina_Game sfml-graphics sfml-window sfml-system sfml-network spdlog::spdlog Atomina_Shared tbb)
+    target_link_libraries(Atomina_Game spdlog::spdlog Atomina_Shared tbb)
 else()
-    target_link_libraries(Atomina_Game sfml-graphics sfml-window sfml-system sfml-network spdlog::spdlog Atomina_Shared)
+    target_link_libraries(Atomina_Game spdlog::spdlog Atomina_Shared)
 endif()
 
 target_include_directories(Atomina_Game PRIVATE "../ext/include" "../atomina-shared")

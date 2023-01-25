@@ -3,4 +3,4 @@
 #include "ResourceFixtures.hpp"
 
 //All data types for Resource
-using ResourceTypes = ::testing::Types<ATMA::SpriteSheet>;
+using ResourceTypes = ::testing::Types<ATMA::DummyResource>;

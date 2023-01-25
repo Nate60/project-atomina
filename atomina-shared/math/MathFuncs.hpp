@@ -1,6 +1,6 @@
 #pragma once
 #include "util/AtominaException.hpp"
-#include <cmath>
+#include "math/Vec2.hpp"
 
 namespace ATMA
 {
@@ -13,9 +13,9 @@ namespace ATMA
      * @returns resulting scalar value
      */
     template<class T>
-    inline T operator*(sf::Vector2<T> a, sf::Vector2<T> b)
+    inline T operator*(Vec2<T> a, Vec2<T> b)
     {
-        return a.x * b.x + a.y * b.y;
+        return (a.x * b.x) + (a.y * b.y);
     }
 
     /**
@@ -56,7 +56,7 @@ namespace ATMA
      * @param l_y: y coordinate point to get the noise at
      */
     template<class T, class V>
-    T perlin(sf::Vector2<T> l_gradient[4], std::function<T(T, T, V)> l_lerp, T l_x, T l_y)
+    T perlin(Vec2<T> l_gradient[4], std::function<T(T, T, V)> l_lerp, T l_x, T l_y)
     {
         T a0 = static_cast<T>(std::floor(l_x));
         T a1 = a0 + 1;
@@ -68,17 +68,17 @@ namespace ATMA
 
         T temp1, temp2, inter1, inter2;
 
-        sf::Vector2<T> distanceVector = sf::Vector2<T>(static_cast<T>(dx), static_cast<T>(dy));
+        Vec2<T> distanceVector{static_cast<T>(dx), static_cast<T>(dy)};
         temp1 = l_gradient[0] * distanceVector;
 
-        distanceVector = sf::Vector2<T>(l_x - a1, static_cast<T>(dy));
+        distanceVector = Vec2<T>(l_x - a1, static_cast<T>(dy));
         temp2 = l_gradient[1] * distanceVector;
         inter1 = static_cast<T>(l_lerp(temp1, temp2, dx));
 
-        distanceVector = sf::Vector2<T>(static_cast<T>(dx), l_y - b1);
+        distanceVector = Vec2<T>(static_cast<T>(dx), l_y - b1);
         temp1 = l_gradient[2] * distanceVector;
 
-        distanceVector = sf::Vector2<T>(l_x - a1, l_y - b1);
+        distanceVector = Vec2<T>(l_x - a1, l_y - b1);
         temp2 = l_gradient[3] * distanceVector;
         inter2 = static_cast<T>(l_lerp(temp1, temp2, dx));
 
