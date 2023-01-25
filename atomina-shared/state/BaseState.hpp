@@ -4,7 +4,6 @@
 #include "core/api.hpp"
 #include "State.hpp"
 #include "util/Log.hpp"
-#include "event/WindowEvent.hpp"
 
 namespace ATMA
 {
@@ -48,24 +47,6 @@ namespace ATMA
         virtual void deactivate();
 
         /**
-         * pushes window events from any active windows to be handled
-         * by the state
-         * @param l_e the caught window event to be handled
-         */
-        virtual void handleEvent(const WindowEvent &l_e);
-
-        /**
-         * updates any time dependent functionality of the state
-         * @param l_time time passed since last update 
-         */
-        virtual void update(const sf::Time &l_time) = 0;
-        
-        /** 
-         * renders any state dependent resources
-         */
-        virtual void draw() = 0;
-
-        /**
          * checks if state is active
          * @returns if the state is active or not 
          */
@@ -84,9 +65,6 @@ namespace ATMA
             return StateType(State::Empty);
         }
 
-        //TODO: implement views
-        sf::View &getView();
-
         //equality operator
         bool operator==(const BaseState &b) const;
 
@@ -100,8 +78,6 @@ namespace ATMA
         bool m_transparent;
         bool m_transcendent;
         bool m_communicable;
-
-        sf::View m_view;
     };
 
 }

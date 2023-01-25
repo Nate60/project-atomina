@@ -1,7 +1,6 @@
 #pragma once
 #include "AtominaTest.hpp"
 #include "StateFixtures.hpp"
-#include "event/WindowEvent.hpp"
 
 class TestState: public ATMA::BaseState
 {
@@ -37,23 +36,16 @@ public:
     virtual void onDestroy() override;
 
     /**
-     * Function to run when state is switched to and becomes active, 
+     * Function to run when state is switched to and becomes active,
      * to enable relevant systems
      */
     virtual void activate() override;
-    
+
     /**
      * Function called when the is switched off of or is disabled,
      * to disable relevant systems
      */
     virtual void deactivate() override;
-
-    /**
-     * Called from context when state is active to notify of any
-     * window events to let state implementation handle it
-     * @param l_e window event passed from context
-     */
-    virtual void handleEvent(const ATMA::WindowEvent &l_e) override;
 
     /**
      * Gives the type id of the state
@@ -63,15 +55,4 @@ public:
     {
         return 3u;
     }
-
-    /**
-     * Runs update loop of the state
-     * @param l_time time since last update
-     */
-    virtual void update(const sf::Time &l_time) override;
-    
-    /**
-     * draws anything that can be renedered by the state
-     */
-    virtual void draw() override;
 };

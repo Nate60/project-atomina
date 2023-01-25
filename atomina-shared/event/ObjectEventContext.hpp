@@ -1,9 +1,7 @@
 #pragma once
 #include "pch.hpp"
 #include "core/api.hpp"
-#include <SFML/System/Vector2.hpp>
 #include "util/Props.hpp"
-#include <optional>
 
 namespace ATMA
 {

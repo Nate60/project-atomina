@@ -13,16 +13,13 @@ FetchContent_Declare(
 
 add_subdirectory(spdlog)
 
-FetchContent_Declare(
-  sfml
-  URL https://github.com/SFML/SFML/archive/c6f7fcaa2a1924e6ef6dfee9797ec65decea6a60.zip
-)
+set(Intel_Processor CACHE BOOL "false")
 
-add_subdirectory(sfml)
+if(${Intel_Processor})
+	FetchContent_Declare(
+		tbb
+		URL https://github.com/wjakob/tbb/archive/9e219e24fe223b299783200f217e9d27790a87b0.zip
+	)
 
-FetchContent_Declare(
-	tbb
-	URL https://github.com/wjakob/tbb/archive/9e219e24fe223b299783200f217e9d27790a87b0.zip
-)
-
-add_subdirectory(tbb)
+	add_subdirectory(tbb)
+endif()

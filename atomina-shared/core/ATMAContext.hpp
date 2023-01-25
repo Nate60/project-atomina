@@ -6,12 +6,9 @@
 #include "OAS/AttrBase.hpp"
 #include "OAS/SysBase.hpp"
 #include "state/BaseState.hpp"
-#include "event/WindowEvent.hpp"
-#include "GUI/Window.hpp"
 #include "util/Log.hpp"
 #include "util/AtominaException.hpp"
 #include "resource/Resource.hpp"
-#include <memory>
 
 namespace ATMA
 {
@@ -43,8 +40,7 @@ namespace ATMA
     using ResourceContainer =
         std::unordered_map<ResourceID, std::tuple<ResourceTypeID, std::string, std::optional<std::string>>>;
     using LoadedResourceContainer = std::unordered_map<ResourceID, std::shared_ptr<Resource>>;
-    using WindowContainer = std::unordered_map<WindowID, std::shared_ptr<Window>>;
-
+  
     using ObjectEventID = unsigned int;
     using ObjectEventListeners =
         std::unordered_map<ObjectEventID, std::vector<std::shared_ptr<ObjectEventListener>>>;
@@ -72,9 +68,6 @@ namespace ATMA
         ResourceContainer m_resources{};
         LoadedResourceContainer m_loadedResources{};
         ResourceID m_lastResourceId{0u};
-
-        WindowID m_lastWindowID{0u};
-        WindowContainer m_windows{};
 
         ObjectEventListeners m_listeners{};
 
@@ -413,33 +406,6 @@ namespace ATMA
          * @throws ValueNotFound Exception if the id has no registered resource 
          */
         void removeResource(const unsigned int &l_resourceID);
-
-        /**
-         * creates a new window and assigns it an unique id
-         * @returns id of the new window
-         */
-        [[nodiscard]] unsigned int createWindow();
-
-        /**
-         * get a pointer to the window from the given id
-         * @returns pointer to the associated window
-         * @throws ValueNotFound Exception if the id has no associated window 
-         */
-        [[nodiscard]] std::shared_ptr<Window> getWindow(const unsigned int &l_windowID);
-
-        /**
-         * pushes the given window event to all active states
-         * should only be used for testing purposes
-         * @param l_e event to be pushed
-         */
-        void pushWindowEvent(const WindowEvent &l_e);
-
-        /**
-         * deletes the window with the associated id from the context
-         * @param l_windowID window id to be deleted
-         * @throws ValueNotFound Exception if the id has not associated window 
-         */
-        void deleteWindow(const unsigned int &l_windowID);
 
         /**
          * pushes object event to all registered object event listeners 

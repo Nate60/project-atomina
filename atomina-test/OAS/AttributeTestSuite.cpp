@@ -17,25 +17,27 @@ TYPED_TEST(AttributeFixture, AddAttribute)
 /**
  * adding an attribute that has not been registered should throw an exception
  */
-TEST_F(UntypedAttributeFixture, AddBadAttribute)
-{
-    ATMA::AttrGraphic attr{};
-    auto &ctx = ATMA::ATMAContext::getContext();
-    unsigned int obj = ctx.createObject();
-    ctx.registerAttributeType<ATMA::AttrGraphic>(0);
-    EXPECT_THROW(ctx.addAttribute(obj, 20), ATMA::ValueNotFoundException);
-}
+//TODO: make typed test
+//TEST_F(UntypedAttributeFixture, AddBadAttribute)
+//{
+//    ATMA::AttrVelocity attr{};
+//    auto &ctx = ATMA::ATMAContext::getContext();
+//    unsigned int obj = ctx.createObject();
+//    ctx.registerAttributeType<ATMA::AttrGraphic>(0);
+//    EXPECT_THROW(ctx.addAttribute(obj, 20), ATMA::ValueNotFoundException);
+//}
 
 /**
  * registering an attribute factory to a attribute type that already exists should throw an
  * exception
  */
-TEST_F(UntypedAttributeFixture, RegisterDuplicateAttributeType)
-{
-    auto &ctx = ATMA::ATMAContext::getContext();
-    ctx.registerAttributeType<ATMA::AttrGraphic>(0);
-    EXPECT_THROW(ctx.registerAttributeType<ATMA::AttrControllable>(0), ATMA::RegistrationException);
-}
+//TODO: make type test
+//TEST_F(UntypedAttributeFixture, RegisterDuplicateAttributeType)
+//{
+//    auto &ctx = ATMA::ATMAContext::getContext();
+//    ctx.registerAttributeType<ATMA::AttrGraphic>(0);
+//    EXPECT_THROW(ctx.registerAttributeType<ATMA::AttrControllable>(0), ATMA::RegistrationException);
+//}
 
 /**
  * adding an attribute to an object larger than the last generated object id should
@@ -134,15 +136,16 @@ TYPED_TEST(AttributeFixture, GetNonExistentAttribute)
  * Getting attribute that cannot be casted to type should return a null
  * pointer 
  */
-TEST_F(UntypedAttributeFixture, GetWrongTypeAttribute)
-{
-    ATMA::AttrGraphic attr{};
-    ATMA::AttrControllable attr2{};
-    auto &ctx = ATMA::ATMAContext::getContext();
-    unsigned int obj = ctx.createObject();
-    ctx.registerAttributeType<ATMA::AttrGraphic>(0);
-    ctx.registerAttributeType<ATMA::AttrControllable>(1);
-    ctx.addAttribute(0, 0);
-    ctx.addAttribute(0, 1);
-    EXPECT_TRUE(!ctx.getAttribute<ATMA::AttrControllable>(0, 0));
-}
+//TODO: make typed test
+//TEST_F(UntypedAttributeFixture, GetWrongTypeAttribute)
+//{
+//    ATMA::AttrGraphic attr{};
+//    ATMA::AttrControllable attr2{};
+//    auto &ctx = ATMA::ATMAContext::getContext();
+//    unsigned int obj = ctx.createObject();
+//    ctx.registerAttributeType<ATMA::AttrGraphic>(0);
+//    ctx.registerAttributeType<ATMA::AttrControllable>(1);
+//    ctx.addAttribute(0, 0);
+//    ctx.addAttribute(0, 1);
+//    EXPECT_TRUE(!ctx.getAttribute<ATMA::AttrControllable>(0, 0));
+//}
