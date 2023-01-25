@@ -61,7 +61,7 @@ protected:
      */
     void perlinTest(std::function<T(T, T, float)> f, T l_exp)
     {
-        sf::Vector2<T> gradient[4] = {
+        ATMA::Vec2<T> gradient[4] = {
             {0, 0},
             {1, 0},
             {0, 1},

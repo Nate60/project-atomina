@@ -18,6 +18,7 @@
 #include <mutex>
 #include <regex>
 #include <random>
+#include <cmath>
 #include <bitset>
 #include <thread>
 #include <future>
@@ -27,10 +28,6 @@
 #include <stdexcept>
 #include <filesystem>
 #include <any>
-#include <SFML/Network.hpp>
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/ostream_sink.h>

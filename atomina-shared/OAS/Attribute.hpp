@@ -14,11 +14,7 @@ namespace ATMA
         None = 0,
         Position,
         Velocity,
-        Graphic,
         Controllable,
-        Animation,
-        MouseRegion,
-        MouseTrigger,
         COUNT
     };
 

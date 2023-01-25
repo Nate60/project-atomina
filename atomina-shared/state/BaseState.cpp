@@ -14,10 +14,10 @@ namespace ATMA
     }
 
     BaseState::BaseState(BaseState &&b) noexcept:
+        m_active(b.m_active),
         m_communicable(b.m_communicable),
         m_transcendent(b.m_transcendent),
-        m_transparent(b.m_transparent),
-        m_view(b.m_view)
+        m_transparent(b.m_transparent)
     {
     }
 
@@ -33,11 +33,6 @@ namespace ATMA
         m_active = false;
     }
 
-    void BaseState::handleEvent(const WindowEvent &l_e)
-    {
-        ATMA_ENGINE_WARN("Base State handleEvent was called");
-    }
-
     bool BaseState::operator==(const BaseState &b) const
     {
         return this->getId() == b.getId();
@@ -51,11 +46,6 @@ namespace ATMA
     bool BaseState::operator>(const BaseState &b) const
     {
         return this->getId() > b.getId();
-    }
-
-    sf::View &BaseState::getView()
-    {
-        return m_view;
     }
 
 }

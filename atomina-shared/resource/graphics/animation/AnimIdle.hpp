@@ -26,17 +26,6 @@ namespace ATMA
             const bool &l_loop = false
         );
 
-        //constructor specifying all parameters with vector for dimensions
-        AnimIdle(
-            const std::string &l_name,
-            const sf::Vector2u &l_dimensions,
-            const unsigned int &l_sheetLine = 0,
-            const unsigned int &l_startFrame = 0,
-            const unsigned int &l_endFrame = 0,
-            const unsigned int &l_activeStart = 0,
-            const unsigned int &l_activeEnd = 0,
-            const bool &l_loop = false
-        );
     protected:
 
         /**

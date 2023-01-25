@@ -29,9 +29,4 @@ namespace ATMA
         return os << e.m_properties.value_or("name", "[null]"s);
     }
 
-    std::ostream &operator<<(std::ostream &os, const std::shared_ptr<Window> w)
-    {
-        return os << w->m_name;
-    }
-
 }
