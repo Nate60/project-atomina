@@ -7,9 +7,9 @@ using namespace std::string_literals;
  */
 TEST_F(LogFixture, LoggingAttributeGivesName)
 {
-    std::shared_ptr<ATMA::AttrBase> attr = std::make_shared<ATMA::AttrGraphic>(ATMA::AttrGraphic{});
+    std::shared_ptr<ATMA::AttrBase> attr = std::make_shared<ATMA::AttrPosition>(ATMA::AttrPosition{});
     testLogger->info("{}", attr);
-    EXPECT_EQ("Graphic"s + LogFixture::endLine, oss.str());
+    EXPECT_EQ("Position"s + LogFixture::endLine, oss.str());
 }
 
 /**
@@ -17,9 +17,9 @@ TEST_F(LogFixture, LoggingAttributeGivesName)
  */
 TEST_F(LogFixture, LoggingSystemGivesName)
 {
-    std::shared_ptr<ATMA::SysBase> sys = std::make_shared<ATMA::SysAnimator>(ATMA::SysAnimator{});
+    std::shared_ptr<ATMA::SysBase> sys = std::make_shared<ATMA::SysTranslator>(ATMA::SysTranslator{});
     testLogger->info("{}", sys);
-    EXPECT_EQ("Animator"s  + LogFixture::endLine, oss.str());
+    EXPECT_EQ("Translator"s  + LogFixture::endLine, oss.str());
 }
 
 /**
@@ -27,9 +27,9 @@ TEST_F(LogFixture, LoggingSystemGivesName)
  */
 TEST_F(LogFixture, LoggingResourceGivesName)
 {
-    std::shared_ptr<ATMA::Resource> res = std::make_shared<ATMA::Music>(ATMA::Music{"some song"});
+    std::shared_ptr<ATMA::Resource> res = std::make_shared<ATMA::DummyResource>(ATMA::DummyResource{"some resource"});
     testLogger->info("{}", res);
-    EXPECT_EQ("some song"s + LogFixture::endLine, oss.str());
+    EXPECT_EQ("some resource"s + LogFixture::endLine, oss.str());
 }
 
 /**
@@ -52,14 +52,4 @@ TEST_F(LogFixture, LoggingEventWithNoNameGivesNull)
     ATMA::ObjectEventContext e{0, ATMA::Props{}};
     testLogger->info("{}", e);
     EXPECT_EQ("[null]"s  + LogFixture::endLine, oss.str());
-}
-
-/**
- * Given a window the logger should print its name
- */
-TEST_F(LogFixture, LoggingWindowGivesName)
-{
-    std::shared_ptr<ATMA::Window> w = std::make_shared<ATMA::Window>(ATMA::Window{"test"});
-    testLogger->info("{}", w);
-    EXPECT_EQ("test"s  + LogFixture::endLine, oss.str());
 }

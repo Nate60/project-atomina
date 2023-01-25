@@ -46,15 +46,5 @@ namespace ATMA
             return StateType(State::Dummy);
         }
 
-        /**
-         * stub update function
-         * @param l_time time passed since last update 
-         */
-        virtual void update(const sf::Time &l_time) override;
-        
-        /**
-         * stub draw function 
-         */
-        virtual void draw() override;
     };
 }
