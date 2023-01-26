@@ -27,7 +27,7 @@ namespace ATMA
          * used as a shorthand for calling the generate function
          * @tparam numeric type for which the range and result should be
          * @param l_min minimum value inclusive
-         * @param l_max maximum value inclusive 
+         * @param l_max maximum value inclusive
          * @returns random value in range of the given template type
          */
         T operator()(T l_min, T l_max)
@@ -74,11 +74,11 @@ namespace ATMA
     public:
         // default constructor
         RandomGenerator(): m_engine(m_device()) {}
-        
+
         /**
          * used as a shorthand for calling the generate function
          * @param l_min minimum value inclusive
-         * @param l_max maximum value inclusive 
+         * @param l_max maximum value inclusive
          * @returns random value in range
          */
         int operator()(int l_min, int l_max);

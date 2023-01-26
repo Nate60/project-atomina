@@ -3,6 +3,5 @@
 #include "SystemFixtures.hpp"
 #include "TestSystem.hpp"
 
-//All data types for Systems
+// All data types for Systems
 using SystemTypes = ::testing::Types<ATMA::SysTranslator, ATMA::SysController>;
-

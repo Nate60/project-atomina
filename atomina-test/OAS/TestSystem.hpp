@@ -2,7 +2,6 @@
 #include "AtominaTest.hpp"
 #include "TestAttribute.hpp"
 
-
 /**
  * Dummy system for testing internals of ATMA Contexts
  * and implementations that require systems
@@ -12,7 +11,6 @@ class TestSystem: public ATMA::SysBase
 private:
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
 public:
-
     /**
      * Default Constructor
      */
@@ -21,7 +19,7 @@ public:
     /**
      * Updates all attributes contained in the systems with respect to
      * how many ticks have passed
-     * @param l_dt time since last update 
+     * @param l_dt time since last update
      */
     virtual void update(const float &l_dt) override;
 

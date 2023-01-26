@@ -7,13 +7,12 @@ namespace ATMA
 {
 
     /**
-     * Animation for any object that is idle 
+     * Animation for any object that is idle
      */
     class ATMA_API AnimIdle: public AnimBase
     {
     public:
-
-        //constructor specifying all parameters
+        // constructor specifying all parameters
         AnimIdle(
             const std::string &l_name,
             const unsigned int &l_width,
@@ -25,11 +24,9 @@ namespace ATMA
             const unsigned int &l_activeEnd = 0,
             const bool &l_loop = false
         );
-
     protected:
-
         /**
-         * advances the frame index of the animation 
+         * advances the frame index of the animation
          */
         virtual void step() override;
     };

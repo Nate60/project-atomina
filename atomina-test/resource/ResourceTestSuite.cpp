@@ -4,7 +4,7 @@
 TYPED_TEST_SUITE(ResourceFixture, ResourceTypes);
 
 /**
- * ATMA Context should keep all resources 
+ * ATMA Context should keep all resources
  * and assign them unique identifiers
  */
 TYPED_TEST(ResourceFixture, CanRegisterResource)
@@ -40,7 +40,7 @@ TYPED_TEST(ResourceFixture, CanUnloadResource)
 }
 
 /**
- * Loaded resources should always be the same if they have the 
+ * Loaded resources should always be the same if they have the
  * same id
  */
 TYPED_TEST(ResourceFixture, reloadingALoadedResourceReturnsResource)
@@ -55,7 +55,6 @@ TYPED_TEST(ResourceFixture, reloadingALoadedResourceReturnsResource)
     auto res2 = this->loadResource(id);
     ATMA_ENGINE_INFO("resource loaded a second time");
     EXPECT_EQ(res, res2);
-
 }
 
 /**
@@ -69,6 +68,7 @@ TYPED_TEST(ResourceFixture, CanRemoveResource)
     ctx.removeResource(id);
     EXPECT_FALSE(ctx.hasResource(id));
 }
+
 /**
  * Resources that have been removed should throw an exception
  * when trying to get them
@@ -93,5 +93,4 @@ TYPED_TEST(ResourceFixture, RemovingResourceUnloadsIt)
     auto res = this->loadResource(id);
     ctx.removeResource(id);
     EXPECT_FALSE(ctx.hasLoadedResource(id));
-
 }
