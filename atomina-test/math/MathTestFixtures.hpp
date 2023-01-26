@@ -1,5 +1,5 @@
 #pragma once
-//conversion to template types causing warning
+// conversion to template types causing warning
 #include "AtominaTest.hpp"
 
 /**
@@ -39,7 +39,7 @@ protected:
         x1 = 5;
         x2 = -10;
         w = 0.5;
-        T exp = static_cast<T>(- 2.5f); // int will truncate
+        T exp = static_cast<T>(-2.5f); // int will truncate
         result = f(x1, x2, w);
         EXPECT_EQ(result, exp);
     }

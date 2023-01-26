@@ -28,7 +28,6 @@ GameTest::shutdown()
     active = false;
 }
 
-
 #ifdef _WINDOWS
 int
 main()

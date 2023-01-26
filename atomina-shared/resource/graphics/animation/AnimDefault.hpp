@@ -15,7 +15,7 @@ namespace ATMA
         AnimDefault();
     protected:
         /**
-         * advances the frame index 
+         * advances the frame index
          */
         virtual void step() override;
     };

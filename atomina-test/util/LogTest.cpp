@@ -7,7 +7,8 @@ using namespace std::string_literals;
  */
 TEST_F(LogFixture, LoggingAttributeGivesName)
 {
-    std::shared_ptr<ATMA::AttrBase> attr = std::make_shared<ATMA::AttrPosition>(ATMA::AttrPosition{});
+    std::shared_ptr<ATMA::AttrBase> attr =
+        std::make_shared<ATMA::AttrPosition>(ATMA::AttrPosition{});
     testLogger->info("{}", attr);
     EXPECT_EQ("Position"s + LogFixture::endLine, oss.str());
 }
@@ -17,9 +18,10 @@ TEST_F(LogFixture, LoggingAttributeGivesName)
  */
 TEST_F(LogFixture, LoggingSystemGivesName)
 {
-    std::shared_ptr<ATMA::SysBase> sys = std::make_shared<ATMA::SysTranslator>(ATMA::SysTranslator{});
+    std::shared_ptr<ATMA::SysBase> sys =
+        std::make_shared<ATMA::SysTranslator>(ATMA::SysTranslator{});
     testLogger->info("{}", sys);
-    EXPECT_EQ("Translator"s  + LogFixture::endLine, oss.str());
+    EXPECT_EQ("Translator"s + LogFixture::endLine, oss.str());
 }
 
 /**
@@ -27,7 +29,8 @@ TEST_F(LogFixture, LoggingSystemGivesName)
  */
 TEST_F(LogFixture, LoggingResourceGivesName)
 {
-    std::shared_ptr<ATMA::Resource> res = std::make_shared<ATMA::DummyResource>(ATMA::DummyResource{"some resource"});
+    std::shared_ptr<ATMA::Resource> res =
+        std::make_shared<ATMA::DummyResource>(ATMA::DummyResource{"some resource"});
     testLogger->info("{}", res);
     EXPECT_EQ("some resource"s + LogFixture::endLine, oss.str());
 }
@@ -51,5 +54,5 @@ TEST_F(LogFixture, LoggingEventWithNoNameGivesNull)
 {
     ATMA::ObjectEventContext e{0, ATMA::Props{}};
     testLogger->info("{}", e);
-    EXPECT_EQ("[null]"s  + LogFixture::endLine, oss.str());
+    EXPECT_EQ("[null]"s + LogFixture::endLine, oss.str());
 }

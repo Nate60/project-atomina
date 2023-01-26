@@ -6,7 +6,7 @@ namespace ATMA
 {
 
     /**
-     * interface for running tasks asynchronously 
+     * interface for running tasks asynchronously
      */
     class ATMA_API Worker
     {
@@ -15,7 +15,7 @@ namespace ATMA
 
         /**
          * checks if the assigned task has been completed
-         * @returns task is completed 
+         * @returns task is completed
          */
         bool isDone() const;
 
@@ -25,9 +25,8 @@ namespace ATMA
          */
         bool hasStarted() const;
     protected:
-
         /**
-         * should implement the task handled by subclass 
+         * should implement the task handled by subclass
          */
         virtual void work() = 0;
 

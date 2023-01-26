@@ -8,7 +8,7 @@ namespace ATMA
     using ObjectEventID = unsigned int;
 
     /**
-     * All possible internal object event types 
+     * All possible internal object event types
      */
     enum class ATMA_API ObjectEvent
     {
@@ -22,13 +22,12 @@ namespace ATMA
 
     /**
      * wrapper class for easy conversion from Object Event Type enum to
-     * unsigned int 
+     * unsigned int
      */
     class ATMA_API ObjectEventType
     {
     public:
-
-        //constructor specifying enum type
+        // constructor specifying enum type
         ObjectEventType(const ObjectEvent &l_type): m_type(l_type) {}
 
         // conversion constructor

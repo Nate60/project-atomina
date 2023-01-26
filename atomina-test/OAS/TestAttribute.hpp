@@ -26,9 +26,9 @@ public:
     friend std::stringstream &operator>>(std::stringstream &l_stream, AttrBase &b);
 
     /**
-    * Obtains all values for members from a stream
-    * @param l_stream input stream containing attribute members
-    */
+     * Obtains all values for members from a stream
+     * @param l_stream input stream containing attribute members
+     */
     void readIn(std::stringstream &l_stream);
 
     bool flag = false;
