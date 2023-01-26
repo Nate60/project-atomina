@@ -20,12 +20,12 @@ namespace ATMA
 
     /**
      * wrapper class for Attribute enum for conversion into unsigned
-     * int 
+     * int
      */
     class ATMA_API AttrType
     {
     public:
-        //constructor for attribute type enum
+        // constructor for attribute type enum
         AttrType(const Attribute &l_type): m_type(l_type) {}
 
         // conversion constructor

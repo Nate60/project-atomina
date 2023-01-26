@@ -56,4 +56,3 @@
 #include "resource/graphics/AnimBase.hpp"
 #include "resource/graphics/animation/AnimIdle.hpp"
 #include "resource/graphics/animation/AnimDefault.hpp"
-

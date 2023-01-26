@@ -15,7 +15,7 @@ TYPED_TEST(SystemFixture, AddSystem)
 /**
  * should not be able to add a system to the context when the context
  * already has a system assigned to that ID
-*/
+ */
 TYPED_TEST(SystemFixture, AddDuplicateSystem)
 {
     unsigned int sysType = TypeParam{}.getType();

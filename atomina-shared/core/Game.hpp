@@ -11,7 +11,6 @@
 namespace ATMA
 {
 
-
     /**
      * App interface to be implemented by the game and called by the
      * engine
@@ -19,17 +18,16 @@ namespace ATMA
     class ATMA_API Game
     {
     public:
-
-        //default constructor
+        // default constructor
         Game();
 
-        //virtual desconstructor
+        // virtual desconstructor
         virtual ~Game();
 
         /**
          * Registers all default systems, and attributes, so that
          * it does not need to be done by the game since it may not
-         * know all available types 
+         * know all available types
          */
         void initializeContext();
 
@@ -49,4 +47,3 @@ namespace ATMA
     };
 
 }
-

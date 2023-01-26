@@ -5,16 +5,15 @@
 namespace ATMA
 {
     /**
-     * Dummy state used as a place holder  
+     * Dummy state used as a place holder
      */
     class ATMA_API DummyState: public BaseState
     {
     public:
-    
-        //default constructor
+        // default constructor
         DummyState();
 
-        //deconstructor
+        // deconstructor
         virtual ~DummyState();
 
         /**
@@ -23,28 +22,27 @@ namespace ATMA
         virtual void onCreate() override;
 
         /**
-         * stub function for deletion of state 
+         * stub function for deletion of state
          */
         virtual void onDestroy() override;
 
         /**
-         * stub function for activation of state 
+         * stub function for activation of state
          */
         virtual void activate() override;
 
         /**
-         * stub function for deactivation of state 
+         * stub function for deactivation of state
          */
         virtual void deactivate() override;
 
         /**
          * gives type id of dummy state
-         * @return type id of dummy state 
+         * @return type id of dummy state
          */
         virtual unsigned int getId() const override
         {
             return StateType(State::Dummy);
         }
-
     };
 }
