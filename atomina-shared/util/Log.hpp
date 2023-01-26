@@ -13,9 +13,8 @@ namespace ATMA
     class ATMA_API Log
     {
     public:
-
         /**
-         * Starts the spdlog engine 
+         * Starts the spdlog engine
          */
         static void Init();
 
@@ -42,6 +41,6 @@ namespace ATMA
 }
 
 #define ATMA_ENGINE_ERROR(...) ::ATMA::Log::GetEngineLogger()->error(__VA_ARGS__)
-#define ATMA_ENGINE_WARN(...)  ::ATMA::Log::GetEngineLogger()->warn(__VA_ARGS__)
-#define ATMA_ENGINE_INFO(...)  ::ATMA::Log::GetEngineLogger()->info(__VA_ARGS__)
+#define ATMA_ENGINE_WARN(...) ::ATMA::Log::GetEngineLogger()->warn(__VA_ARGS__)
+#define ATMA_ENGINE_INFO(...) ::ATMA::Log::GetEngineLogger()->info(__VA_ARGS__)
 #define ATMA_ENGINE_TRACE(...) ::ATMA::Log::GetEngineLogger()->trace(__VA_ARGS__)

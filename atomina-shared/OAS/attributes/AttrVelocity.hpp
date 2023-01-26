@@ -7,15 +7,15 @@ namespace ATMA
 {
 
     /**
-     * An Attribute that holds velocity members of an object 
+     * An Attribute that holds velocity members of an object
      */
     class ATMA_API AttrVelocity: public AttrBase
     {
     public:
-        //default constructor
+        // default constructor
         AttrVelocity();
 
-        //deconstructor
+        // deconstructor
         ~AttrVelocity();
 
         // friend function to output attributes

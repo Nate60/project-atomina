@@ -5,16 +5,15 @@
 namespace ATMA
 {
     using FrameId = unsigned int;
- 
+
     /**
      * Animation superclass that defines behaviour of
-     * all animation objects 
+     * all animation objects
      */
     class ATMA_API AnimBase
     {
     public:
-
-        //constructor specifying all parameters 
+        // constructor specifying all parameters
         AnimBase(
             const std::string &l_name,
             const unsigned int &m_width,
@@ -52,12 +51,11 @@ namespace ATMA
          */
         virtual const unsigned int getCurrentFrameId() const;
     protected:
-        
         /**
-         * advances the animation one frame 
+         * advances the animation one frame
          */
         virtual void step() = 0;
-        
+
         FrameId m_currentFrame{0};
     };
 

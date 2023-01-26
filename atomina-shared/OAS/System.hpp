@@ -19,12 +19,12 @@ namespace ATMA
 
     /**
      * wrapper class for easy conversion from system enum to
-     * unsigned int 
+     * unsigned int
      */
     class ATMA_API SysType
     {
     public:
-        //constructor with name
+        // constructor with name
         SysType(const System &l_type): m_type(l_type) {}
 
         // conversion constructor

@@ -3,7 +3,5 @@
 #include "AttributeFixtures.hpp"
 
 // All Attribute data types
-using AttributeTypes = ::testing::Types<
-    ATMA::AttrPosition,
-    ATMA::AttrControllable,
-    ATMA::AttrVelocity>;
+using AttributeTypes =
+    ::testing::Types<ATMA::AttrPosition, ATMA::AttrControllable, ATMA::AttrVelocity>;

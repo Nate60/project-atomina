@@ -7,8 +7,7 @@
 #ifdef _WINDOWS
 namespace ATMA
 {
-    void
-    startGame(std::unique_ptr<Game> l_game) 
+    void startGame(std::unique_ptr<Game> l_game)
     {
         Log::Init();
         ATMA_ENGINE_INFO("Init logger!");

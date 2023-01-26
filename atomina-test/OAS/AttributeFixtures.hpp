@@ -1,7 +1,6 @@
 #pragma once
 #include "AtominaTest.hpp"
 
-
 /**
  * Fixture for testing attribute of the Object Attribute System
  */
@@ -11,7 +10,6 @@ class AttributeFixture: public ::testing::Test
 public:
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
 protected:
-
     /**
      * Helper function for adding attribute of the template class
      * @param l_obj id of the object to add the attribute to
@@ -54,7 +52,6 @@ protected:
     }
 };
 
-
 /**
  * Fixture for testing Attribute features that do not require all
  * types to be tested
@@ -62,7 +59,6 @@ protected:
 class UntypedAttributeFixture: public ::testing::Test
 {
 protected:
-
     /**
      * Cleans up context after each test
      */
