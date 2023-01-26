@@ -17,17 +17,21 @@ namespace ATMA
 
     /**
      * Super class for systems which implement the behaviours of
-     * attributes for each object register in the context 
+     * attributes for each object register in the context
      */
     class ATMA_API SysBase: public ObjectEventListener
     {
     public:
         const std::string m_sysTypeName;
-        
-        //constructor with system type and type name
-        SysBase(const SystemType &l_type, const std::string &l_typeName): m_type(l_type), m_sysTypeName(l_typeName) {}
 
-        //destructor
+        // constructor with system type and type name
+        SysBase(const SystemType &l_type, const std::string &l_typeName):
+            m_type(l_type),
+            m_sysTypeName(l_typeName)
+        {
+        }
+
+        // destructor
         virtual ~SysBase() {}
 
         /**

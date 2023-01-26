@@ -17,7 +17,7 @@ namespace ATMA
 
     /**
      * Exception to be thrown when an error occurs when registering an id or related object to
-     * a manager 
+     * a manager
      */
     struct ATMA_API RegistrationException: public AtominaException
     {
@@ -37,7 +37,7 @@ namespace ATMA
     };
 
     /**
-     * Exception thrown when the logger engine has not been initialized 
+     * Exception thrown when the logger engine has not been initialized
      */
     struct ATMA_API LoggerNotInitializedException: public AtominaException
     {
@@ -48,12 +48,13 @@ namespace ATMA
     };
 
     /**
-     * Exception thrown when acquisition of resources fails 
+     * Exception thrown when acquisition of resources fails
      */
 
     struct ATMA_API ResourceAcquisitionException: public AtominaException
     {
-        ResourceAcquisitionException(const std::string &l_message) noexcept: AtominaException(l_message)
+        ResourceAcquisitionException(const std::string &l_message) noexcept:
+            AtominaException(l_message)
         {
         }
     };

@@ -2,7 +2,7 @@
 #include "event/ObjectEvent.hpp"
 
 /**
- * Object events should be dispatched to any system that 
+ * Object events should be dispatched to any system that
  * has been registered to listen to that event type
  */
 TEST_F(EventFixture, ObjectEventPassedToSystem)

@@ -1,7 +1,6 @@
 #include "pch.hpp"
 #include "Props.hpp"
 
-
 namespace ATMA
 {
 

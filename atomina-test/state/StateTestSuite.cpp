@@ -1,7 +1,7 @@
 #include "StateTestSuite.hpp"
 
 /**
- * Adding a state gives a coresponding id 
+ * Adding a state gives a coresponding id
  */
 TEST_F(StateFixture, CanAddState)
 {
@@ -23,7 +23,6 @@ TEST_F(StateFixture, AddDuplicateState)
     this->ctx.addState(id, std::move(state));
     EXPECT_THROW(this->ctx.addState(id, std::move(state2)), ATMA::RegistrationException);
 }
-
 
 /**
  * Removing an id with no registered state should throw an exception
@@ -75,7 +74,6 @@ TEST_F(StateFixture, OnStateChangeCanDisableSystem)
     ctx.update();
     EXPECT_FALSE(ctx.getAttribute<TestAttribute>(obj, 0u)->flag);
 }
-
 
 /**
  * On state change a system may be enabled

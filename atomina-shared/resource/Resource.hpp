@@ -6,24 +6,24 @@ namespace ATMA
 {
 
     /**
-     * interface class for acquirable resource by the engine 
+     * interface class for acquirable resource by the engine
      */
     class ATMA_API Resource
     {
     public:
-    const std::string m_resourceName;
-        
-        //constructor with name
+        const std::string m_resourceName;
+
+        // constructor with name
         Resource(const std::string &l_name);
 
-        //constructor with name and filename of resource
+        // constructor with name and filename of resource
         Resource(const std::string &l_name, const std::string &l_fileName);
 
-        //deconstructor
+        // deconstructor
         ~Resource();
     };
 
-    //equality operator
+    // equality operator
     inline bool operator==(const Resource &a, const Resource &b);
 
 }

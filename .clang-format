@@ -1,12 +1,12 @@
-
+# Requires Clang > 14.0.0
 BasedOnStyle: Mozilla
 AccessModifierOffset: -4
-AlignAfterOpenBracket: BlockIndent
+AlignAfterOpenBracket: BlockIndent	
 AlignArrayOfStructures: Right
-AlignConsecutiveAssignments: None
+AlignConsecutiveAssignments: false
 AlignConsecutiveBitFields: None
 AlignConsecutiveDeclarations: None
-AlignConsecutiveMacros: Consecutive
+AlignConsecutiveMacros: None
 AlignEscapedNewlines: Right
 AlignOperands: AlignAfterOperator
 AlignTrailingComments: true

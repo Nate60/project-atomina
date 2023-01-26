@@ -5,7 +5,7 @@
 
 namespace ATMA
 {
-    /** 
+    /**
      * defines all possible states within the shared library
      */
     enum class ATMA_API State
@@ -22,8 +22,7 @@ namespace ATMA
     class ATMA_API StateType
     {
     public:
-
-        //normal constructor
+        // normal constructor
         StateType(const State &l_type): m_type(l_type) {}
 
         // conversion constructor

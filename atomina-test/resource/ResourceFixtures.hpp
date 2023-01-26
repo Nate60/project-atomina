@@ -11,7 +11,6 @@ class ResourceFixture: public ::testing::Test
 public:
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
 protected:
-
     /**
      * Adds resource to the ATMA contain with type of the template
      * class
@@ -24,7 +23,7 @@ protected:
         const std::optional<std::string> &l_filename = std::nullopt
     )
     {
-        return ctx.registerResource("",l_resourceType, l_filename);
+        return ctx.registerResource("", l_resourceType, l_filename);
     }
 
     /**

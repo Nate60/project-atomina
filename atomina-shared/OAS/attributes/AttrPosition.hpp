@@ -7,16 +7,15 @@ namespace ATMA
 {
 
     /**
-     * Attribute that holds an object's position members 
+     * Attribute that holds an object's position members
      */
     class ATMA_API AttrPosition: public AttrBase
     {
     public:
-
-        //default constructor
+        // default constructor
         AttrPosition();
 
-        //deconstructor
+        // deconstructor
         ~AttrPosition();
 
         // friend function to output attributes

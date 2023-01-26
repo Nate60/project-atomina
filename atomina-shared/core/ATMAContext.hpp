@@ -37,14 +37,14 @@ namespace ATMA
     using ResourceID = unsigned int;
     using ResourceTypeID = unsigned int;
     using WindowID = unsigned int;
-    using ResourceContainer =
-        std::unordered_map<ResourceID, std::tuple<ResourceTypeID, std::string, std::optional<std::string>>>;
+    using ResourceContainer = std::unordered_map<
+        ResourceID,
+        std::tuple<ResourceTypeID, std::string, std::optional<std::string>>>;
     using LoadedResourceContainer = std::unordered_map<ResourceID, std::shared_ptr<Resource>>;
-  
+
     using ObjectEventID = unsigned int;
     using ObjectEventListeners =
         std::unordered_map<ObjectEventID, std::vector<std::shared_ptr<ObjectEventListener>>>;
-
 
     /**
      * Singleton that houses all internal state within the Atomina Engine.
@@ -53,7 +53,6 @@ namespace ATMA
     class ATMA_API ATMAContext
     {
     protected:
-
         bool initialized{false};
         std::mutex m_mtx{};
         ObjectID m_lastObjectID{0u};
@@ -95,17 +94,15 @@ namespace ATMA
          * @param l_systemID id of the system that has changed
          */
         void systemUpdated(const unsigned int &l_systemID);
-
     public:
-
-        //deleted functions
+        // deleted functions
         ATMAContext(ATMAContext const &) = delete;
         void operator=(ATMAContext const &) = delete;
-        
+
         /**
          * Global function to obtain a reference to the global Atomina
          * context
-         * @returns reference to global Atomina context 
+         * @returns reference to global Atomina context
          */
         static ATMAContext &getContext()
         {
@@ -113,7 +110,6 @@ namespace ATMA
                                         // Instantiated on first use.
             return context;
         }
-
 
         /**
          * Assigns an Attribute class type to an unsigned integer id
@@ -152,13 +148,15 @@ namespace ATMA
          * @param l_bits
          * @returns id of the new object
          */
-        [[nodiscard]] unsigned int createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
+        [[nodiscard]] unsigned int createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits
+        );
 
         /**
          * Adds an attribute of the given id type to the given id
          * @param l_objectID object id to add attribute to
          * @param l_attrType id type of the attribute
-         * @throws ValueNotFound Exception if either the object id or attribute type is not registered to the context
+         * @throws ValueNotFound Exception if either the object id or attribute type is not
+         * registered to the context
          */
         void addAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType);
 
@@ -166,7 +164,8 @@ namespace ATMA
          * Removes an attribute of the given type from the specified object
          * @param l_objectID object id to remove the attribute from
          * @param l_attrType type id of the attribute to remove
-         * @throws ValueNotFound Exception if either the object id or attribute type is not registered to the context or if the object does not have the attribute
+         * @throws ValueNotFound Exception if either the object id or attribute type is not
+         * registered to the context or if the object does not have the attribute
          */
         void removeAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType);
 
@@ -185,7 +184,7 @@ namespace ATMA
          * @param l_objectID id of the object to get attribute from
          * @param l_attrType type id of the attribute to grab
          * @returns pointer to the attribute
-         * @throws ValueNotFound Exception if object or attribute cannot be found in the context 
+         * @throws ValueNotFound Exception if object or attribute cannot be found in the context
          */
         template<class T>
         [[nodiscard]] std::shared_ptr<T>
@@ -220,7 +219,8 @@ namespace ATMA
          * Registers a system type to the context and associates it with the given class type
          * @tparam Class Type of the system
          * @param l_systemID type id of the system to register
-         * @throws Registration Exception if the type id already has an existing system class registered
+         * @throws Registration Exception if the type id already has an existing system class
+         * registered
          */
         template<class T>
         void addSystemType(const unsigned int &l_systemID)
@@ -242,14 +242,14 @@ namespace ATMA
 
         /**
          * Disables a system so it no longer is notifed for object events
-         * @param l_systemID type id of the system to disable 
+         * @param l_systemID type id of the system to disable
          * @throws ValueNotFound Exception if the type id is not registered
          */
         void disableSystem(const unsigned int &l_systemID);
 
         /**
          * Enables a system to listen for object events
-         * @param l_systemID type id of the system to enable 
+         * @param l_systemID type id of the system to enable
          * @throws ValueNotFound Exception if the type id is not registered
          */
         void enableSystem(const unsigned int &l_systemID);
@@ -257,7 +257,7 @@ namespace ATMA
         /**
          * checks if the context has the system type id registered
          * @param l_systemID type id of the system to check for
-         * @returns if the system type id is registered 
+         * @returns if the system type id is registered
          */
         [[nodiscard]] bool hasSystem(const unsigned int &l_systemID);
 
@@ -285,7 +285,7 @@ namespace ATMA
         }
 
         /**
-         * Removes a system from the context registry 
+         * Removes a system from the context registry
          * @param l_systemID type id of the system to unregister
          * @throws ValueNotFound Exception when system id is not found in registry
          */
@@ -337,7 +337,7 @@ namespace ATMA
          * checks if the resource has been registered
          * @param l_resourceID id of the resource to check for
          * @returns if the resource has been found
-        */
+         */
         [[nodiscard]] bool hasResource(const unsigned int &l_resourceID);
 
         /**
@@ -369,8 +369,9 @@ namespace ATMA
                     if(auto &filename = std::get<2>(itr->second); filename.has_value())
                     {
 
-                        m_loadedResources[l_resourceID] =
-                            std::shared_ptr<T>{new T{name, filename.value()}};
+                        m_loadedResources[l_resourceID] = std::shared_ptr<T>{
+                            new T{name, filename.value()}
+                        };
                     }
                     else
                     {
@@ -388,8 +389,8 @@ namespace ATMA
         /**
          * checks if the resource id has been loaded into memory
          * @param l_resourceID id of the resource
-         * @returns if the loaded resource is found 
-         */    
+         * @returns if the loaded resource is found
+         */
         [[nodiscard]] bool hasLoadedResource(const unsigned int &l_resourceID);
 
         /**
@@ -403,14 +404,14 @@ namespace ATMA
         /**
          * removes the registered resource from the context so it cannot longer be loaded
          * @param l_resourceID id of the registered resource
-         * @throws ValueNotFound Exception if the id has no registered resource 
+         * @throws ValueNotFound Exception if the id has no registered resource
          */
         void removeResource(const unsigned int &l_resourceID);
 
         /**
-         * pushes object event to all registered object event listeners 
+         * pushes object event to all registered object event listeners
          * for that object event type
-         * @param l_e object event details 
+         * @param l_e object event details
          */
         void dispatchObjectEvent(const ObjectEventContext &l_e);
 
@@ -418,7 +419,7 @@ namespace ATMA
          * Adds object event listener to the notification interface
          * of the context
          * @param l_id type id of the object event that the listener is listening for
-         * @param l_listener pointer to the listener 
+         * @param l_listener pointer to the listener
          */
         void addObjectEventListener(
             const ObjectEventID &l_id,
@@ -426,45 +427,45 @@ namespace ATMA
         );
 
         /**
-         * updates all the engine internals. To be called in the main game loop 
+         * updates all the engine internals. To be called in the main game loop
          */
         void update();
 
         /**
-         * removes all objects and attributes and resets the next id back to 0 
+         * removes all objects and attributes and resets the next id back to 0
          */
         void purgeObjects();
 
         /**
-         * removes all systems and resets the next id back to 0 
+         * removes all systems and resets the next id back to 0
          */
         void purgeSystems();
 
         /**
-         * removes and deletes all states from the context 
+         * removes and deletes all states from the context
          */
         void purgeStates();
 
         /**
          * removes and unloads all resources from the context and resets the next id
-         * back to 0 
+         * back to 0
          */
         void purgeResources();
 
         /**
-         * removes all windows from the context and resets the next id 
-         * back to 0 
+         * removes all windows from the context and resets the next id
+         * back to 0
          */
         void purgeWindows();
 
         /**
-         * unregisters all listeners from the context 
+         * unregisters all listeners from the context
          */
         void purgeListeners();
 
         /**
-         * purges all memory items from the context and resets all next ids for each 
-         * registry back to 0 
+         * purges all memory items from the context and resets all next ids for each
+         * registry back to 0
          */
         void purge();
     };

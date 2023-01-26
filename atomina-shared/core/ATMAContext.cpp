@@ -411,7 +411,6 @@ namespace ATMA
         ATMA_ENGINE_INFO("purged resources from context");
     }
 
-
     void ATMAContext::purgeListeners()
     {
         m_listeners.clear();
