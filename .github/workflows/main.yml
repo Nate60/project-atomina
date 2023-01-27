@@ -32,7 +32,12 @@ jobs:
       run: sudo apt-get update
 
     - name: Setup library Prerequisites
-      run: sudo apt-get install -y --fix-missing g++ xorg-dev libtbb-dev libbtbb-dev
+      run: sudo apt-get install -y --fix-missing g++ xorg-dev libtbb-dev libbtbb-dev ninja-build
+
+    - name: Install ninja-build tool
+      uses: seanmiddleditch/gha-setup-ninja@v3
+      with:
+        version: '1.11.1'
 
     - name: Checkout action repo branch
       uses: actions/checkout@v2
@@ -41,13 +46,21 @@ jobs:
         submodules: 'recursive'
     - run: git checkout HEAD    
       
+    - name: Make Build Directory
+      working-directory: ${{env.SOLUTION_FILE_PATH}}
+      run: mkdir "out" && mkdir "out/build"
+
+    - name: Build CMake Files
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
+      run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -DIntel_Processor:BOOL=true -G "Ninja"
+
     - name: Build Project
-      working-directory: ${{env.SOLUTION_FILE_PATH}} 
-      run: bash sbin/buildproject.sh ${{matrix.build_type}} -DIntel_Processor:BOOL=true
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
+      run: cmake --build . --config ${{matrix.build_type}} -j 4
 
     - name: Run Tests
-      working-directory: ${{env.SOLUTION_FILE_PATH}} 
-      run: ls out/build/bin && bash sbin/runtests.sh ${{matrix.build_type}}
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
+      run: xvfb-run -a ./bin/Atomina_Test
   
   build_windows:
     strategy:
@@ -58,14 +71,6 @@ jobs:
 
     steps:
     
-    - name: Setup cmake
-      uses: jwlawson/actions-setup-cmake@v1.12
-      with:
-        cmake-version: '3.24.x'
-
-    - name: Enable Developer Command Prompt
-      uses: ilammy/msvc-dev-cmd@v1.12.0
-
     - name: Checkout action repo branch
       uses: actions/checkout@v2
       with:
@@ -73,11 +78,40 @@ jobs:
         submodules: 'recursive'
     - run: git checkout HEAD    
 
+    - name: Setup cmake
+      uses: jwlawson/actions-setup-cmake@v1.12
+      with:
+        cmake-version: '3.24.x'
+
+    - name: Install ninja-build tool
+      uses: seanmiddleditch/gha-setup-ninja@v3
+      with:
+        version: "1.11.1"
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        msbuild-architecture: x64
+        vs-prerelease: true
+
+    - name: Visual Studio shell
+      uses: egor-tensin/vs-shell@v2
+      with:
+        arch: x64
+
+    - name: Make Build Directory
+      working-directory: ${{env.SOLUTION_FILE_PATH}}
+      run: mkdir "out" && mkdir "out/build"
+
+    - name: Build CMake Files
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
+      run: cmake "../../" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_Type}} -DIntel_Processor:BOOL=true -G "Ninja"
+
     - name: Build Project
-      working-directory: ${{env.SOLUTION_FILE_PATH}} 
-      run: sbin/buildproject.bat ${{matrix.build_type}} -DIntel_Processor:BOOL=true
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
+      run: cmake --build . --config ${{matrix.build_type}} -j 4
 
     - name: Run Tests
-      working-directory: ${{env.SOLUTION_FILE_PATH}} 
-      run: sbin/runtests.bat ${{matrix.build_type}}
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
+      run: start "bin\Atomina_Test.exe"
 
