@@ -19,7 +19,10 @@ jobs:
       matrix:
        build_type: [Release, Debug]
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
+    env:
+        CC: /usr/bin/gcc-12
+        CXX: /usr/bin/g++-12
 
     steps:
     
@@ -32,7 +35,7 @@ jobs:
       run: sudo apt-get update
 
     - name: Setup library Prerequisites
-      run: sudo apt-get install -y --fix-missing g++ xorg-dev libtbb-dev libbtbb-dev ninja-build
+      run: sudo apt-get install -y --fix-missing g++-12 libstdc++-12-dev libstdc++-12-doc gcc-12 gcc-12-base gcc-12-doc xorg-dev ninja-build
 
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
@@ -52,7 +55,7 @@ jobs:
 
     - name: Build CMake Files
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
-      run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -DIntel_Processor:BOOL=true -G "Ninja"
+      run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -G "Ninja"
 
     - name: Build Project
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
@@ -83,11 +86,6 @@ jobs:
       with:
         cmake-version: '3.24.x'
 
-    - name: Install ninja-build tool
-      uses: seanmiddleditch/gha-setup-ninja@v3
-      with:
-        version: "1.11.1"
-
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.1
       with:
@@ -104,8 +102,8 @@ jobs:
       run: mkdir "out" && mkdir "out/build"
 
     - name: Build CMake Files
-      working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
-      run: cmake "../../" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_Type}} -DIntel_Processor:BOOL=true -G "Ninja"
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
+      run: cmake "../../" -G "Ninja"  -DCMAKE_C_COMPILER:STRING="cl.exe" -DCMAKE_CXX_COMPILER:STRING="cl.exe" -DCMAKE_BUILD_TYPE:STRING="${{matrix.build_type}}" -DCMAKE_INSTALL_PREFIX:PATH="${{env.SOLUTION_FILE_PATH}}/out/install/x64-debug" 2>&1
 
     - name: Build Project
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
@@ -113,5 +111,5 @@ jobs:
 
     - name: Run Tests
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
-      run: start "bin\Atomina_Test.exe"
+      run: bin\Atomina_Test.exe
 

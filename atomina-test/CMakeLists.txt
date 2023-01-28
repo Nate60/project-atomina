@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.20)
 project(Atomina_Test VERSION 0.1)
 
 # specify the C++ standard
-set(CMAKE_CXX_STANDARD 17 FORCE)
+set(CMAKE_CXX_STANDARD 20 FORCE)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 set(Intel_Processor CACHE BOOL "false")
 
@@ -29,5 +29,5 @@ target_include_directories(Atomina_Test PRIVATE "../atomina-shared" "../atomina-
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET Atomina_Test PROPERTY CXX_STANDARD 17)
+  set_property(TARGET Atomina_Test PROPERTY CXX_STANDARD 20)
 endif()
