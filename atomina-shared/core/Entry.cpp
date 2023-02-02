@@ -9,6 +9,9 @@ namespace ATMA
 {
     void startGame(std::unique_ptr<Game> l_game)
     {
+        WSADATA wsaData;
+        WSAStartup(MAKEWORD(2, 2), &wsaData);
+
         Log::Init();
         ATMA_ENGINE_INFO("Init logger!");
         try

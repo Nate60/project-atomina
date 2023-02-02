@@ -39,10 +39,9 @@ namespace ATMA
     /**
      * Exception thrown when the logger engine has not been initialized
      */
-    struct ATMA_API LoggerNotInitializedException: public AtominaException
+    struct ATMA_API InitializationException: public AtominaException
     {
-        LoggerNotInitializedException(const std::string &l_message) noexcept:
-            AtominaException(l_message)
+        InitializationException(const std::string &l_message) noexcept: AtominaException(l_message)
         {
         }
     };

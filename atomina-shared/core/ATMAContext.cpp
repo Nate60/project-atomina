@@ -41,6 +41,14 @@ namespace ATMA
         ATMA_ENGINE_INFO("ATMAContext has been initialized");
     }
 
+    ATMAContext::~ATMAContext()
+    {
+        ATMA_ENGINE_INFO("ATMAContext has been deleted");
+#ifdef _WINDOWS
+        WSACleanup();
+#endif
+    }
+
     unsigned int ATMAContext::createObject()
     {
         std::lock_guard<std::mutex> lock{m_mtx};
