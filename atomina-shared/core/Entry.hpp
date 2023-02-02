@@ -1,6 +1,9 @@
 #pragma once
 #include "api.hpp"
 #include "Game.hpp"
+#ifdef _WINDOWS
+#    include <winsock2.h>
+#endif
 
 namespace ATMA
 {

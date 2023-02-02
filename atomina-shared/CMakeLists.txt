@@ -13,6 +13,12 @@ set(Intel_Processor CACHE BOOL "false")
 file(GLOB_RECURSE atomina_shared_src CONFIGURE_DEPENDS "*.hpp" "*.cpp")
 list(FILTER atomina_shared_src EXCLUDE REGEX ".*\/cmake\/.*")
 
+if(MSVC)
+    list(FILTER atomina_shared_src EXCLUDE REGEX ".*UnixImpl.cpp")
+elseif(UNIX)
+    list(FILTER atomina_shared_src EXCLUDE REGEX ".*WinImpl.cpp")
+endif()
+
 add_library(Atomina_Shared SHARED)
 
  
@@ -24,11 +30,8 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Atomina_Shared PROPERTY CXX_STANDARD 20)
 endif()
 
-if(${Intel_Processor})
-    target_link_libraries(Atomina_Shared spdlog::spdlog tbb)
-else()
-    target_link_libraries(Atomina_Shared spdlog::spdlog)
-endif()
+target_link_libraries(Atomina_Shared spdlog::spdlog)
+
 
 target_sources(Atomina_Shared PRIVATE ${atomina_shared_src})
 target_include_directories(Atomina_Shared PRIVATE "../atomina-shared")
