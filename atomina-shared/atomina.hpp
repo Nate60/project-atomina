@@ -56,3 +56,17 @@
 #include "resource/graphics/AnimBase.hpp"
 #include "resource/graphics/animation/AnimIdle.hpp"
 #include "resource/graphics/animation/AnimDefault.hpp"
+
+// Network
+#include "network/URL.hpp"
+#include "network/Socket.hpp"
+#include "network/SocketListener.hpp"
+#ifdef _WINDOWS
+#    include "network/socket/SocketWinImpl.hpp"
+#    include "network/socket/SocketListenerWinImpl.hpp"
+#elif __linux__
+#    include "network/socket/SocketUnixImpl.hpp"
+#    include "network/socket/SocketListenerUnixImpl.hpp"
+#endif
+#include "network/NetworkClient.hpp"
+#include "network/NetworkHost.hpp"

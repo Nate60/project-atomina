@@ -9,6 +9,12 @@
 #include "util/Log.hpp"
 #include "util/AtominaException.hpp"
 #include "resource/Resource.hpp"
+#ifdef _WINDOWS
+#    include <winsock2.h>
+#    include <ws2tcpip.h>
+#    include <iphlpapi.h>
+#    include <stdio.h>
+#endif
 
 namespace ATMA
 {
@@ -52,6 +58,9 @@ namespace ATMA
      */
     class ATMA_API ATMAContext
     {
+    public:
+        // destructor
+        ~ATMAContext();
     protected:
         bool initialized{false};
         std::mutex m_mtx{};

@@ -30,7 +30,7 @@ namespace ATMA
             }
             else
             {
-                throw LoggerNotInitializedException("must call Log.Init() before calling logger");
+                throw InitializationException("must call Log.Init() before calling logger");
             }
         }
     private:

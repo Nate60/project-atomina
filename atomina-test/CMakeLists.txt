@@ -17,11 +17,8 @@ enable_testing()
 add_executable(Atomina_Test ${atomina_test_src})
 
 
-if(${Intel_Processor})
-    target_link_libraries(Atomina_Test spdlog::spdlog Atomina_Shared gtest tbb)
-else()
-    target_link_libraries(Atomina_Test spdlog::spdlog Atomina_Shared gtest)
-endif()
+target_link_libraries(Atomina_Test spdlog::spdlog Atomina_Shared gtest)
+
 
 target_link_directories(Atomina_Test PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/../lib/${CMAKE_BUILD_TYPE}/)
 
