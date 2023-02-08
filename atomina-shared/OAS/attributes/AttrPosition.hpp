@@ -16,7 +16,7 @@ namespace ATMA
         AttrPosition();
 
         // deconstructor
-        ~AttrPosition();
+        virtual ~AttrPosition();
 
         // friend function to output attributes
         friend std::stringstream &operator>>(std::stringstream &l_stream, AttrBase &b);

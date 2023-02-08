@@ -19,9 +19,11 @@ namespace ATMA
     class ATMA_API SocketUnixImpl: public Socket
     {
     public:
+        // default constructor
         SocketUnixImpl();
 
-        ~SocketUnixImpl();
+        // default deconstructor
+        virtual ~SocketUnixImpl();
 
         /**
          * starts the connection to the host listener and waits for

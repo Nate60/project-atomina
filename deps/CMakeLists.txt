@@ -1,3 +1,5 @@
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -19,4 +21,15 @@ FetchContent_Declare(
 )
 
 add_subdirectory(glfw)
+
+FetchContent_Declare(
+  extern_glad
+
+  GIT_REPOSITORY https://github.com/Dav1dde/glad.git
+  GIT_TAG        v0.1.27)
+
+add_subdirectory(extern_glad)
+
+
+
 

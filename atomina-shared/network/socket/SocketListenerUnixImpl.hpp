@@ -21,7 +21,7 @@ namespace ATMA
         SocketListenerUnixImpl(const unsigned short &l_port);
 
         // deconstructor
-        ~SocketListenerUnixImpl();
+        virtual ~SocketListenerUnixImpl();
 
         /**
          * opens port to active sockets

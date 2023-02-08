@@ -18,12 +18,26 @@ namespace ATMA
         URL(const std::string &l_url);
 
         // deconstructor
-        ~URL();
+        virtual ~URL();
 
+        /**
+         * @brief copy operator
+         * @param l_other URL to copy
+         * @return copied URL
+         */
         URL &operator=(const URL &l_other);
 
+        /**
+         * @brief move operator
+         * @param l_other URL to move
+         * @return moved operator
+         */
         URL &operator=(URL &&l_other);
 
+        /**
+         * @brief getter for ip string
+         * @return ip as string
+         */
         const std::string &getIP() const;
     protected:
         std::string m_addr;

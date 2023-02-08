@@ -50,7 +50,7 @@ namespace ATMA
         /**
          * default destructor
          */
-        ~Props();
+        virtual ~Props();
 
         /**
          * overloaded operator to acccess the inner unordered map

@@ -14,6 +14,16 @@ namespace ATMA
 
         Log::Init();
         ATMA_ENGINE_INFO("Init logger!");
+
+#    ifdef ATMA_USE_GLFW
+        if(!glfwInit())
+            ATMA_ENGINE_ERROR("GLFW failed to initialize!");
+        ATMA_ENGINE_INFO("Initialized GLFW");
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#    endif
+
         try
         {
             l_game->run();
@@ -32,9 +42,17 @@ namespace ATMA
 int
 main()
 {
-
     ATMA::Log::Init();
     ATMA_ENGINE_INFO("Init logger!");
+
+#    ifdef ATMA_USE_GLFW
+    if(!glfwInit())
+        ATMA_ENGINE_ERROR("GLFW failed to initialize!");
+    ATMA_ENGINE_INFO("Initialized GLFW");
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#    endif
     std::unique_ptr<ATMA::Game> app = ATMA::CreateGame();
     try
     {

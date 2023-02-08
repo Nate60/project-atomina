@@ -44,22 +44,42 @@
 #include "OAS/AttrBase.hpp"
 #include "OAS/attributes/AttrPosition.hpp"
 #include "OAS/attributes/AttrControllable.hpp"
+#include "OAS/attributes/AttrSprite.hpp"
+#include "OAS/attributes/AttrRenderable.hpp"
 #include "OAS/SysBase.hpp"
 #include "OAS/systems/SysTranslator.hpp"
 #include "OAS/systems/SysController.hpp"
+#include "OAS/systems/SysRenderer.hpp"
 
 // Resource
 #include "resource/Resource.hpp"
 #include "resource/DummyResource.hpp"
+#include "resource/graphics/AnimBase.hpp"
+#include "resource/graphics/Shader.hpp"
+#include "resource/graphics/Texture.hpp"
+#include "resource/graphics/animation/AnimDefault.hpp"
+#include "resource/graphics/animation/AnimIdle.hpp"
+#include "resource/graphics/render/ShaderGLADImpl.hpp"
+#include "resource/graphics/render/TextureGLADImpl.hpp"
 
 // GUI
 #include "GUI/Window.hpp"
 #include "GUI/window/WindowGLFWImpl.hpp"
 
 // Graphics
+#include "resource/graphics/Texture.hpp"
+#include "resource/graphics/Shader.hpp"
 #include "resource/graphics/AnimBase.hpp"
 #include "resource/graphics/animation/AnimIdle.hpp"
 #include "resource/graphics/animation/AnimDefault.hpp"
+
+// render
+#include "render/Buffer.hpp"
+#include "render/RenderContext.hpp"
+#include "render/ShaderProgram.hpp"
+#include "render/GLAD/BufferGLADImpl.hpp"
+#include "render/GLAD/RenderContextGLADImpl.hpp"
+#include "render/GLAD/ShaderProgramGLADImpl.hpp"
 
 // Network
 #include "network/URL.hpp"

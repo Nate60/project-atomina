@@ -13,7 +13,7 @@ namespace ATMA
 
         DummyResource(const std::string &l_name, const std::string &l_filename);
 
-        ~DummyResource();
+        virtual ~DummyResource();
     };
 
     inline bool operator==(const DummyResource &a, const DummyResource &b);

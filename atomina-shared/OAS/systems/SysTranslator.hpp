@@ -21,7 +21,7 @@ namespace ATMA
         SysTranslator();
 
         // deconstructor
-        ~SysTranslator();
+        virtual ~SysTranslator();
 
         /**
          * update internal members on an engine tick basis
