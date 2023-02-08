@@ -22,6 +22,8 @@ namespace ATMA
         // default constructor
         RandomGenerator(): m_engine(m_device()) {}
 
+        virtual ~RandomGenerator() {}
+
         /**
          * @overload of the function call operator
          * used as a shorthand for calling the generate function

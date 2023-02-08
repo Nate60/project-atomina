@@ -55,7 +55,7 @@ jobs:
 
     - name: Build CMake Files
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
-      run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -G "Ninja"
+      run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DATMA_TEST=ON -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -G "Ninja"
 
     - name: Build Project
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
@@ -103,7 +103,7 @@ jobs:
 
     - name: Build CMake Files
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
-      run: cmake "../../" -G "Ninja"  -DCMAKE_C_COMPILER:STRING="cl.exe" -DCMAKE_CXX_COMPILER:STRING="cl.exe" -DCMAKE_BUILD_TYPE:STRING="${{matrix.build_type}}" -DCMAKE_INSTALL_PREFIX:PATH="${{env.SOLUTION_FILE_PATH}}/out/install/x64-debug" 2>&1
+      run: cmake "../../" -G "Ninja" -DATMA_TEST=ON -DCMAKE_C_COMPILER:STRING="cl.exe" -DCMAKE_CXX_COMPILER:STRING="cl.exe" -DCMAKE_BUILD_TYPE:STRING="${{matrix.build_type}}" -DCMAKE_INSTALL_PREFIX:PATH="${{env.SOLUTION_FILE_PATH}}/out/install/x64-debug" 2>&1
 
     - name: Build Project
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 

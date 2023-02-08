@@ -15,6 +15,8 @@ namespace ATMA
         Position,
         Velocity,
         Controllable,
+        Sprite,
+        Renderable,
         COUNT
     };
 

@@ -16,7 +16,7 @@ namespace ATMA
         AttrControllable();
 
         // deconstructor
-        ~AttrControllable();
+        virtual ~AttrControllable();
 
         /**
          * fill attribute members with data contained within a string stream

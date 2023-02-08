@@ -37,6 +37,11 @@ namespace ATMA
 
     ATMAContext::ATMAContext()
     {
+#ifndef ATMA_TEST
+        m_windows[ATConst::MAIN_WINDOW_ID] = std::make_shared<WindowGLFWImpl>("Atomina-Engine");
+        m_renderer = RenderContext::makeRenderContext();
+        m_windows[ATConst::MAIN_WINDOW_ID]->focusContext(m_renderer);
+#endif
         ATMA_ENGINE_INFO("ATMAContext has been initialized");
     }
 
@@ -378,6 +383,43 @@ namespace ATMA
         }
     }
 
+    unsigned int ATMAContext::createWindow()
+    {
+        auto id = m_lastWindowID++;
+        m_windows[id] = std::make_shared<WindowGLFWImpl>("Atomina-Engine");
+        return id;
+    }
+
+    std::shared_ptr<Window> ATMAContext::getWindow(const unsigned int &l_id)
+    {
+        auto itr = m_windows.find(l_id);
+        if(itr == m_windows.end())
+        {
+            throw ValueNotFoundException(
+                "Window of id: " + std::to_string(l_id) + " has not been registered to the context"
+            );
+        }
+        else
+        {
+            return itr->second;
+        }
+    }
+
+    void ATMAContext::deleteWindow(const unsigned int &l_id)
+    {
+        auto itr = m_windows.find(l_id);
+        if(itr == m_windows.end())
+        {
+            throw ValueNotFoundException(
+                "Window of id: " + std::to_string(l_id) + " has not been registered to the context"
+            );
+        }
+        else
+        {
+            m_windows.erase(itr);
+        }
+    }
+
     void ATMAContext::update()
     {
 
@@ -386,6 +428,15 @@ namespace ATMA
             if(sys.second->m_enabled)
                 sys.second->update(0.0f);
         }
+    }
+
+    void ATMAContext::draw(
+        const std::shared_ptr<VertexArray> &l_vertArray,
+        const std::shared_ptr<IndexBuffer> &l_indexBuffer,
+        const std::shared_ptr<ShaderProgram> &l_shaderProg
+    ) const
+    {
+        m_renderer->draw(l_vertArray, l_indexBuffer, l_shaderProg);
     }
 
     void ATMAContext::purgeObjects()
@@ -427,6 +478,17 @@ namespace ATMA
         ATMA_ENGINE_INFO("purged listeners from context");
     }
 
+    void ATMAContext::purgeWindows()
+    {
+#ifndef ATMA_TEST
+        m_windows.erase(++(m_windows.begin()), m_windows.end());
+        m_lastWindowID = 1;
+#else
+        m_windows.clear();
+        m_lastWindowID = 0;
+#endif
+    }
+
     void ATMAContext::purge()
     {
         m_objects.clear();
@@ -436,10 +498,16 @@ namespace ATMA
         m_resources.clear();
         m_loadedResources.clear();
         m_listeners.clear();
+#ifndef ATMA_TEST
+        m_windows.erase(++(m_windows.begin()), m_windows.end());
+        m_lastWindowID = 1;
+#else
+        m_windows.clear();
+        m_lastWindowID = 0;
+#endif
         m_lastObjectID = 0;
         m_currentStateID = 0;
         m_lastResourceId = 0;
         ATMA_ENGINE_INFO("purged everything from context");
     }
-
 }
