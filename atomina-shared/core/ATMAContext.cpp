@@ -2,7 +2,6 @@
 #include "ATMAContext.hpp"
 #include "util/AtominaException.hpp"
 #include "util/Log.hpp"
-#include <memory>
 
 namespace ATMA
 {
@@ -46,6 +45,9 @@ namespace ATMA
         ATMA_ENGINE_INFO("ATMAContext has been deleted");
 #ifdef _WINDOWS
         WSACleanup();
+#endif
+#ifdef ATMA_USE_GLFW
+        glfwTerminate();
 #endif
     }
 

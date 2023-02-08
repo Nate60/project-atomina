@@ -1,5 +1,9 @@
 #include "pch.hpp"
 #include "Game.hpp"
+#include "util/Log.hpp"
+#ifdef ATMA_USE_GLFW
+#    include <GLFW/glfw3.h>
+#endif
 
 namespace ATMA
 {
@@ -12,6 +16,13 @@ namespace ATMA
     {
         auto &ctx = ATMAContext::getContext();
         //--SETUP--//
+
+        Log::Init();
+
+#ifdef ATMA_USE_GLFW
+        if(!glfwInit())
+            ATMA_ENGINE_ERROR("GLFW failed to initialize!");
+#endif
 
         // attribute registration
         ctx.registerAttributeType<AttrControllable>(AttributeType(Attribute::Controllable));
