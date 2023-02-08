@@ -13,3 +13,10 @@ FetchContent_Declare(
 
 add_subdirectory(spdlog)
 
+FetchContent_Declare(
+	glfw
+	URL https://github.com/glfw/glfw/archive/8f470597d625ae28758c16b4293dd42d63e8a83a.zip
+)
+
+add_subdirectory(glfw)
+

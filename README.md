@@ -8,17 +8,13 @@ Compatible with MSVC and GCC
 ## Dependencies
 (CMake uses FetchContent to build them)
 
-SFML 2.5.x:
+GLFW 3.x:
 
-https://github.com/SFML/SFML/tree/c6f7fcaa2a1924e6ef6dfee9797ec65decea6a60
+https://github.com/glfw/glfw/tree/8f470597d625ae28758c16b4293dd42d63e8a83a
 
 Spdlog 1.10.x:
 
 https://github.com/gabime/spdlog/tree/0d8197cc9d935e0c5116de551bec63cd35f3c0ef
-
-Thread Building Blocks (Required for Intel architectures on Windows and Linux) for CMake 2020.2:
-
-https://github.com/wjakob/tbb/tree/9e219e24fe223b299783200f217e9d27790a87b0
 
 GoogleTest (for the test project only) 1.12.1:
 
@@ -55,7 +51,8 @@ Install the prerequsite libraries:
 	*  libbtbb-dev (For Intel Architecture only)
 )
 
-Run the buildproject.sh script in sbin
+Install CMake and Ninja Build Generator
 
-Should be able to run rungame.sh or runtests.sh
+run:
+cmake [build-directory] -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=[build-type] -DCMAKE_CONFIGURATION_TYPES=[build-type] -G "Ninja"
 
