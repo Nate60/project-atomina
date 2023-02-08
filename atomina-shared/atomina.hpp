@@ -52,6 +52,10 @@
 #include "resource/Resource.hpp"
 #include "resource/DummyResource.hpp"
 
+// GUI
+#include "GUI/Window.hpp"
+#include "GUI/window/WindowGLFWImpl.hpp"
+
 // Graphics
 #include "resource/graphics/AnimBase.hpp"
 #include "resource/graphics/animation/AnimIdle.hpp"

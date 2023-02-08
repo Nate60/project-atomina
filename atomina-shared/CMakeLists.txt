@@ -30,7 +30,7 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Atomina_Shared PROPERTY CXX_STANDARD 20)
 endif()
 
-target_link_libraries(Atomina_Shared spdlog::spdlog)
+target_link_libraries(Atomina_Shared spdlog::spdlog glfw)
 
 
 target_sources(Atomina_Shared PRIVATE ${atomina_shared_src})
