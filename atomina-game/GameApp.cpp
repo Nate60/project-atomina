@@ -6,6 +6,13 @@ GameApp::GameApp() {}
 
 GameApp::~GameApp() {}
 
+static void
+key_callback(ATMA::Window *window, int key, int scancode, int action, int mods)
+{
+    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        window->setWindowShouldClose(true);
+}
+
 void
 GameApp::run()
 {
@@ -17,9 +24,13 @@ GameApp::run()
 
     initializeContext();
 
+    std::unique_ptr<ATMA::Window> win = std::make_unique<ATMA::WindowGLFWImpl>();
+
     auto shutdownManager =
         std::make_shared<ShutDownManager>(ShutDownManager(std::bind(&GameApp::shutdown, this)));
     ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::ShutDown), shutdownManager);
+
+    win->setInputCallback(key_callback);
 
     // register resources
 
@@ -27,6 +38,10 @@ GameApp::run()
     ctx.addState(ATMA::StateType(ATMA::State::COUNT), std::move(gameState));
     while(active)
     {
+        win->swapBuffers();
+        win->pollEvents();
+        if(win->getWindowShouldClose())
+            ctx.dispatchObjectEvent({ATMA::ObjectEventType(ATMA::ObjectEvent::ShutDown)});
         ctx.update();
     }
 }

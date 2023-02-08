@@ -15,6 +15,9 @@
 #    include <iphlpapi.h>
 #    include <stdio.h>
 #endif
+#ifdef ATMA_USE_GLFW
+#    include <GLFW/glfw3.h>
+#endif
 
 namespace ATMA
 {
