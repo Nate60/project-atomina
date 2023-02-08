@@ -1,9 +1,6 @@
 #include "pch.hpp"
 #include "Game.hpp"
 #include "util/Log.hpp"
-#ifdef ATMA_USE_GLFW
-#    include <GLFW/glfw3.h>
-#endif
 
 namespace ATMA
 {
@@ -14,24 +11,21 @@ namespace ATMA
 
     void Game::initializeContext()
     {
-        auto &ctx = ATMAContext::getContext();
         //--SETUP--//
 
-        Log::Init();
-
-#ifdef ATMA_USE_GLFW
-        if(!glfwInit())
-            ATMA_ENGINE_ERROR("GLFW failed to initialize!");
-#endif
+        auto &ctx = ATMAContext::getContext();
 
         // attribute registration
         ctx.registerAttributeType<AttrControllable>(AttributeType(Attribute::Controllable));
         ctx.registerAttributeType<AttrPosition>(AttributeType(Attribute::Position));
         ctx.registerAttributeType<AttrVelocity>(AttributeType(Attribute::Velocity));
+        ctx.registerAttributeType<AttrSprite>(AttributeType(Attribute::Sprite));
+        ctx.registerAttributeType<AttrRenderable>(AttributeType(Attribute::Renderable));
 
         // system registration
         ctx.addSystemType<SysController>(SystemType(System::Controller));
         ctx.addSystemType<SysTranslator>(SystemType(System::Translator));
+        ctx.addSystemType<SysRenderer>(SystemType(System::Renderer));
     }
 
     void Game::run()

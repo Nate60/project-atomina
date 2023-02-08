@@ -29,7 +29,7 @@ namespace ATMA
         NetworkHost(NetworkHost &&l_other) noexcept;
 
         // deconstructor
-        ~NetworkHost();
+        virtual ~NetworkHost();
 
         /**
          * start up listener to start listening for connections on Host port

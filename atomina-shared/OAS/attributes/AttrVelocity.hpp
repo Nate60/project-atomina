@@ -16,7 +16,7 @@ namespace ATMA
         AttrVelocity();
 
         // deconstructor
-        ~AttrVelocity();
+        virtual ~AttrVelocity();
 
         // friend function to output attributes
         friend std::stringstream &operator>>(std::stringstream &l_stream, AttrBase &b);

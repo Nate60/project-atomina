@@ -20,7 +20,7 @@ namespace ATMA
         Resource(const std::string &l_name, const std::string &l_fileName);
 
         // deconstructor
-        ~Resource();
+        virtual ~Resource();
     };
 
     // equality operator
