@@ -18,7 +18,7 @@ namespace ATMA
         SysController();
 
         // deconstructor
-        ~SysController();
+        virtual ~SysController();
 
         /**
          * update internal members on an engine tick basis

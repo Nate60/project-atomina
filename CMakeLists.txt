@@ -22,6 +22,10 @@ if(UNIX)
     add_compile_options(-std=c++20 -std=gnu++20)
 endif()
 
+OPTION(ATMA_TEST "Compile without UI Elements for testing on systems without graphics" OFF) 
+IF(ATMA_TEST)
+	add_definitions(-DATMA_TEST)
+ENDIF(ATMA_TEST)
 
 
 project(Atomina_Main VERSION 0.1.0)
@@ -65,7 +69,7 @@ SET(ATOMINA_APP_NAME "Atomina-Engine App")
 add_subdirectory(deps)
 
 
-add_definitions(-DATMA_USE_GLFW)
+add_definitions(-DATMA_USE_GLFW -DATMA_USE_OPENGL)
 add_subdirectory("atomina-shared" atomina-shared)
 add_subdirectory("atomina-game" atomina-game)
 if(ATOMINA_BUILD_TESTS)

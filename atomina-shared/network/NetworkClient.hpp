@@ -17,8 +17,8 @@ namespace ATMA
         // constructor specifying address and port of the host for connection
         NetworkClient(const URL &l_addr, const unsigned short &l_port);
 
-        // deconstructor
-        ~NetworkClient();
+        // default deconstructor
+        virtual ~NetworkClient();
 
         NetworkClient(NetworkClient &&l_other) noexcept;
 

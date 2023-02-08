@@ -27,3 +27,5 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Atomina_Game PROPERTY CMAKE_ENABLE_EXPORTS "true")
 endif()
 
+
+

@@ -1,6 +1,4 @@
-
 #include "GameApp.hpp"
-#include <memory>
 
 GameApp::GameApp() {}
 
@@ -19,12 +17,12 @@ GameApp::run()
     ATMA_ENGINE_INFO("Game is now running");
     active = true;
 
+    initializeContext();
+
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
     std::unique_ptr<GameState> gameState{new GameState{}};
 
-    initializeContext();
-
-    std::unique_ptr<ATMA::Window> win = std::make_unique<ATMA::WindowGLFWImpl>();
+    auto win = ctx.getWindow(ATConst::MAIN_WINDOW_ID);
 
     auto shutdownManager =
         std::make_shared<ShutDownManager>(ShutDownManager(std::bind(&GameApp::shutdown, this)));
@@ -36,8 +34,55 @@ GameApp::run()
 
     // add states
     ctx.addState(ATMA::StateType(ATMA::State::COUNT), std::move(gameState));
+
+    auto id = ctx.createObject();
+    ctx.addAttribute(id, ATMA::AttributeType(ATMA::Attribute::Position));
+    ctx.addAttribute(id, ATMA::AttributeType(ATMA::Attribute::Sprite));
+    ctx.addAttribute(id, ATMA::AttributeType(ATMA::Attribute::Renderable));
+    auto fragid = ctx.registerResource("test", 0, "shader\\defaultFrag.shader");
+    auto vertid = ctx.registerResource("test", 0, "shader\\defaultVertex.shader");
+    auto textid = ctx.registerResource("testimage", 1, "res\\shaggysheet.png");
+
+    auto vertShader = ctx.loadResource<ATMA::ShaderGLADImpl>(vertid);
+    auto fragShader = ctx.loadResource<ATMA::ShaderGLADImpl>(fragid);
+    auto text = ctx.loadResource<ATMA::TextureGLADImpl>(textid);
+
+    auto vertArray = ATMA::VertexArray::makeBuffer({
+        {3, 8, 0},
+        {3, 8, 3},
+        {2, 8, 6}
+    });
+
+    auto vertBuf =
+        ATMA::VertexBuffer::makeBuffer({0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+                                        0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+                                        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+                                        -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+
+    auto indexBuf = ATMA::IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
+
+    auto shaderProgram = ATMA::ShaderProgram::makeProgram();
+
+    vertArray->bind();
+
+    indexBuf->bind();
+
+    vertBuf->bind();
+
+    vertArray->bindLayout();
+
+    text->bind();
+
+    vertShader->compile(ATMA::ShaderType::Vertex);
+    fragShader->compile(ATMA::ShaderType::Fragment);
+
+    shaderProgram->attachShader(vertShader);
+    shaderProgram->attachShader(fragShader);
+    shaderProgram->link();
+
     while(active)
     {
+        ctx.draw(vertArray, indexBuf, shaderProgram);
         win->swapBuffers();
         win->pollEvents();
         if(win->getWindowShouldClose())

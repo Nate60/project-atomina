@@ -6,11 +6,18 @@
 namespace ATMA
 {
 
+    /**
+     * @brief contains information that is required to handle
+     * an object event
+     */
     class ATMA_API ObjectEventContext
     {
     public:
+        // constructor specifying event type and properties
         ObjectEventContext(const unsigned int &l_objectEventType, const Props &l_props = Props{});
-        ~ObjectEventContext();
+
+        // default deconstructor
+        virtual ~ObjectEventContext();
 
         const unsigned int m_objectEventType;
         const Props m_properties{};
