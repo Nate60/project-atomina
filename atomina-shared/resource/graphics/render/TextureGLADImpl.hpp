@@ -30,6 +30,9 @@ namespace ATMA
          * @brief unbinds the texture from the GL context
          */
         virtual void unbind() override;
+
+        virtual std::shared_ptr<Texture>
+        getSubImage(const Vec2<unsigned int> &l_pos, const Vec2<unsigned int> &l_size) override;
     };
 
 }
