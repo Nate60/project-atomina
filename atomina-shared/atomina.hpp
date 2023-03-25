@@ -57,6 +57,7 @@
 #include "resource/graphics/AnimBase.hpp"
 #include "resource/graphics/Shader.hpp"
 #include "resource/graphics/Texture.hpp"
+#include "resource/graphics/Font.hpp"
 #include "resource/graphics/animation/AnimDefault.hpp"
 #include "resource/graphics/animation/AnimIdle.hpp"
 #include "resource/graphics/render/ShaderGLADImpl.hpp"

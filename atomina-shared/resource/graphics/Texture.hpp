@@ -32,6 +32,9 @@ namespace ATMA
          */
         virtual void unbind();
 
+        virtual std::shared_ptr<Texture>
+        getSubImage(const Vec2<unsigned int> &l_pos, const Vec2<unsigned int> &l_size);
+
         /**
          * @brief gets the reference id of the texture in the GL context
          * @return id of the texture
