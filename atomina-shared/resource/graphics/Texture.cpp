@@ -20,6 +20,12 @@ namespace ATMA
 
     void Texture::unbind() {}
 
+    std::shared_ptr<Texture>
+    Texture::getSubImage(const Vec2<unsigned int> &l_pos, const Vec2<unsigned int> &l_size)
+    {
+        return nullptr;
+    }
+
     const unsigned int &Texture::getID() const
     {
         return m_bindID;

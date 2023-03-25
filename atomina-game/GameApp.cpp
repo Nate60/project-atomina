@@ -42,22 +42,25 @@ GameApp::run()
     auto fragid = ctx.registerResource("test", 0, "shader\\defaultFrag.shader");
     auto vertid = ctx.registerResource("test", 0, "shader\\defaultVertex.shader");
     auto textid = ctx.registerResource("testimage", 1, "res\\shaggysheet.png");
+    auto fontid = ctx.registerResource("testfont", 2, "res\\defaultFont.png");
 
     auto vertShader = ctx.loadResource<ATMA::ShaderGLADImpl>(vertid);
     auto fragShader = ctx.loadResource<ATMA::ShaderGLADImpl>(fragid);
     auto text = ctx.loadResource<ATMA::TextureGLADImpl>(textid);
+    auto font = ctx.loadResource<ATMA::Font>(fontid);
 
+    // count in layout, count in row, offset
     auto vertArray = ATMA::VertexArray::makeBuffer({
-        {3, 8, 0},
-        {3, 8, 3},
-        {2, 8, 6}
+        {3, 9, 0}, //  pos (x,y,z)
+        {4, 9, 3}, //  colour (r,g,b,a)
+        {2, 9, 7}  // 2D Texture pos (x,y)
     });
 
     auto vertBuf =
-        ATMA::VertexBuffer::makeBuffer({0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-                                        0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                                        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-                                        -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+        ATMA::VertexBuffer::makeBuffer({0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+                                        0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+                                        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+                                        -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
 
     auto indexBuf = ATMA::IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
 
@@ -71,7 +74,7 @@ GameApp::run()
 
     vertArray->bindLayout();
 
-    text->bind();
+    font->bindCharacter('C');
 
     vertShader->compile(ATMA::ShaderType::Vertex);
     fragShader->compile(ATMA::ShaderType::Fragment);
