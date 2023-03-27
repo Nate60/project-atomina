@@ -19,7 +19,9 @@
 #include <mutex>
 #include <regex>
 #include <random>
+#define _USE_MATH_DEFINES
 #include <cmath>
+#include <math.h>
 #include <bitset>
 #include <cstdarg>
 #include <thread>
