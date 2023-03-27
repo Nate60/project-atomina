@@ -6,15 +6,15 @@ namespace ATMA
 {
 
     /**
-     * @brief 2 dimensional vector for math applications
+     * @brief 3 dimensional vector for math applications
      * @tparam T numeric subtype of the vector
      */
     template<class T>
-    class ATMA_API Vec2
+    class ATMA_API Vec3
     {
     public:
         // default constructor
-        Vec2(): x(0), y(0) {}
+        Vec3(): x(0), y(0), z(0) {}
 
         /*
          * MSVC requires this constructor to specify a template
@@ -26,12 +26,13 @@ namespace ATMA
         template<class T>
 #endif
         // constructor specifying vector values
-        Vec2(T a, T b): x(a), y(b)
+        Vec3(T a, T b, T c): x(a), y(b), z(c)
         {
         }
 
         T x;
         T y;
+        T z;
     };
 
     /**
@@ -42,9 +43,9 @@ namespace ATMA
      * @returns resulting composite vector
      */
     template<class T>
-    inline Vec2<T> operator+(Vec2<T> a, Vec2<T> b)
+    inline Vec3<T> operator+(Vec3<T> a, Vec3<T> b)
     {
-        return {a.x + b.x, a.y + b.y};
+        return {a.x + b.x, a.y + b.y, a.z + b.z};
     }
 
     /**
@@ -55,9 +56,9 @@ namespace ATMA
      * @returns resulting composite vector
      */
     template<class T>
-    inline Vec2<T> operator-(Vec2<T> a, Vec2<T> b)
+    inline Vec3<T> operator-(Vec3<T> a, Vec3<T> b)
     {
-        return {a.x - b.x, a.y - b.y};
+        return {a.x - b.x, a.y - b.y, a.z - b.z};
     }
 
     /**
@@ -68,9 +69,9 @@ namespace ATMA
      * @returns resulting magnified vector
      */
     template<class T>
-    inline Vec2<T> operator*(Vec2<T> a, T b)
+    inline Vec3<T> operator*(Vec3<T> a, T b)
     {
-        return {(a.x * b), (a.y * b)};
+        return {(a.x * b), (a.y * b), (a.z * b)};
     }
 
     /**
@@ -81,9 +82,22 @@ namespace ATMA
      * @returns resulting scalar value
      */
     template<class T>
-    inline T operator*(Vec2<T> a, Vec2<T> b)
+    inline T operator*(Vec3<T> a, Vec3<T> b)
     {
-        return (a.x * b.x) + (a.y * b.y);
+        return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+    }
+
+    /**
+     * inline cross product for 3D vectors
+     * @tparam T numeric subtype of vector
+     * @param a first vector
+     * @param b second vector
+     * @return resulting orthogonal vector
+     */
+    template<class T>
+    inline Vec3<T> cross(Vec3<T> a, Vec3<T> b)
+    {
+        return {(a.y * b.z) - (a.z * b.y), (a.z * b.x) - (a.x * b.z), (a.x * b.y) - (a.y * b.x)};
     }
 
     /**
@@ -94,10 +108,11 @@ namespace ATMA
      * @returns resulting boolean
      */
     template<class T>
-    inline bool operator==(Vec2<T> a, Vec2<T> b)
+    inline bool operator==(Vec3<T> a, Vec3<T> b)
     {
         return std::fabs(a.x - b.x) <= std::numeric_limits<T>::epsilon()
-            && std::fabs(a.y - b.y) <= std::numeric_limits<T>::epsilon();
+            && std::fabs(a.y - b.y) <= std::numeric_limits<T>::epsilon()
+            && std::fabs(a.z - b.z) <= std::numeric_limits<T>::epsilon();
     }
 
 }

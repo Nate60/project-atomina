@@ -1,22 +1,10 @@
 #pragma once
 #include "util/AtominaException.hpp"
 #include "math/Vec2.hpp"
+#include "math/Vec3.hpp"
 
 namespace ATMA
 {
-
-    /**
-     * inline dot product function for vectors
-     * @tparam numeric subtype of the vector
-     * @param a first vector
-     * @param b second vector
-     * @returns resulting scalar value
-     */
-    template<class T>
-    inline T operator*(Vec2<T> a, Vec2<T> b)
-    {
-        return (a.x * b.x) + (a.y * b.y);
-    }
 
     /**
      * Linear Interpolation between two values, with a given delta
@@ -83,6 +71,62 @@ namespace ATMA
         inter2 = static_cast<T>(l_lerp(temp1, temp2, dx));
 
         return static_cast<T>(l_lerp(inter1, inter2, dy));
+    }
+
+    /**
+     * @brief factory function for identity matrix
+     * @tparam T subtype of matrix
+     * @return identity matrix
+     */
+    template<class T>
+    Mat3<T> indentityMatrix()
+    {
+        return {
+            {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}
+        };
+    }
+
+    /**
+     * @brief factory function for scaling matrix
+     * @tparam T subtype of matrix
+     * @return scaling matrix
+     */
+    template<class T>
+    Mat3<T> scalingMatrix(const T &l_x, const T &l_y)
+    {
+        return {
+            {{l_x, 0, 0}, {0, l_y, 0}, {0, 0, 1}}
+        };
+    }
+
+    /**
+     * @brief factory function for translation matrix
+     * @tparam T subtype of matrix
+     * @return translation matrix
+     */
+    template<class T>
+    Mat3<T> translationMatrix(const T &l_x, const T &l_y)
+    {
+        return {
+            {{1, 0, l_x}, {0, 1, l_y}, {0, 0, 1}}
+        };
+    }
+
+    /**
+     * @brief factory function for rotation
+     * @tparam T subtype of matrix
+     * @return rotation matrix
+     */
+    template<class T>
+    Mat3<T> rotationMatrix(const T &l_deg)
+    {
+        double rad = (M_PI * l_deg) / 180.0;
+        T cosVal = static_cast<T>(cos(rad));
+        T sinVal = static_cast<T>(sin(rad));
+        Mat3<T> mat{
+            {{cosVal, -1 * sinVal, 0}, {sinVal, cosVal, 0}, {0, 0, 1}}
+        };
+        return mat;
     }
 
 }
