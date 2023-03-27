@@ -51,16 +51,15 @@ GameApp::run()
 
     // count in layout, count in row, offset
     auto vertArray = ATMA::VertexArray::makeBuffer({
-        {3, 9, 0}, //  pos (x,y,z)
-        {4, 9, 3}, //  colour (r,g,b,a)
-        {2, 9, 7}  // 2D Texture pos (x,y)
+        {2, 8, 0}, //  pos (x,y)
+        {4, 8, 2}, //  colour (r,g,b,a)
+        {2, 8, 6}  // 2D Texture pos (x,y)
     });
 
-    auto vertBuf =
-        ATMA::VertexBuffer::makeBuffer({0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-                                        0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                                        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-                                        -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+    auto vertBuf = ATMA::VertexBuffer::makeBuffer({1.f,  1.f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+                                                   1.f,  -1.f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+                                                   -1.f, -1.f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+                                                   -1.f, 1.f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
 
     auto indexBuf = ATMA::IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
 
@@ -74,7 +73,8 @@ GameApp::run()
 
     vertArray->bindLayout();
 
-    font->bindCharacter('C');
+    text->bind();
+    // font->bindCharacter('C');
 
     vertShader->compile(ATMA::ShaderType::Vertex);
     fragShader->compile(ATMA::ShaderType::Fragment);
@@ -85,6 +85,10 @@ GameApp::run()
 
     while(active)
     {
+        shaderProgram->exec();
+        shaderProgram->setUniformMat3f("u_transform", ATMA::translationMatrix<float>(0.f, 0.f));
+        ctx.draw(vertArray, indexBuf, shaderProgram);
+        shaderProgram->setUniformMat3f("u_transform", ATMA::translationMatrix<float>(1.f, 0.5f));
         ctx.draw(vertArray, indexBuf, shaderProgram);
         win->swapBuffers();
         win->pollEvents();

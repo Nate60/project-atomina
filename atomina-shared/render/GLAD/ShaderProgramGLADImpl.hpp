@@ -33,6 +33,13 @@ namespace ATMA
          * @brief executes shader program
          */
         virtual void exec();
+
+        /**
+         * @brief sets a uniform value to a matrix
+         * @param l_name name of the uniform in the shader program
+         * @param l_mat matrix of values
+         */
+        virtual void setUniformMat3f(const std::string &l_name, const Mat3<float> &l_mat);
     };
 
 }

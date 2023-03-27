@@ -12,10 +12,10 @@ namespace ATMA
         m_window = glfwCreateWindow(640, 480, l_name.c_str(), NULL, NULL);
         if(m_window == NULL)
         {
-            ATMA_ENGINE_ERROR("GFLW failed to create a window");
+            // ATMA_ENGINE_ERROR("GFLW failed to create a window");
             throw InitializationException("GLFW was unable to create a window");
         }
-        ATMA_ENGINE_INFO("Created window with name {0}", l_name);
+        // ATMA_ENGINE_INFO("Created window with name {0}", l_name);
         m_callback_container.m_parent = this;
     }
 
@@ -85,6 +85,8 @@ namespace ATMA
         ATMA_ENGINE_INFO("GLAD Initialized OP with Version {0}", glGetString(GL_VERSION));
         ATMA_ENGINE_INFO("focused new window");
         glDebugMessageCallback(&WindowGLFWImpl::glErrorCallback, m_window);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
     void WindowGLFWImpl::setWindowShouldClose(bool l_bool)
@@ -116,20 +118,20 @@ namespace ATMA
     {
         ATMA_ENGINE_INFO("--[OPENGL]: OpenGL encountered an issue");
 
-        switch(severity)
-        {
-        case GL_DEBUG_SEVERITY_NOTIFICATION:
-            ATMA_ENGINE_INFO("--[OPENGL]: {0}", message);
-            break;
-        case GL_DEBUG_SEVERITY_LOW:
-            ATMA_ENGINE_WARN("--[OPENGL]: {0}", message);
-            break;
-        case GL_DEBUG_SEVERITY_MEDIUM:
-            ATMA_ENGINE_WARN("--[OPENGL]: {0}", message);
-            break;
-        case GL_DEBUG_SEVERITY_HIGH:
-            ATMA_ENGINE_ERROR("--[OPENGL]: {0}", message);
-        }
+        // switch(severity)
+        //{
+        // case GL_DEBUG_SEVERITY_NOTIFICATION:
+        //     ATMA_ENGINE_INFO("--[OPENGL]: {0}", message);
+        //     break;
+        // case GL_DEBUG_SEVERITY_LOW:
+        //     ATMA_ENGINE_WARN("--[OPENGL]: {0}", message);
+        //     break;
+        // case GL_DEBUG_SEVERITY_MEDIUM:
+        //     ATMA_ENGINE_WARN("--[OPENGL]: {0}", message);
+        //     break;
+        // case GL_DEBUG_SEVERITY_HIGH:
+        //     ATMA_ENGINE_ERROR("--[OPENGL]: {0}", message);
+        // }
     }
 
 }

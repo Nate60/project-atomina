@@ -17,6 +17,11 @@ if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.0.0")
 	cmake_policy(SET CMP0048 NEW)
 endif()
 
+if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.13.0")
+	message(STATUS "Policy CMP0048 set")
+	cmake_policy(SET CMP0048 NEW)
+endif()
+
 
 if(UNIX)
     add_compile_options(-std=c++20 -std=gnu++20)

@@ -15,6 +15,8 @@
 
 // Math
 #include "math/Vec2.hpp"
+#include "math/Vec3.hpp"
+#include "math/Mat3.hpp"
 #include "math/RandomGenerator.hpp"
 #include "math/MathFuncs.hpp"
 
