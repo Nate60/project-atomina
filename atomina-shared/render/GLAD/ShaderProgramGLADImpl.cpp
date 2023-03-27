@@ -36,4 +36,11 @@ namespace ATMA
     {
         glUseProgram(m_bindID);
     }
+
+    void ShaderProgramGLADImpl::setUniformMat3f(const std::string &l_name, const Mat3<float> &l_mat)
+    {
+        int location = glGetUniformLocation(m_bindID, l_name.c_str());
+        glUniformMatrix3fv(location, 1, GL_TRUE, &(l_mat.m_values[0][0]));
+    }
+
 }
