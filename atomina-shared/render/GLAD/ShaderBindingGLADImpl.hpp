@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.hpp"
 #include "core/api.hpp"
-#include "resource/graphics/Shader.hpp"
+#include "render/ShaderBinding.hpp"
 
 namespace ATMA
 {
@@ -10,17 +10,14 @@ namespace ATMA
     /**
      * @brief OpenGL specific implementation of Shader
      */
-    class ATMA_API ShaderGLADImpl: public Shader
+    class ATMA_API ShaderBindingGLADImpl: public ShaderBinding
     {
     public:
-        // constructor specifying name
-        ShaderGLADImpl(const std::string &l_name);
-
         // constructor with name and filename of resource
-        ShaderGLADImpl(const std::string &l_name, const std::string &l_fileName);
+        ShaderBindingGLADImpl(const std::string &l_fileName);
 
         // default deconstructor
-        virtual ~ShaderGLADImpl();
+        virtual ~ShaderBindingGLADImpl();
 
         /**
          * @brief compiles the source code in the specified filename

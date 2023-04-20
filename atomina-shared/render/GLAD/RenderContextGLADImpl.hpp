@@ -4,6 +4,7 @@
 #include "render/RenderContext.hpp"
 #include "util/Log.hpp"
 #include "GUI/Window.hpp"
+#include "math/MathFuncs.hpp"
 
 namespace ATMA
 {
@@ -30,6 +31,29 @@ namespace ATMA
             const std::shared_ptr<VertexArray> &l_vertArray,
             const std::shared_ptr<IndexBuffer> &l_indexBuffer,
             const std::shared_ptr<ShaderProgram> &l_shaderProg
+        ) const override;
+
+        /**
+         * @brief passes corresponding buffers to GL context and then draws
+         * @param l_shaderProg shader program with linked shaders
+         */
+        virtual void draw(
+            const std::shared_ptr<Texture> &l_texture,
+            const std::shared_ptr<ShaderProgram> l_shaderProg
+        ) const override;
+
+        virtual void draw(
+            const std::shared_ptr<Texture> &l_texture,
+            const Vec2<float> &l_pos,
+            const Vec2<float> &l_size = Vec2<float>{1, 1},
+            const float &l_rot = 0
+        ) const override;
+
+        virtual void drawText(
+            const std::string &l_text,
+            const Vec2<float> &l_pos,
+            const Vec2<float> &l_size = Vec2<float>{1, 1},
+            const float &l_rot = 0
         ) const override;
     };
 

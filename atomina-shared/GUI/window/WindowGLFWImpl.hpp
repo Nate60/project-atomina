@@ -51,7 +51,7 @@ namespace ATMA
          * @brief switch the render context to make this window current
          * @param l_context Render Context of the Main Context
          */
-        virtual void focusContext(const std::unique_ptr<RenderContext> &l_context) override;
+        virtual void focusContext(const std::shared_ptr<RenderContext> &l_context) override;
 
         /**
          * @brief set the flag to let the program know that the window should close

@@ -3,22 +3,21 @@
 #include "OAS/Attribute.hpp"
 #include "OAS/AttrBase.hpp"
 #include "math/Vec2.hpp"
-#include "resource/graphics/Texture.hpp"
 
 namespace ATMA
 {
 
     /**
-     * An Attribute that holds velocity members of an object
+     * Attribute that holds an object's position members
      */
-    class ATMA_API AttrSprite: public AttrBase
+    class ATMA_API AttrText: public AttrBase
     {
     public:
         // default constructor
-        AttrSprite();
+        AttrText();
 
         // deconstructor
-        virtual ~AttrSprite();
+        virtual ~AttrText();
 
         // friend function to output attributes
         friend std::stringstream &operator>>(std::stringstream &l_stream, AttrBase &b);
@@ -29,7 +28,10 @@ namespace ATMA
          */
         void readIn(std::stringstream &l_stream);
 
-        std::shared_ptr<Texture> m_texture;
-        Vec2<float> m_region;
+        Vec2<float> m_pos{};
+        Vec2<float> m_size{};
+        float m_rot{};
+        std::string m_text;
     };
+
 }

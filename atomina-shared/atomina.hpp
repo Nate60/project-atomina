@@ -44,7 +44,7 @@
 #include "OAS/Attribute.hpp"
 #include "OAS/System.hpp"
 #include "OAS/AttrBase.hpp"
-#include "OAS/attributes/AttrPosition.hpp"
+#include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrControllable.hpp"
 #include "OAS/attributes/AttrSprite.hpp"
 #include "OAS/attributes/AttrRenderable.hpp"
@@ -62,19 +62,9 @@
 #include "resource/graphics/Font.hpp"
 #include "resource/graphics/animation/AnimDefault.hpp"
 #include "resource/graphics/animation/AnimIdle.hpp"
-#include "resource/graphics/render/ShaderGLADImpl.hpp"
-#include "resource/graphics/render/TextureGLADImpl.hpp"
-
 // GUI
 #include "GUI/Window.hpp"
 #include "GUI/window/WindowGLFWImpl.hpp"
-
-// Graphics
-#include "resource/graphics/Texture.hpp"
-#include "resource/graphics/Shader.hpp"
-#include "resource/graphics/AnimBase.hpp"
-#include "resource/graphics/animation/AnimIdle.hpp"
-#include "resource/graphics/animation/AnimDefault.hpp"
 
 // render
 #include "render/Buffer.hpp"
@@ -83,6 +73,10 @@
 #include "render/GLAD/BufferGLADImpl.hpp"
 #include "render/GLAD/RenderContextGLADImpl.hpp"
 #include "render/GLAD/ShaderProgramGLADImpl.hpp"
+#include "render/GLAD/ShaderBindingGLADImpl.hpp"
+#include "render/GLAD/TextureBindingGLADImpl.hpp"
+#include "render/ShaderBinding.hpp"
+#include "render/TextureBinding.hpp"
 
 // Network
 #include "network/URL.hpp"

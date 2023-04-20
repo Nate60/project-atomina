@@ -430,13 +430,9 @@ namespace ATMA
         }
     }
 
-    void ATMAContext::draw(
-        const std::shared_ptr<VertexArray> &l_vertArray,
-        const std::shared_ptr<IndexBuffer> &l_indexBuffer,
-        const std::shared_ptr<ShaderProgram> &l_shaderProg
-    ) const
+    std::shared_ptr<RenderContext> ATMAContext::getRenderer()
     {
-        m_renderer->draw(l_vertArray, l_indexBuffer, l_shaderProg);
+        return m_renderer;
     }
 
     void ATMAContext::purgeObjects()
