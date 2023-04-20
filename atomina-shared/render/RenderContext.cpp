@@ -12,6 +12,11 @@ namespace ATMA
 #endif
     }
 
+    void RenderContext::setFont(std ::shared_ptr<Font> l_font)
+    {
+        m_font = l_font;
+    }
+
     RenderContext::RenderContext() {}
 
     RenderContext::~RenderContext() {}

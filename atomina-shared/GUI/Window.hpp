@@ -53,7 +53,7 @@ namespace ATMA
          * @brief switched the render context to link to this window
          * @param l_context render context from main context
          */
-        virtual void focusContext(const std::unique_ptr<RenderContext> &l_context) = 0;
+        virtual void focusContext(const std::shared_ptr<RenderContext> &l_context) = 0;
 
         /**
          * @brief toggle flag to determine if window should close

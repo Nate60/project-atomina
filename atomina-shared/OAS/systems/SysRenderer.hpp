@@ -4,7 +4,7 @@
 #include "OAS/SysBase.hpp"
 #include "OAS/System.hpp"
 #include "OAS/attributes/AttrSprite.hpp"
-#include "OAS/attributes/AttrPosition.hpp"
+#include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrRenderable.hpp"
 #include "resource/graphics/Shader.hpp"
 
@@ -37,6 +37,8 @@ namespace ATMA
         virtual void notify(const ObjectEventContext &l_e) override;
     private:
         bool m_flag = false;
+        ATMAContext &m_ctx;
+        std::shared_ptr<RenderContext> m_renderer;
     };
 
 }

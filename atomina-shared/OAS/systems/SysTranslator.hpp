@@ -2,7 +2,7 @@
 #include "pch.hpp"
 #include "OAS/SysBase.hpp"
 #include "OAS/System.hpp"
-#include "OAS/attributes/AttrPosition.hpp"
+#include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrVelocity.hpp"
 #include "OAS/Attribute.hpp"
 #include "core/api.hpp"
