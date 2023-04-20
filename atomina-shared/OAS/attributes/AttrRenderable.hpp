@@ -26,12 +26,7 @@ namespace ATMA
          */
         void readIn(std::stringstream &l_stream);
 
-        unsigned int m_vertShader;
-        unsigned int m_fragShader;
-        std::shared_ptr<VertexArray> m_vertArray = VertexArray::makeBuffer();
-        std::shared_ptr<VertexBuffer> m_vertBuffer = VertexBuffer::makeBuffer();
-        std::shared_ptr<IndexBuffer> m_indexBuffer = IndexBuffer::makeBuffer();
-        std::shared_ptr<ShaderProgram> m_shaderProg = ShaderProgram::makeProgram();
+        std::shared_ptr<ShaderProgram> m_program;
         bool m_doRender = true;
     };
 

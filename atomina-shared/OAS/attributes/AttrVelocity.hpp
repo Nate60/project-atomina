@@ -2,6 +2,7 @@
 #include "core/api.hpp"
 #include "OAS/Attribute.hpp"
 #include "OAS/AttrBase.hpp"
+#include "math/Vec2.hpp"
 
 namespace ATMA
 {
@@ -27,7 +28,7 @@ namespace ATMA
          */
         void readIn(std::stringstream &l_stream);
 
-        float m_dx, m_dy;
+        Vec2<float> m_dpos{}, m_dsize{}, m_drot{};
     };
 
 }

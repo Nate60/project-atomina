@@ -1,22 +1,20 @@
 #include "pch.hpp"
-#include "ShaderGLADImpl.hpp"
+#include "ShaderBindingGLADImpl.hpp"
 
 namespace ATMA
 {
 
-    ShaderGLADImpl::ShaderGLADImpl(const std::string &l_name): Shader(l_name) {}
-
-    ShaderGLADImpl::ShaderGLADImpl(const std::string &l_name, const std::string &l_fileName):
-        Shader(l_name, l_fileName)
+    ShaderBindingGLADImpl::ShaderBindingGLADImpl(const std::string &l_fileName):
+        ShaderBinding(l_fileName)
     {
     }
 
-    ShaderGLADImpl::~ShaderGLADImpl()
+    ShaderBindingGLADImpl::~ShaderBindingGLADImpl()
     {
         glDeleteShader(m_bindID);
     }
 
-    void ShaderGLADImpl::compile(ShaderType l_type)
+    void ShaderBindingGLADImpl::compile(ShaderType l_type)
     {
         switch(l_type)
         {

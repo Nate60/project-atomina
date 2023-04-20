@@ -7,10 +7,9 @@ using namespace std::string_literals;
  */
 TEST_F(LogFixture, LoggingAttributeGivesName)
 {
-    std::shared_ptr<ATMA::AttrBase> attr =
-        std::make_shared<ATMA::AttrPosition>(ATMA::AttrPosition{});
+    std::shared_ptr<ATMA::AttrBase> attr = std::make_shared<ATMA::AttrShape>(ATMA::AttrShape{});
     testLogger->info("{}", attr);
-    EXPECT_EQ("Position"s + LogFixture::endLine, oss.str());
+    EXPECT_EQ("Shape"s + LogFixture::endLine, oss.str());
 }
 
 /**
