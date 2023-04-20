@@ -73,7 +73,7 @@ namespace ATMA
         glfwPollEvents();
     }
 
-    void WindowGLFWImpl::focusContext(const std::unique_ptr<RenderContext> &l_context)
+    void WindowGLFWImpl::focusContext(const std::shared_ptr<RenderContext> &l_context)
     {
         glfwMakeContextCurrent(m_window);
         auto result = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);

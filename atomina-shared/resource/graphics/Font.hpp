@@ -2,7 +2,7 @@
 #include "pch.hpp"
 #include "core/api.hpp"
 #include "resource/Resource.hpp"
-#include "resource/graphics/render/TextureGLADImpl.hpp"
+#include "resource/graphics/Texture.hpp"
 #include "util/Log.hpp"
 
 namespace ATMA

@@ -7,6 +7,8 @@
 namespace ATMA
 {
 
+    class Shader;
+
     /**
      * @brief Abstracts the shader program and holds its id reference
      */
@@ -48,6 +50,8 @@ namespace ATMA
          * @param l_mat matrix of values
          */
         virtual void setUniformMat3f(const std::string &l_name, const Mat3<float> &l_mat) = 0;
+
+        static std::shared_ptr<ShaderProgram> makeDefaultProgram();
     protected:
         unsigned int m_bindID;
     };

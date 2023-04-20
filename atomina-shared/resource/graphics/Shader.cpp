@@ -4,26 +4,30 @@
 namespace ATMA
 {
 
-    using namespace std::string_literals;
-
-    Shader::Shader(const std::string &l_name): Resource(l_name), m_shaderFile("") {}
-
-    Shader::Shader(const std::string &l_name, const std::string &l_fileName):
-        Resource(l_name, l_fileName),
-        m_shaderFile(l_fileName)
+    // constructor specifying name
+    Shader::Shader(const std::string &l_name): Resource(l_name)
     {
+#ifdef ATMA_USE_OPENGL
+        m_self = std::make_shared<ShaderBindingGLADImpl>(ATConst::DEFAULT_SHADER_PATH);
+#endif
     }
 
-    Shader::~Shader() {}
-
-    void Shader::compile(ShaderType l_type)
+    // constructor specifying name and filename;
+    Shader::Shader(const std::string &l_name, const std::string &l_filename):
+        Resource(l_name, l_filename)
     {
-        ATMA_ENGINE_WARN("Compile called for Super class Shader");
+#ifdef ATMA_USE_OPENGL
+        m_self = std::make_shared<ShaderBindingGLADImpl>(l_filename);
+#endif
+    }
+
+    void Shader::compile(const ShaderType &l_type)
+    {
+        m_self->compile(l_type);
     }
 
     const unsigned int &Shader::getBindID() const
     {
-        return m_bindID;
+        return m_self->getBindID();
     }
-
 }

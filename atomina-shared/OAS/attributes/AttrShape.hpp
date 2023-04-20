@@ -2,6 +2,7 @@
 #include "core/api.hpp"
 #include "OAS/Attribute.hpp"
 #include "OAS/AttrBase.hpp"
+#include "math/Vec2.hpp"
 
 namespace ATMA
 {
@@ -9,14 +10,14 @@ namespace ATMA
     /**
      * Attribute that holds an object's position members
      */
-    class ATMA_API AttrPosition: public AttrBase
+    class ATMA_API AttrShape: public AttrBase
     {
     public:
         // default constructor
-        AttrPosition();
+        AttrShape();
 
         // deconstructor
-        virtual ~AttrPosition();
+        virtual ~AttrShape();
 
         // friend function to output attributes
         friend std::stringstream &operator>>(std::stringstream &l_stream, AttrBase &b);
@@ -27,7 +28,9 @@ namespace ATMA
          */
         void readIn(std::stringstream &l_stream);
 
-        float m_x, m_y;
+        Vec2<float> m_pos{};
+        Vec2<float> m_size{};
+        float m_rot{};
     };
 
 }

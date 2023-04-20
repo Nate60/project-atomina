@@ -2,7 +2,7 @@
 #include "pch.hpp"
 #include "core/api.hpp"
 #include "OAS/SysBase.hpp"
-#include "OAS/attributes/AttrPosition.hpp"
+#include "OAS/attributes/AttrShape.hpp"
 #include "OAS/System.hpp"
 
 namespace ATMA
