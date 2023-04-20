@@ -4,7 +4,7 @@
 #include "util/Log.hpp"
 #include "ATMAContext.hpp"
 #include "OAS/attributes/AttrControllable.hpp"
-#include "OAS/attributes/AttrPosition.hpp"
+#include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrVelocity.hpp"
 #include "OAS/attributes/AttrSprite.hpp"
 #include "OAS/attributes/AttrRenderable.hpp"

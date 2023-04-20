@@ -17,7 +17,7 @@ namespace ATMA
 
         // attribute registration
         ctx.registerAttributeType<AttrControllable>(AttributeType(Attribute::Controllable));
-        ctx.registerAttributeType<AttrPosition>(AttributeType(Attribute::Position));
+        ctx.registerAttributeType<AttrShape>(AttributeType(Attribute::Shape));
         ctx.registerAttributeType<AttrVelocity>(AttributeType(Attribute::Velocity));
         ctx.registerAttributeType<AttrSprite>(AttributeType(Attribute::Sprite));
         ctx.registerAttributeType<AttrRenderable>(AttributeType(Attribute::Renderable));

@@ -1,49 +1,42 @@
 #pragma once
 #include "pch.hpp"
 #include "core/api.hpp"
+#include "render/GLAD/TextureBindingGLADImpl.hpp"
 #include "resource/Resource.hpp"
-#include "math/Vec2.hpp"
+#include "util/ATConst.hpp"
+#include "render/Buffer.hpp"
 
 namespace ATMA
 {
 
-    /**
-     * @brief resource containing pixel data of an image
-     */
     class ATMA_API Texture: public Resource
     {
     public:
-        // constructor with name
+        // constructor specifying name
         Texture(const std::string &l_name);
 
-        // constructor with name and filename of resource
-        Texture(const std::string &l_name, const std::string &l_fileName);
+        // constructor specifying name and filename;
+        Texture(const std::string &l_name, const std::string &l_filename);
 
-        // deconstructor
-        virtual ~Texture();
+        Texture(std::shared_ptr<TextureBinding> l_self);
 
-        /**
-         * @brief binds the texture to the GL context
-         */
-        virtual void bind();
+        void bind();
 
-        /**
-         * @brief unbinds the texture from the GL context
-         */
-        virtual void unbind();
+        void unbind();
 
-        virtual std::shared_ptr<Texture>
+        std::shared_ptr<Texture>
         getSubImage(const Vec2<unsigned int> &l_pos, const Vec2<unsigned int> &l_size);
 
         /**
-         * @brief gets the reference id of the texture in the GL context
-         * @return id of the texture
+         * @brief gets the reference id of the shader from the GL context
+         * @return id of the shader
          */
-        const unsigned int &getID() const;
+        const unsigned int &getBindID() const;
     protected:
-        int m_width, m_height, m_channels;
-        unsigned char *m_data;
-        unsigned int m_bindID;
+        std::shared_ptr<TextureBinding> m_self;
+        std::shared_ptr<IndexBuffer> m_indexBuffer;
+        std::shared_ptr<VertexBuffer> m_vertexBuffer;
+        std::shared_ptr<VertexArray> m_vertexArray;
     };
 
 }

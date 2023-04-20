@@ -89,7 +89,7 @@ namespace ATMA
         WindowID m_lastWindowID{1u};
         WindowContainer m_windows{};
 
-        std::unique_ptr<RenderContext> m_renderer;
+        std::shared_ptr<RenderContext> m_renderer;
 
         /**
          * protected constructor that should only be called
@@ -465,17 +465,7 @@ namespace ATMA
          */
         void deleteWindow(const unsigned int &l_id);
 
-        /**
-         * @brief using the render context to draw to the current focused window
-         * @param l_vertArray Vertex Array Object that links the buffer data of vertices
-         * @param l_indexBuffer index buffer that describes the order of vertices
-         * @param l_shaderProg shader program that has the linked shaders for execution
-         */
-        void draw(
-            const std::shared_ptr<VertexArray> &l_vertArray,
-            const std::shared_ptr<IndexBuffer> &l_indexBuffer,
-            const std::shared_ptr<ShaderProgram> &l_shaderProg
-        ) const;
+        std::shared_ptr<RenderContext> getRenderer();
 
         /**
          * updates all the engine internals. To be called in the main game loop
