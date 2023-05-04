@@ -6,8 +6,12 @@ namespace ATMA
 
     SysTranslator::SysTranslator(): SysBase(SystemType(System::Translator), "Translator")
     {
-        m_req.set(AttrType(Attribute::Shape));
-        m_req.set(AttrType(Attribute::Velocity));
+        std::bitset<ATConst::OBJECT_BIT_SIZE> first{};
+
+        first.set(AttrType(Attribute::Shape));
+        first.set(AttrType(Attribute::Velocity));
+
+        m_req.push_back(first);
     }
 
     SysTranslator::~SysTranslator() {}

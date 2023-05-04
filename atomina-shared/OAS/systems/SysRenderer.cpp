@@ -14,9 +14,13 @@ namespace ATMA
         m_ctx(ATMAContext::getContext())
     {
         m_renderer = m_ctx.getRenderer();
-        m_req.set(AttrType(Attribute::Sprite));
-        m_req.set(AttrType(Attribute::Shape));
-        m_req.set(AttrType(Attribute::Renderable));
+        std::bitset<ATConst::OBJECT_BIT_SIZE> first{};
+
+        first.set(AttrType(Attribute::Sprite));
+        first.set(AttrType(Attribute::Shape));
+        first.set(AttrType(Attribute::Renderable));
+
+        m_req.push_back(first);
     }
 
     SysRenderer::~SysRenderer() {}

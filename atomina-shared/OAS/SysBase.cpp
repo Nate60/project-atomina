@@ -59,7 +59,12 @@ namespace ATMA
 
     bool SysBase::match(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits) const
     {
-        return (~m_req | l_bits).all();
+        for(auto &bitset: m_req)
+        {
+            if((~bitset | l_bits).all())
+                return true;
+        }
+        return false;
     }
 
     void SysBase::purge()

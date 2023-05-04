@@ -7,8 +7,12 @@ namespace ATMA
 
     SysController::SysController(): SysBase(SystemType(System::Controller), "Controller")
     {
-        m_req.set(AttrType(Attribute::Controllable));
-        m_req.set(AttrType(Attribute::Velocity));
+        std::bitset<ATConst::OBJECT_BIT_SIZE> first{};
+
+        first.set(AttrType(Attribute::Controllable));
+        first.set(AttrType(Attribute::Velocity));
+
+        m_req.push_back(first);
     }
 
     SysController::~SysController() {}

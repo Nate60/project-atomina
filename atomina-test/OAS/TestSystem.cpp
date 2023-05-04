@@ -2,7 +2,11 @@
 
 TestSystem::TestSystem(): SysBase(0u, "Test")
 {
-    m_req.set(0);
+    std::bitset<ATConst::OBJECT_BIT_SIZE> first{};
+
+    first.set(0);
+
+    m_req.push_back(first);
 }
 
 void

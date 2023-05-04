@@ -88,7 +88,7 @@ namespace ATMA
         void purge();
 
         SystemType m_type;
-        std::bitset<ATConst::OBJECT_BIT_SIZE> m_req;
+        std::vector<std::bitset<ATConst::OBJECT_BIT_SIZE>> m_req;
         std::vector<ObjectId> m_objects;
     };
 
