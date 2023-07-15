@@ -8,9 +8,11 @@
 #include "OAS/attributes/AttrVelocity.hpp"
 #include "OAS/attributes/AttrSprite.hpp"
 #include "OAS/attributes/AttrRenderable.hpp"
+#include "OAS/attributes/AttrText.hpp"
 #include "OAS/systems/SysController.hpp"
 #include "OAS/systems/SysTranslator.hpp"
 #include "OAS/systems/SysRenderer.hpp"
+#include "OAS/systems/SysTextRenderer.hpp"
 
 namespace ATMA
 {
