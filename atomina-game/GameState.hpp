@@ -38,15 +38,23 @@ public:
             ctx.addAttribute(option, ATMA::AttributeType(ATMA::Attribute::Shape));
             ctx.addAttribute(option, ATMA::AttributeType(ATMA::Attribute::Sprite));
             ctx.addAttribute(option, ATMA::AttributeType(ATMA::Attribute::Renderable));
+            ctx.addAttribute(option, ATMA::AttributeType(ATMA::Attribute::Text));
             auto render = ctx.getAttribute<ATMA::AttrRenderable>(
                 option, ATMA::AttrType(ATMA::Attribute::Renderable)
             );
             render->m_program = ATMA::ShaderProgram::makeDefaultProgram();
+            auto text =
+                ctx.getAttribute<ATMA::AttrText>(option, ATMA::AttrType(ATMA::Attribute::Text));
+            text->m_pos = {-0.58f, (-0.4f * (option)) + 0.2f};
+            text->m_size = {0.1, 0.1};
+            text->m_text = "menu option " + std::to_string(option + 1);
         }
 
         auto selectedtextid = ctx.registerResource("selected", 1, "res\\selected.png");
         auto unselectedtextid = ctx.registerResource("unselected", 1, "res\\unselected.png");
         auto fontid = ctx.registerResource("font", 2, "res\\defaultFont.png");
+        auto renderer = ctx.getRenderer();
+        renderer->setFont(ctx.loadResource<ATMA::Font>(fontid));
         m_selectedTexture = ctx.loadResource<ATMA::Texture>(selectedtextid);
         m_unselectedTexture = ctx.loadResource<ATMA::Texture>(unselectedtextid);
 
@@ -67,14 +75,10 @@ public:
             m_menuOpts[1], ATMA::AttrType(ATMA::Attribute::Shape)
         );
 
-        auto renderer = ctx.getRenderer();
-        renderer->setFont(ctx.loadResource<ATMA::Font>(fontid));
-        renderer->drawText("Start Game", {-0.2f, 0.1f}, {0.05f, 0.05f}, 0);
-
         pos1->m_pos = {0.f, -0.2f};
         pos2->m_pos = {0.f, 0.2f};
-        pos1->m_size = {0.25f, 0.1f};
-        pos2->m_size = {0.25f, 0.1f};
+        pos1->m_size = {0.67f, 0.1f};
+        pos2->m_size = {0.67f, 0.1f};
 
         win->setInputCallback(std::bind(&GameState::inputCallback, this, _1, _2, _3, _4, _5));
     }
@@ -107,7 +111,21 @@ public:
             );
 
             std::swap(sprite1->m_texture, sprite2->m_texture);
+            if(key == GLFW_KEY_UP)
+            {
+                m_selected -= 1;
+                if(m_selected < 0)
+                    m_selected = 1;
+            }
+            if(key == GLFW_KEY_DOWN)
+            {
+                m_selected += 1;
+                if(m_selected > 1)
+                    m_selected = 0;
+            }
         }
+        if(key == GLFW_KEY_ENTER && action == GLFW_PRESS && m_selected == 1)
+            window->setWindowShouldClose(true);
     }
 private:
     unsigned int m_menuOpts[2] = {0, 0};
