@@ -37,8 +37,7 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/ostream_sink.h>
 #include <spdlog/fmt/ostr.h>
-#include <spdlog/fmt/bundled/format.h>
-#include "../deps/stb/stb_image.h"
+//#include "spdlog/fmt/bundled/format.h"
 
 #ifdef _WINDOWS
 #    ifndef WIN32_LEAN_AND_MEAN
@@ -48,8 +47,4 @@
 #    include <Shlwapi.h>
 #    undef min
 #    undef max
-#endif
-#ifdef ATMA_USE_OPENGL
-#    include <glad/glad.h>
-#    include <GLFW/glfw3.h>
 #endif

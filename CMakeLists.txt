@@ -27,11 +27,6 @@ if(UNIX)
     add_compile_options(-std=c++20 -std=gnu++20)
 endif()
 
-OPTION(ATMA_TEST "Compile without UI Elements for testing on systems without graphics" OFF) 
-IF(ATMA_TEST)
-	add_definitions(-DATMA_TEST)
-ENDIF(ATMA_TEST)
-
 
 project(Atomina_Main VERSION 0.1.0)
 
@@ -40,8 +35,6 @@ SET(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 
 option(ATOMINA_BUILD_TESTS "Build tests" ON)
 SET(CMAKE_COLOR_DIAGNOSTICS ON)
-
-message(STATUS "ATOMINA_BUILD_TESTS= ${ATOMINA_BUILD_TESTS}")
 
 message(STATUS "CMAKE_VERSION = ${CMAKE_VERSION}")
 message(STATUS "CMAKE_GENERATOR = ${CMAKE_GENERATOR}")
@@ -67,16 +60,24 @@ SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin)
 SET(ATOMINA_APP_NAME "Atomina-Engine App")
 
+#dependencies
+find_package(spdlog CONFIG REQUIRED)
+find_package(GTest CONFIG REQUIRED)
+find_package(GLEW REQUIRED)
+
+include(GoogleTest)
+
+#get include paths for each package
+find_path(LIB_DIR lib)
+find_path(SPDLOG_INCLUDE spdlog)
+find_path(GTEST_INCLUDE gtest)
+find_path(GLEW_INCLUDE gl)
+find_path(FMT_INCLUDE fmt)
 
 
-add_subdirectory(deps)
-
-
-add_definitions(-DATMA_USE_GLFW -DATMA_USE_OPENGL)
 add_subdirectory("atomina-shared" atomina-shared)
 add_subdirectory("atomina-game" atomina-game)
-if(ATOMINA_BUILD_TESTS)
-	add_subdirectory("atomina-test" atomina-test)
-endif()
+add_subdirectory("atomina-test" atomina-test)
