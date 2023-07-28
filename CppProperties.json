@@ -10,8 +10,24 @@
         "${workspaceRoot}\\**"
       ],
       "defines": [
-        "WIN32",
+        "_WIN64",
         "_DEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "intelliSenseMode": "windows-msvc-x64"
+    },
+    {
+      "inheritEnvironments": [
+        "msvc_x64"
+      ],
+      "name": "x64-Release",
+      "includePath": [
+        "${env.INCLUDE}",
+        "${workspaceRoot}\\**"
+      ],
+      "defines": [
+        "_WIN64",
         "UNICODE",
         "_UNICODE"
       ],
