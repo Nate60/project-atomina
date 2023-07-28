@@ -11,8 +11,6 @@
 #include "util/AtominaException.hpp"
 #include "util/ATConst.hpp"
 #include "resource/Resource.hpp"
-#include "GUI/Window.hpp"
-#include "GUI/window/WindowGLFWImpl.hpp"
 #ifdef _WINDOWS
 #    include <winsock2.h>
 #    include <ws2tcpip.h>
@@ -56,9 +54,6 @@ namespace ATMA
     using ObjectEventListeners =
         std::unordered_map<ObjectEventID, std::vector<std::shared_ptr<ObjectEventListener>>>;
 
-    using WindowID = unsigned int;
-    using WindowContainer = std::unordered_map<WindowID, std::shared_ptr<Window>>;
-
     /**
      * Singleton that houses all internal state within the Atomina Engine.
      * Manages all resources and objects available to the engine.
@@ -85,11 +80,6 @@ namespace ATMA
         ResourceID m_lastResourceId{0u};
 
         ObjectEventListeners m_listeners{};
-
-        WindowID m_lastWindowID{1u};
-        WindowContainer m_windows{};
-
-        std::shared_ptr<RenderContext> m_renderer;
 
         /**
          * protected constructor that should only be called
@@ -446,26 +436,6 @@ namespace ATMA
             const ObjectEventID &l_id,
             std::shared_ptr<ObjectEventListener> l_listener
         );
-        /**
-         * @brief creates a window inside the context and assigns it an id
-         * @return the id of the new window
-         */
-        unsigned int createWindow();
-
-        /**
-         * @brief gives a pointer to the corresponding id
-         * @param l_id id of the window
-         * @return pointer of the window
-         */
-        std::shared_ptr<Window> getWindow(const unsigned int &l_id);
-
-        /**
-         * @brief deletes the window of corresponding id
-         * @param l_id id of the window
-         */
-        void deleteWindow(const unsigned int &l_id);
-
-        std::shared_ptr<RenderContext> getRenderer();
 
         /**
          * updates all the engine internals. To be called in the main game loop
@@ -492,12 +462,6 @@ namespace ATMA
          * back to 0
          */
         void purgeResources();
-
-        /**
-         * removes all windows from the context and resets the next id
-         * back to 0
-         */
-        void purgeWindows();
 
         /**
          * unregisters all listeners from the context

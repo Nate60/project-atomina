@@ -1,0 +1,14 @@
+{
+  "name": "atma-engine",
+  "version": "0.0.1",
+  "builtin-baseline": "b49b2bdf22559c89eddbf29a29621a1dc6929320",
+  "dependencies": [
+    {
+      "name": "spdlog",
+      "version>=": "1.11.0",
+      "default-features": true
+    },
+    "gtest",
+    "glew"
+  ]
+}
