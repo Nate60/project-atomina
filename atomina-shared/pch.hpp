@@ -37,14 +37,22 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/ostream_sink.h>
 #include <spdlog/fmt/ostr.h>
-//#include "spdlog/fmt/bundled/format.h"
 
 #ifdef _WINDOWS
 #    ifndef WIN32_LEAN_AND_MEAN
 #        define WIN32_LEAN_AND_MEAN
 #    endif
+#    include <gl/glew.h>
+#    include <gl/wglew.h>
 #    include <Windows.h>
 #    include <Shlwapi.h>
-#    undef min
+#    undef min // windows defines min and max which collides with math.min/max
 #    undef max
+#elif linux
+#    include <X11/Xlib.h>
+#    include <X11/Xutil.h>
+#    include <GL/glew.h>
+#    include <GL/glxew.h>
+#    undef None // X11 defines None as a macro for 0L which can collide with enums
+#    undef Bool // another macro from X11 that interferes with gtest
 #endif
