@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.20)
-
 list(APPEND VCPKG_TARGET_TRIPLET "x64-windows")
 
 # set the project name and version

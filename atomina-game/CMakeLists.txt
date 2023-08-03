@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.8)
-
 # set the project name and version
 project(Atomina_Game VERSION 0.1)
 
