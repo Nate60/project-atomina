@@ -28,14 +28,6 @@ if(UNIX)
 endif()
 
 
-project(Atomina_Main VERSION 0.1.0)
-
-# Stop in source builds
-SET(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
-
-option(ATOMINA_BUILD_TESTS "Build tests" ON)
-SET(CMAKE_COLOR_DIAGNOSTICS ON)
-
 message(STATUS "CMAKE_VERSION = ${CMAKE_VERSION}")
 message(STATUS "CMAKE_GENERATOR = ${CMAKE_GENERATOR}")
 message(STATUS "C Compiler executable: ${CMAKE_C_COMPILER}")
@@ -44,6 +36,16 @@ message(STATUS "Linker executable: ${CMAKE_LINKER}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Binary output directory: ${CMAKE_BINARY_DIR}")
 message(STATUS "System Target Architecture: ${CMAKE_SYSTEM_PROCESSOR}")
+
+project(Atomina_Main VERSION 0.1.0)
+
+# Stop in source builds
+SET(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+
+option(ATOMINA_BUILD_TESTS "Build tests" ON)
+SET(CMAKE_COLOR_DIAGNOSTICS ON)
+
+
 
 get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
 foreach(dir ${dirs})
@@ -67,6 +69,7 @@ SET(ATOMINA_APP_NAME "Atomina-Engine App")
 find_package(spdlog CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
 find_package(GLEW REQUIRED)
+find_package(X11 REQUIRED)
 
 include(GoogleTest)
 
@@ -74,8 +77,17 @@ include(GoogleTest)
 find_path(LIB_DIR lib)
 find_path(SPDLOG_INCLUDE spdlog)
 find_path(GTEST_INCLUDE gtest)
-find_path(GLEW_INCLUDE gl)
+if(MSVC)
+	find_path(GLEW_INCLUDE gl)
+elseif(UNIX) # for some reason glew using different casing on different OSes
+	find_path(GLEW_INCLUDE GL)
+endif()
 find_path(FMT_INCLUDE fmt)
+
+message(STATUS "spdlog path: ${SPDLOG_INCLUDE}")
+message(STATUS "gtest path: ${GTEST_INCLUDE}")
+message(STATUS "GLEW path: ${GLEW_INCLUDE}")
+message(STATUS "fmt path: ${FMT_INCLUDE}")
 
 
 add_subdirectory("atomina-shared" atomina-shared)
