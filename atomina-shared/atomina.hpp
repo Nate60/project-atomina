@@ -12,6 +12,7 @@
 #include "util/ATConst.hpp"
 #include "util/Worker.hpp"
 #include "util/Props.hpp"
+#include "util/RetryExecutor.hpp"
 
 // Math
 #include "math/Vec2.hpp"
