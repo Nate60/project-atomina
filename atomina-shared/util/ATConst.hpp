@@ -5,8 +5,10 @@
 
 namespace ATConst
 {
-
+    using namespace std::string_literals;
     static const size_t OBJECT_BIT_SIZE = 32;
+    static const std::string DEFAULT_SHADER_PATH = "shader\\defaultVertex.shader"s;
+    static const std::string DEFAULT_FRAG_SHADER_PATH = "shader\\defaultFrag.shader"s;
 
 #ifdef _WINDOWS
     const PIXELFORMATDESCRIPTOR DEFAULT_PIXEL_FORMAT_D = {
@@ -36,7 +38,8 @@ namespace ATConst
         0,
         0,
         0};
-#elif linux
+
+#elif __linux__
     const int DEFAULT_VISUAL_ATTRIBUTES[] = {
         GLX_X_RENDERABLE,
         True,
