@@ -11,6 +11,10 @@
 
 namespace ATMA
 {
+    /**
+     * TCP Client for connecting to hosts, can only connect to one 
+     * host
+    */
     class ATMA_API NetworkClient
     {
     public:
