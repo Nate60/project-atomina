@@ -10,6 +10,11 @@ set(Intel_Processor CACHE BOOL "false")
 file(GLOB_RECURSE atomina_shared_src CONFIGURE_DEPENDS "*.hpp" "*.cpp" "*.glsl")
 list(FILTER atomina_shared_src EXCLUDE REGEX ".*\/cmake\/.*")
 
+if(ATMA_USE_OPENGL)
+    message(STATUS "ATMA_USE_OPENGL = ${ATMA_USE_OPENGL}")
+    add_compile_definitions(ATMA_OPENGL)
+endif()
+
 if(MSVC)
     list(FILTER atomina_shared_src EXCLUDE REGEX ".*UnixImpl.cpp")
 elseif(UNIX)
@@ -29,7 +34,7 @@ target_link_libraries(Atomina_Shared PUBLIC spdlog::spdlog GLEW::GLEW)
 
 
 target_sources(Atomina_Shared PRIVATE ${atomina_shared_src})
-target_include_directories(Atomina_Shared PRIVATE "../atomina-shared" "${FMT_INCLUDE}" "${SPDLOG_INCLUDE}")
+target_include_directories(Atomina_Shared PRIVATE "../atomina-shared" "${FMT_INCLUDE}" "${SPDLOG_INCLUDE}" "${GLEW_INCLUDE}")
 #definition for dll for exports
 set_target_properties(Atomina_Shared PROPERTIES COMPILE_DEFINITIONS "ATOMINADLL_EXPORTS")
 
