@@ -98,5 +98,5 @@ namespace ATMA
 }
 
 #else
-#    error Linux implementation included in non-Linux target
+#    error Linux implementation included in non-linux target
 #endif

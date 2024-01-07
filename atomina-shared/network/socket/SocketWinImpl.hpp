@@ -14,11 +14,11 @@
 
 namespace ATMA
 {
-    class SocketListenerWinImpl;
-
     /**
      * Windows Specific implementation of the socket
      */
+    class SocketListenerWinImpl;
+
     class ATMA_API SocketWinImpl: public Socket
     {
     public:
@@ -75,5 +75,5 @@ namespace ATMA
 }
 
 #else
-#    error Windows implementation included in non-Windows target
+#    error Windows implementation included in non-windows target
 #endif

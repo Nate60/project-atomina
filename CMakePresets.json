@@ -56,32 +56,12 @@
       }
     },
     {
-      "name": "x64-debug-win-opengl",
-      "displayName": "x64 Debug Windows OpenGL",
-      "description": "Target Windows (64-bit) with the Visual Studio development environment with OpenGL enabled. (Debug)",
-      "inherits": "windows-base",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "ATMA_USE_OPENGL": "ON"
-      }
-    },
-    {
       "name": "x64-release-win",
       "displayName": "x64 Release Windows",
       "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
       "inherits": "windows-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "x64-release-win-opengl",
-      "displayName": "x64 Release Windows OpenGL",
-      "description": "Target Windows (64-bit) with the Visual Studio development environment with OpenGL enabled. (RelWithDebInfo)",
-      "inherits": "windows-base",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "ATMA_USE_OPENGL": "ON"
       }
     },
     {
@@ -94,32 +74,12 @@
       }
     },
     {
-      "name": "x64-debug-linux-opengl",
-      "displayName": "x64 Debug Linux OpenGL",
-      "description": "Target Linux (64-bit) with the remote development environment with OpenGL enabled. (Debug)",
-      "inherits": "linux-base",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "ATMA_USE_OPENGL": "ON"
-      }
-    },
-    {
       "name": "x64-release-linux",
       "displayName": "x64 Release Linux",
       "description": "Target Linux (64-bit) with the remote development environment. (Release)",
       "inherits": "linux-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "x64-release-linux-opengl",
-      "displayName": "x64 Release Linux OpenGL",
-      "description": "Target Linux (64-bit) with the remote development environment with OpenGL enabled. (Release)",
-      "inherits": "linux-base",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "ATMA_USE_OPENGL": "ON"
       }
     }
   ]
