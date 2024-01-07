@@ -27,7 +27,6 @@ if(UNIX)
     add_compile_options(-std=c++20 -std=gnu++20)
 endif()
 
-add_compile_definitions(__TBB_DYNAMIC_LOAD_ENABLED=0)
 
 message(STATUS "CMAKE_VERSION = ${CMAKE_VERSION}")
 message(STATUS "CMAKE_GENERATOR = ${CMAKE_GENERATOR}")
@@ -71,11 +70,6 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(X11 REQUIRED)
-if(MSVC)
-	find_package(stb REQUIRED)
-elseif(UNIX) # for some reason stb using different casing on different OSes
-	find_package(Stb REQUIRED)
-endif()
 
 include(GoogleTest)
 
@@ -94,6 +88,7 @@ message(STATUS "spdlog path: ${SPDLOG_INCLUDE}")
 message(STATUS "gtest path: ${GTEST_INCLUDE}")
 message(STATUS "GLEW path: ${GLEW_INCLUDE}")
 message(STATUS "fmt path: ${FMT_INCLUDE}")
+
 
 add_subdirectory("atomina-shared" atomina-shared)
 add_subdirectory("atomina-game" atomina-game)
