@@ -11,6 +11,7 @@
 #include "util/AtominaException.hpp"
 #include "util/ATConst.hpp"
 #include "resource/Resource.hpp"
+#include "render/GLRenderer.hpp"
 #ifdef _WINDOWS
 #    include <winsock2.h>
 #    include <ws2tcpip.h>
@@ -81,6 +82,8 @@ namespace ATMA
 
         ObjectEventListeners m_listeners{};
 
+        GLRenderer m_renderer{};
+
         /**
          * protected constructor that should only be called
          * by the get context function to maintain a singleton
@@ -123,6 +126,12 @@ namespace ATMA
         }
 
         /**
+         * getter for engine renderer
+         * @returns reference to renderer
+         */
+        GLRenderer &getRenderer();
+
+        /**
          * Assigns an Attribute class type to an unsigned integer id
          * @tparam class type to assign id to
          * @param l_attrType id to assign class type to
@@ -159,8 +168,8 @@ namespace ATMA
          * @param l_bits
          * @returns id of the new object
          */
-        [[nodiscard]] unsigned int createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits
-        );
+        [[nodiscard]] unsigned int
+        createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
 
         /**
          * Adds an attribute of the given id type to the given id

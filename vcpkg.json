@@ -9,6 +9,7 @@
       "default-features": true
     },
     "gtest",
-    "glew"
+    "glew",
+    "stb"
   ]
 }

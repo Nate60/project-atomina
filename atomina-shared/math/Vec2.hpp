@@ -13,25 +13,8 @@ namespace ATMA
     class ATMA_API Vec2
     {
     public:
-        // default constructor
-        Vec2(): x(0), y(0) {}
-
-        /*
-         * MSVC requires this constructor to specify a template
-         * while GCC throws an exception since it shades the template
-         * from the class definition
-         */
-
-#ifdef _WINDOWS
-        template<class T>
-#endif
-        // constructor specifying vector values
-        Vec2(T a, T b): x(a), y(b)
-        {
-        }
-
-        T x;
-        T y;
+        T x{0};
+        T y{0};
     };
 
     /**
