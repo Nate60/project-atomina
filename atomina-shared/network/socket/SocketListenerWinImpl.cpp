@@ -76,5 +76,5 @@ namespace ATMA
 }
 
 #else
-#    error Windows implementation included in non-windows target
+#    error Windows implementation included in non-Windows target
 #endif

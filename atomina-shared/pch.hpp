@@ -2,6 +2,7 @@
 
 #include <span>
 #include <string>
+#include <string_view>
 #include <array>
 #include <functional>
 #include <memory>
@@ -37,6 +38,7 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/ostream_sink.h>
 #include <spdlog/fmt/ostr.h>
+#include <stb_image.h>
 
 #ifdef _WINDOWS
 #    ifndef WIN32_LEAN_AND_MEAN
@@ -48,7 +50,7 @@
 #    include <Shlwapi.h>
 #    undef min // windows defines min and max which collides with math.min/max
 #    undef max
-#elif linux
+#elif __linux__
 #    include <X11/Xlib.h>
 #    include <X11/Xutil.h>
 #    include <GL/glew.h>
