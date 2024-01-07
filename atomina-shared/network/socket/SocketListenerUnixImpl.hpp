@@ -14,9 +14,6 @@
 namespace ATMA
 {
 
-    /**
-     * Unix Implementation of network socket listener
-    */
     class ATMA_API SocketListenerUnixImpl: public SocketListener
     {
     public:
@@ -52,5 +49,5 @@ namespace ATMA
 }
 
 #else
-#    error Linux implementation included in non-Linux target
+#    error Linux implementation included in non-linux target
 #endif

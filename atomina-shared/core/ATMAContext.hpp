@@ -11,7 +11,6 @@
 #include "util/AtominaException.hpp"
 #include "util/ATConst.hpp"
 #include "resource/Resource.hpp"
-#include "render/GLRenderer.hpp"
 #ifdef _WINDOWS
 #    include <winsock2.h>
 #    include <ws2tcpip.h>
@@ -82,8 +81,6 @@ namespace ATMA
 
         ObjectEventListeners m_listeners{};
 
-        GLRenderer m_renderer{};
-
         /**
          * protected constructor that should only be called
          * by the get context function to maintain a singleton
@@ -124,12 +121,6 @@ namespace ATMA
                                         // Instantiated on first use.
             return context;
         }
-
-        /**
-         * getter for engine renderer
-         * @returns reference to renderer
-        */
-        GLRenderer &getRenderer();
 
         /**
          * Assigns an Attribute class type to an unsigned integer id
