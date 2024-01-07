@@ -14,6 +14,11 @@
 #include "util/Props.hpp"
 #include "util/RetryExecutor.hpp"
 
+// OS
+#ifdef _WINDOWS
+#    include "os/OSContextWinImpl.hpp"
+#endif
+
 // Math
 #include "math/Vec2.hpp"
 #include "math/Vec3.hpp"
@@ -71,3 +76,34 @@
 #endif
 #include "network/NetworkClient.hpp"
 #include "network/NetworkHost.hpp"
+
+// GUI
+#include "GUI/AppWindow.hpp"
+#ifdef _WINDOWS
+#    include "GUI/window/WindowWinImpl.hpp"
+#elif __linux__
+#    include "GUI/window/WindowUnixImpl.hpp"
+#endif
+
+// Render
+#include "render/GLBuffer.hpp"
+#include "render/GLProgram.hpp"
+#include "render/GLRenderable.hpp"
+#include "render/GLRenderer.hpp"
+#include "render/GLShader.hpp"
+#include "render/GLTexture.hpp"
+#include "render/GLRenderContext.hpp"
+#include "render/renderImpl/Dummy/GLBufferDummyImpl.hpp"
+#include "render/renderImpl/Dummy/GLProgramDummyImpl.hpp"
+#include "render/renderImpl/Dummy/GLShaderDummyImpl.hpp"
+#include "render/renderImpl/Dummy/GLTextureDummyImpl.hpp"
+#include "render/renderImpl/Dummy/GLRenderContextDummyImpl.hpp"
+#include "render/renderImpl/OpenGL/GLBufferOpenGLImpl.hpp"
+#include "render/renderImpl/OpenGL/GLProgramOpenGLImpl.hpp"
+#ifdef _WINDOWS
+#include "render/renderImpl/OpenGL/GLRenderContextOpenGLWinImpl.hpp"
+#elif __linux__
+#include "render/renderImpl/OpenGL/GLRenderContextOpenGLUnixImpl.hpp"
+#endif
+#include "render/renderImpl/OpenGL/GLShaderOpenGLImpl.hpp"
+#include "render/renderImpl/OpenGL/GLTextureOpenGLImpl.hpp"
