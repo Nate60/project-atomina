@@ -9,15 +9,11 @@ namespace ATMA
     /**
      * @brief 3 dimensional matrix for math applications
      * @tparam T numeric subtype of the matrix
-     * Note that this an aggregate and is required as such so that it
-     * can be initialized as an initializer list
      */
     template<class T>
-    struct ATMA_API Mat3
+    class ATMA_API Mat3
     {
-        // Windows requires explicit template definition for function
-        // while linux requires it not to be there since it will shade
-        // class template
+    public:
 #ifdef _WINDOWS
         template<class T>
 #endif
