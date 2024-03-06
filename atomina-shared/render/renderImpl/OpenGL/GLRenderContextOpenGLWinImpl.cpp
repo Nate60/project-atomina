@@ -102,6 +102,45 @@ namespace ATMA
             m_hglrc = newContext;
         }
     }
+
+    void GLRenderContextOpenGLWinImpl::draw(std::shared_ptr<Renderable> l_renderable)
+    {
+        auto vertArray = ATMA::VertexArray::makeBuffer({
+            {3, 8, 0},
+            {3, 8, 3},
+            {2, 8, 6}
+        });
+
+        auto vertBuf =
+            ATMA::VertexBuffer::makeBuffer({1.0f,  1.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+                                            1.0f,  -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+                                            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+                                            -1.0f, 1.0f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+
+        auto indexBuf = ATMA::IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
+
+        std::shared_ptr<ATMA::GLProgram> shaderprog = ATMA::GLProgram::makeDefaultProgram();
+
+        vertArray->bind();
+
+        indexBuf->bind();
+
+        vertBuf->bind();
+
+        vertArray->bindLayout();
+        shaderprog->exec();
+        auto transform =
+            ATMA::translationMatrix<float>(l_renderable->m_screenPos.x, l_renderable->m_screenPos.y)
+            * ATMA::scalingMatrix<float>(l_renderable->m_region.x, l_renderable->m_region.y);
+        //    * rotationMatrix(l_rot);
+        shaderprog->setUniformMat3f("u_transform", transform);
+        l_renderable->m_texture->bind();
+        shaderprog->exec();
+
+        // bind textures on corresponding texture units
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    }
+
 }
 
 #else

@@ -5,7 +5,9 @@
 #    include "util/ATConst.hpp"
 #    include "GUI/AppWindow.hpp"
 #    include "GUI/window/WindowWinImpl.hpp"
+#    include "render/GLProgram.hpp"
 #    include "render/GLRenderContext.hpp"
+#    include "math/MathFuncs.hpp"
 
 namespace ATMA
 {
@@ -27,6 +29,8 @@ namespace ATMA
          * @param l_window app window for the render context to target
          */
         virtual void setWindow(std::shared_ptr<AppWindow> l_window) override;
+
+        virtual void draw(std::shared_ptr<Renderable> l_renderable) override;
     protected:
         // device context handle
         HDC m_hdc;

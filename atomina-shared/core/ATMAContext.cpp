@@ -43,10 +43,10 @@ namespace ATMA
         ATMA_ENGINE_INFO("ATMAContext has been deleted");
     }
 
-    GLRenderer &ATMAContext::getRenderer()
-    {
-        return m_renderer;
-    }
+    // GLRenderer &ATMAContext::getRenderer()
+    // {
+    //     return m_renderer;
+    // }
 
     unsigned int ATMAContext::createObject()
     {

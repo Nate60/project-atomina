@@ -42,6 +42,12 @@ namespace ATMA
 
     void WindowWinImpl::poll() {}
 
+    void WindowWinImpl::swapBuffers()
+    {
+        HDC hdc = GetDC(m_windowHandle);
+        SwapBuffers(hdc);
+    }
+
     // TODO: Handle window events and dispatch them
     LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
