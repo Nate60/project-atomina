@@ -50,6 +50,8 @@ namespace ATMA
          */
         virtual void poll() override;
 
+        virtual void swapBuffers() override;
+
         /**
          * All Atomina AppWindows will have the same window class
          * creates the window class once and returns it for all future calls

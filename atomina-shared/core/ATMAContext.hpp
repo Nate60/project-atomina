@@ -82,7 +82,7 @@ namespace ATMA
 
         ObjectEventListeners m_listeners{};
 
-        GLRenderer m_renderer{};
+        // GLRenderer m_renderer{};
 
         /**
          * protected constructor that should only be called
@@ -129,7 +129,7 @@ namespace ATMA
          * getter for engine renderer
          * @returns reference to renderer
          */
-        GLRenderer &getRenderer();
+        // GLRenderer &getRenderer();
 
         /**
          * Assigns an Attribute class type to an unsigned integer id

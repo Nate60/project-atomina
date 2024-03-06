@@ -16,7 +16,7 @@ namespace ATMA
         // Constructor with all values defaulted so it can be a default constructor
         // specifies dimensons and window name
         WindowUnixImpl(
-            const Vec2<int> &l_size = {180, 180},
+            const Vec2<int> &l_size = {320, 320},
             const std::string &l_name = "Atomina Application"
         );
 
@@ -44,9 +44,18 @@ namespace ATMA
          * get events that have been sent to the window and dispatch them
          */
         virtual void poll() override;
+
+        virtual void swapBuffers() override;
+
+        Window m_window;
+
+        static Display *getDisplay();
+        static GLXFBConfig getFrameBufferConfig(Display *display);
+
     protected:
         Display *m_display;
-        Window m_window;
+        Window m_root;
+        Colormap m_colourMap;
         int m_screen;
         friend class GLRenderContextOpenGLUnixImpl;
     };

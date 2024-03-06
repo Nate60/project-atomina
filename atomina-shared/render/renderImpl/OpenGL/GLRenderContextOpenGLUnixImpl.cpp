@@ -1,41 +1,11 @@
 #ifdef __linux__
 #    include "pch.hpp"
 #    include "GLRenderContextOpenGLUnixImpl.hpp"
-#    define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
-#    define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
 typedef GLXContext (*glXCreateContextAttribsARBProc
 )(Display *, GLXFBConfig, GLXContext, bool, const int *);
 
 namespace ATMA
 {
-
-    // Get a matching FB config
-    const static int GLX_ATTRIBUTES[] = {
-        GLX_X_RENDERABLE,
-        GL_TRUE,
-        GLX_DRAWABLE_TYPE,
-        GLX_WINDOW_BIT,
-        GLX_RENDER_TYPE,
-        GLX_RGBA_BIT,
-        GLX_X_VISUAL_TYPE,
-        GLX_TRUE_COLOR,
-        GLX_RED_SIZE,
-        8,
-        GLX_GREEN_SIZE,
-        8,
-        GLX_BLUE_SIZE,
-        8,
-        GLX_ALPHA_SIZE,
-        8,
-        GLX_DEPTH_SIZE,
-        24,
-        GLX_STENCIL_SIZE,
-        8,
-        GLX_DOUBLEBUFFER,
-        GL_TRUE,
-        // GLX_SAMPLE_BUFFERS  , 1,
-        // GLX_SAMPLES         , 4,
-        0L};
 
     // Helper to check for extension string presence.  Adapted from:
     //   http://www.opengl.org/resources/features/OGLextensions/
@@ -73,10 +43,9 @@ namespace ATMA
 
     GLRenderContextOpenGLUnixImpl::GLRenderContextOpenGLUnixImpl(): GLRenderContext()
     {
-        int glx_major, glx_minor, screenId, fbcount;
+        int glx_major, glx_minor, screenId;
         Window root;
         GLXFBConfig bestFbc;
-        GLXFBConfig *fbc;
         const char *glxExts;
         GLenum err;
         ATMA_ENGINE_INFO("Constructing Unix OpenGL Render Context");
@@ -86,13 +55,13 @@ namespace ATMA
             {
                 char errorstring[128];
                 XGetErrorText(dsp, error->error_code, errorstring, 128);
-                ATMA_ENGINE_ERROR("X Server encountered error {0}", std::string(errorstring));
+                ATMA_ENGINE_ERROR("X Server encountered error Type:{0} | {1}", error->error_code, std::string(errorstring));
                 return 0;
             }
         );
 
         // first creat temporary OpenGL Context to init GLEW and GLXEW
-        m_display = XOpenDisplay(NULL);
+        m_display = WindowUnixImpl::getDisplay();
         if(m_display == NULL)
         {
             ATMA_ENGINE_ERROR("Failed to open display");
@@ -136,37 +105,7 @@ namespace ATMA
         }
         // Now create a proper context
 
-        fbc = glXChooseFBConfig(m_display, screenId, GLX_ATTRIBUTES, &fbcount);
-        if(fbc == 0)
-        {
-            ATMA_ENGINE_ERROR("Failed to retrieve framebuffer");
-            XCloseDisplay(m_display);
-        }
-        ATMA_ENGINE_INFO("Got FrameBuffer Config");
-        // Pick the FB config/visual with the most samples per pixel
-        int best_fbc = -1, worst_fbc = -1, best_num_samp = -1, worst_num_samp = 999;
-        for(int i = 0; i < fbcount; ++i)
-        {
-            XVisualInfo *vi = glXGetVisualFromFBConfig(m_display, fbc[i]);
-            if(vi != 0)
-            {
-                int samp_buf, samples;
-                glXGetFBConfigAttrib(m_display, fbc[i], GLX_SAMPLE_BUFFERS, &samp_buf);
-                glXGetFBConfigAttrib(m_display, fbc[i], GLX_SAMPLES, &samples);
-
-                if(best_fbc < 0 || (samp_buf && samples > best_num_samp))
-                {
-                    best_fbc = i;
-                    best_num_samp = samples;
-                }
-                if(worst_fbc < 0 || !samp_buf || samples < worst_num_samp)
-                    worst_fbc = i;
-                worst_num_samp = samples;
-            }
-            XFree(vi);
-        }
-        bestFbc = fbc[best_fbc];
-        XFree(fbc); // Make sure to free this!
+        bestFbc = WindowUnixImpl::getFrameBufferConfig(m_display);
 
         m_visualInfo = glXGetVisualFromFBConfig(m_display, bestFbc);
 
@@ -230,8 +169,75 @@ namespace ATMA
         {
             ATMA_ENGINE_WARN("local context differs from current context");
         }
+        ATMA_ENGINE_INFO("Window size x:{0},y:{1}", unixWindow->getSize().x, unixWindow->getSize().y);
+        glViewport(0,0,unixWindow->getSize().x, unixWindow->getSize().y);
         glXMakeCurrent(m_display, win, localCtx);
+        
     }
+
+    void GLRenderContextOpenGLUnixImpl::draw(std::shared_ptr<Renderable> l_renderable)
+    {
+        auto vertArray = ATMA::VertexArray::makeBuffer({
+                {3, 8, 0},
+                {3, 8, 3},
+                {2, 8, 6}
+            });
+
+            auto vertBuf =
+                ATMA::VertexBuffer::makeBuffer({1.0f,  1.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+                                            1.0f,  -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+                                            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+                                            -1.0f, 1.0f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+
+            auto indexBuf = ATMA::IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
+
+            
+
+            std::shared_ptr<ATMA::GLProgram> shaderprog = ATMA::GLProgram::makeDefaultProgram();
+
+            vertArray->bind();
+
+            indexBuf->bind();
+
+            vertBuf->bind();
+
+            vertArray->bindLayout();
+            shaderprog->exec();
+            auto transform = ATMA::translationMatrix<float>(l_renderable->m_screenPos.x, l_renderable->m_screenPos.y) 
+                            * ATMA::scalingMatrix<float>(l_renderable->m_region.x,l_renderable->m_region.y);
+                        //    * rotationMatrix(l_rot);
+            shaderprog->setUniformMat3f("u_transform", transform);
+            l_renderable->m_texture->bind();
+            shaderprog->exec();
+
+            // bind textures on corresponding texture units
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    }
+
+
+    // void RenderContextGLADImpl::drawText(
+    //     const std::string &l_text,
+    //     const Vec2<float> &l_pos,
+    //     const Vec2<float> &l_size,
+    //     const float &l_rot
+    // ) const
+    // {
+    //     float advance = 0;
+    //     std::shared_ptr<ShaderProgram> shaderprog = ShaderProgram::makeDefaultProgram();
+    //     shaderprog->exec();
+
+    //     for(auto &c: l_text)
+    //     {
+    //         auto transform = translationMatrix(l_pos.x + advance, l_pos.y)
+    //                        * scalingMatrix(l_size.x, l_size.y) * rotationMatrix(l_rot);
+    //         shaderprog->setUniformMat3f("u_transform", transform);
+    //         m_font->bindCharacter(c);
+    //         shaderprog->exec();
+    //         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    //         advance += l_size.x;
+    //     }
+    // }
+
 }
 #else
 #    error Linux implementation included in non-Linux target
