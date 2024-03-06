@@ -12,35 +12,25 @@ void GameApp::run()
     initializeContext();
 
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
-    std::unique_ptr<GameState> gameState{new GameState{}};
+    // std::unique_ptr<GameState> gameState{new GameState{}};
 
-    auto shutdownManager =
-        std::make_shared<ShutDownManager>(ShutDownManager(std::bind(&GameApp::shutdown, this)));
-    ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::ShutDown), shutdownManager);
+    std::shared_ptr<ATMA::GLRenderContext> glCtx = ATMA::GLRenderContext::makeRenderContext();
 
-    // register resources
-    std::shared_ptr<ATMA::Renderable> renderable = std::make_shared<ATMA::Renderable>(
-        ATMA::Vec2{0, 0},
-        ATMA::Vec2{100, 100},
-        ATMA::GLTexture::makeTexture("res\\shaggysheet.png"),
-        ATMA::GLShader::makeShader("shader\\defaultFrag.shader"),
-        ATMA::GLShader::makeShader("shader\\defaultVertext.shader")
+    std::shared_ptr<ATMA::AppWindow> win = ATMA::AppWindow::makeWindow();
+
+    win->show();
+    win->poll();
+
+    glCtx->setWindow(win);
+
+    std::shared_ptr<ATMA::Renderable> renderable = std::make_shared<ATMA::Renderable>();
+    renderable->m_texture = ATMA::GLTexture::makeTexture(
+        "C:\\Users\\Sixti\\Source\\Repos\\project-atomina\\res\\shaggysheet.png"
     );
+    renderable->m_region = {1, 1};
 
-    std::shared_ptr<ATMA::AppWindow> window = ATMA::AppWindow::makeWindow();
-
-    ctx.getRenderer().setWindow(window);
-
-    window->show();
-
-    // add states
-    ctx.addState(ATMA::StateType(ATMA::State::COUNT), std::move(gameState));
-
-    while(!window->shouldClose())
-    {
-        window->poll();
-        ctx.getRenderer().draw(renderable);
-    }
+    glCtx->draw(renderable);
+    win->swapBuffers();
 }
 
 void GameApp::shutdown()

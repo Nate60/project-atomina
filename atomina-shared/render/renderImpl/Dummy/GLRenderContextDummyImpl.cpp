@@ -16,4 +16,6 @@ namespace ATMA
 
     void GLRenderContextDummyImpl::setWindow(std::shared_ptr<AppWindow> l_window) {}
 
+    void GLRenderContextDummyImpl::draw(std::shared_ptr<Renderable> l_renderable) {}
+
 }
