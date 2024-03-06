@@ -55,6 +55,8 @@
 #    include <X11/Xutil.h>
 #    include <GL/glew.h>
 #    include <GL/glxew.h>
+#    define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
+#    define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
 #    undef None // X11 defines None as a macro for 0L which can collide with enums
 #    undef Bool // another macro from X11 that interferes with gtest
 #endif

@@ -6,6 +6,8 @@
 #    include "GUI/AppWindow.hpp"
 #    include "GUI/window/WindowUnixImpl.hpp"
 #    include "render/GLRenderContext.hpp"
+#    include "render/GLProgram.hpp"
+#    include "math/MathFuncs.hpp"
 
 namespace ATMA
 {
@@ -27,6 +29,11 @@ namespace ATMA
          * @param l_window app window for the render context to target
          */
         virtual void setWindow(std::shared_ptr<AppWindow> l_window) override;
+
+        virtual void draw(std::shared_ptr<Renderable> l_renderable) override;
+
+        // virtual void drawText(const std::string &l_text) override;
+
     protected:
         Display *m_display;
         Window m_rootWindow;

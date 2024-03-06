@@ -58,6 +58,9 @@ namespace ATMA
          */
         virtual bool shouldClose();
 
+
+        virtual void swapBuffers() = 0;
+
         /**
          * factory function for creating window for the platform
          * the application is running on
