@@ -13,7 +13,7 @@ namespace ATMA
     {
     public:
         // constructor with name and filename of resource
-        GLShaderDummyImpl(const std::string &l_fileName);
+        GLShaderDummyImpl(const Path &l_filePath);
 
         // default deconstructor
         virtual ~GLShaderDummyImpl();

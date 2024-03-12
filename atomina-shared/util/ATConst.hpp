@@ -2,15 +2,15 @@
 #include "pch.hpp"
 #include "core/api.hpp"
 #include "Log.hpp"
+#include "Path.hpp"
 
 namespace ATConst
 {
     using namespace std::string_literals;
     static const size_t OBJECT_BIT_SIZE = 32;
-    static const std::string DEFAULT_SHADER_PATH =
-        "C:\\Users\\Sixti\\Source\\Repos\\project-atomina\\atomina-shared\\shader\\defaultVertex.shader"s;
-    static const std::string DEFAULT_FRAG_SHADER_PATH =
-        "C:\\Users\\Sixti\\Source\\Repos\\project-atomina\\atomina-shared\\shader\\defaultFrag.shader"s;
+
+    static const ATMA::Path DEFAULT_SHADER_PATH = ATMA::Path{"shader/defaultVertex.shader"s};
+    static const ATMA::Path DEFAULT_FRAG_SHADER_PATH = ATMA::Path{"shader/defaultFrag.shader"s};
 
 #ifdef _WINDOWS
     const PIXELFORMATDESCRIPTOR DEFAULT_PIXEL_FORMAT_D = {

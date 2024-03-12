@@ -5,7 +5,7 @@
 namespace ATMA
 {
     // constructor with name and filename of resource
-    GLTextureOpenGLImpl::GLTextureOpenGLImpl(const std::string &l_fileName): GLTexture(l_fileName)
+    GLTextureOpenGLImpl::GLTextureOpenGLImpl(const Path &l_filePath): GLTexture(l_filePath)
     {
         glGenTextures(1, &m_bindID);
         glActiveTexture(GL_TEXTURE0);

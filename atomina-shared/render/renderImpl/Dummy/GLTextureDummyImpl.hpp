@@ -17,7 +17,7 @@ namespace ATMA
         friend class std::unique_ptr<GLTextureDummyImpl>;
 
         // constructor with name and filename of resource
-        GLTextureDummyImpl(const std::string &l_fileName);
+        GLTextureDummyImpl(const Path &l_filePath);
 
         // default deconstructor
         virtual ~GLTextureDummyImpl();
