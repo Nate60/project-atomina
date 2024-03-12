@@ -45,7 +45,6 @@ int main()
 {
     ATMA::Log::Init();
     ATMA_ENGINE_INFO("Init logger!");
-
     std::unique_ptr<ATMA::Game> app = ATMA::CreateGame();
     try
     {

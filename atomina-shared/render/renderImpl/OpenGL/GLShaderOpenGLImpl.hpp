@@ -13,7 +13,7 @@ namespace ATMA
     {
     public:
         // constructor with name and filename of resource
-        GLShaderOpenGLImpl(const std::string &l_fileName);
+        GLShaderOpenGLImpl(const Path &l_filePath);
 
         // default deconstructor
         virtual ~GLShaderOpenGLImpl();

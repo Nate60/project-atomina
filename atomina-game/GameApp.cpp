@@ -12,6 +12,9 @@ void GameApp::run()
     initializeContext();
 
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
+    ATMA_ENGINE_INFO("Executing Directory: {0}", ATMA::Path::getRootPath().generic_string());
+    ATMA::Path shaggyPath = ATMA::Path{"res/shaggysheet.png"};
+    ATMA_ENGINE_INFO("ShaggyPath: {0}", shaggyPath.toString());
     // std::unique_ptr<GameState> gameState{new GameState{}};
 
     std::shared_ptr<ATMA::GLRenderContext> glCtx = ATMA::GLRenderContext::makeRenderContext();
@@ -24,9 +27,7 @@ void GameApp::run()
     glCtx->setWindow(win);
 
     std::shared_ptr<ATMA::Renderable> renderable = std::make_shared<ATMA::Renderable>();
-    renderable->m_texture = ATMA::GLTexture::makeTexture(
-        "C:\\Users\\Sixti\\Source\\Repos\\project-atomina\\res\\shaggysheet.png"
-    );
+    renderable->m_texture = ATMA::GLTexture::makeTexture(shaggyPath.toString());
     renderable->m_region = {1, 1};
 
     glCtx->draw(renderable);

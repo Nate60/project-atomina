@@ -5,7 +5,7 @@ namespace ATMA
 {
     using namespace std::string_literals;
 
-    GLShaderDummyImpl::GLShaderDummyImpl(const std::string &l_fileName): GLShader(l_fileName)
+    GLShaderDummyImpl::GLShaderDummyImpl(const Path &l_filePath): GLShader(l_filePath)
     {
         m_bindID = 0u;
     }
@@ -16,7 +16,7 @@ namespace ATMA
     {
 
         m_shaderText = ""s;
-        std::ifstream l_fileStream{m_shaderFile};
+        std::ifstream l_fileStream{m_shaderFile.toString()};
         std::string sourceLine;
         while(std::getline(l_fileStream, sourceLine))
             m_shaderText += sourceLine + "\n";
