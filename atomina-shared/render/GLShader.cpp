@@ -10,7 +10,7 @@
 namespace ATMA
 {
 
-    GLShader::GLShader(const std::string &l_fileName): m_shaderFile(l_fileName) {}
+    GLShader::GLShader(const Path &l_filePath): m_shaderFile(l_filePath) {}
 
     GLShader::~GLShader() {}
 
@@ -19,8 +19,8 @@ namespace ATMA
         return m_bindID;
     }
 
-    std::shared_ptr<GLShader> GLShader::makeShader(const std::string &l_fileName)
+    std::shared_ptr<GLShader> GLShader::makeShader(const Path &l_filePath)
     {
-        __ATMAMAKEGLSHADER(l_fileName);
+        __ATMAMAKEGLSHADER(l_filePath);
     }
 }

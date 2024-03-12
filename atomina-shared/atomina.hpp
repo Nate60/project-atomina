@@ -13,6 +13,7 @@
 #include "util/Worker.hpp"
 #include "util/Props.hpp"
 #include "util/RetryExecutor.hpp"
+#include "util/Path.hpp"
 
 // OS
 #ifdef _WINDOWS

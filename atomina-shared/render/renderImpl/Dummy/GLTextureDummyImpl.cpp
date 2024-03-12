@@ -5,7 +5,7 @@
 namespace ATMA
 {
     // constructor with name and filename of resource
-    GLTextureDummyImpl::GLTextureDummyImpl(const std::string &l_fileName): GLTexture(l_fileName)
+    GLTextureDummyImpl::GLTextureDummyImpl(const Path &l_filePath): GLTexture(l_filePath)
     {
         m_bindID = 0;
     }
