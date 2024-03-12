@@ -2,6 +2,7 @@
 #include "pch.hpp"
 #include "core/api.hpp"
 #include "util/Log.hpp"
+#include "util/Path.hpp"
 
 namespace ATMA
 {
@@ -34,12 +35,12 @@ namespace ATMA
          */
         const unsigned int &getBindID() const;
 
-        static std::shared_ptr<GLShader> makeShader(const std::string &l_fileName);
+        static std::shared_ptr<GLShader> makeShader(const Path &l_filePath);
     protected:
         // constructor with  filename of resource
-        GLShader(const std::string &l_fileName);
+        GLShader(const Path &l_filePath);
 
-        std::string m_shaderFile;
+        Path m_shaderFile;
         unsigned int m_bindID;
     };
 

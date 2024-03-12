@@ -16,7 +16,7 @@ namespace ATMA
         friend class std::unique_ptr<GLTextureOpenGLImpl>;
 
         // constructor with name and filename of resource
-        GLTextureOpenGLImpl(const std::string &l_fileName);
+        GLTextureOpenGLImpl(const Path &l_filePath);
 
         // default deconstructor
         virtual ~GLTextureOpenGLImpl();

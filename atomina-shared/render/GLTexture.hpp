@@ -3,6 +3,7 @@
 #include "core/api.hpp"
 #include "math/Vec2.hpp"
 #include "util/Log.hpp"
+#include "util/Path.hpp"
 
 namespace ATMA
 {
@@ -37,12 +38,12 @@ namespace ATMA
          */
         const unsigned int &getID() const;
 
-        static std::shared_ptr<GLTexture> makeTexture(const std::string &l_fileName);
+        static std::shared_ptr<GLTexture> makeTexture(const Path &l_filePath);
     protected:
         GLTexture();
 
         // constructor with name and filename of resource
-        GLTexture(const std::string &l_fileName);
+        GLTexture(const Path &l_filePath);
         int m_width, m_height, m_channels;
         unsigned char *m_data;
         unsigned int m_bindID;
