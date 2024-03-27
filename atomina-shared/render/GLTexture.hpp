@@ -4,6 +4,7 @@
 #include "math/Vec2.hpp"
 #include "util/Log.hpp"
 #include "util/Path.hpp"
+#include "GLBuffer.hpp"
 
 namespace ATMA
 {
@@ -29,6 +30,12 @@ namespace ATMA
          */
         virtual void unbind() = 0;
 
+        /**
+         * Create a sub texture from the current texture
+         * @param l_pos starting region coordinates
+         * @param l_size size of region
+         * @returns new Texture from current texture
+        */
         virtual std::shared_ptr<GLTexture>
         getSubImage(const Vec2<unsigned int> &l_pos, const Vec2<unsigned int> &l_size) = 0;
 
@@ -38,6 +45,11 @@ namespace ATMA
          */
         const unsigned int &getID() const;
 
+        /**
+         * static factory function for creating a GL texture
+         * @param l_filePath path to file on system
+         * @returns pointer to new created texture for the platform
+        */
         static std::shared_ptr<GLTexture> makeTexture(const Path &l_filePath);
     protected:
         GLTexture();
@@ -47,6 +59,9 @@ namespace ATMA
         int m_width, m_height, m_channels;
         unsigned char *m_data;
         unsigned int m_bindID;
+        std::shared_ptr<VertexBuffer> m_vertBuf;
+        std::shared_ptr<IndexBuffer> m_indexBuf;
+        std::shared_ptr<VertexArray> m_vertArr;
     };
 
 }
