@@ -47,9 +47,14 @@ namespace ATMA
          */
         virtual void setUniformMat3f(const std::string &l_name, const Mat3<float> &l_mat) = 0;
 
+        /**
+         * Factory function for creating a Shader Program for the
+         * platform
+         * @returns Shader Program for the platform
+        */
         static std::shared_ptr<GLProgram> makeDefaultProgram();
     protected:
-        // default constructor
+        // default constructor, protected so it cannot be created outside the class
         GLProgram();
         unsigned int m_bindID;
     };

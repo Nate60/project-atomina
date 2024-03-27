@@ -51,7 +51,7 @@ namespace ATMA
         XSetWMProtocols(m_display, m_window, &del_window, 1);
 
         /* select kind of events we are interested in */
-        XSelectInput(m_display, m_window, ExposureMask | KeyPressMask);
+        XSelectInput(m_display, m_window, ExposureMask | KeyPressMask | StructureNotifyMask);
     }
 
     WindowUnixImpl::~WindowUnixImpl()
@@ -78,23 +78,37 @@ namespace ATMA
     void WindowUnixImpl::poll()
     {
         XEvent event;
-        XNextEvent(m_display, &event);
-
-        switch(event.type)
+        while(XCheckWindowEvent(m_display, m_window, ExposureMask | KeyPressMask | StructureNotifyMask, &event))
         {
-        case KeyPress:
-            /* FALLTHROUGH */
-        case ClientMessage:
-            ATMA_ENGINE_INFO("Got Client Message");
-            /* destroy window */
-            m_closed = true;
-        case Expose:
-            /* draw the window */
-            XFillRectangle(
-                m_display, m_window, DefaultGC(m_display, m_screen), 0, 0, m_size.x, m_size.y
-            );
+            switch(event.type)
+            {
+            case KeyPress:
+                ATMA_ENGINE_INFO("Got KeyPress");
+            case ClientMessage:
+                ATMA_ENGINE_INFO("Got Client Message");
+                /* destroy window */
+                m_closed = true;
+                break;
+            case ConfigureNotify:
+                {
+                    XConfigureEvent xConfEvent = event.xconfigure;
+                    if(m_size.x != xConfEvent.width || m_size.y != xConfEvent.height){
+                        m_size.x = xConfEvent.width;
+                        m_size.y = xConfEvent.height;
+                        redraw();
+                    }
+                    glViewport(0,0,m_size.x,m_size.y);
+                }
+                ATMA_ENGINE_INFO("Got Configure Notify");
+                break;
+            case Expose:
+                /* draw the window */
+                ATMA_ENGINE_TRACE("Got Expose event");
+                redraw();
 
-            /* NO DEFAULT */
+                /* NO DEFAULT */
+            }
+
         }
     }
 
@@ -168,6 +182,13 @@ namespace ATMA
             XFree(fbc);
         }
         return *bestFbc;
+    }
+
+    void WindowUnixImpl::redraw()
+    {
+        XFillRectangle(
+            m_display, m_window, DefaultGC(m_display, m_screen), 0, 0, m_size.x, m_size.y
+        );
     }
 
 }

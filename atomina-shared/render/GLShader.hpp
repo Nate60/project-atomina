@@ -35,6 +35,11 @@ namespace ATMA
          */
         const unsigned int &getBindID() const;
 
+        /**
+         * Factory function for creating shaders
+         * @param l_filePath path to file on system
+         * @returns Graphics shader for the platform
+        */
         static std::shared_ptr<GLShader> makeShader(const Path &l_filePath);
     protected:
         // constructor with  filename of resource
