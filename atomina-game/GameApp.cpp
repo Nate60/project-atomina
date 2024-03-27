@@ -22,16 +22,21 @@ void GameApp::run()
     std::shared_ptr<ATMA::AppWindow> win = ATMA::AppWindow::makeWindow();
 
     win->show();
-    win->poll();
 
     glCtx->setWindow(win);
 
-    std::shared_ptr<ATMA::Renderable> renderable = std::make_shared<ATMA::Renderable>();
+    std::shared_ptr<ATMA::GLRenderable> renderable = std::make_shared<ATMA::GLRenderable>();
     renderable->m_texture = ATMA::GLTexture::makeTexture(shaggyPath.toString());
-    renderable->m_region = {1, 1};
+    renderable->m_region = {1.5f, 2.5f};
 
-    glCtx->draw(renderable);
-    win->swapBuffers();
+    while(!win->shouldClose())
+    {
+        win->poll();
+        glCtx->clear();
+        glCtx->draw(renderable);
+        win->swapBuffers();
+    }
+
 }
 
 void GameApp::shutdown()

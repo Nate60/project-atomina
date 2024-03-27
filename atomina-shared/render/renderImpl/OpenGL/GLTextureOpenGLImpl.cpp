@@ -7,6 +7,20 @@ namespace ATMA
     // constructor with name and filename of resource
     GLTextureOpenGLImpl::GLTextureOpenGLImpl(const Path &l_filePath): GLTexture(l_filePath)
     {
+        m_vertArr = VertexArray::makeBuffer({
+            {3, 8, 0},
+            {3, 8, 3},
+            {2, 8, 6}
+        });
+        m_vertBuf = VertexBuffer::makeBuffer({1.0f,  1.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+                                    1.0f,  -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+                                    -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+                                    -1.0f, 1.0f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+        m_indexBuf = IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
+        m_vertArr->bind();
+        m_vertBuf->bind();
+        m_indexBuf->bind();
+        m_vertArr->bindLayout();
         glGenTextures(1, &m_bindID);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_bindID);
@@ -25,6 +39,7 @@ namespace ATMA
 
     void GLTextureOpenGLImpl::bind()
     {
+        m_vertArr->bindLayout();
         glBindTexture(GL_TEXTURE_2D, m_bindID);
         glTexSubImage2D(
             GL_TEXTURE_2D,

@@ -10,7 +10,7 @@ namespace ATMA
 
     GLRenderer::~GLRenderer() {}
 
-    void GLRenderer::draw(std::shared_ptr<Renderable> l_drawable) {}
+    void GLRenderer::draw(std::shared_ptr<GLRenderable> l_drawable) {}
 
     void GLRenderer::setWindow(std::shared_ptr<AppWindow> l_window)
     {

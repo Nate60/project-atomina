@@ -4,6 +4,7 @@
 #include "math/Vec2.hpp"
 #include "util/Log.hpp"
 #include "util/Path.hpp"
+#include "GLBuffer.hpp"
 
 namespace ATMA
 {
@@ -47,6 +48,9 @@ namespace ATMA
         int m_width, m_height, m_channels;
         unsigned char *m_data;
         unsigned int m_bindID;
+        std::shared_ptr<VertexBuffer> m_vertBuf;
+        std::shared_ptr<IndexBuffer> m_indexBuf;
+        std::shared_ptr<VertexArray> m_vertArr;
     };
 
 }

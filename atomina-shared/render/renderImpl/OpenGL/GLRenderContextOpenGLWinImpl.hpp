@@ -30,7 +30,7 @@ namespace ATMA
          */
         virtual void setWindow(std::shared_ptr<AppWindow> l_window) override;
 
-        virtual void draw(std::shared_ptr<Renderable> l_renderable) override;
+        virtual void draw(std::shared_ptr<GLRenderable> l_renderable) override;
     protected:
         // device context handle
         HDC m_hdc;

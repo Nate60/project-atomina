@@ -4,16 +4,20 @@
 #include "math/Vec2.hpp"
 #include "GLTexture.hpp"
 #include "GLShader.hpp"
+#include "GLBuffer.hpp"
 
 namespace ATMA
 {
-    struct ATMA_API Renderable
+    struct ATMA_API GLRenderable
     {
+    public:
         Vec2<int> m_screenPos{};
-        Vec2<int> m_region{};
+        Vec2<float> m_region{};
         std::shared_ptr<GLTexture> m_texture{};
         std::shared_ptr<GLShader> m_fragShader{};
         std::shared_ptr<GLShader> m_vertShader{};
+
     };
+
 
 }

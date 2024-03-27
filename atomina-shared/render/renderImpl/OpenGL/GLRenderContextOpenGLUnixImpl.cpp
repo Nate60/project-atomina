@@ -175,43 +175,27 @@ namespace ATMA
         
     }
 
-    void GLRenderContextOpenGLUnixImpl::draw(std::shared_ptr<Renderable> l_renderable)
+    void GLRenderContextOpenGLUnixImpl::draw(std::shared_ptr<GLRenderable> l_renderable)
     {
-        auto vertArray = ATMA::VertexArray::makeBuffer({
-                {3, 8, 0},
-                {3, 8, 3},
-                {2, 8, 6}
-            });
 
-            auto vertBuf =
-                ATMA::VertexBuffer::makeBuffer({1.0f,  1.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-                                            1.0f,  -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                                            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-                                            -1.0f, 1.0f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+            std::shared_ptr<ATMA::GLProgram> shaderprog = GLProgram::makeDefaultProgram();
 
-            auto indexBuf = ATMA::IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
-
-            
-
-            std::shared_ptr<ATMA::GLProgram> shaderprog = ATMA::GLProgram::makeDefaultProgram();
-
-            vertArray->bind();
-
-            indexBuf->bind();
-
-            vertBuf->bind();
-
-            vertArray->bindLayout();
             shaderprog->exec();
-            auto transform = ATMA::translationMatrix<float>(l_renderable->m_screenPos.x, l_renderable->m_screenPos.y) 
-                            * ATMA::scalingMatrix<float>(l_renderable->m_region.x,l_renderable->m_region.y);
+            auto transform = translationMatrix<float>(l_renderable->m_screenPos.x, l_renderable->m_screenPos.y) 
+                            * scalingMatrix<float>(l_renderable->m_region.x,l_renderable->m_region.y);
                         //    * rotationMatrix(l_rot);
+            auto sourcetransform = translationMatrix<float>(1.f,1.f);
             shaderprog->setUniformMat3f("u_transform", transform);
+            shaderprog->setUniformMat3f("u_source", sourcetransform);
             l_renderable->m_texture->bind();
             shaderprog->exec();
 
             // bind textures on corresponding texture units
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    }
+
+    void GLRenderContextOpenGLUnixImpl::clear(){
+        glClear(GL_COLOR_BUFFER_BIT);
     }
 
 

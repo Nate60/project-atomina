@@ -30,7 +30,9 @@ namespace ATMA
          */
         virtual void setWindow(std::shared_ptr<AppWindow> l_window) override;
 
-        virtual void draw(std::shared_ptr<Renderable> l_renderable) override;
+        virtual void draw(std::shared_ptr<GLRenderable> l_renderable) override;
+
+        virtual void clear() override;
 
         // virtual void drawText(const std::string &l_text) override;
 

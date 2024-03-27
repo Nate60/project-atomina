@@ -103,7 +103,7 @@ namespace ATMA
         }
     }
 
-    void GLRenderContextOpenGLWinImpl::draw(std::shared_ptr<Renderable> l_renderable)
+    void GLRenderContextOpenGLWinImpl::draw(std::shared_ptr<GLRenderable> l_renderable)
     {
         auto vertArray = ATMA::VertexArray::makeBuffer({
             {3, 8, 0},

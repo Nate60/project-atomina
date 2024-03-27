@@ -15,7 +15,9 @@ namespace ATMA
 
         virtual void setWindow(std::shared_ptr<AppWindow> l_window) = 0;
 
-        virtual void draw(std::shared_ptr<Renderable> l_renderable) = 0;
+        virtual void draw(std::shared_ptr<GLRenderable> l_renderable) = 0;
+
+        virtual void clear() = 0;
 
         // virtual void drawText(const std::string &l_text) = 0;
 

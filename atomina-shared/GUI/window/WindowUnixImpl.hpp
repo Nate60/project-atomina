@@ -58,6 +58,9 @@ namespace ATMA
         Colormap m_colourMap;
         int m_screen;
         friend class GLRenderContextOpenGLUnixImpl;
+
+        void redraw();
+
     };
 
 }
