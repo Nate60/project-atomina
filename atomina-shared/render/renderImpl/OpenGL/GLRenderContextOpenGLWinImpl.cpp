@@ -103,37 +103,24 @@ namespace ATMA
         }
     }
 
-    void GLRenderContextOpenGLWinImpl::draw(std::shared_ptr<Renderable> l_renderable)
+    void GLRenderContextOpenGLWinImpl::clear()
     {
-        auto vertArray = ATMA::VertexArray::makeBuffer({
-            {3, 8, 0},
-            {3, 8, 3},
-            {2, 8, 6}
-        });
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
 
-        auto vertBuf =
-            ATMA::VertexBuffer::makeBuffer({1.0f,  1.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-                                            1.0f,  -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                                            -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-                                            -1.0f, 1.0f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+    void GLRenderContextOpenGLWinImpl::draw(std::shared_ptr<GLRenderable> l_renderable)
+    {
 
-        auto indexBuf = ATMA::IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
+        std::shared_ptr<ATMA::GLProgram> shaderprog = GLProgram::makeDefaultProgram();
 
-        std::shared_ptr<ATMA::GLProgram> shaderprog = ATMA::GLProgram::makeDefaultProgram();
-
-        vertArray->bind();
-
-        indexBuf->bind();
-
-        vertBuf->bind();
-
-        vertArray->bindLayout();
         shaderprog->exec();
         auto transform =
-            ATMA::translationMatrix<float>(l_renderable->m_screenPos.x, l_renderable->m_screenPos.y)
-            * ATMA::scalingMatrix<float>(l_renderable->m_region.x, l_renderable->m_region.y);
+            translationMatrix<float>(l_renderable->m_screenPos.x, l_renderable->m_screenPos.y)
+            * scalingMatrix<float>(l_renderable->m_region.x, l_renderable->m_region.y);
         //    * rotationMatrix(l_rot);
+        auto sourcetransform = translationMatrix<float>(1.f, 1.f);
         shaderprog->setUniformMat3f("u_transform", transform);
+        shaderprog->setUniformMat3f("u_source", sourcetransform);
         l_renderable->m_texture->bind();
         shaderprog->exec();
 

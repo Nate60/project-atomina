@@ -45,11 +45,24 @@ namespace ATMA
          */
         virtual void poll() override;
 
+        /**
+         * Swap the graphic buffers and bring the drawn buffer to the front
+        */
         virtual void swapBuffers() override;
 
         Window m_window;
 
+        /**
+         * Getter for the under lying parent display of the window
+         * @returns parent Xlib Display pointer
+        */
         static Display *getDisplay();
+
+        /**
+         * static Getter for the Frame buffer config of the given display
+         * @param display the display for which to get the frame buffer config for
+         * @returns Graphics XLib Frame buffer config for the given display
+        */
         static GLXFBConfig getFrameBufferConfig(Display *display);
 
     protected:
@@ -58,6 +71,9 @@ namespace ATMA
         Colormap m_colourMap;
         int m_screen;
         friend class GLRenderContextOpenGLUnixImpl;
+
+        void redraw();
+
     };
 
 }

@@ -19,12 +19,14 @@ namespace ATMA
 
         /**
          * converts path to absolute path string
+         * @returns full path as string
          */
         const std::string toString() const;
 
         /**
          * static function to find the path of where the executable is
          * located
+         * @returns path to executable as filesystem path
          */
         static const std::filesystem::path &getRootPath()
         {

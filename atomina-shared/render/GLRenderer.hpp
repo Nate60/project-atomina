@@ -13,7 +13,7 @@ namespace ATMA
         // default deconstructor
         virtual ~GLRenderer();
 
-        void draw(std::shared_ptr<Renderable> r);
+        void draw(std::shared_ptr<GLRenderable> r);
 
         void setWindow(std::shared_ptr<AppWindow> l_window);
     protected:

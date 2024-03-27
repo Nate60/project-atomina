@@ -30,7 +30,17 @@ namespace ATMA
          */
         virtual void setWindow(std::shared_ptr<AppWindow> l_window) override;
 
-        virtual void draw(std::shared_ptr<Renderable> l_renderable) override;
+        /**
+         * Starts a draw call for the renderable object
+         * @param l_renderable the object to be drawn
+        */
+        virtual void draw(std::shared_ptr<GLRenderable> l_renderable) override;
+
+        /**
+         * clears the view port that he Render context has been set to
+         * to be all one colour
+        */
+        virtual void clear() override;
 
         // virtual void drawText(const std::string &l_text) override;
 
