@@ -9,9 +9,6 @@
 namespace ATMA
 {
 
-    // Callback declaration for window events
-    LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
     /**
      * Windows implementation of Application window using Xlib
      */
@@ -50,6 +47,9 @@ namespace ATMA
          */
         virtual void poll() override;
 
+        /**
+         * Swap the graphic buffers and bring the drawn buffer to the front
+        */
         virtual void swapBuffers() override;
 
         /**
@@ -67,7 +67,7 @@ namespace ATMA
                 [](WNDCLASS &l_wndClass)
                 {
                     HINSTANCE hInstance = OSContextWinImpl::getContext().getDLLInstanceHandle();
-                    l_wndClass.lpfnWndProc = WindowProc;
+                    l_wndClass.lpfnWndProc = WindowWinImpl::WindowProc;
                     l_wndClass.hInstance = hInstance;
                     l_wndClass.lpszClassName = "Atomina AppWindow Class";
                     RegisterClass(&l_wndClass);
@@ -78,6 +78,7 @@ namespace ATMA
         }
         friend class GLRenderContextOpenGLWinImpl;
     protected:
+        static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
         HWND m_windowHandle;
     };
 

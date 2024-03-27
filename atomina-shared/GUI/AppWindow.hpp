@@ -58,7 +58,9 @@ namespace ATMA
          */
         virtual bool shouldClose();
 
-
+        /**
+         * Swap the graphic buffers and bring the drawn buffer to the front
+        */
         virtual void swapBuffers() = 0;
 
         /**

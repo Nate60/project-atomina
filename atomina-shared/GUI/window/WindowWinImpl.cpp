@@ -22,7 +22,7 @@ namespace ATMA
             NULL,
             NULL,
             l_windowClass.hInstance,
-            NULL
+            this
         );
     }
 
@@ -40,7 +40,15 @@ namespace ATMA
         ShowWindow(m_windowHandle, SW_NORMAL);
     }
 
-    void WindowWinImpl::poll() {}
+    void WindowWinImpl::poll()
+    {
+        MSG Msg;
+        while(PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&Msg);
+            DispatchMessage(&Msg);
+        }
+    }
 
     void WindowWinImpl::swapBuffers()
     {
@@ -49,9 +57,23 @@ namespace ATMA
     }
 
     // TODO: Handle window events and dispatch them
-    LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+    LRESULT CALLBACK WindowWinImpl::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
-        return DefWindowProc(hwnd, uMsg, wParam, lParam);
+        WindowWinImpl *pWin =
+            reinterpret_cast<WindowWinImpl *>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
+        UINT width;
+        UINT height;
+        switch(uMsg)
+        {
+        case WM_SIZE:
+            ATMA_ENGINE_INFO("Got Resize Event");
+            width = LOWORD(lParam);
+            height = HIWORD(lParam);
+            glViewport(0, 0, width, height);
+            return 0;
+        default:
+            return DefWindowProc(hwnd, uMsg, wParam, lParam);
+        }
     }
 
 }
