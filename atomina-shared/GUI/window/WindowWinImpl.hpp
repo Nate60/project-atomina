@@ -18,7 +18,7 @@ namespace ATMA
         // Only constructor with default values to allow for default constructor
         // Specified the size and name of the window
         WindowWinImpl(
-            const Vec2<int> &l_size = {180, 180},
+            const Vec2<unsigned int> &l_size = {180, 180},
             const std::string &l_name = "Atomina Application"
         );
 
@@ -29,13 +29,7 @@ namespace ATMA
          * sets the size of the window to the new size
          * @param l_size new dimensions of the window
          */
-        virtual void setSize(Vec2<int> l_size) override;
-
-        /**
-         * getter for window dimensions
-         * @returns dimensions as a vector
-         */
-        virtual Vec2<int> getSize() override;
+        virtual void setSize(const Vec2<unsigned int> &l_size) override;
 
         /**
          * notify the window to show to the display
@@ -49,7 +43,7 @@ namespace ATMA
 
         /**
          * Swap the graphic buffers and bring the drawn buffer to the front
-        */
+         */
         virtual void swapBuffers() override;
 
         /**
@@ -57,20 +51,22 @@ namespace ATMA
          * creates the window class once and returns it for all future calls
          * @returns Windows Window Class for Atomina Applications
          */
-        static WNDCLASS &getWindowClass()
+        static WNDCLASSEX &getWindowClass()
         {
-            static WNDCLASS windowClass; // Guaranteed to be destroyed.
-                                         // Instantiated on first use.
+            static WNDCLASSEX windowClass; // Guaranteed to be destroyed.
+                                           // Instantiated on first use.
             static std::once_flag flag;
             std::call_once(
                 flag,
-                [](WNDCLASS &l_wndClass)
+                [](WNDCLASSEX &l_wndClass)
                 {
                     HINSTANCE hInstance = OSContextWinImpl::getContext().getDLLInstanceHandle();
                     l_wndClass.lpfnWndProc = WindowWinImpl::WindowProc;
                     l_wndClass.hInstance = hInstance;
                     l_wndClass.lpszClassName = "Atomina AppWindow Class";
-                    RegisterClass(&l_wndClass);
+                    l_wndClass.cbSize = sizeof(WNDCLASSEX);
+                    l_wndClass.cbWndExtra = sizeof(WindowWinImpl *);
+                    RegisterClassEx(&l_wndClass);
                 },
                 windowClass
             );

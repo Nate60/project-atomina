@@ -31,15 +31,21 @@ namespace ATMA
         virtual void setWindow(std::shared_ptr<AppWindow> l_window) override;
 
         /**
+         * Sets the size of the current view port that he render context is drawing to
+         * @param l_size dimensions of the new viewport
+         */
+        virtual void setSize(const Vec2<unsigned int> &l_size) override;
+
+        /**
          * Starts a draw call for the renderable object
          * @param l_renderable the object to be drawn
-        */
+         */
         virtual void draw(std::shared_ptr<GLRenderable> l_renderable) override;
 
         /**
          * clears the view port that he Render context has been set to
          * to be all one colour
-        */
+         */
         virtual void clear() override;
     protected:
         // device context handle

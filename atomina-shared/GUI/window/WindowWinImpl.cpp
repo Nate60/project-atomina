@@ -4,12 +4,12 @@
 
 namespace ATMA
 {
-    WindowWinImpl::WindowWinImpl(const Vec2<int> &l_size, const std::string &l_name):
+    WindowWinImpl::WindowWinImpl(const Vec2<unsigned int> &l_size, const std::string &l_name):
         AppWindow(l_size, l_name)
     {
 
         ATMA_ENGINE_INFO("Creating Windows AppWindow with name: {0}", l_name);
-        WNDCLASS l_windowClass = getWindowClass();
+        WNDCLASSEX l_windowClass = getWindowClass();
         m_windowHandle = CreateWindowEx(
             0,
             l_windowClass.lpszClassName,
@@ -22,17 +22,16 @@ namespace ATMA
             NULL,
             NULL,
             l_windowClass.hInstance,
-            this
+            (LPVOID)this
         );
+        SetWindowLongPtr(m_windowHandle, 0, (LONG_PTR)this);
     }
 
     WindowWinImpl::~WindowWinImpl() {}
 
-    void WindowWinImpl::setSize(Vec2<int> l_size) {}
-
-    Vec2<int> WindowWinImpl::getSize()
+    void WindowWinImpl::setSize(const Vec2<unsigned int> &l_size)
     {
-        return Vec2<int>{};
+        m_size = l_size;
     }
 
     void WindowWinImpl::show()
@@ -48,6 +47,7 @@ namespace ATMA
             TranslateMessage(&Msg);
             DispatchMessage(&Msg);
         }
+        UpdateWindow(m_windowHandle);
     }
 
     void WindowWinImpl::swapBuffers()
@@ -56,21 +56,23 @@ namespace ATMA
         SwapBuffers(hdc);
     }
 
-    // TODO: Handle window events and dispatch them
     LRESULT CALLBACK WindowWinImpl::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
-        WindowWinImpl *pWin =
-            reinterpret_cast<WindowWinImpl *>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
+        WindowWinImpl *pWin = reinterpret_cast<WindowWinImpl *>(::GetWindowLongPtr(hwnd, 0));
         UINT width;
         UINT height;
+        Props props{true};
         switch(uMsg)
         {
         case WM_SIZE:
-            ATMA_ENGINE_INFO("Got Resize Event");
-            width = LOWORD(lParam);
-            height = HIWORD(lParam);
-            glViewport(0, 0, width, height);
+            props["width"] = (unsigned int)LOWORD(lParam);
+            props["height"] = (unsigned int)HIWORD(lParam);
+            pWin->dispatchEvent(WindowEvent{
+                pWin->shared_from_this(), WindowEventEnum::Resize, std::move(props)});
             return 0;
+        case WM_CLOSE:
+            pWin->dispatchEvent(WindowEvent{
+                pWin->shared_from_this(), WindowEventEnum::Close, std::move(props)});
         default:
             return DefWindowProc(hwnd, uMsg, wParam, lParam);
         }
