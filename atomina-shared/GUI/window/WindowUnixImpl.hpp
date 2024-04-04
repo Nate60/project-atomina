@@ -16,7 +16,7 @@ namespace ATMA
         // Constructor with all values defaulted so it can be a default constructor
         // specifies dimensons and window name
         WindowUnixImpl(
-            const Vec2<int> &l_size = {320, 320},
+            const Vec2<unsigned int> &l_size = {320, 320},
             const std::string &l_name = "Atomina Application"
         );
 
@@ -27,13 +27,7 @@ namespace ATMA
          * sets the size of the window to the new size
          * @param l_size new dimensions of the window
          */
-        virtual void setSize(Vec2<int> l_size) override;
-
-        /**
-         * getter for window dimensions
-         * @returns dimensions as a vector
-         */
-        virtual Vec2<int> getSize() override;
+        virtual void setSize(const Vec2<unsigned int> &l_size) override;
 
         /**
          * notify the window to show to the display
@@ -47,33 +41,31 @@ namespace ATMA
 
         /**
          * Swap the graphic buffers and bring the drawn buffer to the front
-        */
+         */
         virtual void swapBuffers() override;
-
-        Window m_window;
 
         /**
          * Getter for the under lying parent display of the window
          * @returns parent Xlib Display pointer
-        */
+         */
         static Display *getDisplay();
 
         /**
          * static Getter for the Frame buffer config of the given display
          * @param display the display for which to get the frame buffer config for
          * @returns Graphics XLib Frame buffer config for the given display
-        */
+         */
         static GLXFBConfig getFrameBufferConfig(Display *display);
-
     protected:
         Display *m_display;
         Window m_root;
+        Window m_window;
         Colormap m_colourMap;
         int m_screen;
+        Atom m_deleteMessage;
         friend class GLRenderContextOpenGLUnixImpl;
 
         void redraw();
-
     };
 
 }

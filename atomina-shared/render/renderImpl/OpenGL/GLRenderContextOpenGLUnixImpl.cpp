@@ -55,7 +55,11 @@ namespace ATMA
             {
                 char errorstring[128];
                 XGetErrorText(dsp, error->error_code, errorstring, 128);
-                ATMA_ENGINE_ERROR("X Server encountered error Type:{0} | {1}", error->error_code, std::string(errorstring));
+                ATMA_ENGINE_ERROR(
+                    "X Server encountered error Type:{0} | {1}",
+                    error->error_code,
+                    std::string(errorstring)
+                );
                 return 0;
             }
         );
@@ -169,35 +173,42 @@ namespace ATMA
         {
             ATMA_ENGINE_WARN("local context differs from current context");
         }
-        ATMA_ENGINE_INFO("Window size x:{0},y:{1}", unixWindow->getSize().x, unixWindow->getSize().y);
-        glViewport(0,0,unixWindow->getSize().x, unixWindow->getSize().y);
+        ATMA_ENGINE_INFO(
+            "Window size x:{0},y:{1}", unixWindow->getSize().x, unixWindow->getSize().y
+        );
+        glViewport(0, 0, unixWindow->getSize().x, unixWindow->getSize().y);
         glXMakeCurrent(m_display, win, localCtx);
-        
+    }
+
+    void GLRenderContextOpenGLUnixImpl::setSize(const Vec2<unsigned int> &l_size)
+    {
+        glViewport(0, 0, l_size.x, l_size.y);
     }
 
     void GLRenderContextOpenGLUnixImpl::draw(std::shared_ptr<GLRenderable> l_renderable)
     {
 
-            std::shared_ptr<ATMA::GLProgram> shaderprog = GLProgram::makeDefaultProgram();
+        std::shared_ptr<ATMA::GLProgram> shaderprog = GLProgram::makeDefaultProgram();
 
-            shaderprog->exec();
-            auto transform = translationMatrix<float>(l_renderable->m_screenPos.x, l_renderable->m_screenPos.y) 
-                            * scalingMatrix<float>(l_renderable->m_region.x,l_renderable->m_region.y);
-                        //    * rotationMatrix(l_rot);
-            auto sourcetransform = translationMatrix<float>(1.f,1.f);
-            shaderprog->setUniformMat3f("u_transform", transform);
-            shaderprog->setUniformMat3f("u_source", sourcetransform);
-            l_renderable->m_texture->bind();
-            shaderprog->exec();
+        shaderprog->exec();
+        auto transform =
+            translationMatrix<float>(l_renderable->m_screenPos.x, l_renderable->m_screenPos.y)
+            * scalingMatrix<float>(l_renderable->m_region.x, l_renderable->m_region.y);
+        //    * rotationMatrix(l_rot);
+        auto sourcetransform = translationMatrix<float>(1.f, 1.f);
+        shaderprog->setUniformMat3f("u_transform", transform);
+        shaderprog->setUniformMat3f("u_source", sourcetransform);
+        l_renderable->m_texture->bind();
+        shaderprog->exec();
 
-            // bind textures on corresponding texture units
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        // bind textures on corresponding texture units
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
 
-    void GLRenderContextOpenGLUnixImpl::clear(){
+    void GLRenderContextOpenGLUnixImpl::clear()
+    {
         glClear(GL_COLOR_BUFFER_BIT);
     }
-
 
     // void RenderContextGLADImpl::drawText(
     //     const std::string &l_text,

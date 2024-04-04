@@ -6,7 +6,7 @@
 namespace ATMA
 {
 
-    WindowUnixImpl::WindowUnixImpl(const Vec2<int> &l_size, const std::string &l_name):
+    WindowUnixImpl::WindowUnixImpl(const Vec2<unsigned int> &l_size, const std::string &l_name):
         AppWindow(l_size, l_name)
     {
         ATMA_ENGINE_INFO("Creating Unix AppWindow with name: {0}", l_name);
@@ -47,11 +47,9 @@ namespace ATMA
         XStoreName(m_display, m_window, l_name.c_str());
 
         /* process window close event through event handler so XNextEvent does not fail */
-        Atom del_window = XInternAtom(m_display, "WM_DELETE_WINDOW", 0);
-        XSetWMProtocols(m_display, m_window, &del_window, 1);
+        m_deleteMessage = XInternAtom(m_display, "WM_DELETE_WINDOW", 0);
+        XSetWMProtocols(m_display, m_window, &m_deleteMessage, 1);
 
-        /* select kind of events we are interested in */
-        XSelectInput(m_display, m_window, ExposureMask | KeyPressMask | StructureNotifyMask);
     }
 
     WindowUnixImpl::~WindowUnixImpl()
@@ -62,11 +60,11 @@ namespace ATMA
         XFreeColormap(m_display, m_colourMap);
     }
 
-    void WindowUnixImpl::setSize(Vec2<int> l_size) {}
-
-    Vec2<int> WindowUnixImpl::getSize()
+    void WindowUnixImpl::setSize(const Vec2<unsigned int> &l_size)
     {
-        return m_size;
+        m_size.x = l_size.x;
+        m_size.y = l_size.y;
+        redraw();
     }
 
     void WindowUnixImpl::show()
@@ -77,38 +75,48 @@ namespace ATMA
 
     void WindowUnixImpl::poll()
     {
-        XEvent event;
-        while(XCheckWindowEvent(m_display, m_window, ExposureMask | KeyPressMask | StructureNotifyMask, &event))
+        XEvent inEvent;
+        Props props{true};
+        //handle window events first because window Events are also XEvents
+        while(XCheckWindowEvent(
+            m_display, m_window, ExposureMask | KeyPressMask | StructureNotifyMask, &inEvent
+        ))
         {
-            switch(event.type)
+            switch(inEvent.type)
             {
             case KeyPress:
                 ATMA_ENGINE_INFO("Got KeyPress");
-            case ClientMessage:
-                ATMA_ENGINE_INFO("Got Client Message");
-                /* destroy window */
-                m_closed = true;
                 break;
             case ConfigureNotify:
                 {
-                    XConfigureEvent xConfEvent = event.xconfigure;
-                    if(m_size.x != xConfEvent.width || m_size.y != xConfEvent.height){
-                        m_size.x = xConfEvent.width;
-                        m_size.y = xConfEvent.height;
-                        redraw();
+                    XConfigureEvent xConfEvent = inEvent.xconfigure;
+                    if(m_size.x != xConfEvent.width || m_size.y != xConfEvent.height)
+                    {
+                        props["width"] = (unsigned int)xConfEvent.width;
+                        props["height"] = (unsigned int)xConfEvent.height;
+                        dispatchEvent(WindowEvent{
+                            shared_from_this(), WindowEventEnum::Resize, std::move(props)});
                     }
-                    glViewport(0,0,m_size.x,m_size.y);
                 }
-                ATMA_ENGINE_INFO("Got Configure Notify");
                 break;
             case Expose:
-                /* draw the window */
-                ATMA_ENGINE_TRACE("Got Expose event");
                 redraw();
-
-                /* NO DEFAULT */
+                break;
             }
+        }
+        // X Server events
+        while(XPending(m_display)){
+            XNextEvent(m_display, &inEvent);
+            switch(inEvent.type){
+            case ClientMessage:
+                if (inEvent.xclient.data.l[0] == m_deleteMessage) //window close
+                {
+                    dispatchEvent(WindowEvent{
+                        shared_from_this(), WindowEventEnum::Close, std::move(props)});
+                }
 
+            }
+            
         }
     }
 
@@ -134,20 +142,18 @@ namespace ATMA
         {
             bestFbc = new GLXFBConfig{};
             int fbcount;
-            printf("Getting matching framebuffer configs\n");
 
             GLXFBConfig *fbc = glXChooseFBConfig(
                 l_display, DefaultScreen(l_display), ATConst::DEFAULT_VISUAL_ATTRIBUTES, &fbcount
             );
             if(!fbc)
             {
-                printf("Failed to retrieve a framebuffer config\n");
+                ATMA_ENGINE_WARN("Failed to retrieve a framebuffer config\n");
                 exit(1);
             }
-            printf("Found %d matching FB configs.\n", fbcount);
+            ATMA_ENGINE_TRACE("Found {} matching FB configs", fbcount);
 
             // Pick the FB config/visual with the most samples per pixel
-            printf("Getting XVisualInfos\n");
             int best_fbc = -1, worst_fbc = -1, best_num_samp = -1, worst_num_samp = 999;
 
             int i;
@@ -159,15 +165,6 @@ namespace ATMA
                     int samp_buf, samples;
                     glXGetFBConfigAttrib(l_display, fbc[i], GLX_SAMPLE_BUFFERS, &samp_buf);
                     glXGetFBConfigAttrib(l_display, fbc[i], GLX_SAMPLES, &samples);
-
-                    printf(
-                        "  Matching fbconfig %d, visual ID 0x%2x: SAMPLE_BUFFERS = %d,"
-                        " SAMPLES = %d\n",
-                        i,
-                        vi->visualid,
-                        samp_buf,
-                        samples
-                    );
 
                     if(best_fbc < 0 || samp_buf && samples > best_num_samp)
                         best_fbc = i, best_num_samp = samples;
