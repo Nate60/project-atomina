@@ -3,38 +3,45 @@
 #include "core/api.hpp"
 #include "math/Vec2.hpp"
 #include "util/Log.hpp"
+#include "WindowEvent.hpp"
 
 namespace ATMA
 {
+    using CallbackContainer = std::vector<std::function<void(const WindowEvent &)>>;
+    using CallbackMap = std::unordered_map<WindowEventEnum, CallbackContainer>;
 
     /**
      * Abstract framework for Windows to display the application to
      * be implemented for each platform
      */
-    class ATMA_API AppWindow
+    class ATMA_API AppWindow: public std::enable_shared_from_this<AppWindow>
     {
     public:
-        // Only constructor with default values to allow for default constructor
-        // Specified the size and name of the window
-        AppWindow(
-            const Vec2<int> &l_size = {180, 180},
-            const std::string &l_name = "Atomina Application"
-        );
-
         // default deconstructor
         virtual ~AppWindow();
+
+        /**
+         * Adds callback to window to be called when the correspond event is
+         * triggered
+         * @param l_type type of event to call the funtion on
+         * @param l_callback function to execute
+         */
+        virtual void addCallback(
+            const WindowEventEnum &l_type,
+            std::function<void(const WindowEvent &)> l_callback
+        );
 
         /**
          * sets the size of the window to the new size
          * @param l_size new dimensions of the window
          */
-        virtual void setSize(Vec2<int> l_size) = 0;
+        virtual void setSize(const Vec2<unsigned int> &l_size) = 0;
 
         /**
          * getter for window dimensions
          * @returns dimensions as a vector
          */
-        virtual Vec2<int> getSize() = 0;
+        virtual const Vec2<unsigned int> &getSize() const;
 
         /**
          * notify the window to show to the display
@@ -50,17 +57,22 @@ namespace ATMA
          * getter for window name
          * @returns window name as string
          */
-        virtual std::string_view getName();
+        virtual const std::string &getName() const;
+
+        /**
+         * set the flag for the window that it should close
+         */
+        virtual void notifyClose();
 
         /**
          * getter for the closed flag
          * @returns if the window should be closed
          */
-        virtual bool shouldClose();
+        virtual const bool &shouldClose() const;
 
         /**
          * Swap the graphic buffers and bring the drawn buffer to the front
-        */
+         */
         virtual void swapBuffers() = 0;
 
         /**
@@ -70,7 +82,18 @@ namespace ATMA
          */
         static std::shared_ptr<AppWindow> makeWindow();
     protected:
-        Vec2<int> m_size{};
+        // Only constructor with default values to allow for default constructor
+        // Specified the size and name of the window
+        AppWindow(
+            const Vec2<unsigned int> &l_size = {180, 180},
+            const std::string &l_name = "Atomina Application"
+        );
+
+        virtual void dispatchEvent(const WindowEvent &l_event);
+
+        unsigned int m_id;
+        CallbackMap m_callbacks{};
+        Vec2<unsigned int> m_size{};
         std::string m_name{};
         bool m_closed{};
     };
