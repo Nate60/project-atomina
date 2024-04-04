@@ -8,6 +8,7 @@
 #include <memory>
 #include <execution>
 #include <vector>
+#include <queue>
 #include <tuple>
 #include <set>
 #include <sstream>

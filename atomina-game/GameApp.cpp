@@ -1,5 +1,7 @@
 #include "GameApp.hpp"
 
+using namespace std::string_literals;
+
 GameApp::GameApp() {}
 
 GameApp::~GameApp() {}
@@ -16,18 +18,32 @@ void GameApp::run()
     ATMA::Path shaggyPath = ATMA::Path{"res/shaggysheet.png"};
     ATMA_ENGINE_INFO("ShaggyPath: {0}", shaggyPath.toString());
 
-    std::shared_ptr<ATMA::GLRenderContext> glCtx = ATMA::GLRenderContext::makeRenderContext();
+    std::unique_ptr<ATMA::GLRenderContext> glCtx = ATMA::GLRenderContext::makeRenderContext();
 
     std::shared_ptr<ATMA::AppWindow> win = ATMA::AppWindow::makeWindow();
 
     win->show();
 
     glCtx->setWindow(win);
-
     std::shared_ptr<ATMA::GLRenderable> renderable = std::make_shared<ATMA::GLRenderable>();
     renderable->m_texture = ATMA::GLTexture::makeTexture(shaggyPath.toString());
     renderable->m_region = {1.5f, 2.5f};
 
+    win->addCallback(
+        ATMA::WindowEventEnum::Resize,
+        [&glCtx](ATMA::WindowEvent we)
+        {
+            ATMA::Vec2 v{we.get<unsigned int>("width"), we.get<unsigned int>("height")};
+            we.m_win->setSize(v);
+            glCtx->setSize(v);
+        }
+    );
+
+    win->addCallback(
+        ATMA::WindowEventEnum::Close, [](ATMA::WindowEvent we) { we.m_win->notifyClose(); }
+    );
+
+    ATMA_ENGINE_INFO("Starting Game Loop");
     while(!win->shouldClose())
     {
         win->poll();

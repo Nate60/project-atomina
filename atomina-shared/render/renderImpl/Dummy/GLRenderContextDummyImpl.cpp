@@ -16,6 +16,8 @@ namespace ATMA
 
     void GLRenderContextDummyImpl::setWindow(std::shared_ptr<AppWindow> l_window) {}
 
+    void GLRenderContextDummyImpl::setSize(const Vec2<unsigned int> &l_size) {}
+
     void GLRenderContextDummyImpl::draw(std::shared_ptr<GLRenderable> l_renderable) {}
 
     void GLRenderContextDummyImpl::clear() {}

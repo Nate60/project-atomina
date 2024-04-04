@@ -30,17 +30,24 @@ namespace ATMA
          */
         static const std::filesystem::path &getRootPath()
         {
-            // TODO: Execute once
+            static std::filesystem::path ROOTPATH;
+            static std::once_flag flag;
+            std::call_once(
+                flag,
+                [](std::filesystem::path &l_path)
+                {
 #ifdef __linux__
-            static const std::filesystem::path ROOTPATH =
-                std::filesystem::canonical("/proc/self/exe");
+                    l_path = std::filesystem::canonical("/proc/self/exe");
 #elif _WINDOWS
-            wchar_t filename[MAX_PATH];
-            DWORD maxLength = MAX_PATH;
-            GetModuleFileNameW(NULL, filename, maxLength);
-            std::wstring wstring = std::wstring{filename};
-            static const std::filesystem::path ROOTPATH = std::filesystem::path{wstring};
+                    wchar_t filename[MAX_PATH];
+                    DWORD maxLength = MAX_PATH;
+                    GetModuleFileNameW(NULL, filename, maxLength);
+                    std::wstring wstring = std::wstring{filename};
+                    l_path = std::filesystem::path{wstring};
 #endif
+                },
+                ROOTPATH
+            );
             return ROOTPATH;
         }
     protected:

@@ -103,6 +103,11 @@ namespace ATMA
         }
     }
 
+    void GLRenderContextOpenGLWinImpl::setSize(const Vec2<unsigned int> &l_size)
+    {
+        glViewport(0, 0, l_size.x, l_size.y);
+    }
+
     void GLRenderContextOpenGLWinImpl::clear()
     {
         glClear(GL_COLOR_BUFFER_BIT);
