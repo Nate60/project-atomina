@@ -14,20 +14,21 @@ void GameApp::run()
     initializeContext();
 
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
-    ATMA_ENGINE_INFO("Executing Directory: {0}", ATMA::Path::getRootPath().generic_string());
-    ATMA::Path shaggyPath = ATMA::Path{"res/shaggysheet.png"};
-    ATMA_ENGINE_INFO("ShaggyPath: {0}", shaggyPath.toString());
-
     std::unique_ptr<ATMA::GLRenderContext> glCtx = ATMA::GLRenderContext::makeRenderContext();
+
+    auto textID = ctx.registerResource("shaggyhead", 0u, "res/shaggysheet.png");
+    auto fontID = ctx.registerResource("font", 1u, "res/defaultFont.png");
 
     std::shared_ptr<ATMA::AppWindow> win = ATMA::AppWindow::makeWindow();
 
     win->show();
 
     glCtx->setWindow(win);
+    glCtx->setFont(ctx.loadResource<ATMA::Font>(fontID));
     std::shared_ptr<ATMA::GLRenderable> renderable = std::make_shared<ATMA::GLRenderable>();
-    renderable->m_texture = ATMA::GLTexture::makeTexture(shaggyPath.toString());
+    renderable->m_texture = ctx.loadResource<ATMA::Texture>(textID)->m_self;
     renderable->m_region = {1.5f, 2.5f};
+    renderable->m_srcRegion = {1.0f, 1.0f};
 
     win->addCallback(
         ATMA::WindowEventEnum::Resize,
@@ -49,6 +50,8 @@ void GameApp::run()
         win->poll();
         glCtx->clear();
         glCtx->draw(renderable);
+        glCtx->drawText("What is up", {-0.7f, 0.2f}, {0.05f, 0.05f});
+        glCtx->drawText("BITCHES!", {-0.7f, 0.f}, {0.05f, 0.05f});
         win->swapBuffers();
     }
 }
