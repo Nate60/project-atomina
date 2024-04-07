@@ -22,6 +22,11 @@ namespace ATMA
 
     GLRenderContext::~GLRenderContext() {}
 
+    void GLRenderContext::setFont(const std::shared_ptr<Font> l_font)
+    {
+        m_font = l_font;
+    }
+
     std::unique_ptr<GLRenderContext> GLRenderContext::makeRenderContext()
     {
         __ATMAMAKEGLRENDERCTX();

@@ -195,7 +195,9 @@ namespace ATMA
             translationMatrix<float>(l_renderable->m_screenPos.x, l_renderable->m_screenPos.y)
             * scalingMatrix<float>(l_renderable->m_region.x, l_renderable->m_region.y);
         //    * rotationMatrix(l_rot);
-        auto sourcetransform = translationMatrix<float>(1.f, 1.f);
+        auto sourcetransform =
+            translationMatrix<float>(l_renderable->m_srcPos.x, l_renderable->m_srcPos.y)
+            * scalingMatrix<float>(l_renderable->m_srcRegion.x, l_renderable->m_srcRegion.y);
         shaderprog->setUniformMat3f("u_transform", transform);
         shaderprog->setUniformMat3f("u_source", sourcetransform);
         l_renderable->m_texture->bind();
@@ -210,28 +212,33 @@ namespace ATMA
         glClear(GL_COLOR_BUFFER_BIT);
     }
 
-    // void RenderContextGLADImpl::drawText(
-    //     const std::string &l_text,
-    //     const Vec2<float> &l_pos,
-    //     const Vec2<float> &l_size,
-    //     const float &l_rot
-    // ) const
-    // {
-    //     float advance = 0;
-    //     std::shared_ptr<ShaderProgram> shaderprog = ShaderProgram::makeDefaultProgram();
-    //     shaderprog->exec();
+    void GLRenderContextOpenGLUnixImpl::drawText(
+        const std::string &l_text,
+        const Vec2<float> &l_pos,
+        const Vec2<float> &l_size
+    )
+    {
+        float advance = 0;
 
-    //     for(auto &c: l_text)
-    //     {
-    //         auto transform = translationMatrix(l_pos.x + advance, l_pos.y)
-    //                        * scalingMatrix(l_size.x, l_size.y) * rotationMatrix(l_rot);
-    //         shaderprog->setUniformMat3f("u_transform", transform);
-    //         m_font->bindCharacter(c);
-    //         shaderprog->exec();
-    //         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    //         advance += l_size.x;
-    //     }
-    // }
+        std::shared_ptr<ATMA::GLProgram> shaderprog = GLProgram::makeDefaultProgram();
+        shaderprog->exec();
+        m_font->m_fontTexture->bind();
+        for(auto &c: l_text)
+        {
+            auto transform =
+                translationMatrix(l_pos.x + advance, l_pos.y) * scalingMatrix(l_size.x, l_size.y);
+            shaderprog->setUniformMat3f("u_transform", transform);
+            auto srcTransform =
+                translationMatrix(
+                    (c % 11) * Font::GLYPH_SIZE_RATIO_X, (c / 11) * Font::GLYPH_SIZE_RATIO_Y
+                )
+                * scalingMatrix(Font::GLYPH_SIZE_RATIO_X, Font::GLYPH_SIZE_RATIO_Y);
+            shaderprog->setUniformMat3f("u_source",srcTransform);
+            shaderprog->exec();
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            advance += l_size.x*2; //I dont' understand why times 2
+        }
+    }
 
 }
 #else

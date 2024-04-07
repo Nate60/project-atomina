@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.hpp"
 #include "core/api.hpp"
+#include "util/Path.hpp"
 
 namespace ATMA
 {
@@ -17,7 +18,7 @@ namespace ATMA
         Resource(const std::string &l_name);
 
         // constructor with name and filename of resource
-        Resource(const std::string &l_name, const std::string &l_fileName);
+        Resource(const std::string &l_name, const Path &l_path);
 
         // deconstructor
         virtual ~Resource();
