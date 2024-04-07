@@ -16,7 +16,7 @@ namespace ATMA
         DummyResource(const std::string &l_name);
 
         // constructor specifying resource name and filepath
-        DummyResource(const std::string &l_name, const std::string &l_filename);
+        DummyResource(const std::string &l_name, const Path &l_path);
 
         // default deconstructor
         virtual ~DummyResource();
