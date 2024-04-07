@@ -20,6 +20,8 @@ namespace ATMA
 
     void GLRenderContextDummyImpl::draw(std::shared_ptr<GLRenderable> l_renderable) {}
 
+    void GLRenderContextDummyImpl::drawText(const std::string &l_text, const Vec2<float> &l_pos, const Vec2<float> &l_size){}
+
     void GLRenderContextDummyImpl::clear() {}
 
 }

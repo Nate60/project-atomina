@@ -4,6 +4,7 @@
 #include "GUI/AppWindow.hpp"
 #include "render/GLRenderable.hpp"
 #include "render/GLBuffer.hpp"
+#include "resource/graphics/Font.hpp"
 
 namespace ATMA
 {
@@ -31,6 +32,8 @@ namespace ATMA
          */
         virtual void setSize(const Vec2<unsigned int> &l_size) = 0;
 
+        virtual void setFont(const std::shared_ptr<Font> l_font);
+
         /**
          * Starts a draw call for the renderable object
          * @param l_renderable the object to be drawn
@@ -38,12 +41,17 @@ namespace ATMA
         virtual void draw(std::shared_ptr<GLRenderable> l_renderable) = 0;
 
         /**
+         * Starts drawing text to the screen
+         * @param l_text the text to be drawn
+        */
+        virtual void drawText(const std::string &l_text, const Vec2<float> &l_pos, const Vec2<float> &l_size) = 0;
+
+        /**
          * clears the view port that he Render context has been set to
          * to be all one colour
          */
         virtual void clear() = 0;
 
-        // virtual void drawText(const std::string &l_text) = 0;
 
         /**
          * Factory function for creating a render context for the
@@ -52,8 +60,10 @@ namespace ATMA
          */
         static std::unique_ptr<GLRenderContext> makeRenderContext();
     protected:
+        std::shared_ptr<Font> m_font;
         // protected constructor so it cannot be publicly instantiated
         GLRenderContext();
+
     };
 
 }

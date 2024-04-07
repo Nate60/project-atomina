@@ -390,7 +390,7 @@ namespace ATMA
                     {
 
                         m_loadedResources[l_resourceID] = std::shared_ptr<T>{
-                            new T{name, filename.value()}
+                            new T{name, Path{filename.value()}}
                         };
                     }
                     else
