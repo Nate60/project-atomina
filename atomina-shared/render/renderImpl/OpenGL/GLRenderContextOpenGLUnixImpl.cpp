@@ -145,6 +145,8 @@ namespace ATMA
                 glXCreateContextAttribsARB(m_display, bestFbc, 0, GL_TRUE, context_attribs);
         }
         glXMakeCurrent(m_display, root, m_glContext);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
     GLRenderContextOpenGLUnixImpl::~GLRenderContextOpenGLUnixImpl()
@@ -233,10 +235,10 @@ namespace ATMA
                     (c % 11) * Font::GLYPH_SIZE_RATIO_X, (c / 11) * Font::GLYPH_SIZE_RATIO_Y
                 )
                 * scalingMatrix(Font::GLYPH_SIZE_RATIO_X, Font::GLYPH_SIZE_RATIO_Y);
-            shaderprog->setUniformMat3f("u_source",srcTransform);
+            shaderprog->setUniformMat3f("u_source", srcTransform);
             shaderprog->exec();
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            advance += l_size.x*2; //I dont' understand why times 2
+            advance += l_size.x * 2; // I dont' understand why times 2
         }
     }
 

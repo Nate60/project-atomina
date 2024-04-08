@@ -101,6 +101,8 @@ namespace ATMA
             wglMakeCurrent(m_hdc, newContext);
             m_hglrc = newContext;
         }
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
     void GLRenderContextOpenGLWinImpl::setSize(const Vec2<unsigned int> &l_size)
