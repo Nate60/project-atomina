@@ -51,7 +51,6 @@ void GameApp::run()
         glCtx->clear();
         glCtx->draw(renderable);
         glCtx->drawText("What is up", {-0.7f, 0.2f}, {0.05f, 0.05f});
-        glCtx->drawText("BITCHES!", {-0.7f, 0.f}, {0.05f, 0.05f});
         win->swapBuffers();
     }
 }
