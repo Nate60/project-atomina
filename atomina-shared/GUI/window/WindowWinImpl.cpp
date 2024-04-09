@@ -59,20 +59,30 @@ namespace ATMA
     LRESULT CALLBACK WindowWinImpl::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         WindowWinImpl *pWin = reinterpret_cast<WindowWinImpl *>(::GetWindowLongPtr(hwnd, 0));
-        UINT width;
-        UINT height;
         Props props{true};
         switch(uMsg)
         {
+        case WM_KEYDOWN:
+            props["keycode"] = (unsigned int)LOWORD(wParam);
+            props["repeat"] = (boolean)((HIWORD(lParam) & KF_REPEAT) > 0);
+            ATMAContext::getContext().dispatchWindowEvent(WindowEvent{
+                pWin->shared_from_this(), WindowEventEnum::KeyDowned, std::move(props)});
+            return 0;
+        case WM_KEYUP:
+            props["keycode"] = (unsigned int)wParam;
+            props["repeat"] = false;
+            ATMAContext::getContext().dispatchWindowEvent(WindowEvent{
+                pWin->shared_from_this(), WindowEventEnum::KeyUpped, std::move(props)});
+            return 0;
         case WM_SIZE:
             props["width"] = (unsigned int)LOWORD(lParam);
             props["height"] = (unsigned int)HIWORD(lParam);
-            pWin->dispatchEvent(WindowEvent{
-                pWin->shared_from_this(), WindowEventEnum::Resize, std::move(props)});
+            ATMAContext::getContext().dispatchWindowEvent(WindowEvent{
+                pWin->shared_from_this(), WindowEventEnum::Resized, std::move(props)});
             return 0;
         case WM_CLOSE:
-            pWin->dispatchEvent(WindowEvent{
-                pWin->shared_from_this(), WindowEventEnum::Close, std::move(props)});
+            ATMAContext::getContext().dispatchWindowEvent(WindowEvent{
+                pWin->shared_from_this(), WindowEventEnum::Closed, std::move(props)});
         default:
             return DefWindowProc(hwnd, uMsg, wParam, lParam);
         }

@@ -42,34 +42,6 @@ namespace ATMA
         return m_closed;
     }
 
-    void AppWindow::addCallback(
-        const WindowEventEnum &l_type,
-        std::function<void(const WindowEvent &)> l_func
-    )
-    {
-        auto itr = m_callbacks.find(l_type);
-        if(itr == m_callbacks.end())
-        {
-            // create new vector
-            m_callbacks[l_type] = CallbackContainer{l_func};
-        }
-        else
-        {
-            itr->second.emplace_back(l_func);
-        }
-    }
-
-    void AppWindow::dispatchEvent(const WindowEvent &l_event)
-    {
-        auto itr = m_callbacks.find(l_event.m_type);
-        if(itr == m_callbacks.end())
-            return;
-        for(std::function<void(const WindowEvent &)> func: itr->second)
-        {
-            func(l_event);
-        }
-    }
-
     std::shared_ptr<AppWindow> AppWindow::makeWindow()
     {
         __ATMAMAKEWINDOW();
