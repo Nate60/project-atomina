@@ -33,7 +33,7 @@ namespace ATMA
         }
     }
 
-    ATMAContext::ATMAContext()
+    ATMAContext::ATMAContext(): m_renderCtx(GLRenderContext::makeRenderContext())
     {
         ATMA_ENGINE_INFO("ATMAContext has been initialized");
     }
@@ -349,6 +349,20 @@ namespace ATMA
                     }
                 }
             }
+        }
+    }
+
+    void ATMAContext::dispatchWindowEvent(const WindowEvent &l_winEvent)
+    {
+        auto itr = m_states.begin();
+        if(itr == m_states.end())
+        {
+            return;
+        }
+        while(itr != m_states.end())
+        {
+            itr->second->handleInput(l_winEvent);
+            ++itr;
         }
     }
 

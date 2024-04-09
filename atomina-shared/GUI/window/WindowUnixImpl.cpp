@@ -49,7 +49,7 @@ namespace ATMA
         /* process window close event through event handler so XNextEvent does not fail */
         m_deleteMessage = XInternAtom(m_display, "WM_DELETE_WINDOW", 0);
         XSetWMProtocols(m_display, m_window, &m_deleteMessage, 1);
-
+        XSelectInput(m_display, m_window, WindowUnixImpl::EVENT_MASK);
     }
 
     WindowUnixImpl::~WindowUnixImpl()
@@ -77,16 +77,45 @@ namespace ATMA
     {
         XEvent inEvent;
         Props props{true};
-        //handle window events first because window Events are also XEvents
-        while(XCheckWindowEvent(
-            m_display, m_window, ExposureMask | KeyPressMask | StructureNotifyMask, &inEvent
-        ))
+        // handle window events first because window Events are also XEvents
+        while(XCheckWindowEvent(m_display, m_window, WindowUnixImpl::EVENT_MASK, &inEvent))
         {
             switch(inEvent.type)
             {
             case KeyPress:
-                ATMA_ENGINE_INFO("Got KeyPress");
-                break;
+                {
+                    props["keycode"] = (unsigned int)inEvent.xkey.keycode;
+                    props["repeat"] = m_repeatKey;
+                    ATMAContext::getContext().dispatchWindowEvent(WindowEvent{
+                        shared_from_this(), WindowEventEnum::KeyDowned, props});
+                    break;
+                }
+            case KeyRelease:
+                {
+                    if(XEventsQueued(m_display, QueuedAlready))
+                    {
+                        XEvent next;
+                        XPeekEvent(m_display, &next);
+                        if(next.type == KeyPress && next.xkey.time
+                           && inEvent.xkey.keycode == next.xkey.keycode)
+                        {
+                            m_repeatKey = true;
+                        }
+                        else
+                        {
+                            m_repeatKey = false;
+                        }
+                    }
+                    else
+                    {
+                        m_repeatKey = false;
+                    }
+                    props["keycode"] = (unsigned int)inEvent.xkey.keycode;
+                    props["repeat"] = m_repeatKey;
+                    ATMAContext::getContext().dispatchWindowEvent(WindowEvent{
+                        shared_from_this(), WindowEventEnum::KeyUpped, props});
+                    break;
+                }
             case ConfigureNotify:
                 {
                     XConfigureEvent xConfEvent = inEvent.xconfigure;
@@ -94,8 +123,8 @@ namespace ATMA
                     {
                         props["width"] = (unsigned int)xConfEvent.width;
                         props["height"] = (unsigned int)xConfEvent.height;
-                        dispatchEvent(WindowEvent{
-                            shared_from_this(), WindowEventEnum::Resize, std::move(props)});
+                        ATMAContext::getContext().dispatchWindowEvent(WindowEvent{
+                            shared_from_this(), WindowEventEnum::Resized, std::move(props)});
                     }
                 }
                 break;
@@ -105,18 +134,18 @@ namespace ATMA
             }
         }
         // X Server events
-        while(XPending(m_display)){
+        while(XPending(m_display))
+        {
             XNextEvent(m_display, &inEvent);
-            switch(inEvent.type){
+            switch(inEvent.type)
+            {
             case ClientMessage:
-                if (inEvent.xclient.data.l[0] == m_deleteMessage) //window close
+                if(inEvent.xclient.data.l[0] == m_deleteMessage) // window close
                 {
-                    dispatchEvent(WindowEvent{
-                        shared_from_this(), WindowEventEnum::Close, std::move(props)});
+                    ATMAContext::getContext().dispatchWindowEvent(WindowEvent{
+                        shared_from_this(), WindowEventEnum::Closed, std::move(props)});
                 }
-
             }
-            
         }
     }
 

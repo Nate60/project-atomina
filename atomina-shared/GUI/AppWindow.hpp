@@ -4,6 +4,7 @@
 #include "math/Vec2.hpp"
 #include "util/Log.hpp"
 #include "WindowEvent.hpp"
+#include "core/ATMAContext.hpp"
 
 namespace ATMA
 {
@@ -19,17 +20,6 @@ namespace ATMA
     public:
         // default deconstructor
         virtual ~AppWindow();
-
-        /**
-         * Adds callback to window to be called when the correspond event is
-         * triggered
-         * @param l_type type of event to call the funtion on
-         * @param l_callback function to execute
-         */
-        virtual void addCallback(
-            const WindowEventEnum &l_type,
-            std::function<void(const WindowEvent &)> l_callback
-        );
 
         /**
          * sets the size of the window to the new size
@@ -88,8 +78,6 @@ namespace ATMA
             const Vec2<unsigned int> &l_size = {180, 180},
             const std::string &l_name = "Atomina Application"
         );
-
-        virtual void dispatchEvent(const WindowEvent &l_event);
 
         unsigned int m_id;
         CallbackMap m_callbacks{};

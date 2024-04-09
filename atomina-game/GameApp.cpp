@@ -21,6 +21,10 @@ void GameApp::run()
 
     std::shared_ptr<ATMA::AppWindow> win = ATMA::AppWindow::makeWindow();
 
+    std::unique_ptr<ATMA::BaseState> state = std::make_unique<GameState>();
+
+    ctx.addState(0, std::move(state));
+
     win->show();
 
     glCtx->setWindow(win);
@@ -29,20 +33,6 @@ void GameApp::run()
     renderable->m_texture = ctx.loadResource<ATMA::Texture>(textID)->m_self;
     renderable->m_region = {1.5f, 2.5f};
     renderable->m_srcRegion = {1.0f, 1.0f};
-
-    win->addCallback(
-        ATMA::WindowEventEnum::Resize,
-        [&glCtx](ATMA::WindowEvent we)
-        {
-            ATMA::Vec2 v{we.get<unsigned int>("width"), we.get<unsigned int>("height")};
-            we.m_win->setSize(v);
-            glCtx->setSize(v);
-        }
-    );
-
-    win->addCallback(
-        ATMA::WindowEventEnum::Close, [](ATMA::WindowEvent we) { we.m_win->notifyClose(); }
-    );
 
     ATMA_ENGINE_INFO("Starting Game Loop");
     while(!win->shouldClose())

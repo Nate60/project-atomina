@@ -57,12 +57,15 @@ namespace ATMA
          */
         static GLXFBConfig getFrameBufferConfig(Display *display);
     protected:
+        static const long constexpr EVENT_MASK =
+            ExposureMask | KeyPressMask | KeyReleaseMask | StructureNotifyMask | FocusChangeMask;
         Display *m_display;
         Window m_root;
         Window m_window;
         Colormap m_colourMap;
         int m_screen;
         Atom m_deleteMessage;
+        bool m_repeatKey = false;
         friend class GLRenderContextOpenGLUnixImpl;
 
         void redraw();
