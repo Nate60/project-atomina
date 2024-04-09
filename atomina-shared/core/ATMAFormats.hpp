@@ -5,6 +5,7 @@
 #include "OAS/AttrBase.hpp"
 #include "OAS/SysBase.hpp"
 #include "resource/Resource.hpp"
+#include "GUI/AppWindow.hpp"
 
 namespace ATMA
 {

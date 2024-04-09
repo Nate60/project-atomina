@@ -92,7 +92,6 @@
 #include "render/GLBuffer.hpp"
 #include "render/GLProgram.hpp"
 #include "render/GLRenderable.hpp"
-#include "render/GLRenderer.hpp"
 #include "render/GLShader.hpp"
 #include "render/GLTexture.hpp"
 #include "render/GLRenderContext.hpp"

@@ -59,7 +59,6 @@ TEST_F(StateFixture, CanRemoveState)
 TEST_F(StateFixture, OnStateChangeCanDisableSystem)
 {
     std::unique_ptr<TestState> state{new TestState{}};
-    ;
     std::unique_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
@@ -97,4 +96,39 @@ TEST_F(StateFixture, OnStateChangeCanEnableSystem)
     ctx.switchToState(stateType);
     ctx.update();
     EXPECT_TRUE(ctx.getAttribute<TestAttribute>(obj, 0u)->flag);
+}
+
+/**
+ * Event is dispatched to state
+ */
+TEST_F(StateFixture, StateReceivesEvent)
+{
+    std::unique_ptr<TestState> state{
+        new TestState{0u}
+    };
+    auto stateType = state->getId();
+    ctx.addState(stateType, std::move(state));
+    ctx.dispatchWindowEvent(ATMA::WindowEvent{nullptr, ATMA::WindowEventEnum::COUNT, ATMA::Props{}}
+    );
+    EXPECT_TRUE(TestState::m_flags[0u]);
+}
+
+/**
+ * With two states all will receive it
+ */
+TEST_F(StateFixture, TwoStatesBothHandle)
+{
+    std::unique_ptr<TestState> state{
+        new TestState{0u}
+    };
+    std::unique_ptr<TestState> state2{
+        new TestState{1u}
+    };
+    auto stateType = state->getId();
+    ctx.addState(stateType, std::move(state));
+    ctx.addState(5u, std::move(state2));
+    ctx.dispatchWindowEvent(ATMA::WindowEvent{nullptr, ATMA::WindowEventEnum::COUNT, ATMA::Props{}}
+    );
+    EXPECT_TRUE(TestState::m_flags[0u]);
+    EXPECT_TRUE(TestState::m_flags[1u]);
 }

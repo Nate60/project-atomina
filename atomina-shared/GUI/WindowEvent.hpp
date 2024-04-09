@@ -14,8 +14,10 @@ namespace ATMA
     enum class ATMA_API WindowEventEnum
     {
         None = 0,
-        Close,
-        Resize,
+        Closed,
+        Resized,
+        KeyDowned,
+        KeyUpped,
         COUNT
     };
 
@@ -61,7 +63,7 @@ namespace ATMA
          * @returns value as type from template
          */
         template<class T>
-        const T &get(const std::string &l_key)
+        const T &getProp(const std::string &l_key) const
         {
             return m_props.getAs<T>(l_key);
         }

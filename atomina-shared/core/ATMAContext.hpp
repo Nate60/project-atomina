@@ -11,7 +11,7 @@
 #include "util/AtominaException.hpp"
 #include "util/ATConst.hpp"
 #include "resource/Resource.hpp"
-#include "render/GLRenderer.hpp"
+#include "render/GLRenderContext.hpp"
 #ifdef _WINDOWS
 #    include <winsock2.h>
 #    include <ws2tcpip.h>
@@ -28,6 +28,7 @@ namespace ATMA
     class ATMAContext;
     class SysBase;
     class BaseState;
+    class GLRenderContext;
 
     using ObjectID = unsigned int;
     using AttrTypeID = unsigned int;
@@ -64,6 +65,7 @@ namespace ATMA
     public:
         // destructor
         ~ATMAContext();
+        const std::unique_ptr<GLRenderContext> m_renderCtx;
     protected:
         bool initialized{false};
         std::mutex m_mtx{};
@@ -434,6 +436,12 @@ namespace ATMA
          * @param l_e object event details
          */
         void dispatchObjectEvent(const ObjectEventContext &l_e);
+
+        /**
+         * Pushes event to the state stack until it is handled
+         * @param l_winEvent window event
+         */
+        void dispatchWindowEvent(const WindowEvent &l_winEvent);
 
         /**
          * Adds object event listener to the notification interface
