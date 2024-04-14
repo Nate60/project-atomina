@@ -7,9 +7,20 @@
       "name": "spdlog",
       "version>=": "1.11.0",
       "default-features": true
+    },{
+      "name": "gtest",
+      "version>=": "1.11.0#5",
+      "default-features": true
     },
-    "gtest",
-    "glew",
-    "stb"
+    {
+      "name": "glew",
+      "version>=": "2.2.0",
+      "default-features": true
+    },
+    {
+      "name": "stb",
+      "version>=": "2021-09-10",
+      "default-features": true
+    }
   ]
 }
