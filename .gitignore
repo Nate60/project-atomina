@@ -386,3 +386,5 @@ ext/**
 *.so
 *.so.*
 
+#vcpkg
+vcpkg_installed/**

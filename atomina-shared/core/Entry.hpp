@@ -3,6 +3,7 @@
 #include "Game.hpp"
 #ifdef _WINDOWS
 #    include <winsock2.h>
+#    include "os/OSContextWinImpl.hpp"
 #endif
 
 namespace ATMA

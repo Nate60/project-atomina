@@ -4,25 +4,25 @@
 /*
  * DLL entry point into execution
  */
-#ifdef _WINDOWS
 namespace ATMA
 {
+#ifdef _WINDOWS
+
+    BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+    {
+        if(fdwReason == DLL_PROCESS_ATTACH)
+            OSContextWinImpl::getContext().setDLLInstanceHandle(hinstDLL);
+        return true;
+    }
+
     void startGame(std::unique_ptr<Game> l_game)
     {
+        // required for winsock
         WSADATA wsaData;
         WSAStartup(MAKEWORD(2, 2), &wsaData);
 
         Log::Init();
         ATMA_ENGINE_INFO("Init logger!");
-
-#    ifdef ATMA_USE_GLFW
-        if(!glfwInit())
-            ATMA_ENGINE_ERROR("GLFW failed to initialize!");
-        ATMA_ENGINE_INFO("Initialized GLFW");
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#    endif
 
         try
         {
@@ -38,21 +38,13 @@ namespace ATMA
         }
     }
 }
-#else
-int
-main()
+#elif __linux__
+}
+
+int main()
 {
     ATMA::Log::Init();
     ATMA_ENGINE_INFO("Init logger!");
-
-#    ifdef ATMA_USE_GLFW
-    if(!glfwInit())
-        ATMA_ENGINE_ERROR("GLFW failed to initialize!");
-    ATMA_ENGINE_INFO("Initialized GLFW");
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#    endif
     std::unique_ptr<ATMA::Game> app = ATMA::CreateGame();
     try
     {

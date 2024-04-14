@@ -3,8 +3,8 @@
   "clang-format.executable.linux": "/usr/bin/clang-format",
   "clang-format.language.c.enable": false,
   "clang-format.language.csharp.enable": false,
-  "clang-format.assumeFilename": "",
-  "clang-format.executable": "clang-format",
+  "clang-format.assumeFilename": ".clang-format",
+  "clang-format.executable": "",
   "clang-format.fallbackStyle": "Mozilla",
   "clang-format.language.apex.enable": false,
   "clang-format.language.java.enable": false,
@@ -107,6 +107,13 @@
     "xstddef": "cpp",
     "xtr1common": "cpp",
     "xtree": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "*.tcc": "cpp",
+    "codecvt": "cpp",
+    "cwctype": "cpp",
+    "string_view": "cpp",
+    "numbers": "cpp",
+    "semaphore": "cpp",
+    "cinttypes": "cpp"
   }
 }

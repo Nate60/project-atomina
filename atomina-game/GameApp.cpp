@@ -1,18 +1,12 @@
 #include "GameApp.hpp"
 
+using namespace std::string_literals;
+
 GameApp::GameApp() {}
 
 GameApp::~GameApp() {}
 
-static void
-key_callback(ATMA::Window *window, int key, int scancode, int action, int mods)
-{
-    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        window->setWindowShouldClose(true);
-}
-
-void
-GameApp::run()
+void GameApp::run()
 {
     ATMA_ENGINE_INFO("Game is now running");
     active = true;
@@ -20,93 +14,50 @@ GameApp::run()
     initializeContext();
 
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
-    std::unique_ptr<GameState> gameState{new GameState{}};
+    std::unique_ptr<ATMA::GLRenderContext> glCtx = ATMA::GLRenderContext::makeRenderContext();
 
-    auto win = ctx.getWindow(ATConst::MAIN_WINDOW_ID);
+    auto textID = ctx.registerResource("shaggyhead", 0u, "res/shaggysheet.png");
+    auto fontID = ctx.registerResource("font", 1u, "res/defaultFont.png");
 
-    auto shutdownManager =
-        std::make_shared<ShutDownManager>(ShutDownManager(std::bind(&GameApp::shutdown, this)));
-    ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::ShutDown), shutdownManager);
+    std::shared_ptr<ATMA::AppWindow> win = ATMA::AppWindow::makeWindow();
 
-    win->setInputCallback(key_callback);
+    std::unique_ptr<ATMA::BaseState> state = std::make_unique<GameState>();
 
-    // register resources
+    ctx.addState(0, std::move(state));
 
-    // add states
-    ctx.addState(ATMA::StateType(ATMA::State::COUNT), std::move(gameState));
+    win->show();
 
-    auto id = ctx.createObject();
-    ctx.addAttribute(id, ATMA::AttributeType(ATMA::Attribute::Position));
-    ctx.addAttribute(id, ATMA::AttributeType(ATMA::Attribute::Sprite));
-    ctx.addAttribute(id, ATMA::AttributeType(ATMA::Attribute::Renderable));
-    auto fragid = ctx.registerResource("test", 0, "shader\\defaultFrag.shader");
-    auto vertid = ctx.registerResource("test", 0, "shader\\defaultVertex.shader");
-    auto textid = ctx.registerResource("testimage", 1, "res\\shaggysheet.png");
+    glCtx->setWindow(win);
+    glCtx->setFont(ctx.loadResource<ATMA::Font>(fontID));
+    std::shared_ptr<ATMA::GLRenderable> renderable = std::make_shared<ATMA::GLRenderable>();
+    renderable->m_texture = ctx.loadResource<ATMA::Texture>(textID)->m_self;
+    renderable->m_region = {1.5f, 2.5f};
+    renderable->m_srcRegion = {1.0f, 1.0f};
 
-    auto vertShader = ctx.loadResource<ATMA::ShaderGLADImpl>(vertid);
-    auto fragShader = ctx.loadResource<ATMA::ShaderGLADImpl>(fragid);
-    auto text = ctx.loadResource<ATMA::TextureGLADImpl>(textid);
-
-    auto vertArray = ATMA::VertexArray::makeBuffer({
-        {3, 8, 0},
-        {3, 8, 3},
-        {2, 8, 6}
-    });
-
-    auto vertBuf =
-        ATMA::VertexBuffer::makeBuffer({0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-                                        0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                                        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-                                        -0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
-
-    auto indexBuf = ATMA::IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
-
-    auto shaderProgram = ATMA::ShaderProgram::makeProgram();
-
-    vertArray->bind();
-
-    indexBuf->bind();
-
-    vertBuf->bind();
-
-    vertArray->bindLayout();
-
-    text->bind();
-
-    vertShader->compile(ATMA::ShaderType::Vertex);
-    fragShader->compile(ATMA::ShaderType::Fragment);
-
-    shaderProgram->attachShader(vertShader);
-    shaderProgram->attachShader(fragShader);
-    shaderProgram->link();
-
-    while(active)
+    ATMA_ENGINE_INFO("Starting Game Loop");
+    while(!win->shouldClose())
     {
-        ctx.draw(vertArray, indexBuf, shaderProgram);
+        win->poll();
+        glCtx->clear();
+        glCtx->draw(renderable);
+        glCtx->drawText("What is up", {-0.7f, 0.2f}, {0.05f, 0.05f});
         win->swapBuffers();
-        win->pollEvents();
-        if(win->getWindowShouldClose())
-            ctx.dispatchObjectEvent({ATMA::ObjectEventType(ATMA::ObjectEvent::ShutDown)});
-        ctx.update();
     }
 }
 
-void
-GameApp::shutdown()
+void GameApp::shutdown()
 {
     ATMA_ENGINE_INFO("Shutting down game");
     active = false;
 }
 
 #ifdef _WINDOWS
-int
-main()
+int main()
 {
     ATMA::startGame(std::unique_ptr<ATMA::Game>(new GameApp{}));
 }
 #else
-std::unique_ptr<ATMA::Game>
-ATMA::CreateGame()
+std::unique_ptr<ATMA::Game> ATMA::CreateGame()
 {
     return std::unique_ptr<ATMA::Game>{new GameApp()};
 }

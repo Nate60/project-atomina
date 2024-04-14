@@ -60,6 +60,13 @@ namespace ATMA
         std::any &operator[](const std::string &l_key);
 
         /**
+         * overloaded operator to access const values of inner map
+         * @param l_key string key to get value
+         * @returns the associated any object containing the value
+         */
+        const std::any &operator[](const std::string &l_key) const;
+
+        /**
          * copy operator
          * @param l_other existing props object
          * @returns new props object from copied object

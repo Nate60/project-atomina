@@ -12,11 +12,9 @@ namespace ATMA
     enum class ATMA_API Attribute
     {
         None = 0,
-        Position,
+        Shape,
         Velocity,
         Controllable,
-        Sprite,
-        Renderable,
         COUNT
     };
 

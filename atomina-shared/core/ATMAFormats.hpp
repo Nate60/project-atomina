@@ -5,6 +5,7 @@
 #include "OAS/AttrBase.hpp"
 #include "OAS/SysBase.hpp"
 #include "resource/Resource.hpp"
+#include "GUI/AppWindow.hpp"
 
 namespace ATMA
 {
@@ -42,5 +43,14 @@ namespace ATMA
      * @returns the given stream with the details appended
      */
     ATMA_API std::ostream &operator<<(std::ostream &os, const ObjectEventContext &e);
+
+    /**
+     * converts an event to a stream with the details of the event appended to it
+     * @param os stream to append the details to
+     * @param e the event to read out
+     * @returns the given stream with the details appended
+     */
+    ATMA_API std::ostream &operator<<(std::ostream &os, const std::shared_ptr<AppWindow> e);
+
 
 }

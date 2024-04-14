@@ -14,7 +14,6 @@ namespace ATMA
         None = 0u,
         Translator = 1u,
         Controller,
-        Renderer,
         COUNT
     };
 

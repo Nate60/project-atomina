@@ -35,27 +35,42 @@ jobs:
       run: sudo apt-get update
 
     - name: Setup library Prerequisites
-      run: sudo apt-get install -y --fix-missing g++-12 libstdc++-12-dev libstdc++-12-doc gcc-12 gcc-12-base gcc-12-doc xorg-dev ninja-build
+      run: sudo apt-get install -y --fix-missing g++-12 libstdc++-12-dev libstdc++-12-doc gcc-12 gcc-12-base gcc-12-doc xorg-dev libgl1-mesa-dev libglu1-mesa-dev ninja-build
 
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
       with:
         version: '1.11.1'
 
-    - name: Checkout action repo branch
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
-        fetch-depth: 2
-        submodules: 'recursive'
-    - run: git checkout HEAD    
+        submodules: true 
       
+    - name: Restore from cache and setup vcpkg executable and data files.
+      uses: lukka/run-vcpkg@v11
+      with:
+        vcpkgJsonGlob: 'vcpkg.json'
+        vcpkgDirectory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg 
+
+    - name: Get baseline
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg
+      run: git fetch --unshallow
+
+    - name: Bootstrap vcpkg
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg
+      run: ./bootstrap-vcpkg.sh
+
+    - name: Run vcpkg
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg
+      run: ./vcpkg install 
+
     - name: Make Build Directory
       working-directory: ${{env.SOLUTION_FILE_PATH}}
       run: mkdir "out" && mkdir "out/build"
 
     - name: Build CMake Files
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
-      run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DATMA_TEST=ON -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -G "Ninja"
+      run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE="../../deps/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -G "Ninja"
 
     - name: Build Project
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
@@ -64,6 +79,70 @@ jobs:
     - name: Run Tests
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
       run: xvfb-run -a ./bin/Atomina_Test
+
+  #build_mac:
+  #  strategy:
+  #    matrix:
+  #     build_type: [Release, Debug]
+
+  #  runs-on: macos-12
+  #  env:
+  #      CC: /usr/bin/gcc-12
+  #      CXX: /usr/bin/g++-12
+
+  #  steps:
+    
+  #  - name: Setup cmake
+  #    uses: jwlawson/actions-setup-cmake@v1.12
+  #    with:
+  #      cmake-version: '3.24.x'
+
+  #  - name: Setup library Prerequisites
+  #    run: brew install ninja
+
+  #  - name: Install ninja-build tool
+  #    uses: seanmiddleditch/gha-setup-ninja@v3
+  #    with:
+  #      version: '1.11.1'
+
+  #  - uses: actions/checkout@v3
+  #    with:
+  #      submodules: true 
+      
+  #  - name: Restore from cache and setup vcpkg executable and data files.
+  #    uses: lukka/run-vcpkg@v11
+  #    with:
+  #      vcpkgJsonGlob: 'vcpkg.json'
+  #      vcpkgDirectory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg 
+
+  #  - name: Get baseline
+  #    working-directory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg
+  #    run: git fetch --unshallow
+
+  #  - name: Bootstrap vcpkg
+  #    working-directory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg
+  #    run: ./bootstrap-vcpkg.sh
+
+  #  - name: Run vcpkg
+  #    working-directory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg
+  #    run: ./vcpkg install 
+
+  #  - name: Make Build Directory
+  #    working-directory: ${{env.SOLUTION_FILE_PATH}}
+  #    run: mkdir "out" && mkdir "out/build"
+
+  #  - name: Build CMake Files
+  #    working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
+  #    run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE="../../deps/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -G "Ninja"
+
+  #  - name: Build Project
+  #    working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
+  #    run: cmake --build . --config ${{matrix.build_type}} -j 4
+
+  #  - name: Run Tests
+  #    working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
+  #    run: xvfb-run -a ./bin/Atomina_Test
+  
   
   build_windows:
     strategy:
@@ -73,18 +152,21 @@ jobs:
     runs-on: windows-2019
 
     steps:
-    
-    - name: Checkout action repo branch
-      uses: actions/checkout@v2
+
+    - uses: actions/checkout@v3
       with:
-        fetch-depth: 2
-        submodules: 'recursive'
-    - run: git checkout HEAD    
+        submodules: true
+  
 
     - name: Setup cmake
       uses: jwlawson/actions-setup-cmake@v1.12
       with:
         cmake-version: '3.24.x'
+
+    - name: Install ninja-build tool
+      uses: seanmiddleditch/gha-setup-ninja@v3
+      with:
+        version: '1.11.1'
 
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.1
@@ -92,10 +174,29 @@ jobs:
         msbuild-architecture: x64
         vs-prerelease: true
 
+    
     - name: Visual Studio shell
       uses: egor-tensin/vs-shell@v2
       with:
         arch: x64
+
+    - name: Restore from cache and setup vcpkg executable and data files.
+      uses: lukka/run-vcpkg@v11
+      with:
+        vcpkgJsonGlob: 'vcpkg.json'
+        vcpkgDirectory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg 
+
+    - name: Get baseline
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg
+      run: git fetch --unshallow
+
+    - name: Bootstrap vcpkg
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg
+      run: .\bootstrap-vcpkg.bat
+
+    - name: Run vcpkg
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/deps/vcpkg
+      run: .\vcpkg install 
 
     - name: Make Build Directory
       working-directory: ${{env.SOLUTION_FILE_PATH}}
@@ -103,11 +204,15 @@ jobs:
 
     - name: Build CMake Files
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
-      run: cmake "../../" -G "Ninja" -DATMA_TEST=ON -DCMAKE_C_COMPILER:STRING="cl.exe" -DCMAKE_CXX_COMPILER:STRING="cl.exe" -DCMAKE_BUILD_TYPE:STRING="${{matrix.build_type}}" -DCMAKE_INSTALL_PREFIX:PATH="${{env.SOLUTION_FILE_PATH}}/out/install/x64-debug" 2>&1
+      run: cmake ../../ -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_C_COMPILER:STRING="cl.exe" -DCMAKE_CXX_COMPILER:STRING="cl.exe" -DCMAKE_BUILD_TYPE:STRING="${{matrix.build_type}}" -DCMAKE_INSTALL_PREFIX:PATH="${{env.SOLUTION_FILE_PATH}}/out/install/x64-debug" 2>&1 -DCMAKE_TOOLCHAIN_FILE="../../deps/vcpkg/scripts/buildsystems/vcpkg.cmake" -G "Ninja"
 
     - name: Build Project
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
       run: cmake --build . --config ${{matrix.build_type}} -j 4
+
+    - name: dir
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build/bin
+      run: dir
 
     - name: Run Tests
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 

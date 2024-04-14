@@ -11,8 +11,7 @@
 #include "util/AtominaException.hpp"
 #include "util/ATConst.hpp"
 #include "resource/Resource.hpp"
-#include "GUI/Window.hpp"
-#include "GUI/window/WindowGLFWImpl.hpp"
+#include "render/GLRenderContext.hpp"
 #ifdef _WINDOWS
 #    include <winsock2.h>
 #    include <ws2tcpip.h>
@@ -29,6 +28,7 @@ namespace ATMA
     class ATMAContext;
     class SysBase;
     class BaseState;
+    class GLRenderContext;
 
     using ObjectID = unsigned int;
     using AttrTypeID = unsigned int;
@@ -56,9 +56,6 @@ namespace ATMA
     using ObjectEventListeners =
         std::unordered_map<ObjectEventID, std::vector<std::shared_ptr<ObjectEventListener>>>;
 
-    using WindowID = unsigned int;
-    using WindowContainer = std::unordered_map<WindowID, std::shared_ptr<Window>>;
-
     /**
      * Singleton that houses all internal state within the Atomina Engine.
      * Manages all resources and objects available to the engine.
@@ -68,6 +65,7 @@ namespace ATMA
     public:
         // destructor
         ~ATMAContext();
+        const std::unique_ptr<GLRenderContext> m_renderCtx;
     protected:
         bool initialized{false};
         std::mutex m_mtx{};
@@ -86,10 +84,7 @@ namespace ATMA
 
         ObjectEventListeners m_listeners{};
 
-        WindowID m_lastWindowID{1u};
-        WindowContainer m_windows{};
-
-        std::unique_ptr<RenderContext> m_renderer;
+        // GLRenderer m_renderer{};
 
         /**
          * protected constructor that should only be called
@@ -133,6 +128,12 @@ namespace ATMA
         }
 
         /**
+         * getter for engine renderer
+         * @returns reference to renderer
+         */
+        // GLRenderer &getRenderer();
+
+        /**
          * Assigns an Attribute class type to an unsigned integer id
          * @tparam class type to assign id to
          * @param l_attrType id to assign class type to
@@ -169,8 +170,8 @@ namespace ATMA
          * @param l_bits
          * @returns id of the new object
          */
-        [[nodiscard]] unsigned int createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits
-        );
+        [[nodiscard]] unsigned int
+        createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
 
         /**
          * Adds an attribute of the given id type to the given id
@@ -391,7 +392,7 @@ namespace ATMA
                     {
 
                         m_loadedResources[l_resourceID] = std::shared_ptr<T>{
-                            new T{name, filename.value()}
+                            new T{name, Path{filename.value()}}
                         };
                     }
                     else
@@ -437,6 +438,12 @@ namespace ATMA
         void dispatchObjectEvent(const ObjectEventContext &l_e);
 
         /**
+         * Pushes event to the state stack until it is handled
+         * @param l_winEvent window event
+         */
+        void dispatchWindowEvent(const WindowEvent &l_winEvent);
+
+        /**
          * Adds object event listener to the notification interface
          * of the context
          * @param l_id type id of the object event that the listener is listening for
@@ -446,36 +453,6 @@ namespace ATMA
             const ObjectEventID &l_id,
             std::shared_ptr<ObjectEventListener> l_listener
         );
-        /**
-         * @brief creates a window inside the context and assigns it an id
-         * @return the id of the new window
-         */
-        unsigned int createWindow();
-
-        /**
-         * @brief gives a pointer to the corresponding id
-         * @param l_id id of the window
-         * @return pointer of the window
-         */
-        std::shared_ptr<Window> getWindow(const unsigned int &l_id);
-
-        /**
-         * @brief deletes the window of corresponding id
-         * @param l_id id of the window
-         */
-        void deleteWindow(const unsigned int &l_id);
-
-        /**
-         * @brief using the render context to draw to the current focused window
-         * @param l_vertArray Vertex Array Object that links the buffer data of vertices
-         * @param l_indexBuffer index buffer that describes the order of vertices
-         * @param l_shaderProg shader program that has the linked shaders for execution
-         */
-        void draw(
-            const std::shared_ptr<VertexArray> &l_vertArray,
-            const std::shared_ptr<IndexBuffer> &l_indexBuffer,
-            const std::shared_ptr<ShaderProgram> &l_shaderProg
-        ) const;
 
         /**
          * updates all the engine internals. To be called in the main game loop
@@ -502,12 +479,6 @@ namespace ATMA
          * back to 0
          */
         void purgeResources();
-
-        /**
-         * removes all windows from the context and resets the next id
-         * back to 0
-         */
-        void purgeWindows();
 
         /**
          * unregisters all listeners from the context

@@ -5,6 +5,7 @@
 class TestState: public ATMA::BaseState
 {
 public:
+    const unsigned int m_id;
     std::function<void()> m_onKeyPress = []() -> void {};
     std::function<void()> m_onKeyRelease = []() -> void {};
     std::function<void()> m_onMousePress = []() -> void {};
@@ -13,10 +14,17 @@ public:
 
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
 
+    static std::unordered_map<unsigned int, bool> m_flags;
+
     /**
      * Default constructor
      */
     TestState();
+
+    /**
+     * Constructor with id for getting static values
+     */
+    TestState(const unsigned int &l_id);
 
     /**
      * Default destructor
@@ -47,6 +55,7 @@ public:
      */
     virtual void deactivate() override;
 
+    virtual void handleInput(const ATMA::WindowEvent &l_winEvent) override;
     /**
      * Gives the type id of the state
      * @returns type id of state type
