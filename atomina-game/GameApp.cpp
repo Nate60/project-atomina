@@ -14,7 +14,6 @@ void GameApp::run()
     initializeContext();
 
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
-    std::unique_ptr<ATMA::GLRenderContext> glCtx = ATMA::GLRenderContext::makeRenderContext();
 
     auto textID = ctx.registerResource("shaggyhead", 0u, "res/shaggysheet.png");
     auto fontID = ctx.registerResource("font", 1u, "res/defaultFont.png");
@@ -27,8 +26,8 @@ void GameApp::run()
 
     win->show();
 
-    glCtx->setWindow(win);
-    glCtx->setFont(ctx.loadResource<ATMA::Font>(fontID));
+    ctx.m_renderCtx->setWindow(win);
+    ctx.m_renderCtx->setFont(ctx.loadResource<ATMA::Font>(fontID));
     std::shared_ptr<ATMA::GLRenderable> renderable = std::make_shared<ATMA::GLRenderable>();
     renderable->m_texture = ctx.loadResource<ATMA::Texture>(textID)->m_self;
     renderable->m_region = {1.5f, 2.5f};
@@ -38,9 +37,9 @@ void GameApp::run()
     while(!win->shouldClose())
     {
         win->poll();
-        glCtx->clear();
-        glCtx->draw(renderable);
-        glCtx->drawText("What is up", {-0.7f, 0.2f}, {0.05f, 0.05f});
+        ctx.m_renderCtx->clear();
+        ctx.m_renderCtx->draw(renderable);
+        ctx.m_renderCtx->drawText("What is up", {-0.7f, 0.2f}, {0.05f, 0.05f});
         win->swapBuffers();
     }
 }
