@@ -4,16 +4,31 @@
 
 namespace ATMA
 {
+    typedef const char *(WINAPI *wglGetExtensionsStringARB_t)(HDC theDeviceContext);
+
     GLRenderContextOpenGLWinImpl::GLRenderContextOpenGLWinImpl(): GLRenderContext()
     {
+        //Some systems require that a window is created first
+        //So we will create a ghost window to load the extensions into memory
+        WindowWinImpl win{};
+        ShowWindow(win.m_windowHandle, SW_HIDE);
         GLenum err;
         HGLRC tempContext;
-        int pixelFormat;
+        int pixelFormat = -1;
         ATMA_ENGINE_INFO("Constructing Windows OpenGL Render Context");
         // pass windows window handler to get window device context
-        m_hdc = GetDC(NULL);
-        pixelFormat = ChoosePixelFormat(m_hdc, &ATConst::DEFAULT_PIXEL_FORMAT_D);
-        SetPixelFormat(m_hdc, pixelFormat, &ATConst::DEFAULT_PIXEL_FORMAT_D);
+        m_hdc = GetDC(win.m_windowHandle);
+        PIXELFORMATDESCRIPTOR aFormat = ATConst::DEFAULT_PIXEL_FORMAT_D;
+        pixelFormat = ChoosePixelFormat(m_hdc, &aFormat);
+        if(pixelFormat == 0)
+        {
+            ATMA_ENGINE_WARN("Failed to choose pixel format");
+        }
+        DescribePixelFormat(m_hdc, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &aFormat);
+        if(!SetPixelFormat(m_hdc, pixelFormat, &aFormat))
+        {
+            ATMA_ENGINE_WARN("Failed to failed pixel format");
+        }
         tempContext = wglCreateContext(m_hdc);
         wglMakeCurrent(m_hdc, tempContext);
         ATMA_ENGINE_INFO("Created Open GL temp context");
