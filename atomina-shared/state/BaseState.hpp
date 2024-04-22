@@ -28,16 +28,6 @@ namespace ATMA
         virtual ~BaseState();
 
         /**
-         * function called by context on creation of state
-         */
-        virtual void onCreate() = 0;
-
-        /**
-         * function called by context before deletion of the state
-         */
-        virtual void onDestroy() = 0;
-
-        /**
          * function called by context when activating state
          */
         virtual void activate();
