@@ -15,31 +15,23 @@ void GameApp::run()
 
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
 
-    auto textID = ctx.registerResource("shaggyhead", 0u, "res/shaggysheet.png");
-    auto fontID = ctx.registerResource("font", 1u, "res/defaultFont.png");
-
     std::shared_ptr<ATMA::AppWindow> win = ATMA::AppWindow::makeWindow();
 
-    std::unique_ptr<ATMA::BaseState> state = std::make_unique<GameState>();
-
-    ctx.addState(0, std::move(state));
-
     win->show();
-
+    //note that the context is reset when set to a new window, so any memory associated with
+    //it will cause an error. So best to set window before anything else
     ctx.m_renderCtx->setWindow(win);
-    ctx.m_renderCtx->setFont(ctx.loadResource<ATMA::Font>(fontID));
-    std::shared_ptr<ATMA::GLRenderable> renderable = std::make_shared<ATMA::GLRenderable>();
-    renderable->m_texture = ctx.loadResource<ATMA::Texture>(textID)->m_self;
-    renderable->m_region = {1.5f, 2.5f};
-    renderable->m_srcRegion = {1.0f, 1.0f};
+
+    std::unique_ptr<MainMenuState> state = std::make_unique<MainMenuState>(win);
+
+    ctx.addState(GameStateType(GameStateEnum::MAINMENU), std::move(state));
 
     ATMA_ENGINE_INFO("Starting Game Loop");
     while(!win->shouldClose())
     {
         win->poll();
         ctx.m_renderCtx->clear();
-        ctx.m_renderCtx->draw(renderable);
-        ctx.m_renderCtx->drawText("What is up", {-0.7f, 0.2f}, {0.05f, 0.05f});
+        ctx.update();
         win->swapBuffers();
     }
 }

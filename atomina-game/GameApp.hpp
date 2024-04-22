@@ -1,6 +1,7 @@
 #pragma once
 #include <atomina.hpp>
-#include "GameState.hpp"
+#include "MainMenuState.hpp"
+#include "GameStateType.hpp"
 
 #ifdef ATOMINA_EXPORTS
 #    error Atomina Exports was defined in the game app

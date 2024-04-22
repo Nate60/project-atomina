@@ -13,10 +13,6 @@ TestState::TestState(const unsigned int &l_id):
 
 TestState::~TestState() {}
 
-void TestState::onCreate() {}
-
-void TestState::onDestroy() {}
-
 void TestState::activate()
 {
     if(ctx.hasSystem(0u))

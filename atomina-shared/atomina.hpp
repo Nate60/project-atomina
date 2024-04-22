@@ -53,9 +53,11 @@
 #include "OAS/AttrBase.hpp"
 #include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrControllable.hpp"
+#include "OAS/attributes/AttrRenderable.hpp"
 #include "OAS/SysBase.hpp"
 #include "OAS/systems/SysTranslator.hpp"
 #include "OAS/systems/SysController.hpp"
+#include "OAS/systems/SysRenderer.hpp"
 
 // Resource
 #include "resource/Resource.hpp"
@@ -82,6 +84,7 @@
 
 // GUI
 #include "GUI/AppWindow.hpp"
+#include "GUI/KeyCode.hpp"
 #ifdef _WINDOWS
 #    include "GUI/window/WindowWinImpl.hpp"
 #elif __linux__

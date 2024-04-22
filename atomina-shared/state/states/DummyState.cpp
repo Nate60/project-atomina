@@ -7,10 +7,6 @@ namespace ATMA
 
     DummyState::~DummyState() {}
 
-    void DummyState::onCreate() {}
-
-    void DummyState::onDestroy() {}
-
     void DummyState::activate() {}
 
     void DummyState::deactivate() {}
