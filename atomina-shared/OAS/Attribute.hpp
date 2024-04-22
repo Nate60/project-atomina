@@ -15,6 +15,8 @@ namespace ATMA
         Shape,
         Velocity,
         Controllable,
+        Render,
+        Label,
         COUNT
     };
 

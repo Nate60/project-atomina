@@ -6,8 +6,12 @@
 #include "OAS/attributes/AttrControllable.hpp"
 #include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrVelocity.hpp"
+#include "OAS/attributes/AttrRenderable.hpp"
+#include "OAS/attributes/AttrLabel.hpp"
 #include "OAS/systems/SysController.hpp"
 #include "OAS/systems/SysTranslator.hpp"
+#include "OAS/systems/SysRenderer.hpp"
+#include "OAS/systems/SysTextRenderer.hpp"
 
 namespace ATMA
 {
