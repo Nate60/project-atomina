@@ -32,18 +32,6 @@ public:
     virtual ~TestState();
 
     /**
-     * function to run when the state is registered to the context.
-     * Creates relevant objects and enables required systems
-     */
-    virtual void onCreate() override;
-
-    /**
-     * function to run when the state is removed from the context
-     * Removes relevant objects and disabled no longer needed systems
-     */
-    virtual void onDestroy() override;
-
-    /**
      * Function to run when state is switched to and becomes active,
      * to enable relevant systems
      */

@@ -29,7 +29,7 @@ namespace ATMA
         StateType(const unsigned int &l_int): m_type(static_cast<State>(l_int)) {}
 
         // conversion operator
-        operator unsigned int()
+        constexpr operator unsigned int()
         {
             return static_cast<unsigned int>(m_type);
         }

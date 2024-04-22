@@ -19,10 +19,14 @@ namespace ATMA
         ctx.registerAttributeType<AttrControllable>(AttributeType(Attribute::Controllable));
         ctx.registerAttributeType<AttrShape>(AttributeType(Attribute::Shape));
         ctx.registerAttributeType<AttrVelocity>(AttributeType(Attribute::Velocity));
+        ctx.registerAttributeType<AttrRenderable>(AttributeType(Attribute::Render));
+        ctx.registerAttributeType<AttrLabel>(AttributeType(Attribute::Label));
 
         // system registration
         ctx.addSystemType<SysController>(SystemType(System::Controller));
         ctx.addSystemType<SysTranslator>(SystemType(System::Translator));
+        ctx.addSystemType<SysTextRenderer>(SystemType(System::TextRenderer));
+        ctx.addSystemType<SysRenderer>(SystemType(System::Renderer));
     }
 
     void Game::run()

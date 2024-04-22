@@ -17,16 +17,6 @@ namespace ATMA
         virtual ~DummyState();
 
         /**
-         * stub function for creation of state
-         */
-        virtual void onCreate() override;
-
-        /**
-         * stub function for deletion of state
-         */
-        virtual void onDestroy() override;
-
-        /**
          * stub function for activation of state
          */
         virtual void activate() override;
