@@ -16,7 +16,6 @@ namespace ATMA
         Velocity,
         Controllable,
         Render,
-        Label,
         COUNT
     };
 

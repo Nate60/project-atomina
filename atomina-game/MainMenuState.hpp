@@ -20,57 +20,65 @@ public:
         m_win = win;
         std::bitset<ATConst::OBJECT_BIT_SIZE> bits{};
         bits.set(ATMA::AttributeType(ATMA::Attribute::Render));
-        bits.set(ATMA::AttributeType(ATMA::Attribute::Label));
         auto selectedTextID = ctx.registerResource("selected", 0u, "res/selected.png");
         auto unselectedTextID = ctx.registerResource("unselected", 0u, "res/unselected.png");
         auto fontID = ctx.registerResource("font", 1u, "res/defaultFont.png");
         auto font = ctx.loadResource<ATMA::Font>(fontID);
+        m_selected = 2;
         ctx.m_renderCtx->setFont(font);
-        std::shared_ptr<ATMA::AttrLabel> label;
         m_selectedTexture = ctx.loadResource<ATMA::Texture>(selectedTextID);
         m_unselectedTexture = ctx.loadResource<ATMA::Texture>(unselectedTextID);
-        m_menuOpts[0] = ctx.createObject(bits);
-        m_menuObjs[0] = ctx.getAttribute<ATMA::AttrRenderable>(
-            m_menuOpts[0], ATMA::AttributeType(ATMA::Attribute::Render)
+        m_menuOpts[0].first = ctx.createObject(bits);
+        m_menuObjs[0].first = ctx.getAttribute<ATMA::AttrRenderable>(
+            m_menuOpts[0].first, ATMA::AttributeType(ATMA::Attribute::Render)
         );
-        label = ctx.getAttribute<ATMA::AttrLabel>(
-            m_menuOpts[0], ATMA::AttributeType(ATMA::Attribute::Label)
+        m_menuOpts[0].second = ctx.createObject(bits);
+        m_menuObjs[0].second = ctx.getAttribute<ATMA::AttrRenderable>(
+            m_menuOpts[0].second, ATMA::AttributeType(ATMA::Attribute::Render)
         );
-        label->m_text = "Exit";
-        label->m_pos = ATMA::Vec2<float>{-0.21f, -0.25f};
-        label->m_size = ATMA::Vec2<float>{0.07f, 0.1f};
-        m_menuObjs[0]->m_texture = m_selectedTexture->m_self;
-        m_menuObjs[0]->m_region = ATMA::Vec2<float>{0.3f, 0.1f};
-        m_menuObjs[0]->m_screenPos = ATMA::Vec2<float>{0.f, -0.25f};
-        m_menuObjs[0]->m_srcRegion = ATMA::Vec2<float>{1.f, 1.f};
-        m_menuOpts[1] = ctx.createObject(bits);
-        m_menuObjs[1] = ctx.getAttribute<ATMA::AttrRenderable>(
-            m_menuOpts[1], ATMA::AttributeType(ATMA::Attribute::Render)
+        m_menuObjs[0].second->m_element = "Exit";
+        m_menuObjs[0].second->m_region = ATMA::Vec2<float>{0.07f, 0.1f};
+        m_menuObjs[0].second->m_screenPos = ATMA::Vec2<float>{-0.21f, -0.25f};
+        m_menuObjs[0].second->m_stackPos = 1;
+        m_menuObjs[0].first->m_element = m_unselectedTexture->m_self;
+        m_menuObjs[0].first->m_region = ATMA::Vec2<float>{0.3f, 0.1f};
+        m_menuObjs[0].first->m_screenPos = ATMA::Vec2<float>{0.f, -0.25f};
+        m_menuObjs[0].first->m_srcRegion = ATMA::Vec2<float>{1.f, 1.f};
+        m_menuObjs[0].first->m_stackPos = 0;
+        m_menuOpts[1].first = ctx.createObject(bits);
+        m_menuObjs[1].first = ctx.getAttribute<ATMA::AttrRenderable>(
+            m_menuOpts[1].first, ATMA::AttributeType(ATMA::Attribute::Render)
         );
-        label = ctx.getAttribute<ATMA::AttrLabel>(
-            m_menuOpts[1], ATMA::AttributeType(ATMA::Attribute::Label)
+        m_menuOpts[1].second = ctx.createObject(bits);
+        m_menuObjs[1].second = ctx.getAttribute<ATMA::AttrRenderable>(
+            m_menuOpts[1].second, ATMA::AttributeType(ATMA::Attribute::Render)
         );
-        label->m_text = "Options";
-        label->m_pos = ATMA::Vec2<float>{-0.23f, 0.f};
-        label->m_size = ATMA::Vec2<float>{0.04f, 0.1f};
-        m_menuObjs[1]->m_texture = m_unselectedTexture->m_self;
-        m_menuObjs[1]->m_region = ATMA::Vec2<float>{0.3f, 0.1f};
-        m_menuObjs[1]->m_screenPos = ATMA::Vec2<float>{0.f, 0.f};
-        m_menuObjs[1]->m_srcRegion = ATMA::Vec2<float>{1.f, 1.f};
-        m_menuOpts[2] = ctx.createObject(bits);
-        m_menuObjs[2] = ctx.getAttribute<ATMA::AttrRenderable>(
-            m_menuOpts[2], ATMA::AttributeType(ATMA::Attribute::Render)
+        m_menuObjs[1].second->m_element = "Options";
+        m_menuObjs[1].second->m_region = ATMA::Vec2<float>{0.04f, 0.1f};
+        m_menuObjs[1].second->m_screenPos = ATMA::Vec2<float>{-0.25f, 0.f};
+        m_menuObjs[1].second->m_stackPos = 1;
+        m_menuObjs[1].first->m_element = m_unselectedTexture->m_self;
+        m_menuObjs[1].first->m_region = ATMA::Vec2<float>{0.3f, 0.1f};
+        m_menuObjs[1].first->m_screenPos = ATMA::Vec2<float>{0.f, 0.f};
+        m_menuObjs[1].first->m_srcRegion = ATMA::Vec2<float>{1.f, 1.f};
+        m_menuObjs[1].first->m_stackPos = 0;
+        m_menuOpts[2].first = ctx.createObject(bits);
+        m_menuObjs[2].first = ctx.getAttribute<ATMA::AttrRenderable>(
+            m_menuOpts[2].first, ATMA::AttributeType(ATMA::Attribute::Render)
         );
-        label = ctx.getAttribute<ATMA::AttrLabel>(
-            m_menuOpts[2], ATMA::AttributeType(ATMA::Attribute::Label)
+        m_menuOpts[2].second = ctx.createObject(bits);
+        m_menuObjs[2].second = ctx.getAttribute<ATMA::AttrRenderable>(
+            m_menuOpts[2].second, ATMA::AttributeType(ATMA::Attribute::Render)
         );
-        label->m_text = "Play";
-        label->m_pos = ATMA::Vec2<float>{-0.21f, 0.25f};
-        label->m_size = ATMA::Vec2<float>{0.07f, 0.1f};
-        m_menuObjs[2]->m_texture = m_unselectedTexture->m_self;
-        m_menuObjs[2]->m_region = ATMA::Vec2<float>{0.3f, 0.1f};
-        m_menuObjs[2]->m_screenPos = ATMA::Vec2<float>{0.f, 0.25f};
-        m_menuObjs[2]->m_srcRegion = ATMA::Vec2<float>{1.f, 1.f};
+        m_menuObjs[2].second->m_element = "Play";
+        m_menuObjs[2].second->m_region = ATMA::Vec2<float>{0.07f, 0.1f};
+        m_menuObjs[2].second->m_screenPos = ATMA::Vec2<float>{-0.21f, 0.25f};
+        m_menuObjs[2].second->m_stackPos = 1;
+        m_menuObjs[2].first->m_element = m_selectedTexture->m_self;
+        m_menuObjs[2].first->m_region = ATMA::Vec2<float>{0.3f, 0.1f};
+        m_menuObjs[2].first->m_screenPos = ATMA::Vec2<float>{0.f, 0.25f};
+        m_menuObjs[2].first->m_srcRegion = ATMA::Vec2<float>{1.f, 1.f};
+        m_menuObjs[2].first->m_stackPos = 0;
     }
 
     /**
@@ -105,20 +113,11 @@ public:
             {
 
                 ATMA::KeyEnum keycode = ATMA::KeyEnum(l_winEvent.getProp<unsigned int>("keycode"s));
-                {
-                    ATMA_ENGINE_TRACE(
-                        "Key Code: {} Key Code Up: {} Key Code Down: {} Key Code Enter: {}",
-                        int(keycode),
-                        int(ATMA::KeyEnum::UP),
-                        int(ATMA::KeyEnum::DOWN),
-                        int(ATMA::KeyEnum::RETURN)
-                    );
-                }
  
                 switch(keycode)
                 {
                 case ATMA::KeyEnum::DOWN:
-                    m_menuObjs[m_selected]->m_texture = m_unselectedTexture->m_self;
+                    m_menuObjs[m_selected].first->m_element = m_unselectedTexture->m_self;
                     if(m_selected == 0)
                     {
                         m_selected = 2;
@@ -127,10 +126,10 @@ public:
                     {
                         m_selected--;
                     }
-                    m_menuObjs[m_selected]->m_texture = m_selectedTexture->m_self;
+                    m_menuObjs[m_selected].first->m_element = m_selectedTexture->m_self;
                     break;
                 case ATMA::KeyEnum::UP:
-                    m_menuObjs[m_selected]->m_texture = m_unselectedTexture->m_self;
+                    m_menuObjs[m_selected].first->m_element = m_unselectedTexture->m_self;
                     if(m_selected == 2)
                     {
                         m_selected = 0;
@@ -139,7 +138,7 @@ public:
                     {
                         m_selected++;
                     }
-                    m_menuObjs[m_selected]->m_texture = m_selectedTexture->m_self;
+                    m_menuObjs[m_selected].first->m_element = m_selectedTexture->m_self;
                     break;
                 case ATMA::KeyEnum::RETURN:
                     switch(m_selected)
@@ -171,8 +170,8 @@ public:
     }
 private:
     std::shared_ptr<ATMA::AppWindow> m_win;
-    unsigned int m_menuOpts[3] = {0, 0, 0};
-    std::shared_ptr<ATMA::AttrRenderable> m_menuObjs[3]{};
+    std::pair<unsigned int,unsigned int> m_menuOpts[3] = {{0,0}, {0,0}, {0,0}};
+    std::pair<std::shared_ptr<ATMA::AttrRenderable>,std::shared_ptr<ATMA::AttrRenderable>> m_menuObjs[3]{};
     int m_selected = 0;
     std::shared_ptr<ATMA::Texture> m_selectedTexture;
     std::shared_ptr<ATMA::Texture> m_unselectedTexture;
