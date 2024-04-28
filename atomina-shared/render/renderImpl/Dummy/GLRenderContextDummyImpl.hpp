@@ -36,14 +36,7 @@ namespace ATMA
          * Starts a draw call for the renderable object
          * @param l_renderable the object to be drawn
          */
-        virtual void draw(std::shared_ptr<GLRenderable> l_renderable) override;
-
-        /**
-         * Starts drawing text to the screen
-         * @param l_text the text to be drawn
-        */
-        virtual void drawText(const std::string &l_text, const Vec2<float> &l_pos, const Vec2<float> &l_size) override;
-
+        virtual void draw() override;
         /**
          * clears the view port that he Render context has been set to
          * to be all one colour

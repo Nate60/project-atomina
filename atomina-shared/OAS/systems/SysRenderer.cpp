@@ -17,7 +17,7 @@ namespace ATMA
         for(auto &id: m_objects)
         {
             auto attr = ctx.getAttribute<AttrRenderable>(id, AttributeType(Attribute::Render));
-            ctx.m_renderCtx->draw(attr);
+            ctx.m_renderCtx->add(attr);
         }
 
     }

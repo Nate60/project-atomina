@@ -27,6 +27,11 @@ namespace ATMA
         m_font = l_font;
     }
 
+    void GLRenderContext::add(std::shared_ptr<GLRenderable> l_element)
+    {
+        m_elementStack.push(l_element);
+    }
+
     std::unique_ptr<GLRenderContext> GLRenderContext::makeRenderContext()
     {
         __ATMAMAKEGLRENDERCTX();
