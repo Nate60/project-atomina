@@ -13,6 +13,7 @@ namespace ATMA
     class ATMA_API AttrRenderable: public AttrBase, public GLRenderable
     {
     public:
+
         // default constructor
         AttrRenderable();
 

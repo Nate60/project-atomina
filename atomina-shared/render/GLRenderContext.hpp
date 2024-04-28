@@ -20,7 +20,7 @@ namespace ATMA
         virtual ~GLRenderContext();
 
         /**
-         * Points the render context to the corresponding app window to draw to it
+         * Points the render context to the corresponding app window to draraw to it
          * from now on
          * @param l_window the App window to target
          */
@@ -38,20 +38,19 @@ namespace ATMA
          * Starts a draw call for the renderable object
          * @param l_renderable the object to be drawn
          */
-        virtual void draw(std::shared_ptr<GLRenderable> l_renderable) = 0;
+        virtual void add(std::shared_ptr<GLRenderable> l_renderable);
 
         /**
          * Starts drawing text to the screen
          * @param l_text the text to be drawn
-        */
-        virtual void drawText(const std::string &l_text, const Vec2<float> &l_pos, const Vec2<float> &l_size) = 0;
+         */
+        virtual void draw() = 0;
 
         /**
          * clears the view port that he Render context has been set to
          * to be all one colour
          */
         virtual void clear() = 0;
-
 
         /**
          * Factory function for creating a render context for the
@@ -60,10 +59,15 @@ namespace ATMA
          */
         static std::unique_ptr<GLRenderContext> makeRenderContext();
     protected:
+        std::vector<std::shared_ptr<GLRenderable>> m_elementContainer{};
+        std::priority_queue<
+            std::shared_ptr<GLRenderable>,
+            std::vector<std::shared_ptr<GLRenderable>>,
+            GLRenderableCompare>
+            m_elementStack{m_elementContainer.begin(), m_elementContainer.end(), GLRenderableCompare()};
         std::shared_ptr<Font> m_font;
         // protected constructor so it cannot be publicly instantiated
         GLRenderContext();
-
     };
 
 }

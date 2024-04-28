@@ -18,9 +18,7 @@ namespace ATMA
 
     void GLRenderContextDummyImpl::setSize(const Vec2<unsigned int> &l_size) {}
 
-    void GLRenderContextDummyImpl::draw(std::shared_ptr<GLRenderable> l_renderable) {}
-
-    void GLRenderContextDummyImpl::drawText(const std::string &l_text, const Vec2<float> &l_pos, const Vec2<float> &l_size){}
+    void GLRenderContextDummyImpl::draw() {}
 
     void GLRenderContextDummyImpl::clear() {}
 

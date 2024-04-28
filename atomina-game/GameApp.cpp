@@ -32,6 +32,7 @@ void GameApp::run()
         win->poll();
         ctx.m_renderCtx->clear();
         ctx.update();
+        ctx.m_renderCtx->draw();
         win->swapBuffers();
     }
 }
