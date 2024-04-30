@@ -113,7 +113,7 @@ public:
             {
 
                 ATMA::KeyEnum keycode = ATMA::KeyEnum(l_winEvent.getProp<unsigned int>("keycode"s));
- 
+                ATMA_ENGINE_TRACE("Key code pressed {:x}", int(keycode));
                 switch(keycode)
                 {
                 case ATMA::KeyEnum::DOWN:
