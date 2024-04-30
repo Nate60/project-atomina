@@ -84,7 +84,9 @@ namespace ATMA
             {
             case KeyPress:
                 {
-                    props["keycode"] = (unsigned int)inEvent.xkey.keycode;
+                    bool shiftMask = inEvent.xkey.state & ShiftMask;
+                    KeySym keysym = XkbKeycodeToKeysym(m_display, inEvent.xkey.keycode, 0, (int)shiftMask);
+                    props["keycode"] = (unsigned int)keysym;
                     props["repeat"] = m_repeatKey;
                     ATMAContext::getContext().dispatchWindowEvent(WindowEvent{
                         shared_from_this(), WindowEventEnum::KeyDowned, props});
