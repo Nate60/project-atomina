@@ -17,17 +17,20 @@ namespace ATMA
 
     IndexBuffer::IndexBuffer(const std::vector<unsigned int> &l_data)
     {
-
+        ATMA_ENGINE_TRACE("Creating Index Buffer");
         m_data = l_data;
     }
 
-    IndexBuffer::IndexBuffer()
+    IndexBuffer::IndexBuffer() 
     {
-
+        ATMA_ENGINE_TRACE("Creating Index Buffer");
         m_data = {};
     }
 
-    IndexBuffer::~IndexBuffer() {}
+    IndexBuffer::~IndexBuffer() 
+    {
+        ATMA_ENGINE_TRACE("Deleting Index Buffer");
+    }
 
     std::shared_ptr<IndexBuffer> IndexBuffer::makeBuffer(const std::vector<unsigned int> &l_data)
     {
@@ -39,10 +42,14 @@ namespace ATMA
         __ATMAMAKEEMPTYGLBUFFER(IndexBuffer);
     }
 
-    VertexBuffer::VertexBuffer(const std::vector<float> &l_data): m_data(l_data) {}
+    VertexBuffer::VertexBuffer(const std::vector<float> &l_data): m_data(l_data) 
+    {
+        ATMA_ENGINE_TRACE("Creating Vertex Buffer");
+    }
 
     VertexBuffer::VertexBuffer()
     {
+        ATMA_ENGINE_TRACE("Creating Vertex Buffer");
         m_data = {};
     }
 
@@ -56,21 +63,27 @@ namespace ATMA
         __ATMAMAKEEMPTYGLBUFFER(VertexBuffer);
     }
 
-    VertexBuffer::~VertexBuffer() {}
+    VertexBuffer::~VertexBuffer() 
+    {
+        ATMA_ENGINE_TRACE("Deleting Vertex Buffer");
+    }
 
     VertexArray::VertexArray(const std::vector<LayoutElement> &l_elements):
         m_elementSpecs(l_elements)
     {
+        ATMA_ENGINE_TRACE("Creating Vertex Array");
     }
 
     VertexArray::VertexArray(const std::initializer_list<LayoutElement> &l_elements)
     {
+        ATMA_ENGINE_TRACE("Creating Vertex Array");
         for(auto &l_element: l_elements)
             m_elementSpecs.emplace_back(l_element);
     }
 
     VertexArray::VertexArray()
     {
+        ATMA_ENGINE_TRACE("Creating Vertex Array");
         m_elementSpecs = {};
     }
 
@@ -90,5 +103,8 @@ namespace ATMA
         __ATMAMAKEEMPTYGLBUFFER(VertexArray);
     }
 
-    VertexArray::~VertexArray() {}
+    VertexArray::~VertexArray() 
+    {
+        ATMA_ENGINE_TRACE("Deleting Vertex Array");
+    }
 }

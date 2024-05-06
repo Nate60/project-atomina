@@ -10,29 +10,11 @@ namespace ATMA
      * @tparam T numeric subtype of the vector
      */
     template<class T>
-    class ATMA_API Vec3
+    struct Vec3
     {
-    public:
-        // default constructor
-        Vec3(): x(0), y(0), z(0) {}
-
-        /*
-         * MSVC requires this constructor to specify a template
-         * while GCC throws an exception since it shades the template
-         * from the class definition
-         */
-
-#ifdef _WINDOWS
-        template<class T>
-#endif
-        // constructor specifying vector values
-        Vec3(T a, T b, T c): x(a), y(b), z(c)
-        {
-        }
-
-        T x;
-        T y;
-        T z;
+        T x{0};
+        T y{0};
+        T z{0};
     };
 
     /**
@@ -43,7 +25,7 @@ namespace ATMA
      * @returns resulting composite vector
      */
     template<class T>
-    inline Vec3<T> operator+(Vec3<T> a, Vec3<T> b)
+    constexpr inline Vec3<T> operator+(Vec3<T> a, Vec3<T> b)
     {
         return {a.x + b.x, a.y + b.y, a.z + b.z};
     }
@@ -56,7 +38,7 @@ namespace ATMA
      * @returns resulting composite vector
      */
     template<class T>
-    inline Vec3<T> operator-(Vec3<T> a, Vec3<T> b)
+    constexpr inline Vec3<T> operator-(Vec3<T> a, Vec3<T> b)
     {
         return {a.x - b.x, a.y - b.y, a.z - b.z};
     }
@@ -69,7 +51,7 @@ namespace ATMA
      * @returns resulting magnified vector
      */
     template<class T>
-    inline Vec3<T> operator*(Vec3<T> a, T b)
+    constexpr inline Vec3<T> operator*(Vec3<T> a, T b)
     {
         return {(a.x * b), (a.y * b), (a.z * b)};
     }
@@ -82,9 +64,22 @@ namespace ATMA
      * @returns resulting scalar value
      */
     template<class T>
-    inline T operator*(Vec3<T> a, Vec3<T> b)
+    constexpr inline T operator*(Vec3<T> a, Vec3<T> b)
     {
         return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+    }
+
+    /**
+     * scalar division
+     * @tparam numeric subtype of the vector
+     * @param a vector
+     * @param b scalar
+     * @returns resulting magnified vector
+     */
+    template<class T>
+    constexpr inline Vec3<T> operator/(Vec3<T> a, T b)
+    {
+        return {(a.x / b), (a.y / b), (a.z / b)};
     }
 
     /**
@@ -95,7 +90,7 @@ namespace ATMA
      * @return resulting orthogonal vector
      */
     template<class T>
-    inline Vec3<T> cross(Vec3<T> a, Vec3<T> b)
+    constexpr inline Vec3<T> cross(Vec3<T> a, Vec3<T> b)
     {
         return {(a.y * b.z) - (a.z * b.y), (a.z * b.x) - (a.x * b.z), (a.x * b.y) - (a.y * b.x)};
     }
@@ -108,11 +103,20 @@ namespace ATMA
      * @returns resulting boolean
      */
     template<class T>
-    inline bool operator==(Vec3<T> a, Vec3<T> b)
+    constexpr inline bool operator==(Vec3<T> a, Vec3<T> b)
     {
         return std::fabs(a.x - b.x) <= std::numeric_limits<T>::epsilon()
             && std::fabs(a.y - b.y) <= std::numeric_limits<T>::epsilon()
             && std::fabs(a.z - b.z) <= std::numeric_limits<T>::epsilon();
+    }
+
+    template<class T>
+    constexpr inline Vec3<T> normalize(Vec3<T> l_vector)
+    {
+        T dist = static_cast<T>(std::sqrt(l_vector * l_vector));
+        if(dist == 0) //0 vector cannot be normalized
+            return l_vector;
+        return Vec3<T>{l_vector.x / dist, l_vector.y / dist, l_vector.z / dist};
     }
 
 }

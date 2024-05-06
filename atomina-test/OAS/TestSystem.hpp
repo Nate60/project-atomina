@@ -21,7 +21,7 @@ public:
      * how many ticks have passed
      * @param l_dt time since last update
      */
-    virtual void update(const float &l_dt) override;
+    virtual void update(const long long &l_dt) override;
 
     /**
      * Triggers any event specific functionality of the system

@@ -76,6 +76,7 @@ namespace ATMA
     protected:
         static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
         HWND m_windowHandle;
+        HDC m_deviceContext;
     };
 
     const wchar_t DEFAULT_CLASS_NAME[] = {L"Atomina AppWindow Class"};

@@ -15,6 +15,8 @@ void GameApp::run()
 
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
 
+    ctx.addSystemType<SysFly>(ATMA::SysType(ATMA::System::COUNT));
+
     std::shared_ptr<ATMA::AppWindow> win = ATMA::AppWindow::makeWindow();
 
     win->show();
@@ -22,11 +24,21 @@ void GameApp::run()
     //it will cause an error. So best to set window before anything else
     ctx.m_renderCtx->setWindow(win);
 
-    std::unique_ptr<MainMenuState> state = std::make_unique<MainMenuState>(win);
+    std::shared_ptr<MainMenuState> state = std::make_unique<MainMenuState>(win);
+    std::shared_ptr<PlayState> playState = std::make_unique<PlayState>();
+    
+    auto sysFly = ctx.getSystem<SysFly>(ATMA::SysType(ATMA::System::COUNT));
+    ctx.addObjectEventListener(GameEventType(GameEventEnum::FLAP),sysFly);
+    ctx.addObjectEventListener(GameEventType(GameEventEnum::GAMEOVER), playState);
+    ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::Collision), playState);
 
     ctx.addState(GameStateType(GameStateEnum::MAINMENU), std::move(state));
+    ATMA_ENGINE_INFO("Created mainmenu");
+    ctx.addState(GameStateType(GameStateEnum::PLAYSTATE), std::move(playState));
+    ATMA_ENGINE_INFO("Created playstate");
 
     ATMA_ENGINE_INFO("Starting Game Loop");
+
     while(!win->shouldClose())
     {
         win->poll();
@@ -36,6 +48,7 @@ void GameApp::run()
         win->swapBuffers();
     }
 }
+
 
 void GameApp::shutdown()
 {

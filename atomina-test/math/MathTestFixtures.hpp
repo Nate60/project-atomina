@@ -43,6 +43,7 @@ protected:
         result = f(x1, x2, w);
         EXPECT_EQ(result, exp);
     }
+
 };
 
 /**
@@ -59,7 +60,7 @@ protected:
      * @param f function that implements perlin noise and returns a float
      * @param l_exp expected value of the given function
      */
-    void perlinTest(std::function<T(T, T, float)> f, T l_exp)
+    void perlinTest(std::function<T(const T &,const T&, const float &)> f, T l_exp)
     {
         ATMA::Vec2<T> gradient[4] = {
             {0, 0},
@@ -71,5 +72,26 @@ protected:
         T y = static_cast<T>(0.5);
         T result = ATMA::perlin(gradient, f, x, y);
         EXPECT_EQ(result, l_exp);
+    }
+};
+
+template<class T>
+class LerpClosestFixture : public ::testing::Test
+{
+protected:
+    /**
+    * function to run lerp closest math funciton
+    */
+    void lerpClosestTest()
+    {
+        // between off line
+        ATMA::Vec2<T> a = {1, 1};
+        ATMA::Vec2<T> b = {4, 4};
+        ATMA::Vec2<T> point = {2, 3};
+        T expT = static_cast<T>(2.5f);
+        ATMA::Vec2<T> exp = {expT, expT};
+        ATMA::Vec2<T> result = ATMA::lerpClosest<T>(a, b, point);
+        EXPECT_EQ(exp.x, result.x);
+        EXPECT_EQ(exp.y, result.y);
     }
 };

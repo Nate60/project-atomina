@@ -28,7 +28,8 @@ namespace ATMA
          */
         void readIn(std::stringstream &l_stream);
 
-        Vec2<float> m_dpos{}, m_dsize{}, m_drot{};
+        Vec2<float> m_dpos{}, m_dsize{};
+        float m_drot{};
     };
 
 }

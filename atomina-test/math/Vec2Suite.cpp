@@ -33,3 +33,37 @@ TYPED_TEST(Vector2TestFixture, ScalarTest)
 {
     this->scalarTest({2, 3}, 2, {4, 6});
 }
+
+/**
+ * Tests that scalar multiplication of vector 2 gives the correct result
+ */
+TYPED_TEST(Vector2TestFixture, DivideTest)
+{
+    this->divideTest({4, 6}, 2, {2, 3});
+}
+
+/**
+ * Tests that normalization of a vector gives correct result
+*/
+TYPED_TEST(Vector2TestFixture, NormalizeTest)
+{
+    this->normTest(
+        {1, 1}, {1 / static_cast<TypeParam>(std::sqrt(2)), 1 / static_cast<TypeParam>(std::sqrt(2))}
+    );
+}
+
+/**
+ * Normalizing a vector with a zero component does not break normalization
+*/
+TYPED_TEST(Vector2TestFixture, NormalizeTestAxis)
+{
+    this->normTest({1, 0}, {1, 0});
+}
+
+/**
+ * Normalizing a zero vector will return the zero vector
+*/
+TYPED_TEST(Vector2TestFixture, NormalizeTestZero)
+{
+    this->normTest({0, 0}, {0, 0});
+}

@@ -25,9 +25,13 @@ namespace ATMA
             (LPVOID)this
         );
         SetWindowLongPtr(m_windowHandle, 0, (LONG_PTR)this);
+        m_deviceContext = GetDC(m_windowHandle);
     }
 
-    WindowWinImpl::~WindowWinImpl() {}
+    WindowWinImpl::~WindowWinImpl() 
+    {
+        ReleaseDC(m_windowHandle, m_deviceContext);
+    }
 
     void WindowWinImpl::setSize(const Vec2<unsigned int> &l_size)
     {
@@ -42,7 +46,7 @@ namespace ATMA
     void WindowWinImpl::poll()
     {
         MSG Msg;
-        while(PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE))
+        while(PeekMessage(&Msg, m_windowHandle, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&Msg);
             DispatchMessage(&Msg);
@@ -52,8 +56,7 @@ namespace ATMA
 
     void WindowWinImpl::swapBuffers()
     {
-        HDC hdc = GetDC(m_windowHandle);
-        SwapBuffers(hdc);
+        SwapBuffers(m_deviceContext);
     }
 
     LRESULT CALLBACK WindowWinImpl::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -64,7 +67,7 @@ namespace ATMA
         {
         case WM_KEYDOWN:
             props["keycode"] = (unsigned int)LOWORD(wParam);
-            props["repeat"] = (boolean)((HIWORD(lParam) & KF_REPEAT) > 0);
+            props["repeat"] = (bool)((HIWORD(lParam) & KF_REPEAT) > 0);
             ATMAContext::getContext().dispatchWindowEvent(WindowEvent{
                 pWin->shared_from_this(), WindowEventEnum::KeyDowned, std::move(props)});
             return 0;

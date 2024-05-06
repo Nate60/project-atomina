@@ -24,6 +24,7 @@
 #include "math/Vec2.hpp"
 #include "math/Vec3.hpp"
 #include "math/Mat3.hpp"
+#include "math/Stadium.hpp"
 #include "math/RandomGenerator.hpp"
 #include "math/MathFuncs.hpp"
 
@@ -54,10 +55,13 @@
 #include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrControllable.hpp"
 #include "OAS/attributes/AttrRenderable.hpp"
+#include "OAS/attributes/AttrVelocity.hpp"
+#include "OAS/attributes/AttrCollidable.hpp"
 #include "OAS/SysBase.hpp"
 #include "OAS/systems/SysTranslator.hpp"
 #include "OAS/systems/SysController.hpp"
 #include "OAS/systems/SysRenderer.hpp"
+#include "OAS/systems/SysCollider.hpp"
 
 // Resource
 #include "resource/Resource.hpp"
@@ -106,9 +110,9 @@
 #include "render/renderImpl/OpenGL/GLBufferOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLProgramOpenGLImpl.hpp"
 #ifdef _WINDOWS
-#include "render/renderImpl/OpenGL/GLRenderContextOpenGLWinImpl.hpp"
+#    include "render/renderImpl/OpenGL/GLRenderContextOpenGLWinImpl.hpp"
 #elif __linux__
-#include "render/renderImpl/OpenGL/GLRenderContextOpenGLUnixImpl.hpp"
+#    include "render/renderImpl/OpenGL/GLRenderContextOpenGLUnixImpl.hpp"
 #endif
 #include "render/renderImpl/OpenGL/GLShaderOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLTextureOpenGLImpl.hpp"

@@ -9,8 +9,7 @@
 namespace ATMA
 {
     /**
-     * System that implements input control for objects allows for user inputs
-     * to affect objects
+     * System that implements render calls on all objects that can be rendered
      */
     class ATMA_API SysRenderer: public SysBase
     {
@@ -25,7 +24,7 @@ namespace ATMA
          * update internal members on an engine tick basis
          * @param l_dt the time since last update
          */
-        virtual void update(const float &l_dt) override;
+        virtual void update(const long long &l_dt) override;
 
         /**
          * event callback function where the system will changes
