@@ -13,15 +13,9 @@ namespace ATMA
      * can be initialized as an initializer list
      */
     template<class T>
-    struct ATMA_API Mat3
+    struct Mat3
     {
-        // Windows requires explicit template definition for function
-        // while linux requires it not to be there since it will shade
-        // class template
-#ifdef _WINDOWS
-        template<class T>
-#endif
-        inline T &operator()(const unsigned int &l_row, const unsigned int &l_col)
+        constexpr inline T &operator()(const unsigned int &l_row, const unsigned int &l_col)
         {
             return m_values[l_row][l_col];
         }
@@ -41,7 +35,7 @@ namespace ATMA
      * @returns resulting composite matrix
      */
     template<class T>
-    inline Mat3<T> operator+(Mat3<T> a, Mat3<T> b)
+    constexpr inline Mat3<T> operator+(Mat3<T> a, Mat3<T> b)
     {
 
         return {
@@ -65,7 +59,7 @@ a.m_values[0][2] + b.m_values[0][2]},
      * @returns resulting composite matrix
      */
     template<class T>
-    inline Mat3<T> operator-(Mat3<T> a, Mat3<T> b)
+    constexpr inline Mat3<T> operator-(Mat3<T> a, Mat3<T> b)
     {
         return {
             {{a.m_values[0][0] - b.m_values[0][0],
@@ -88,7 +82,7 @@ a.m_values[0][2] - b.m_values[0][2]},
      * @returns resulting magnified matrix
      */
     template<class T>
-    inline Mat3<T> operator*(Mat3<T> a, T b)
+    constexpr inline Mat3<T> operator*(Mat3<T> a, T b)
     {
         return {
             {{a.m_values[0][0] * b, a.m_values[0][1] * b, a.m_values[0][2] * b},
@@ -105,7 +99,7 @@ a.m_values[0][2] - b.m_values[0][2]},
      * @returns resulting matrix
      */
     template<class T>
-    Mat3<T> operator*(Mat3<T> a, Mat3<T> b)
+    constexpr inline Mat3<T> operator*(Mat3<T> a, Mat3<T> b)
     {
         return {
             {{(a.m_values[0][0] * b.m_values[0][0] + a.m_values[0][1] * b.m_values[1][0]
@@ -132,14 +126,14 @@ a.m_values[0][2] - b.m_values[0][2]},
     }
 
     /**
-     * matrix multiplication
+     * matrix multiplication with vector
      * @tparam numeric subtype of the matrix
-     * @param a first matrix
-     * @param b second matrix
-     * @returns resulting matrix
+     * @param a matrix
+     * @param b vector
+     * @returns resulting vector
      */
     template<class T>
-    Vec3<T> operator*(Mat3<T> a, Vec3<T> b)
+    constexpr inline Vec3<T> operator*(Mat3<T> a, Vec3<T> b)
     {
         return {
             (a.m_values[0][0] * b.x + a.m_values[0][1] * b.y + a.m_values[0][2] * b.z),
@@ -155,7 +149,7 @@ a.m_values[0][2] - b.m_values[0][2]},
      * @returns if equivalent
      */
     template<class T>
-    bool operator==(Mat3<T> a, Mat3<T> b)
+    constexpr inline bool operator==(Mat3<T> a, Mat3<T> b)
     {
         return std::fabs(a.m_values[0][0] - b.m_values[0][0]) <= std::numeric_limits<T>::epsilon()
             && std::fabs(a.m_values[0][1] - b.m_values[0][1]) <= std::numeric_limits<T>::epsilon()

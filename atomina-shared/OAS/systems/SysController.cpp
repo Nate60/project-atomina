@@ -13,7 +13,10 @@ namespace ATMA
 
     SysController::~SysController() {}
 
-    void SysController::update(const float &l_dt) {}
+    void SysController::update(const long long &l_dt) 
+    {
+
+    }
 
     void SysController::notify(const ObjectEventContext &l_e) {}
 

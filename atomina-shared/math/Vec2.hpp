@@ -10,9 +10,8 @@ namespace ATMA
      * @tparam T numeric subtype of the vector
      */
     template<class T>
-    class ATMA_API Vec2
+    struct Vec2
     {
-    public:
         T x{0};
         T y{0};
     };
@@ -25,7 +24,7 @@ namespace ATMA
      * @returns resulting composite vector
      */
     template<class T>
-    inline Vec2<T> operator+(Vec2<T> a, Vec2<T> b)
+    constexpr inline Vec2<T> operator+(Vec2<T> a, Vec2<T> b)
     {
         return {a.x + b.x, a.y + b.y};
     }
@@ -38,7 +37,7 @@ namespace ATMA
      * @returns resulting composite vector
      */
     template<class T>
-    inline Vec2<T> operator-(Vec2<T> a, Vec2<T> b)
+    constexpr inline Vec2<T> operator-(Vec2<T> a, Vec2<T> b)
     {
         return {a.x - b.x, a.y - b.y};
     }
@@ -51,9 +50,22 @@ namespace ATMA
      * @returns resulting magnified vector
      */
     template<class T>
-    inline Vec2<T> operator*(Vec2<T> a, T b)
+    constexpr inline Vec2<T> operator*(Vec2<T> a, T b)
     {
         return {(a.x * b), (a.y * b)};
+    }
+
+    /**
+     * scalar division
+     * @tparam numeric subtype of the vector
+     * @param a vector
+     * @param b scalar
+     * @returns resulting magnified vector
+     */
+    template<class T>
+    constexpr inline Vec2<T> operator/(Vec2<T> a, T b)
+    {
+        return {(a.x / b), (a.y / b)};
     }
 
     /**
@@ -64,7 +76,7 @@ namespace ATMA
      * @returns resulting scalar value
      */
     template<class T>
-    inline T operator*(Vec2<T> a, Vec2<T> b)
+    constexpr inline T operator*(Vec2<T> a, Vec2<T> b)
     {
         return (a.x * b.x) + (a.y * b.y);
     }
@@ -77,10 +89,20 @@ namespace ATMA
      * @returns resulting boolean
      */
     template<class T>
-    inline bool operator==(Vec2<T> a, Vec2<T> b)
+    constexpr inline bool operator==(Vec2<T> a, Vec2<T> b)
     {
         return std::fabs(a.x - b.x) <= std::numeric_limits<T>::epsilon()
             && std::fabs(a.y - b.y) <= std::numeric_limits<T>::epsilon();
     }
+
+    template<class T>
+    constexpr inline Vec2<T> normalize(Vec2<T> l_vector)
+    {
+        T dist = static_cast<T>(std::sqrt(l_vector * l_vector));  
+        if(dist == 0) //0 vector cannot be normalized
+            return l_vector; 
+        return Vec2<T>{l_vector.x/dist,l_vector.y/dist};
+    }
+   
 
 }

@@ -24,7 +24,7 @@ namespace ATMA
          * update internal members on an engine tick basis
          * @param l_dt the time since last update
          */
-        virtual void update(const float &l_dt) override;
+        virtual void update(const long long &l_dt) override;
 
         /**
          * event callback function where the system will changes

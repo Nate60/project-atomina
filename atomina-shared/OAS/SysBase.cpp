@@ -17,7 +17,7 @@ namespace ATMA
             return false;
         }
         m_objects.push_back(l_id);
-        ATMA_ENGINE_INFO("Added object id: {0:d} to system: {1:d} ", l_id, getType());
+        ATMA_ENGINE_INFO("Added object id: {0:d} to system: {1} ", l_id, shared_from_this());
         return true;
     }
 
@@ -40,7 +40,9 @@ namespace ATMA
             if(*it == l_id)
             {
                 m_objects.erase(it);
-                ATMA_ENGINE_INFO("Removed object id: {0:d} from system: {1:d} ", l_id, getType());
+                ATMA_ENGINE_INFO(
+                    "Removed object id: {0:d} from system: {1} ", l_id, shared_from_this()
+                );
                 return true;
             }
         }

@@ -7,9 +7,11 @@
 #include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrVelocity.hpp"
 #include "OAS/attributes/AttrRenderable.hpp"
+#include "OAS/attributes/AttrCollidable.hpp"
 #include "OAS/systems/SysController.hpp"
 #include "OAS/systems/SysTranslator.hpp"
 #include "OAS/systems/SysRenderer.hpp"
+#include "OAS/systems/SysCollider.hpp"
 
 namespace ATMA
 {

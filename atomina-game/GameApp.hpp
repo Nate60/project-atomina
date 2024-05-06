@@ -2,6 +2,9 @@
 #include <atomina.hpp>
 #include "MainMenuState.hpp"
 #include "GameStateType.hpp"
+#include "GameEventType.hpp"
+#include "PlayState.hpp"
+#include "SysFly.hpp"
 
 #ifdef ATOMINA_EXPORTS
 #    error Atomina Exports was defined in the game app

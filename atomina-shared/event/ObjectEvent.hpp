@@ -13,10 +13,7 @@ namespace ATMA
     enum class ATMA_API ObjectEvent
     {
         None = 0u,
-        ShutDown,
-        MousePressed,
-        MouseReleased,
-        MouseOver,
+        Collision,
         COUNT
     };
 

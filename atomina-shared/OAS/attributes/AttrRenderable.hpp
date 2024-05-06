@@ -8,7 +8,7 @@ namespace ATMA
 {
 
     /**
-     * An Attribute that holds velocity members of an object
+     * An Attribute that holds the members of an object required to render to a display
      */
     class ATMA_API AttrRenderable: public AttrBase, public GLRenderable
     {

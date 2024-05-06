@@ -2,6 +2,7 @@
 #include "pch.hpp"
 #include "core/api.hpp"
 #include "util/Props.hpp"
+#include "util/Log.hpp"
 
 namespace ATMA
 {

@@ -7,6 +7,7 @@ namespace ATMA
     // constructor with name and filename of resource
     GLTextureOpenGLImpl::GLTextureOpenGLImpl(const Path &l_filePath): GLTexture(l_filePath)
     {
+        ATMA_ENGINE_TRACE("Creating OPEN GL Texture");
         m_vertArr = VertexArray::makeBuffer({
             {3, 8, 0},
             {3, 8, 3},
@@ -29,17 +30,18 @@ namespace ATMA
 
     GLTextureOpenGLImpl::GLTextureOpenGLImpl(): GLTexture()
     {
+        ATMA_ENGINE_TRACE("Creating OPEN GL Texture");
         glGenTextures(1, &m_bindID);
     }
 
     GLTextureOpenGLImpl::~GLTextureOpenGLImpl()
     {
+        ATMA_ENGINE_TRACE("Deleting OPEN GL Texture");
         glDeleteTextures(1, &m_bindID);
     }
 
     void GLTextureOpenGLImpl::bind()
     {
-        m_vertArr->bindLayout();
         glBindTexture(GL_TEXTURE_2D, m_bindID);
         glTexSubImage2D(
             GL_TEXTURE_2D,

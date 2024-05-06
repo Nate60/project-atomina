@@ -12,7 +12,7 @@ namespace ATMA
 
     SysRenderer::~SysRenderer() {}
 
-    void SysRenderer::update(const float &l_dt) {
+    void SysRenderer::update(const long long &l_dt) {
         auto &ctx = ATMAContext::getContext();
         for(auto &id: m_objects)
         {
