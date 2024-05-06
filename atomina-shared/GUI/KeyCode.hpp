@@ -4,7 +4,9 @@
 
 namespace ATMA
 {
-
+    /**
+     * list of possible key board event codes
+    */
 	enum class ATMA_API KeyEnum
     {
 #ifdef _WINDOWS

@@ -2,6 +2,7 @@
 
 TYPED_TEST_SUITE(InterpolationTestFixture, InterpolationTestTypes);
 TYPED_TEST_SUITE(PerlinTestFixture, PerlinTestTypes);
+TYPED_TEST_SUITE(LerpClosestFixture, LerpCloestTestTypes);
 
 /**
  * Runs interpolation test function with linear interpolation function
@@ -18,9 +19,16 @@ TYPED_TEST(InterpolationTestFixture, LinearInterpolation)
  */
 TYPED_TEST(InterpolationTestFixture, CubicInterpolation)
 {
-
     auto f = ATMA::cubeTerp<TypeParam, float>;
     this->interpolateTest(f);
+};
+
+/**
+ * Runs lerp closest point
+ */
+TYPED_TEST(LerpClosestFixture, LerpClosest)
+{
+    this->lerpClosestTest();
 };
 
 /**
@@ -68,3 +76,5 @@ TEST_F(IntPerlinTestFixture, PerlinNoiseWithCubeTerpInt)
     int exp = 0;
     this->perlinTest(f, exp);
 }
+
+

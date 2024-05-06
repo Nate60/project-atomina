@@ -8,12 +8,14 @@ namespace ATMA
 
     /**
      * Linear Interpolation between two values, with a given delta
+     * @tparam subtype to interpolate
+     * @tparam type of ratio parameter
      * @param v0 Starting Boundary of interpolation
      * @param v1 Ending Boundary of interpolation
      * @param t The delta as a ratio of (v-v0)/v1-v0, must be between 0 and 1
      */
     template<class T, class V>
-    T lerp(T v0, T v1, V t)
+    constexpr inline T lerp(const T &v0, const T &v1, const V &t)
     {
         if(t > 1 || t < 0)
         {
@@ -24,12 +26,14 @@ namespace ATMA
 
     /**
      * Cubic interpolation between two values with a given delta, used for smoother stepping
+     * @tparam subtype to interpolate
+     * @tparam type of ratio parameter
      * @param v0 Starting Boundary of interpolation
      * @param v1 Ending Boundary of interpolation
      * @param t The delta as a ratio of (v-v0)/v1-v0, must be between 0 and 1
      */
     template<class T, class V>
-    T cubeTerp(T a0, T a1, V w)
+    constexpr inline T cubeTerp(const T &a0, const T &a1, const V &w)
     {
         if(w > 1 || w < 0)
             throw std::invalid_argument("delta must be between 0 and 1");
@@ -38,13 +42,15 @@ namespace ATMA
 
     /**
      * Used to generate perlin noise at a specific location on a gradient
+     * @tparam subtype to interpolate
+     * @tparam type of ratio parameter
      * @param gradient: Array of 4 directional vectors that define the gradient around the point
      * @param interpolate: interpolation function to interpolate values in the gradient
      * @param l_x: x coordinate point to get the noise at
      * @param l_y: y coordinate point to get the noise at
      */
     template<class T, class V>
-    T perlin(Vec2<T> l_gradient[4], std::function<T(T, T, V)> l_lerp, T l_x, T l_y)
+    T perlin(const Vec2<T> l_gradient[4],const std::function<T(const T &, const T &, const V &)> l_lerp, const T &l_x, const T &l_y)
     {
         T a0 = static_cast<T>(std::floor(l_x));
         T a1 = a0 + 1;
@@ -79,7 +85,7 @@ namespace ATMA
      * @return identity matrix
      */
     template<class T>
-    Mat3<T> indentityMatrix()
+    constexpr inline Mat3<T> indentityMatrix()
     {
         return {
             {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}
@@ -92,7 +98,7 @@ namespace ATMA
      * @return scaling matrix
      */
     template<class T>
-    Mat3<T> scalingMatrix(const T &l_x, const T &l_y)
+    constexpr inline Mat3<T> scalingMatrix(const T &l_x, const T &l_y)
     {
         return {
             {{l_x, 0, 0}, {0, l_y, 0}, {0, 0, 1}}
@@ -105,7 +111,7 @@ namespace ATMA
      * @return translation matrix
      */
     template<class T>
-    Mat3<T> translationMatrix(const T &l_x, const T &l_y)
+    constexpr inline Mat3<T> translationMatrix(const T &l_x, const T &l_y)
     {
         return {
             {{1, 0, l_x}, {0, 1, l_y}, {0, 0, 1}}
@@ -118,7 +124,7 @@ namespace ATMA
      * @return rotation matrix
      */
     template<class T>
-    Mat3<T> rotationMatrix(const T &l_deg)
+    constexpr inline Mat3<T> rotationMatrix(const T &l_deg)
     {
         double rad = (M_PI * l_deg) / 180.0;
         T cosVal = static_cast<T>(cos(rad));
@@ -128,5 +134,25 @@ namespace ATMA
         };
         return mat;
     }
+
+    /**
+    * @brief given two points, find the closest point between those
+    * two points to the given point
+    * @tparam T subtype of Vec2
+    * @param l_a first point of line
+    * @param l_b second point of line
+    * @param l_point point to align to
+    * @returns point between two points closest to the line
+    */
+    template<class T>
+    constexpr inline Vec2<T> lerpClosest(const Vec2<T> &l_a, const Vec2<T> &l_b, const Vec2<T> &l_point)
+    {
+        Vec2<T> line = l_b - l_a;
+        if(line * line == 0)
+            return l_a;
+        T delta = ((l_point - l_a) * line) / (line * line);
+        return l_a + (line * std::clamp<T>(delta, 0, 1));
+    }
+
 
 }

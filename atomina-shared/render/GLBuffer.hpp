@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.hpp"
 #include "core/api.hpp"
+#include "util/Log.hpp"
 
 namespace ATMA
 {

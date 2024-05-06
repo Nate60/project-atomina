@@ -28,6 +28,8 @@ namespace ATMA
      */
     ATMA_API std::ostream &operator<<(std::ostream &os, const std::shared_ptr<SysBase> s);
 
+     
+
     /**
      * converts a resource to a stream with the details of the resource appended to it
      * @param os stream to append the details to

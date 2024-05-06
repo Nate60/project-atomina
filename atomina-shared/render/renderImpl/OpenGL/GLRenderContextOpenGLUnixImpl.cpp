@@ -201,9 +201,10 @@ namespace ATMA
                     translationMatrix<float>(
                         element->m_screenPos.x, element->m_screenPos.y
                     )
-                    * scalingMatrix<float>(element->m_region.x, element->m_region.y);
-                //    * rotationMatrix(l_rot);
-                auto sourcetransform = translationMatrix<float>(1.f, 1.f);
+                    * scalingMatrix<float>(element->m_region.x, element->m_region.y)
+                   * rotationMatrix(element->m_rot);
+                auto sourcetransform = translationMatrix<float>(element->m_srcPos.x, element->m_srcPos.y)
+                    * scalingMatrix<float>(element->m_srcRegion.x, element->m_srcRegion.y);
                 shaderprog->setUniformMat3f("u_transform", transform);
                 shaderprog->setUniformMat3f("u_source", sourcetransform);
                 std::get<std::shared_ptr<GLTexture>>(element->m_element)->bind();

@@ -12,7 +12,7 @@ namespace ATMA
 
     SysTranslator::~SysTranslator() {}
 
-    void SysTranslator::update(const float &l_dt)
+    void SysTranslator::update(const long long &l_dt)
     {
         for(auto &obj: m_objects)
         {
@@ -22,8 +22,9 @@ namespace ATMA
                 ATMAContext::getContext().getAttribute<AttrVelocity>(
                     obj, AttrType(Attribute::Velocity)
                 );
-            attrPos->m_pos.x += attrVel->m_dpos.x * l_dt;
-            attrPos->m_pos.y += attrVel->m_dpos.y * l_dt;
+            attrPos->m_pos.x += attrVel->m_dpos.x * (l_dt >> 23);
+            attrPos->m_pos.y += attrVel->m_dpos.y * (l_dt >> 23);
+            attrPos->m_rot +=  attrVel->m_drot * (l_dt >> 23);
         }
     }
 

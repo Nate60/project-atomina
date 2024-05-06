@@ -206,8 +206,9 @@ namespace ATMA
         }
     }
 
-    void ATMAContext::addState(const unsigned int &l_stateType, std::unique_ptr<BaseState> l_state)
+    void ATMAContext::addState(const unsigned int &l_stateType, std::shared_ptr<BaseState> l_state)
     {
+        ATMA_ENGINE_INFO("Registering State type: {0:d}", l_stateType);
         bool initState = m_states.empty();
         if(m_states.count(l_stateType) == 0)
         {
@@ -390,12 +391,19 @@ namespace ATMA
 
     void ATMAContext::update()
     {
-
+        auto dt = m_engineClock.now() - m_lastUpdate;
+        m_lastUpdate = m_engineClock.now();
+        m_updateCallback(dt.count());
         for(auto &sys: m_systems)
         {
             if(sys.second->m_enabled)
-                sys.second->update(0.0f);
+                sys.second->update(dt.count());
         }
+    }
+
+    void ATMAContext::onUpdate(std::function<void(const long long &)> l_func)
+    {
+        m_updateCallback = l_func;
     }
 
     void ATMAContext::purgeObjects()

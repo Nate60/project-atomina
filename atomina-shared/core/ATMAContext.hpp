@@ -42,7 +42,7 @@ namespace ATMA
     using SystemID = unsigned int;
     using SystemContainer = std::unordered_map<SystemID, std::shared_ptr<SysBase>>;
 
-    using StateStack = std::unordered_map<StateTypeID, std::unique_ptr<BaseState>>;
+    using StateStack = std::unordered_map<StateTypeID, std::shared_ptr<BaseState>>;
 
     using ResourceID = unsigned int;
     using ResourceTypeID = unsigned int;
@@ -56,6 +56,7 @@ namespace ATMA
     using ObjectEventListeners =
         std::unordered_map<ObjectEventID, std::vector<std::shared_ptr<ObjectEventListener>>>;
 
+
     /**
      * Singleton that houses all internal state within the Atomina Engine.
      * Manages all resources and objects available to the engine.
@@ -67,6 +68,8 @@ namespace ATMA
         ~ATMAContext();
         const std::unique_ptr<GLRenderContext> m_renderCtx;
     protected:
+        std::chrono::steady_clock m_engineClock{};
+        std::chrono::time_point<std::chrono::steady_clock> m_lastUpdate = m_engineClock.now();
         bool initialized{false};
         std::mutex m_mtx{};
         ObjectID m_lastObjectID{0u};
@@ -84,6 +87,7 @@ namespace ATMA
 
         ObjectEventListeners m_listeners{};
 
+        std::function<void(const long long &)> m_updateCallback = [](const long long &l_dt){};
         // GLRenderer m_renderer{};
 
         /**
@@ -126,12 +130,6 @@ namespace ATMA
                                         // Instantiated on first use.
             return context;
         }
-
-        /**
-         * getter for engine renderer
-         * @returns reference to renderer
-         */
-        // GLRenderer &getRenderer();
 
         /**
          * Assigns an Attribute class type to an unsigned integer id
@@ -257,7 +255,7 @@ namespace ATMA
             else
             {
                 m_systems[l_systemID] = std::make_shared<T>();
-                ATMA_ENGINE_INFO("Registered System of type {0:d}", l_systemID);
+                ATMA_ENGINE_INFO("Registered System of type {0}", m_systems[l_systemID]);
                 systemUpdated(l_systemID);
             }
         }
@@ -319,7 +317,7 @@ namespace ATMA
          * @param l_state unique pointer to the state
          * @throws Registration Exception if the state id has a state already registered
          */
-        void addState(const unsigned int &l_stateType, std::unique_ptr<BaseState> l_state);
+        void addState(const unsigned int &l_stateType, std::shared_ptr<BaseState> l_state);
 
         /**
          * Remove state from the context
@@ -458,6 +456,11 @@ namespace ATMA
          * updates all the engine internals. To be called in the main game loop
          */
         void update();
+
+        /**
+         * functions to be run when the engine updates
+        */
+        void onUpdate(std::function<void(const long long &)> l_updateFunc);
 
         /**
          * removes all objects and attributes and resets the next id back to 0

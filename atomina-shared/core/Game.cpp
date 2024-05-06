@@ -20,11 +20,13 @@ namespace ATMA
         ctx.registerAttributeType<AttrShape>(AttributeType(Attribute::Shape));
         ctx.registerAttributeType<AttrVelocity>(AttributeType(Attribute::Velocity));
         ctx.registerAttributeType<AttrRenderable>(AttributeType(Attribute::Render));
+        ctx.registerAttributeType<AttrCollidable>(AttributeType(Attribute::Collidable));
 
         // system registration
         ctx.addSystemType<SysController>(SystemType(System::Controller));
         ctx.addSystemType<SysTranslator>(SystemType(System::Translator));
         ctx.addSystemType<SysRenderer>(SystemType(System::Renderer));
+        ctx.addSystemType<SysCollider>(SystemType(System::Collider));
     }
 
     void Game::run()

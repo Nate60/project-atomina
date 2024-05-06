@@ -4,6 +4,9 @@
 
 using namespace std::string_literals;
 
+/**
+ * Relative paths are always relative to the executing binary
+*/
 TEST(PathTest, RelativePathAlwaysFromExe)
 {
     ATMA::Path path = ATMA::Path{"dummy"};
@@ -11,6 +14,9 @@ TEST(PathTest, RelativePathAlwaysFromExe)
     EXPECT_EQ(root + "/dummy"s, path.toString());
 }
 
+/**
+ * Relative paths even with nested paths are always relative to the executing binary
+*/
 TEST(PathTest, RelativeNestedPathAlwaysFromExe)
 {
     ATMA::Path path = ATMA::Path{"dummy/foo/bar"};
@@ -18,6 +24,9 @@ TEST(PathTest, RelativeNestedPathAlwaysFromExe)
     EXPECT_EQ(root + "/dummy/foo/bar"s, path.toString());
 }
 
+/**
+ * An empty path will be interpreted as the path of the binary
+*/
 TEST(PathTest, EmptyPathDefaultsToExePath)
 {
     ATMA::Path path = ATMA::Path{""};
@@ -25,6 +34,9 @@ TEST(PathTest, EmptyPathDefaultsToExePath)
     EXPECT_EQ(root + "/"s, path.toString());
 }
 
+/**
+ * Absolute paths should not be altered
+*/
 TEST(PathTest, AbsolutePathIsUnchanged)
 {
     #ifdef _WINDOWS
