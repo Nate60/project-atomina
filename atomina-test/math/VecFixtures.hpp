@@ -57,6 +57,30 @@ protected:
         ATMA::Vec2<T> res = a * b;
         EXPECT_TRUE(res == exp);
     }
+
+
+    /**
+     * @brief helper function to test scalar division
+     * @param a vector
+     * @param b scalar
+     * @param exp expected resulting vector
+     */
+    void divideTest(ATMA::Vec2<T> a, T b, ATMA::Vec2<T> exp)
+    {
+        ATMA::Vec2<T> res = a / b;
+        EXPECT_TRUE(res == exp);
+    }
+
+    /**
+     * @brief helper function to test vector normalization
+     * @param v vector
+     * @param exp expected resulting vector
+    */
+    void normTest(ATMA::Vec2<T> v, ATMA::Vec2<T> exp)
+    {
+        ATMA::Vec2<T> res = ATMA::normalize(v);
+        EXPECT_TRUE(res == exp);
+    }
 };
 
 /**
@@ -115,9 +139,34 @@ protected:
         EXPECT_TRUE(res == exp);
     }
 
+    /**
+     * @brief helper function to test scalar division
+     * @param a vector
+     * @param b scalar
+     * @param exp expected resulting vector
+     */
+    void divideTest(ATMA::Vec3<T> a, T b, ATMA::Vec3<T> exp)
+    {
+        ATMA::Vec3<T> res = a / b;
+        EXPECT_TRUE(res == exp);
+    }
+
     void crossTest(ATMA::Vec3<T> a, ATMA::Vec3<T> b, ATMA::Vec3<T> exp)
     {
         ATMA::Vec3<T> res = ATMA::cross(a, b);
         EXPECT_TRUE(res == exp);
     }
+
+    /**
+     * @brief helper function to test vector normalization
+     * @param v vector
+     * @param exp expected resulting vector
+    */
+    void normTest(ATMA::Vec3<T> v, ATMA::Vec3<T> exp)
+    {
+        ATMA::Vec3<T> res = ATMA::normalize(v);
+        EXPECT_TRUE(res == exp);
+    }
+
+
 };

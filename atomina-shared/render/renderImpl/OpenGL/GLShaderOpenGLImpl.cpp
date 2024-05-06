@@ -7,17 +7,19 @@ namespace ATMA
 
     GLShaderOpenGLImpl::GLShaderOpenGLImpl(const Path &l_filePath): GLShader(l_filePath)
     {
+        ATMA_ENGINE_TRACE("Creating OPEN GL Shader");
         m_bindID = 0u;
     }
 
     GLShaderOpenGLImpl::~GLShaderOpenGLImpl()
     {
+        ATMA_ENGINE_TRACE("Deleting OPEN GL Shader");
         glDeleteShader(m_bindID);
     }
 
     void GLShaderOpenGLImpl::compile(ShaderType l_type)
     {
-
+        ATMA_ENGINE_TRACE("Compiling OPEN GL Shader");
         switch(l_type)
         {
         case ShaderType::Vertex:

@@ -9,8 +9,6 @@
 namespace ATMA
 {
 
-    class StateManager;
-
     /**
      * Basic State that defines all functions of a state to be inherited
      * All states should extend this class

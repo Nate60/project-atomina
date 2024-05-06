@@ -16,7 +16,7 @@ TestSystem::notify(const ATMA::ObjectEventContext &l_e)
 }
 
 void
-TestSystem::update(const float &l_dt)
+TestSystem::update(const long long &l_dt)
 {
     if(m_enabled)
         for(auto &obj: m_objects)

@@ -5,7 +5,7 @@
  */
 TEST_F(StateFixture, CanAddState)
 {
-    std::unique_ptr<TestState> state{new TestState{}};
+    std::shared_ptr<TestState> state{new TestState{}};
     auto id = state->getId();
     this->ctx.addState(id, std::move(state));
     EXPECT_TRUE(this->ctx.hasState(id));
@@ -17,8 +17,8 @@ TEST_F(StateFixture, CanAddState)
  */
 TEST_F(StateFixture, AddDuplicateState)
 {
-    std::unique_ptr<TestState> state{new TestState{}};
-    std::unique_ptr<TestState> state2{new TestState{}};
+    std::shared_ptr<TestState> state{new TestState{}};
+    std::shared_ptr<TestState> state2{new TestState{}};
     auto id = state->getId();
     this->ctx.addState(id, std::move(state));
     EXPECT_THROW(this->ctx.addState(id, std::move(state2)), ATMA::RegistrationException);
@@ -45,7 +45,7 @@ TEST_F(StateFixture, SwitchToNonExistentState)
  */
 TEST_F(StateFixture, CanRemoveState)
 {
-    std::unique_ptr<TestState> state{new TestState{}};
+    std::shared_ptr<TestState> state{new TestState{}};
     auto id = state->getId();
     this->ctx.addState(id, std::move(state));
     EXPECT_TRUE(this->ctx.hasState(id));
@@ -58,8 +58,8 @@ TEST_F(StateFixture, CanRemoveState)
  */
 TEST_F(StateFixture, OnStateChangeCanDisableSystem)
 {
-    std::unique_ptr<TestState> state{new TestState{}};
-    std::unique_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
+    std::shared_ptr<TestState> state{new TestState{}};
+    std::shared_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
     auto sysType = TestSystem{}.getType();
@@ -79,8 +79,8 @@ TEST_F(StateFixture, OnStateChangeCanDisableSystem)
  */
 TEST_F(StateFixture, OnStateChangeCanEnableSystem)
 {
-    std::unique_ptr<TestState> state{new TestState{}};
-    std::unique_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
+    std::shared_ptr<TestState> state{new TestState{}};
+    std::shared_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
     auto sysType = TestSystem{}.getType();
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
@@ -118,10 +118,10 @@ TEST_F(StateFixture, StateReceivesEvent)
  */
 TEST_F(StateFixture, TwoStatesBothHandle)
 {
-    std::unique_ptr<TestState> state{
+    std::shared_ptr<TestState> state{
         new TestState{0u}
     };
-    std::unique_ptr<TestState> state2{
+    std::shared_ptr<TestState> state2{
         new TestState{1u}
     };
     auto stateType = state->getId();

@@ -16,6 +16,7 @@ namespace ATMA
         Velocity,
         Controllable,
         Render,
+        Collidable,
         COUNT
     };
 

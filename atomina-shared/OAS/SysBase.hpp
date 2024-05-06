@@ -19,7 +19,7 @@ namespace ATMA
      * Super class for systems which implement the behaviours of
      * attributes for each object register in the context
      */
-    class ATMA_API SysBase: public ObjectEventListener
+    class ATMA_API SysBase: public ObjectEventListener, public std::enable_shared_from_this<SysBase>
     {
     public:
         const std::string m_sysTypeName;
@@ -51,7 +51,7 @@ namespace ATMA
          * updates all attributes of all the objects contained in the system
          * @param time time since last update
          */
-        virtual void update(const float &l_dt) = 0;
+        virtual void update(const long long &l_dt) = 0;
 
         friend class ATMAContext;
     protected:

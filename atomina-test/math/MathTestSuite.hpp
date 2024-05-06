@@ -6,3 +6,5 @@
 using InterpolationTestTypes = ::testing::Types<int, float, double>;
 // All data type implementations of perlin noise function
 using PerlinTestTypes = ::testing::Types<float, double>;
+
+using LerpCloestTestTypes = ::testing::Types<float, double>;

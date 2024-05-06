@@ -16,6 +16,7 @@ namespace ATMA
     public:
         short m_stackPos{0};
         Vec2<float> m_screenPos{};
+        float m_rot{};
         Vec2<float> m_region{};
         Vec2<float> m_srcPos{};
         Vec2<float> m_srcRegion{};

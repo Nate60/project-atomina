@@ -1,33 +1,33 @@
 #pragma once
 #include "pch.hpp"
+#include "core/api.hpp"
 #include "OAS/SysBase.hpp"
 #include "OAS/System.hpp"
-#include "OAS/attributes/AttrShape.hpp"
-#include "OAS/attributes/AttrVelocity.hpp"
-#include "OAS/Attribute.hpp"
-#include "core/api.hpp"
+#include "OAS/attributes/AttrCollidable.hpp"
+#include "math/Stadium.hpp"
+#include "util/Props.hpp"
+#include "event/ObjectEventContext.hpp"
+#include "event/ObjectEvent.hpp"
 
-namespace ATMA
-{
+namespace ATMA{
 
     /**
-     * Implementation of system that handles the movement of
-     * objects
+     * System that implements collision detection for all collideable objects
      */
-    class ATMA_API SysTranslator: public SysBase
+    class ATMA_API SysCollider: public SysBase
     {
     public:
         // default constructor
-        SysTranslator();
+        SysCollider();
 
         // deconstructor
-        virtual ~SysTranslator();
+        virtual ~SysCollider();
 
         /**
          * update internal members on an engine tick basis
          * @param l_dt the time since last update
          */
-        void update(const long long &l_dt) override;
+        virtual void update(const long long &l_dt) override;
 
         /**
          * event callback function where the system will changes
