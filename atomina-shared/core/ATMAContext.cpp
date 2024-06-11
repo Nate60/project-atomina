@@ -391,14 +391,19 @@ namespace ATMA
 
     void ATMAContext::update()
     {
+   
         auto dt = m_engineClock.now() - m_lastUpdate;
         m_lastUpdate = m_engineClock.now();
         m_updateCallback(dt.count());
+        StopWatch watch{};
+        watch.start();
         for(auto &sys: m_systems)
         {
             if(sys.second->m_enabled)
                 sys.second->update(dt.count());
         }
+        watch.stop();
+        ATMA_ENGINE_TRACE("ATMAContext all systems Update took {}ms", watch.getElapsedDuration()/1000000.0);
     }
 
     void ATMAContext::onUpdate(std::function<void(const long long &)> l_func)
