@@ -44,6 +44,7 @@ public:
     {
         m_active = true;
         m_selected = 2;
+        ctx.disableSystem(ATMA::SystemType(ATMA::System::COUNT));
         ctx.m_renderCtx->setFont(m_font);
         for (int i = 0; i < 3; i++)
         {

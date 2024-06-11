@@ -66,4 +66,11 @@ namespace ATMA
         NetworkException(const std::string &l_message) noexcept: AtominaException(l_message) {}
     };
 
+    /**
+    * exception for timer related errors
+    */
+    struct ATMA_API TimeException : public AtominaException
+    {
+        TimeException(const std::string &l_message) noexcept: AtominaException(l_message) {}
+    };
 }
