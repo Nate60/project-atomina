@@ -14,6 +14,7 @@ namespace ATMA
 
     void SysTranslator::update(const long long &l_dt)
     {
+        m_stopwatch.start();
         for(auto &obj: m_objects)
         {
             std::shared_ptr<AttrShape> attrPos =
@@ -24,8 +25,13 @@ namespace ATMA
                 );
             attrPos->m_pos.x += attrVel->m_dpos.x * (l_dt >> 23);
             attrPos->m_pos.y += attrVel->m_dpos.y * (l_dt >> 23);
-            attrPos->m_rot +=  attrVel->m_drot * (l_dt >> 23);
+            attrPos->m_rot += attrVel->m_drot * (l_dt >> 23);
         }
+        m_stopwatch.stop();
+        // ATMA_ENGINE_TRACE(
+        //     "Translater update took {}ms", m_stopwatch.getElapsedDuration() / 1000000.0
+        // );
+        m_stopwatch.reset();
     }
 
     void SysTranslator::notify(const ObjectEventContext &l_e) {}
