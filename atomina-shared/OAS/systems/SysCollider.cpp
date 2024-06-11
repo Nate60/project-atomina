@@ -13,6 +13,7 @@ namespace ATMA
 
     void SysCollider::update(const long long &l_dt)
     {
+        m_stopwatch.start();
         ATMAContext &ctx = ATMAContext::getContext();
         for(int i = 0; i < m_objects.size(); ++i)
         {
@@ -39,6 +40,9 @@ namespace ATMA
                 }
             }
         }
+        m_stopwatch.stop();
+        // ATMA_ENGINE_TRACE("Collider update took {}ms", m_stopwatch.getElapsedDuration()/1000000.0);
+        m_stopwatch.reset();
     }
 
     void SysCollider::notify(const ObjectEventContext &l_e) {}

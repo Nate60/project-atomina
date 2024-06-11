@@ -33,6 +33,7 @@ public:
         m_active = true;
         m_started = false;
         m_gameOver = false;
+        ctx.enableSystem(ATMA::SystemType(ATMA::System::COUNT));
         ctx.m_renderCtx->setFont(m_font);
         ctx.addAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Render));
         ctx.addAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Shape));

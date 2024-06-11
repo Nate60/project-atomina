@@ -95,6 +95,10 @@
 #    include "GUI/window/WindowUnixImpl.hpp"
 #endif
 
+//Time
+#include "time/Clock.hpp"
+#include "time/StopWatch.hpp"
+
 // Render
 #include "render/GLBuffer.hpp"
 #include "render/GLProgram.hpp"
