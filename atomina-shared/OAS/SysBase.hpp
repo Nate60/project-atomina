@@ -6,6 +6,7 @@
 #include "util/ATConst.hpp"
 #include "util/Log.hpp"
 #include "core/ATMAContext.hpp"
+#include "time/StopWatch.hpp"
 
 namespace ATMA
 {
@@ -90,6 +91,7 @@ namespace ATMA
         SystemType m_type;
         std::bitset<ATConst::OBJECT_BIT_SIZE> m_req;
         std::vector<ObjectId> m_objects;
+        StopWatch m_stopwatch{};
     };
 
 }
