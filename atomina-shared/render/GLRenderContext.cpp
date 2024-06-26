@@ -58,6 +58,7 @@ namespace ATMA
                 {
                     if(*i == l_id){
                         idItr->second.erase(i);
+                        break;
                     }
                 }
             }

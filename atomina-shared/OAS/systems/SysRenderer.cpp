@@ -38,14 +38,22 @@ namespace ATMA
 
     bool SysRenderer::removeObject(const ObjectId &l_id)
     {
+        ATMA_ENGINE_TRACE("Removing object id: {} from System Renderer", l_id);
         auto &ctx = ATMAContext::getContext();
         for(auto it = m_objects.begin(); it != m_objects.end(); it++)
         {
             if(*it == l_id)
             {
                 m_objects.erase(it);
-                ctx.m_renderCtx->remove(m_renderIDs[l_id]);
-                m_renderIDs.erase(m_renderIDs.find(l_id));
+                auto &id = m_renderIDs[l_id];
+                ATMA_ENGINE_TRACE("Object id has render id of {}", id);
+                ctx.m_renderCtx->remove(id);
+                ATMA_ENGINE_TRACE("Removed Render id: {} from render context", id);
+                auto itr = m_renderIDs.find(l_id);
+                if(itr == m_renderIDs.end()){
+                    ATMA_ENGINE_WARN("SOME HOW THE OBJECT ID DOESNT EXIST IN RENDER ID REFERENCE TABLE");
+                }
+                m_renderIDs.erase(itr);
                 ATMA_ENGINE_INFO(
                     "Removed object id: {0:d} from system: {1} ", l_id, shared_from_this()
                 );
