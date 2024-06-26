@@ -38,7 +38,13 @@ namespace ATMA
          * Starts a draw call for the renderable object
          * @param l_renderable the object to be drawn
          */
-        virtual void add(std::shared_ptr<GLRenderable> l_renderable);
+        virtual unsigned int add(std::shared_ptr<GLRenderable> l_renderable);
+
+        /**
+         * removes renderable from the context
+         * @param l_id id of the renderable to remove
+         */
+        virtual bool remove(const unsigned int &l_id);
 
         /**
          * Starts drawing text to the screen
@@ -59,13 +65,10 @@ namespace ATMA
          */
         static std::unique_ptr<GLRenderContext> makeRenderContext();
     protected:
-        std::vector<std::shared_ptr<GLRenderable>> m_elementContainer{};
-        std::priority_queue<
-            std::shared_ptr<GLRenderable>,
-            std::vector<std::shared_ptr<GLRenderable>>,
-            GLRenderableCompare>
-            m_elementStack{m_elementContainer.begin(), m_elementContainer.end(), GLRenderableCompare()};
+        std::unordered_map<unsigned int, std::shared_ptr<GLRenderable>> m_elementContainer{};
+        std::map<unsigned int, std::vector<unsigned int>> m_elementByPriority{};
         std::shared_ptr<Font> m_font;
+        unsigned int m_lastId = 0;
         // protected constructor so it cannot be publicly instantiated
         GLRenderContext();
     };

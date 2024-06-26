@@ -28,9 +28,9 @@ namespace ATMA
     };
 
     struct ATMA_API GLRenderableCompare{
-        bool operator()(const std::shared_ptr<GLRenderable> &a, const std::shared_ptr<GLRenderable> &b)
+        bool operator()(const std::pair<unsigned int,std::shared_ptr<GLRenderable>> &a, const std::pair<unsigned int, std::shared_ptr<GLRenderable>> &b)
         {
-            return a->m_stackPos > b->m_stackPos;
+            return a.second->m_stackPos > b.second->m_stackPos;
         }
     };
 

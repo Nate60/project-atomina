@@ -32,6 +32,24 @@ namespace ATMA
          * @param l_e details of the event
          */
         virtual void notify(const ObjectEventContext &l_e) override;
+    protected:
+        /**
+         * adds object to the system
+         * @param l_id id of the object
+         * @returns if the operation was successful
+         */
+        bool addObject(const ObjectId &l_id) override;
+
+
+        /**
+         * removes object from the system
+         * @param l_id id of the object
+         * @returns if the operation was successful
+         */
+        virtual bool removeObject(const ObjectId &l_id) override;
+
+        std::unordered_map<unsigned int, unsigned int> m_renderIDs{};
+
     };
 
 }

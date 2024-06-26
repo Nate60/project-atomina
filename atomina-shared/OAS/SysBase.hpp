@@ -61,21 +61,21 @@ namespace ATMA
          * @param l_id id of the object
          * @returns if the operation was successful
          */
-        bool addObject(const ObjectId &l_id);
+        virtual bool addObject(const ObjectId &l_id);
 
         /**
          * checks if the object is registering in the system
          * @param l_id id of the object
          * @returns if the object is registered
          */
-        bool hasObject(const ObjectId &l_id) const;
+        virtual bool hasObject(const ObjectId &l_id) const;
 
         /**
          * removes object from the system
          * @param l_id id of the object
          * @returns if the operation was successful
          */
-        bool removeObject(const ObjectId &l_id);
+        virtual bool removeObject(const ObjectId &l_id);
 
         /**
          * interface function for event listeners
