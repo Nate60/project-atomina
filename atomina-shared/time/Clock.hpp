@@ -10,7 +10,7 @@ namespace ATMA
      * Steady clock for keeping track has passed between
      * continuous time points
      */
-    class ATMA_API Clock
+    class Clock
     {
     public:
         /**

@@ -5,26 +5,17 @@
 
 namespace ATMA
 {
-
-    /**
-     * interface class for acquirable resource by the engine
-     */
-    class ATMA_API Resource
+    struct Resource
     {
     public:
-        const std::string m_resourceName;
-
-        // constructor with name
-        Resource(const std::string &l_name);
-
-        // constructor with name and filename of resource
-        Resource(const std::string &l_name, const Path &l_path);
-
-        // deconstructor
+        Resource(const std::string &l_name, const Path &l_path, const unsigned int &l_type);
         virtual ~Resource();
+        const std::string m_name;
+        const Path m_path;
+        const unsigned int m_type;
     };
 
-    // equality operator
-    inline bool operator==(const Resource &a, const Resource &b);
-
+    struct LoadedResource
+    {
+    };
 }

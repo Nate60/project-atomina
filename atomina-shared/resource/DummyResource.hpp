@@ -9,12 +9,9 @@ namespace ATMA
     /**
      * Dummy Implementation of Resource
      */
-    class ATMA_API DummyResource: public Resource
+    class DummyResource: public LoadedResource, public Resource
     {
     public:
-        // constructor specifying resource name
-        DummyResource(const std::string &l_name);
-
         // constructor specifying resource name and filepath
         DummyResource(const std::string &l_name, const Path &l_path);
 

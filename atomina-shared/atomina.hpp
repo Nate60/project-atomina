@@ -15,10 +15,6 @@
 #include "util/RetryExecutor.hpp"
 #include "util/Path.hpp"
 
-// OS
-#ifdef _WINDOWS
-#    include "os/OSContextWinImpl.hpp"
-#endif
 
 // Math
 #include "math/Vec2.hpp"
@@ -65,35 +61,27 @@
 
 // Resource
 #include "resource/Resource.hpp"
+#include "resource/ResourceLoader.hpp"
+#include "resource/ResourceEnum.hpp"
 #include "resource/DummyResource.hpp"
-#include "resource/graphics/Texture.hpp"
-#include "resource/graphics/Font.hpp"
+#include "resource/loaders/GLTextureLoader.hpp"
+#include "resource/loaders/DummyResourceLoader.hpp"
+
 #include "resource/graphics/AnimBase.hpp"
 #include "resource/graphics/animation/AnimDefault.hpp"
 #include "resource/graphics/animation/AnimIdle.hpp"
+
 
 // Network
 #include "network/URL.hpp"
 #include "network/Socket.hpp"
 #include "network/SocketListener.hpp"
-#ifdef _WINDOWS
-#    include "network/socket/SocketWinImpl.hpp"
-#    include "network/socket/SocketListenerWinImpl.hpp"
-#elif __linux__
-#    include "network/socket/SocketUnixImpl.hpp"
-#    include "network/socket/SocketListenerUnixImpl.hpp"
-#endif
 #include "network/NetworkClient.hpp"
 #include "network/NetworkHost.hpp"
 
 // GUI
 #include "GUI/AppWindow.hpp"
 #include "GUI/KeyCode.hpp"
-#ifdef _WINDOWS
-#    include "GUI/window/WindowWinImpl.hpp"
-#elif __linux__
-#    include "GUI/window/WindowUnixImpl.hpp"
-#endif
 
 //Time
 #include "time/Clock.hpp"
@@ -102,21 +90,34 @@
 // Render
 #include "render/GLBuffer.hpp"
 #include "render/GLProgram.hpp"
+#include "render/GLRenderer.hpp"
 #include "render/GLRenderable.hpp"
 #include "render/GLShader.hpp"
 #include "render/GLTexture.hpp"
 #include "render/GLRenderContext.hpp"
+#include "render/GLContext.hpp"
+#include "render/GLText.hpp"
 #include "render/renderImpl/Dummy/GLBufferDummyImpl.hpp"
 #include "render/renderImpl/Dummy/GLProgramDummyImpl.hpp"
 #include "render/renderImpl/Dummy/GLShaderDummyImpl.hpp"
 #include "render/renderImpl/Dummy/GLTextureDummyImpl.hpp"
-#include "render/renderImpl/Dummy/GLRenderContextDummyImpl.hpp"
+#include "render/renderImpl/Dummy/GLRenderableDummyImpl.hpp"
+#include "render/renderImpl/Dummy/GLTextDummyImpl.hpp"
 #include "render/renderImpl/OpenGL/GLBufferOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLProgramOpenGLImpl.hpp"
-#ifdef _WINDOWS
-#    include "render/renderImpl/OpenGL/GLRenderContextOpenGLWinImpl.hpp"
-#elif __linux__
-#    include "render/renderImpl/OpenGL/GLRenderContextOpenGLUnixImpl.hpp"
-#endif
 #include "render/renderImpl/OpenGL/GLShaderOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLTextureOpenGLImpl.hpp"
+#include "render/renderImpl/OpenGL/GLRenderableOpenGLImpl.hpp"
+#include "render/renderImpl/OpenGL/GLTextOpenGLImpl.hpp"
+
+
+
+#ifdef _WINDOWS
+//Network
+#    include "platform/Win/network/SocketWinImpl.hpp"
+#    include "platform/Win/network/SocketListenerWinImpl.hpp"
+#elif __linux__
+//Network
+#    include "platform/Linux/network/SocketUnixImpl.hpp"
+#    include "platform/Linux/network/SocketListenerUnixImpl.hpp"
+#endif

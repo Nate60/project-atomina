@@ -4,7 +4,7 @@
 namespace ATMA
 {
 
-    WindowEvent::WindowEvent(const std::shared_ptr<AppWindow> l_win):
+    WindowEvent::WindowEvent(AppWindow *l_win):
         m_win(l_win),
         m_type(WindowEventEnum::None),
         m_props{}
@@ -12,7 +12,7 @@ namespace ATMA
         ATMA_ENGINE_TRACE("Creating Window Event");
     }
 
-    WindowEvent::WindowEvent(const std::shared_ptr<AppWindow> l_win, const WindowEventEnum &l_type):
+    WindowEvent::WindowEvent(AppWindow *l_win, const WindowEventEnum &l_type):
         m_win(l_win),
         m_type(l_type),
         m_props{}
@@ -20,7 +20,7 @@ namespace ATMA
     }
 
     WindowEvent::WindowEvent(
-        const std::shared_ptr<AppWindow> l_win,
+        AppWindow *l_win,
         const WindowEventEnum &l_type,
         const Props &l_props
     ):

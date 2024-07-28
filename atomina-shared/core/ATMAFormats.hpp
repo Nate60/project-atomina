@@ -18,7 +18,7 @@ namespace ATMA
      * @param a the attribute to read out
      * @returns the given stream with the details appended
      */
-    ATMA_API std::ostream &operator<<(std::ostream &os, const std::shared_ptr<AttrBase> a);
+    std::ostream &operator<<(std::ostream &os, const std::shared_ptr<AttrBase> a);
 
     /**
      * converts a system to a stream with the details system appended to it
@@ -26,7 +26,7 @@ namespace ATMA
      * @param s the system to read out
      * @returns the given stream with the details appended
      */
-    ATMA_API std::ostream &operator<<(std::ostream &os, const std::shared_ptr<SysBase> s);
+    std::ostream &operator<<(std::ostream &os, const std::shared_ptr<SysBase> s);
 
      
 
@@ -36,7 +36,7 @@ namespace ATMA
      * @param r the resource to read out
      * @returns the given stream with the details appended
      */
-    ATMA_API std::ostream &operator<<(std::ostream &os, const std::shared_ptr<Resource> r);
+    std::ostream &operator<<(std::ostream &os, const std::shared_ptr<Resource> r);
 
     /**
      * converts an event to a stream with the details of the event appended to it
@@ -44,7 +44,7 @@ namespace ATMA
      * @param e the event to read out
      * @returns the given stream with the details appended
      */
-    ATMA_API std::ostream &operator<<(std::ostream &os, const ObjectEventContext &e);
+    std::ostream &operator<<(std::ostream &os, const ObjectEventContext &e);
 
     /**
      * converts an event to a stream with the details of the event appended to it
@@ -52,7 +52,7 @@ namespace ATMA
      * @param e the event to read out
      * @returns the given stream with the details appended
      */
-    ATMA_API std::ostream &operator<<(std::ostream &os, const std::shared_ptr<AppWindow> e);
+    std::ostream &operator<<(std::ostream &os, const std::shared_ptr<AppWindow> e);
 
 
 }

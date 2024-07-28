@@ -9,7 +9,7 @@ namespace ATMA
     /**
      * @brief OpenGL implementation of a shader program
      */
-    class ATMA_API GLProgramOpenGLImpl: public GLProgram
+    class GLProgramOpenGLImpl: public GLProgram
     {
     public:
         // default constructor

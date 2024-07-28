@@ -8,7 +8,7 @@ namespace ATMA
     /**
      * interface for running tasks asynchronously
      */
-    class ATMA_API RetryExecutor
+    class RetryExecutor
     {
     public:
         /**

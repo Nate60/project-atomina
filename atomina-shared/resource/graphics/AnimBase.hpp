@@ -10,7 +10,7 @@ namespace ATMA
      * Animation superclass that defines behaviour of
      * all animation objects
      */
-    class ATMA_API AnimBase
+    class AnimBase
     {
     public:
         // constructor specifying all parameters

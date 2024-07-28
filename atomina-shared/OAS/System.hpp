@@ -9,7 +9,7 @@ namespace ATMA
     /**
      * Enumeration of all possible system types
      */
-    enum class ATMA_API System
+    enum class System
     {
         None = 0u,
         Translator = 1u,
@@ -23,7 +23,7 @@ namespace ATMA
      * wrapper class for easy conversion from system enum to
      * unsigned int
      */
-    class ATMA_API SysType
+    class SysType
     {
     public:
         // constructor with name

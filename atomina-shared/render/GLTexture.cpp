@@ -13,19 +13,8 @@
 namespace ATMA
 {
 
-    GLTexture::GLTexture(const Path &l_filePath)
+    GLTexture::GLTexture(const Texture &l_texture): m_texture(l_texture), LoadedResource()
     {
-        ATMA_ENGINE_TRACE("Creating GL Texture");
-        m_data = stbi_load(l_filePath.toString().c_str(), &m_width, &m_height, &m_channels, 0);
-        ATMA_ENGINE_INFO("stb image loaded image with {0} channels from {1}", m_channels, l_filePath.toString());
-    }
-
-    GLTexture::GLTexture()
-    {
-        m_data = 0;
-        m_width = 0;
-        m_height = 0;
-        m_channels = 0;
         ATMA_ENGINE_TRACE("Creating GL Texture");
     }
 
@@ -39,9 +28,9 @@ namespace ATMA
         return m_bindID;
     }
 
-    std::shared_ptr<GLTexture> GLTexture::makeTexture(const Path &l_filePath)
+    std::shared_ptr<GLTexture> GLTexture::makeTexture(const Texture &l_texture)
     {
-        __ATMAMAKEGLTEXTURE(l_filePath);
+        __ATMAMAKEGLTEXTURE(l_texture);
     }
 
 }

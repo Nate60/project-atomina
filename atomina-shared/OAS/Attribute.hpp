@@ -9,7 +9,7 @@ namespace ATMA
     /**
      * enumeration of all attribute types
      */
-    enum class ATMA_API Attribute
+    enum class Attribute
     {
         None = 0,
         Shape,
@@ -24,7 +24,7 @@ namespace ATMA
      * wrapper class for Attribute enum for conversion into unsigned
      * int
      */
-    class ATMA_API AttrType
+    class AttrType
     {
     public:
         // constructor for attribute type enum

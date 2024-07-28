@@ -11,7 +11,7 @@ namespace ATMA
     /**
      * System that implements render calls on all objects that can be rendered
      */
-    class ATMA_API SysRenderer: public SysBase
+    class SysRenderer: public SysBase
     {
     public:
         // default constructor

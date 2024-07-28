@@ -9,7 +9,7 @@ namespace ATMA
     /**
      * interface for handling internal engine events
      */
-    class ATMA_API ObjectEventListener
+    class ObjectEventListener
     {
     public:
         // default constructor
