@@ -9,11 +9,11 @@ namespace ATMA
     /**
      * @brief Dummy implementation of Shader
      */
-    class ATMA_API GLShaderDummyImpl: public GLShader
+    class GLShaderDummyImpl: public GLShader
     {
     public:
         // constructor with name and filename of resource
-        GLShaderDummyImpl(const Path &l_filePath);
+        GLShaderDummyImpl(const Shader &l_shader);
 
         // default deconstructor
         virtual ~GLShaderDummyImpl();

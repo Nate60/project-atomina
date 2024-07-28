@@ -1,10 +1,9 @@
 #pragma once
 #include <atomina.hpp>
 
-
 /**
-    * defines all possible states within the shared library
-    */
+ * defines all possible states within the shared library
+ */
 enum class GameStateEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::State::COUNT),
@@ -13,9 +12,9 @@ enum class GameStateEnum
 };
 
 /**
-    * wrapper class for State Enum that allows for implicit
-    * coversion to unsigned int
-    */
+ * wrapper class for State Enum that allows for implicit
+ * coversion to unsigned int
+ */
 class GameStateType
 {
 public:
@@ -33,5 +32,3 @@ public:
 private:
     const GameStateEnum m_type;
 };
-
-

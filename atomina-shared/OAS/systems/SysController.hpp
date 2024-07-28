@@ -11,7 +11,7 @@ namespace ATMA
      * System that implements input control for objects allows for user inputs
      * to affect objects
      */
-    class ATMA_API SysController: public SysBase
+    class SysController: public SysBase
     {
     public:
         // default constructor

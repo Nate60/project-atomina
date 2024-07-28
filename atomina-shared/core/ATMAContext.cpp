@@ -33,7 +33,7 @@ namespace ATMA
         }
     }
 
-    ATMAContext::ATMAContext(): m_renderCtx(GLRenderContext::makeRenderContext())
+    ATMAContext::ATMAContext()
     {
         ATMA_ENGINE_INFO("ATMAContext has been initialized");
     }
@@ -42,11 +42,6 @@ namespace ATMA
     {
         ATMA_ENGINE_INFO("ATMAContext has been deleted");
     }
-
-    // GLRenderer &ATMAContext::getRenderer()
-    // {
-    //     return m_renderer;
-    // }
 
     unsigned int ATMAContext::createObject()
     {
@@ -389,21 +384,54 @@ namespace ATMA
         }
     }
 
+    unsigned int ATMAContext::createWindow()
+    {
+        m_windows[m_lastWindowID] = std::make_shared<AppWindow>();
+        auto id =  m_lastResourceId++;
+        ATMA_ENGINE_INFO("Created Window with id {}", id);
+        return id;
+    }
+
+    std::shared_ptr<AppWindow> ATMAContext::getWindow(const unsigned int &l_id)
+    {
+        auto itr = m_windows.find(l_id);
+        if(itr == m_windows.end())
+        {
+            throw ValueNotFoundException("Window with id: " + std::to_string(l_id) + " does not exist");
+        }
+        else
+        {
+            return itr->second;
+        }
+    }
+
+    void ATMAContext::removeWindow(const unsigned int &l_id)
+    {
+        auto itr = m_windows.find(l_id);
+        if(itr == m_windows.end())
+        {
+            throw ValueNotFoundException(
+                "Window with id: " + std::to_string(l_id) + " does not exist in ATMA context"
+            );
+        }
+        else
+        {
+            ATMA_ENGINE_INFO("Removed Window: {}", itr->second->getName());
+            m_windows.erase(itr);
+        }
+    }
+
     void ATMAContext::update()
     {
    
         auto dt = m_engineClock.now() - m_lastUpdate;
         m_lastUpdate = m_engineClock.now();
         m_updateCallback(dt.count());
-        StopWatch watch{};
-        watch.start();
         for(auto &sys: m_systems)
         {
             if(sys.second->m_enabled)
                 sys.second->update(dt.count());
         }
-        watch.stop();
-        ATMA_ENGINE_TRACE("ATMAContext all systems Update took {}ms", watch.getElapsedDuration()/1000000.0);
     }
 
     void ATMAContext::onUpdate(std::function<void(const long long &)> l_func)
@@ -459,9 +487,11 @@ namespace ATMA
         m_resources.clear();
         m_loadedResources.clear();
         m_listeners.clear();
+        m_windows.clear();
         m_lastObjectID = 0;
         m_currentStateID = 0;
         m_lastResourceId = 0;
+        m_lastWindowID = 0;
         ATMA_ENGINE_INFO("purged everything from context");
     }
 }

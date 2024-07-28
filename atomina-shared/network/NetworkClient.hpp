@@ -4,9 +4,9 @@
 #include "URL.hpp"
 #include "Socket.hpp"
 #ifdef _WINDOWS_
-#    include "socket/SocketWinImpl.hpp"
+#    include "platform/Win/network/SocketWinImpl.hpp"
 #elif __linux__
-#    include "socket/SocketUnixImpl.hpp"
+#    include "platform/Linux/network/SocketUnixImpl.hpp"
 #endif
 
 namespace ATMA
@@ -15,7 +15,7 @@ namespace ATMA
      * TCP Client for connecting to hosts, can only connect to one
      * host
      */
-    class ATMA_API NetworkClient
+    class NetworkClient
     {
     public:
         // constructor specifying address and port of the host for connection

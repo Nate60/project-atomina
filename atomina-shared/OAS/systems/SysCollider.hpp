@@ -14,7 +14,7 @@ namespace ATMA{
     /**
      * System that implements collision detection for all collideable objects
      */
-    class ATMA_API SysCollider: public SysBase
+    class SysCollider: public SysBase
     {
     public:
         // default constructor

@@ -19,7 +19,7 @@ namespace ATMA
     /**
      * Windows Specific implementation of the socket
      */
-    class ATMA_API SocketWinImpl: public Socket
+    class SocketWinImpl: public Socket
     {
     public:
         // default constructor

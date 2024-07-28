@@ -9,7 +9,7 @@ namespace ATMA
      * Listening for active connections on a single port
      * using a local address
      */
-    class ATMA_API SocketListener
+    class SocketListener
     {
     public:
         // constructor specifying port

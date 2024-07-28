@@ -5,9 +5,9 @@
 #include "Socket.hpp"
 #include "URL.hpp"
 #ifdef _WINDOWS_
-#    include "socket/SocketListenerWinImpl.hpp"
+#    include "platform/Win/network/SocketListenerWinImpl.hpp"
 #elif __linux__
-#    include "socket/SocketListenerUnixImpl.hpp"
+#    include "platform/Linux/network/SocketListenerUnixImpl.hpp"
 #endif
 
 namespace ATMA
@@ -17,7 +17,7 @@ namespace ATMA
      * TCP Host with one listener and collection of clients spawned from that
      * one listener
      */
-    class ATMA_API NetworkHost
+    class NetworkHost
     {
         using ClientId = unsigned int;
         using ClientMap = std::unordered_map<ClientId, std::unique_ptr<Socket>>;

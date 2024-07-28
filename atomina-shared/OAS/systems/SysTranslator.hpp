@@ -14,7 +14,7 @@ namespace ATMA
      * Implementation of system that handles the movement of
      * objects
      */
-    class ATMA_API SysTranslator: public SysBase
+    class SysTranslator: public SysBase
     {
     public:
         // default constructor

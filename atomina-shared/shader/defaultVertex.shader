@@ -6,14 +6,19 @@ layout(location = 2) in vec2 a_texCoord;
 out vec4 v_colour;
 out vec2 v_texCoord;
 
-uniform mat3 u_transform;
-uniform mat3 u_source;
+uniform mat3 u_camera;
+uniform mat3 u_translate;
+uniform mat3 u_scale;
+uniform mat3 u_rot;
+uniform mat3 u_sourceRegion;
+uniform mat3 u_sourcePos;
 
 void
 main()
 {
-    gl_Position = vec4((u_transform * vec3(a_pos, 1.0)), 1.0);
+
+    gl_Position = vec4((inverse(u_camera) * u_translate * u_scale * u_rot * vec3(a_pos, 1.0)), 1.0);
     v_colour = a_colour;
-    vec3 srcRegion = u_source * vec3(a_texCoord, 1.0);
+    vec3 srcRegion = u_sourceRegion * u_sourcePos * vec3(a_texCoord, 1.0);
     v_texCoord = vec2(srcRegion.x, srcRegion.y);
 }

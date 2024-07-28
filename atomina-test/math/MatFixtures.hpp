@@ -69,4 +69,28 @@ protected:
         ATMA::Vec3<T> res = a * b;
         EXPECT_TRUE(res == exp);
     }
+
+    /**
+     * @brief helper function to test inverse of matrix
+     * @param a matrix
+     * @param exp expected resulting matrix
+     */
+    void inverseTest(ATMA::Mat3<T> a, ATMA::Mat3<T> exp)
+    {
+        ATMA::Mat3<T> res = a.inverse();
+        EXPECT_TRUE(res == exp);
+    }
+
+    
+    /**
+     * @brief helper function to test transpose of matrix
+     * @param a matrix
+     * @param exp expected resulting vector
+     */
+    void transposeTest(ATMA::Mat3<T> a, ATMA::Mat3<T> exp)
+    {
+        ATMA::Mat3<T> res = a.transpose();
+        EXPECT_TRUE(res == exp);
+    }
+
 };

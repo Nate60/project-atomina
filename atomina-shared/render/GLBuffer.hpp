@@ -9,7 +9,7 @@ namespace ATMA
     /**
      * @brief stores information based on the order of vertices for a draw call
      */
-    class ATMA_API IndexBuffer
+    class IndexBuffer
     {
     public:
         // constructor specifying the data in the buffer
@@ -56,7 +56,7 @@ namespace ATMA
     /**
      * @brief buffer specifying vertex data for draw calls
      */
-    class ATMA_API VertexBuffer
+    class VertexBuffer
     {
     public:
         // constructor specifying internal data
@@ -100,7 +100,7 @@ namespace ATMA
         unsigned int m_bindID;
     };
 
-    class ATMA_API VertexArray
+    class VertexArray
     {
     public:
         /**

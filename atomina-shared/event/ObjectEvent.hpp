@@ -10,7 +10,7 @@ namespace ATMA
     /**
      * All possible internal object event types
      */
-    enum class ATMA_API ObjectEvent
+    enum class ObjectEvent
     {
         None = 0u,
         Collision,
@@ -21,7 +21,7 @@ namespace ATMA
      * wrapper class for easy conversion from Object Event Type enum to
      * unsigned int
      */
-    class ATMA_API ObjectEventType
+    class ObjectEventType
     {
     public:
         // constructor specifying enum type

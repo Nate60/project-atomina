@@ -11,7 +11,7 @@ namespace ATMA
     /**
      * Handles reading and writing pure text or byte files asynchronously
      */
-    class ATMA_API FileHandler: public Worker
+    class FileHandler: public Worker
     {
     public:
         // default constructor

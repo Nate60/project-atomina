@@ -10,7 +10,7 @@ namespace ATMA
      * Used to connect and send bytes over a remote connection
      * using TCP Sockets
      */
-    class ATMA_API Socket
+    class Socket
     {
     public:
         // default constructor

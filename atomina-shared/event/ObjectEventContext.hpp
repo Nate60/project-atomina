@@ -10,7 +10,7 @@ namespace ATMA
      * @brief contains information that is required to handle
      * an object event
      */
-    class ATMA_API ObjectEventContext
+    class ObjectEventContext
     {
     public:
         // constructor specifying event type and properties

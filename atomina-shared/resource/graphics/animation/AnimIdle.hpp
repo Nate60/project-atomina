@@ -9,7 +9,7 @@ namespace ATMA
     /**
      * Animation for any object that is idle
      */
-    class ATMA_API AnimIdle: public AnimBase
+    class AnimIdle: public AnimBase
     {
     public:
         // constructor specifying all parameters

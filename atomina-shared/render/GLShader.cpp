@@ -10,7 +10,7 @@
 namespace ATMA
 {
 
-    GLShader::GLShader(const Path &l_filePath): m_shaderFile(l_filePath) 
+    GLShader::GLShader(const Shader &l_shader): m_shader(l_shader), LoadedResource()
     {
         ATMA_ENGINE_TRACE("Creating GL Shader");
     }
@@ -25,8 +25,8 @@ namespace ATMA
         return m_bindID;
     }
 
-    std::shared_ptr<GLShader> GLShader::makeShader(const Path &l_filePath)
+    std::shared_ptr<GLShader> GLShader::makeShader(const Shader &l_shader)
     {
-        __ATMAMAKEGLSHADER(l_filePath);
+        __ATMAMAKEGLSHADER(l_shader);
     }
 }

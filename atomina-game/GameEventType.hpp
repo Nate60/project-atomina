@@ -1,10 +1,9 @@
 #pragma once
 #include <atomina.hpp>
 
-
 /**
-    * defines all possible events within the game
-    */
+ * defines all possible events within the game
+ */
 enum class GameEventEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::ObjectEvent::COUNT),
@@ -13,9 +12,9 @@ enum class GameEventEnum
 };
 
 /**
-    * wrapper class for State Enum that allows for implicit
-    * coversion to unsigned int
-    */
+ * wrapper class for State Enum that allows for implicit
+ * coversion to unsigned int
+ */
 class GameEventType
 {
 public:
@@ -33,5 +32,3 @@ public:
 private:
     const GameEventEnum m_type;
 };
-
-

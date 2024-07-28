@@ -8,7 +8,7 @@ namespace ATMA
     /**
      * @brief Class for holding addresses of remote connections
      */
-    class ATMA_API URL
+    class URL
     {
     public:
         // default constructor

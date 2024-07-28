@@ -11,7 +11,12 @@
 #include "util/AtominaException.hpp"
 #include "util/ATConst.hpp"
 #include "resource/Resource.hpp"
-#include "render/GLRenderContext.hpp"
+#include "resource/ResourceLoader.hpp"
+#include "resource/loaders/GLTextureLoader.hpp"
+#include "resource/loaders/GLShaderLoader.hpp"
+#include "resource/loaders/DummyResourceLoader.hpp"
+#include "GUI/AppWindow.hpp"
+#include "render/GLRenderer.hpp"
 #ifdef _WINDOWS
 #    include <winsock2.h>
 #    include <ws2tcpip.h>
@@ -28,7 +33,6 @@ namespace ATMA
     class ATMAContext;
     class SysBase;
     class BaseState;
-    class GLRenderContext;
 
     using ObjectID = unsigned int;
     using AttrTypeID = unsigned int;
@@ -50,23 +54,24 @@ namespace ATMA
     using ResourceContainer = std::unordered_map<
         ResourceID,
         std::tuple<ResourceTypeID, std::string, std::optional<std::string>>>;
-    using LoadedResourceContainer = std::unordered_map<ResourceID, std::shared_ptr<Resource>>;
+    using LoadedResourceContainer = std::unordered_map<ResourceID, std::shared_ptr<LoadedResource>>;
 
     using ObjectEventID = unsigned int;
     using ObjectEventListeners =
         std::unordered_map<ObjectEventID, std::vector<std::shared_ptr<ObjectEventListener>>>;
 
+    using AppWindowID = unsigned int;
+    using AppWindowContainer = std::unordered_map<AppWindowID, std::shared_ptr<AppWindow>>;
 
     /**
      * Singleton that houses all internal state within the Atomina Engine.
      * Manages all resources and objects available to the engine.
      */
-    class ATMA_API ATMAContext
+    class ATMAContext
     {
     public:
         // destructor
         ~ATMAContext();
-        const std::unique_ptr<GLRenderContext> m_renderCtx;
     protected:
         std::chrono::steady_clock m_engineClock{};
         std::chrono::time_point<std::chrono::steady_clock> m_lastUpdate = m_engineClock.now();
@@ -87,8 +92,12 @@ namespace ATMA
 
         ObjectEventListeners m_listeners{};
 
-        std::function<void(const long long &)> m_updateCallback = [](const long long &l_dt){};
-        // GLRenderer m_renderer{};
+        std::function<void(const long long &)> m_updateCallback = [](const long long &l_dt) {};
+
+        AppWindowID m_lastWindowID{0u};
+        AppWindowContainer m_windows{};
+
+        std::shared_ptr<GLRenderer> m_renderer = std::make_shared<GLRenderer>();
 
         /**
          * protected constructor that should only be called
@@ -129,6 +138,11 @@ namespace ATMA
             static ATMAContext context; // Guaranteed to be destroyed.
                                         // Instantiated on first use.
             return context;
+        }
+
+        std::shared_ptr<GLRenderer> &getRenderer()
+        {
+            return m_renderer;
         }
 
         /**
@@ -382,20 +396,17 @@ namespace ATMA
             else
             {
 
-                if(auto loadeditr = m_loadedResources.find(l_resourceID);
-                   loadeditr == m_loadedResources.end())
+                if(auto loadeditr = m_loadedResources.find(l_resourceID); loadeditr == m_loadedResources.end())
                 {
+                    ResourceLoader<T> loader{};
                     auto &name = std::get<1>(itr->second);
                     if(auto &filename = std::get<2>(itr->second); filename.has_value())
                     {
-
-                        m_loadedResources[l_resourceID] = std::shared_ptr<T>{
-                            new T{name, Path{filename.value()}}
-                        };
+                        m_loadedResources[l_resourceID] = loader.load(name, Path{filename.value()});
                     }
                     else
                     {
-                        m_loadedResources[l_resourceID] = std::shared_ptr<T>{new T{name}};
+                        m_loadedResources[l_resourceID] = loader.load(name);
                     }
                     return std::static_pointer_cast<T>(m_loadedResources[l_resourceID]);
                 }
@@ -453,13 +464,32 @@ namespace ATMA
         );
 
         /**
+         * Creates a new app window in the context
+         * @returns id of the new window
+         */
+        [[nodiscard]] unsigned int createWindow();
+
+        /**
+         * Gets the window pointer from the associated id
+         * @param id of the window
+         * @returns pointer to the window
+         */
+        [[nodiscard]] std::shared_ptr<AppWindow> getWindow(const unsigned int &l_id);
+
+        /**
+         * Removes the window from the context
+         * @param id of the window
+         */
+        void removeWindow(const unsigned int &l_id);
+
+        /**
          * updates all the engine internals. To be called in the main game loop
          */
         void update();
 
         /**
          * functions to be run when the engine updates
-        */
+         */
         void onUpdate(std::function<void(const long long &)> l_updateFunc);
 
         /**

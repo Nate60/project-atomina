@@ -12,7 +12,7 @@ namespace ATMA
      * Super class for attribute, which define behaviours
      * of objects registering in the context
      */
-    class ATMA_API AttrBase
+    class AttrBase
     {
     public:
         const std::string m_attrTypeName;

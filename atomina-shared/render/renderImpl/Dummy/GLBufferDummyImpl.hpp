@@ -8,7 +8,7 @@ namespace ATMA
     /**
      * @brief Dummy implementation of Index Buffer
      */
-    class ATMA_API IndexBufferDummyImpl: public IndexBuffer
+    class IndexBufferDummyImpl: public IndexBuffer
     {
     public:
         // constructor specifying the data in the buffer
@@ -40,7 +40,7 @@ namespace ATMA
     /**
      * @brief Dummy implementation of Vertex Buffer
      */
-    class ATMA_API VertexBufferDummyImpl: public VertexBuffer
+    class VertexBufferDummyImpl: public VertexBuffer
     {
     public:
         // constructor specifying the data in the buffer
@@ -72,7 +72,7 @@ namespace ATMA
     /**
      * @brief Dummy implementation of Vertex Array
      */
-    class ATMA_API VertexArrayDummyImpl: public VertexArray
+    class VertexArrayDummyImpl: public VertexArray
     {
     public:
         // constructor specifying layout as a vector

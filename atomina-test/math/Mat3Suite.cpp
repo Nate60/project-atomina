@@ -83,3 +83,19 @@ TYPED_TEST(Matrix3TestFixture, RotationTest)
 {
     this->transformTest(ATMA::rotationMatrix<TypeParam>(90), {0, 1, 0}, {-1, 0, 0});
 }
+
+/**
+ * Tests that transpose of matrix 3 gives the correct result
+ */
+TYPED_TEST(Matrix3TestFixture, TransposeTest)
+{
+    this->transposeTest(ATMA::identityMatrix<TypeParam>(), ATMA::identityMatrix<TypeParam>());
+}
+
+/**
+ * Tests that rotation of vector 3 gives the correct result
+ */
+TYPED_TEST(Matrix3TestFixture, InverseTest)
+{
+    this->inverseTest(ATMA::identityMatrix<TypeParam>(), ATMA::identityMatrix<TypeParam>());
+}

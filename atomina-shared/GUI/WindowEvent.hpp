@@ -12,7 +12,7 @@ namespace ATMA
      * Enumerator for Possible App Window Events that can be created by
      * interacting with an App Window
      */
-    enum class ATMA_API WindowEventEnum
+    enum class WindowEventEnum
     {
         None = 0,
         Closed,
@@ -26,18 +26,18 @@ namespace ATMA
      * Data Class for storing event data generated from an App Window Event abstracted
      * away from the operating specific implementations
      */
-    class ATMA_API WindowEvent
+    class WindowEvent
     {
     public:
         // constructor for creating Window event with a window
-        WindowEvent(const std::shared_ptr<AppWindow> l_win);
+        WindowEvent(AppWindow *l_win);
 
         // constructor with event type specified
-        WindowEvent(const std::shared_ptr<AppWindow> l_win, const WindowEventEnum &l_eventType);
+        WindowEvent(AppWindow *l_win, const WindowEventEnum &l_eventType);
 
         // constructor with event type specificed and properties
         WindowEvent(
-            const std::shared_ptr<AppWindow> l_win,
+            AppWindow *l_win,
             const WindowEventEnum &l_eventType,
             const Props &l_props
         );
@@ -69,7 +69,7 @@ namespace ATMA
             return m_props.getAs<T>(l_key);
         }
 
-        const std::shared_ptr<AppWindow> m_win;
+        AppWindow *m_win;
         const WindowEventEnum &m_type;
     protected:
         const Props m_props;
@@ -78,7 +78,7 @@ namespace ATMA
     /**
      * Wrapper class for WindowEventEnum for conversion into unsigned int
      */
-    class ATMA_API WindowEventType
+    class WindowEventType
     {
     public:
         // constructor for attribute type enum

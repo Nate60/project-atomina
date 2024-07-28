@@ -10,7 +10,7 @@ namespace ATMA
     /**
      * Attribute that holds the collider shape for an object
      */
-    class ATMA_API AttrCollidable: public AttrBase
+    class AttrCollidable: public AttrBase
     {
     public:
         AttrCollidable();
