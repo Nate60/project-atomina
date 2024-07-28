@@ -9,7 +9,7 @@ namespace ATMA
     /**
      * Basic animation only having one frame
      */
-    class ATMA_API AnimDefault: public AnimBase
+    class AnimDefault: public AnimBase
     {
     public:
         AnimDefault();

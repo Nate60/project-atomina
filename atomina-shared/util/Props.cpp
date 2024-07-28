@@ -90,4 +90,14 @@ namespace ATMA
         }
     }
 
+    std::unordered_map<std::string,std::any>::iterator Props::begin()
+    {
+        return m_self.begin();
+    }
+
+    std::unordered_map<std::string,std::any>::iterator Props::end()
+    {
+        return m_self.end();
+    }
+
 }

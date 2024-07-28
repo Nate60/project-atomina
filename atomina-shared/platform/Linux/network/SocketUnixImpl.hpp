@@ -19,7 +19,7 @@ namespace ATMA
     /**
      * Unix implementation of network socket
      */
-    class ATMA_API SocketUnixImpl: public Socket
+    class SocketUnixImpl: public Socket
     {
     public:
         // default constructor

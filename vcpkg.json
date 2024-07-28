@@ -22,6 +22,11 @@
       "name": "stb",
       "version>=": "2021-09-10",
       "default-features": true
+    },
+    {
+      "name": "glfw3",
+      "version>=": "3.3.8",
+      "default-features": true
     }
   ]
 }

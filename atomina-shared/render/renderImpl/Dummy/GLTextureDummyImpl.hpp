@@ -11,13 +11,13 @@ namespace ATMA
     /**
      * @brief Dummy specific implementation of Texture
      */
-    class ATMA_API GLTextureDummyImpl: public GLTexture
+    class GLTextureDummyImpl: public GLTexture
     {
     public:
         friend class std::unique_ptr<GLTextureDummyImpl>;
 
         // constructor with name and filename of resource
-        GLTextureDummyImpl(const Path &l_filePath);
+        GLTextureDummyImpl(const Texture &l_texture);
 
         // default deconstructor
         virtual ~GLTextureDummyImpl();

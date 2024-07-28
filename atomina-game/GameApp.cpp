@@ -1,7 +1,5 @@
 #include "GameApp.hpp"
 
-using namespace std::string_literals;
-
 GameApp::GameApp() {}
 
 GameApp::~GameApp() {}
@@ -17,20 +15,24 @@ void GameApp::run()
 
     ctx.addSystemType<SysFly>(ATMA::SysType(ATMA::System::COUNT));
 
-    std::shared_ptr<ATMA::AppWindow> win = ATMA::AppWindow::makeWindow();
+    auto winID = ctx.createWindow();
+    auto win = ctx.getWindow(winID);
+    auto renderer = ctx.getRenderer();
+    win->setSize({1920, 1080});
 
     win->show();
-    //note that the context is reset when set to a new window, so any memory associated with
-    //it will cause an error. So best to set window before anything else
-    ctx.m_renderCtx->setWindow(win);
+    // note that the context is reset when set to a new window, so any memory associated with
+    // it will cause an error. So best to set window before anything else
+    renderer->setWindow(win);
+    auto vertShaderID = ctx.registerResource("vertex", 1u, "shader/defaultVertex.shader");
+    auto fragShaderID = ctx.registerResource("frag", 1u, "shader/defaultFrag.shader");
 
-    std::shared_ptr<MainMenuState> state = std::make_unique<MainMenuState>(win);
-    std::shared_ptr<PlayState> playState = std::make_unique<PlayState>();
-    
+    std::shared_ptr<MainMenuState> state =
+        std::make_shared<MainMenuState>(win, vertShaderID, fragShaderID);
+    std::shared_ptr<PlayState> playState = std::make_shared<PlayState>(vertShaderID, fragShaderID);
+
     auto sysFly = ctx.getSystem<SysFly>(ATMA::SysType(ATMA::System::COUNT));
-    ctx.addObjectEventListener(GameEventType(GameEventEnum::FLAP),sysFly);
-    ctx.addObjectEventListener(GameEventType(GameEventEnum::GAMEOVER), playState);
-    ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::Collision), playState);
+    ctx.addObjectEventListener(GameEventType(GameEventEnum::FLAP), sysFly);
 
     ctx.addState(GameStateType(GameStateEnum::MAINMENU), std::move(state));
     ATMA_ENGINE_INFO("Created mainmenu");
@@ -42,13 +44,15 @@ void GameApp::run()
     while(!win->shouldClose())
     {
         win->poll();
-        ctx.m_renderCtx->clear();
+        renderer->startScene(ATMA::GLCamera{
+            {0.f,0.f},
+            {10.f,10.f}
+        });
         ctx.update();
-        ctx.m_renderCtx->draw();
+        renderer->finishScene();
         win->swapBuffers();
     }
 }
-
 
 void GameApp::shutdown()
 {
@@ -56,14 +60,7 @@ void GameApp::shutdown()
     active = false;
 }
 
-#ifdef _WINDOWS
-int main()
-{
-    ATMA::startGame(std::unique_ptr<ATMA::Game>(new GameApp{}));
-}
-#else
 std::unique_ptr<ATMA::Game> ATMA::CreateGame()
 {
     return std::unique_ptr<ATMA::Game>{new GameApp()};
 }
-#endif

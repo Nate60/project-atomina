@@ -6,10 +6,6 @@
 #include "PlayState.hpp"
 #include "SysFly.hpp"
 
-#ifdef ATOMINA_EXPORTS
-#    error Atomina Exports was defined in the game app
-#endif
-
 /*
  * extension of the Game class from atomina-api
  * used as actual implementation

@@ -21,7 +21,7 @@ namespace ATMA
 
     std::ostream &operator<<(std::ostream &os, const std::shared_ptr<Resource> r)
     {
-        return os << r->m_resourceName;
+        return os << r->m_name;
     }
 
     std::ostream &operator<<(std::ostream &os, const ObjectEventContext &e)

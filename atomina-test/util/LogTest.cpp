@@ -29,7 +29,7 @@ TEST_F(LogFixture, LoggingSystemGivesName)
 TEST_F(LogFixture, LoggingResourceGivesName)
 {
     std::shared_ptr<ATMA::Resource> res =
-        std::make_shared<ATMA::DummyResource>(ATMA::DummyResource{"some resource"});
+        std::make_shared<ATMA::DummyResource>(ATMA::DummyResource{"some resource", ATMA::Path{""}});
     testLogger->info("{}", res);
     EXPECT_EQ("some resource"s + LogFixture::endLine, oss.str());
 }

@@ -8,7 +8,7 @@ namespace ATMA
     /**
      * @brief OpenGL implementation of Index Buffer
      */
-    class ATMA_API IndexBufferOpenGLImpl: public IndexBuffer
+    class IndexBufferOpenGLImpl: public IndexBuffer
     {
     public:
         // constructor specifying the data in the buffer
@@ -40,7 +40,7 @@ namespace ATMA
     /**
      * @brief OpenGL implementation of Vertex Buffer
      */
-    class ATMA_API VertexBufferOpenGLImpl: public VertexBuffer
+    class VertexBufferOpenGLImpl: public VertexBuffer
     {
     public:
         // constructor specifying the data in the buffer
@@ -72,7 +72,7 @@ namespace ATMA
     /**
      * @brief OpenGL implementation of Vertex Array
      */
-    class ATMA_API VertexArrayOpenGLImpl: public VertexArray
+    class VertexArrayOpenGLImpl: public VertexArray
     {
     public:
         // constructor specifying layout as a vector

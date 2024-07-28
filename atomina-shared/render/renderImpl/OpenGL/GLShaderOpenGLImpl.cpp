@@ -5,7 +5,7 @@ namespace ATMA
 {
     using namespace std::string_literals;
 
-    GLShaderOpenGLImpl::GLShaderOpenGLImpl(const Path &l_filePath): GLShader(l_filePath)
+    GLShaderOpenGLImpl::GLShaderOpenGLImpl(const Shader &l_shader): GLShader(l_shader)
     {
         ATMA_ENGINE_TRACE("Creating OPEN GL Shader");
         m_bindID = 0u;
@@ -29,13 +29,7 @@ namespace ATMA
             m_bindID = glCreateShader(GL_FRAGMENT_SHADER);
             break;
         }
-        m_shaderText = ""s;
-        std::ifstream l_fileStream{m_shaderFile.toString()};
-        std::string sourceLine;
-        while(std::getline(l_fileStream, sourceLine))
-            m_shaderText += sourceLine + "\n";
-        l_fileStream.close();
-        const char *l_shaderText = m_shaderText.c_str();
+        const char *l_shaderText = m_shader.m_source.c_str();
         glShaderSource(m_bindID, 1, &l_shaderText, NULL);
         glCompileShader(m_bindID);
         int success;
@@ -45,7 +39,7 @@ namespace ATMA
         {
             glGetShaderInfoLog(m_bindID, 1024, NULL, infoLog);
             ATMA_ENGINE_ERROR(
-                "Error with compiling shader: {0} [OPENGL]: {1}", m_shaderFile.toString(), infoLog
+                "Error with compiling shader: {0} [OPENGL]: {1}", m_shader.m_name, infoLog
             );
         }
     }

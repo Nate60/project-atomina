@@ -10,7 +10,7 @@ namespace ATMA
     /**
      * Attribute that holds an object's position members
      */
-    class ATMA_API AttrShape: public AttrBase
+    class AttrShape: public AttrBase
     {
     public:
         // default constructor

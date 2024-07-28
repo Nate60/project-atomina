@@ -2,6 +2,7 @@
 #include "util/AtominaException.hpp"
 #include "math/Vec2.hpp"
 #include "math/Vec3.hpp"
+#include "math/Mat3.hpp"
 
 namespace ATMA
 {
@@ -85,7 +86,7 @@ namespace ATMA
      * @return identity matrix
      */
     template<class T>
-    constexpr inline Mat3<T> indentityMatrix()
+    constexpr inline Mat3<T> identityMatrix()
     {
         return {
             {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}

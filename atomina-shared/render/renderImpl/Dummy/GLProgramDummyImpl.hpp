@@ -9,7 +9,7 @@ namespace ATMA
     /**
      * @brief Dummy implementation of a shader program
      */
-    class ATMA_API GLProgramDummyImpl: public GLProgram
+    class GLProgramDummyImpl: public GLProgram
     {
     public:
         // default constructor

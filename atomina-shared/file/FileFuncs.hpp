@@ -10,7 +10,7 @@ namespace ATMA
      * Gets the working directory of the executable as an absolute path string
      * @returns full qualifed path
      */
-    ATMA_API std::string getWorkingDirectory();
+    std::string getWorkingDirectory();
 
     /**
      * Retrieves the names of all the files in the listed directory that match
@@ -19,7 +19,7 @@ namespace ATMA
      * @param l_filter regex pattern to match against
      * @return list of full qualified paths in the directory
      */
-    ATMA_API std::vector<stdfs::path>
+    std::vector<stdfs::path>
     getDirectoryList(const stdfs::path &l_path, const std::string &l_filter = ".*[.].*");
 
 }

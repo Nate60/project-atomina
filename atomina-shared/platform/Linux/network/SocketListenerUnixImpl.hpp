@@ -1,33 +1,30 @@
-#ifdef _WINDOWS
+#ifdef __linux__
 #    pragma once
 #    include "pch.hpp"
 #    include "core/api.hpp"
-#    include <winsock2.h>
-#    include <ws2tcpip.h>
-#    include <iphlpapi.h>
-#    include <stdio.h>
-#    include "network/Socket.hpp"
+#    include <sys/types.h>
+#    include <sys/socket.h>
+#    include <netdb.h>
+#    include <errno.h>
 #    include "network/SocketListener.hpp"
-#    include "network/socket/SocketWinImpl.hpp"
-#    include "util/AtominaException.hpp"
+#    include "SocketUnixImpl.hpp"
+#    include "network/Socket.hpp"
 #    include "util/Log.hpp"
-
-#    pragma comment(lib, "Ws2_32.lib")
 
 namespace ATMA
 {
 
     /**
-     * Windows implementation of network socket listener
+     * Unix Implementation of network socket listener
      */
-    class ATMA_API SocketListenerWinImpl: public SocketListener
+    class SocketListenerUnixImpl: public SocketListener
     {
     public:
         // constructor specifying port
-        SocketListenerWinImpl(const unsigned short &l_port);
+        SocketListenerUnixImpl(const unsigned short &l_port);
 
         // deconstructor
-        virtual ~SocketListenerWinImpl();
+        virtual ~SocketListenerUnixImpl();
 
         /**
          * opens port to active sockets
@@ -47,12 +44,13 @@ namespace ATMA
          */
         virtual std::unique_ptr<Socket> acceptConnection() override;
     private:
-        addrinfo *m_addrinfo = NULL, m_hints;
-        SOCKET m_listener = INVALID_SOCKET;
+        addrinfo *m_addrinfo, m_hints;
+        int m_socket = 0;
+        const unsigned int m_queueSize = 4;
     };
 
 }
 
 #else
-#    error Windows implementation included in non-Windows target
+#    error Linux implementation included in non-Linux target
 #endif

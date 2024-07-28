@@ -10,7 +10,7 @@ namespace ATMA
     /**
      * An Attribute that holds the members of an object required to render to a display
      */
-    class ATMA_API AttrRenderable: public AttrBase, public GLRenderable
+    class AttrRenderable: public AttrBase
     {
     public:
 
@@ -28,6 +28,8 @@ namespace ATMA
          * @param l_stream string stream containing data of the attribute members
          */
         void readIn(std::stringstream &l_stream);
+
+        std::shared_ptr<GLRenderable> m_self = GLRenderable::makeRenderable();
 
       
     };

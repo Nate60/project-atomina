@@ -9,7 +9,7 @@ namespace ATMA
     /**
      * Attribute that holds no members but is used as a tag for controller system
      */
-    class ATMA_API AttrControllable: public AttrBase
+    class AttrControllable: public AttrBase
     {
     public:
         // default constructor

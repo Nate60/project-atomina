@@ -10,7 +10,7 @@ namespace ATMA
      * static class to interface with spdlog
      * and provide logging functionality macros
      */
-    class ATMA_API Log
+    class Log
     {
     public:
         /**

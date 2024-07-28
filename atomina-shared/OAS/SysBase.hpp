@@ -20,7 +20,7 @@ namespace ATMA
      * Super class for systems which implement the behaviours of
      * attributes for each object register in the context
      */
-    class ATMA_API SysBase: public ObjectEventListener, public std::enable_shared_from_this<SysBase>
+    class SysBase: public ObjectEventListener, public std::enable_shared_from_this<SysBase>
     {
     public:
         const std::string m_sysTypeName;

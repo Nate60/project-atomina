@@ -16,12 +16,12 @@ if(ATMA_USE_OPENGL)
 endif()
 
 if(MSVC)
-    list(FILTER atomina_shared_src EXCLUDE REGEX ".*UnixImpl.cpp")
+    list(FILTER atomina_shared_src EXCLUDE REGEX ".*/platform/Linux/.*")
 elseif(UNIX)
-    list(FILTER atomina_shared_src EXCLUDE REGEX ".*WinImpl.cpp")
+    list(FILTER atomina_shared_src EXCLUDE REGEX ".*/platform/Win/.*")
 endif() 
 
-add_library(Atomina_Shared SHARED)
+add_library(Atomina_Shared STATIC)
 
 set_property(TARGET Atomina_Shared PROPERTY POSITION_INDEPENDENT_CODE ON)
 
@@ -30,7 +30,7 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Atomina_Shared PROPERTY CXX_STANDARD 20)
 endif()
 
-target_link_libraries(Atomina_Shared PUBLIC spdlog::spdlog GLEW::GLEW)
+target_link_libraries(Atomina_Shared PUBLIC spdlog::spdlog GLEW::GLEW glfw)
 
 
 target_sources(Atomina_Shared PRIVATE ${atomina_shared_src})
