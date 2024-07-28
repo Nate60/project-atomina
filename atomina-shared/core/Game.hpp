@@ -3,6 +3,7 @@
 #include "api.hpp"
 #include "util/Log.hpp"
 #include "ATMAContext.hpp"
+#include "render/GLContext.hpp"
 #include "OAS/attributes/AttrControllable.hpp"
 #include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrVelocity.hpp"
@@ -20,7 +21,7 @@ namespace ATMA
      * App interface to be implemented by the game and called by the
      * engine
      */
-    class ATMA_API Game
+    class Game
     {
     public:
         // default constructor

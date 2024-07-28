@@ -10,13 +10,13 @@ namespace ATMA
     /**
      * @brief OpenGL specific implementation of Texture
      */
-    class ATMA_API GLTextureOpenGLImpl: public GLTexture
+    class GLTextureOpenGLImpl: public GLTexture
     {
     public:
         friend class std::unique_ptr<GLTextureOpenGLImpl>;
 
         // constructor with name and filename of resource
-        GLTextureOpenGLImpl(const Path &l_filePath);
+        GLTextureOpenGLImpl(const Texture &l_texture);
 
         // default deconstructor
         virtual ~GLTextureOpenGLImpl();

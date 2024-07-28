@@ -10,7 +10,7 @@ namespace ATMA
      * Keeps track of the duration elapsed between
      * non-continuous timepoints
      */
-    class ATMA_API StopWatch
+    class StopWatch
     {
     public:
         /**

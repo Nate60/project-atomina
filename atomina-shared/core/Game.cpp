@@ -1,6 +1,5 @@
 #include "pch.hpp"
 #include "Game.hpp"
-#include "util/Log.hpp"
 
 namespace ATMA
 {
@@ -14,7 +13,8 @@ namespace ATMA
         //--SETUP--//
 
         auto &ctx = ATMAContext::getContext();
-
+        
+        GLContext::init();
         // attribute registration
         ctx.registerAttributeType<AttrControllable>(AttributeType(Attribute::Controllable));
         ctx.registerAttributeType<AttrShape>(AttributeType(Attribute::Shape));

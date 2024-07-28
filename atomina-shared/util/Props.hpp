@@ -10,7 +10,7 @@ namespace ATMA
      * wrapper class for unordered map that holds string keys assigned to arbitrary
      * values, and can allow for case insensitivity
      */
-    class ATMA_API Props
+    class Props
     {
     private:
         std::unordered_map<std::string, std::any> m_self{};
@@ -138,6 +138,18 @@ namespace ATMA
          * @returns if the key is found
          */
         bool contains(const std::string &l_key) const;
+
+        /**
+         * gives the iterator to the underlying map
+         * @returns iterator to beginning of the map
+         */
+        std::unordered_map<std::string,std::any>::iterator begin();
+
+        /**
+         * gives the iterator for the end of map
+         * @returns iterator to end of the map
+         */
+        std::unordered_map<std::string,std::any>::iterator end();
     };
 
 }

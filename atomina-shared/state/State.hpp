@@ -8,7 +8,7 @@ namespace ATMA
     /**
      * defines all possible states within the shared library
      */
-    enum class ATMA_API State
+    enum class State
     {
         Empty = 0u,
         Dummy = 1u,
@@ -19,7 +19,7 @@ namespace ATMA
      * wrapper class for State Enum that allows for implicit
      * coversion to unsigned int
      */
-    class ATMA_API StateType
+    class StateType
     {
     public:
         // normal constructor

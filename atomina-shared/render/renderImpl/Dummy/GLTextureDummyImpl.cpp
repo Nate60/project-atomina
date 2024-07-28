@@ -5,12 +5,7 @@
 namespace ATMA
 {
     // constructor with name and filename of resource
-    GLTextureDummyImpl::GLTextureDummyImpl(const Path &l_filePath): GLTexture(l_filePath)
-    {
-        m_bindID = 0;
-    }
-
-    GLTextureDummyImpl::GLTextureDummyImpl(): GLTexture()
+    GLTextureDummyImpl::GLTextureDummyImpl(const Texture &l_texture): GLTexture(l_texture)
     {
         m_bindID = 0;
     }
@@ -26,7 +21,7 @@ namespace ATMA
         const Vec2<unsigned int> &l_size
     )
     {
-        auto sub_image = std::unique_ptr<GLTextureDummyImpl>{new GLTextureDummyImpl{}};
+        auto sub_image = std::unique_ptr<GLTextureDummyImpl>{new GLTextureDummyImpl{m_texture}};
         return std::move(sub_image);
     }
 }

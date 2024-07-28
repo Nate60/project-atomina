@@ -7,7 +7,7 @@ namespace ATMA
     /**
      * Dummy state used as a place holder
      */
-    class ATMA_API DummyState: public BaseState
+    class DummyState: public BaseState
     {
     public:
         // default constructor

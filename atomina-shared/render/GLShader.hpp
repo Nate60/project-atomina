@@ -3,6 +3,8 @@
 #include "core/api.hpp"
 #include "util/Log.hpp"
 #include "util/Path.hpp"
+#include "resource/Resource.hpp"
+#include "resource/ResourceEnum.hpp"
 
 namespace ATMA
 {
@@ -14,10 +16,28 @@ namespace ATMA
         Fragment
     };
 
+    class Shader: public Resource
+    {
+    public:
+        Shader(const std::string &l_name, const Path &l_path, const std::string &l_shaderSource):
+            Resource(
+                l_name,
+                l_path, 
+                ResType(ResourceEnum::Shader)
+            ),
+            m_source(l_shaderSource)
+        {
+        }
+
+        Shader(): Resource("", Path{""}, ResType(ResourceEnum::Shader)), m_source("") {}
+
+        const std::string m_source;
+    };
+
     /**
      * @brief Reference to Shader code that can be executed on GPU
      */
-    class ATMA_API GLShader
+    class GLShader: public LoadedResource
     {
     public:
         // default deconstructor
@@ -40,12 +60,12 @@ namespace ATMA
          * @param l_filePath path to file on system
          * @returns Graphics shader for the platform
         */
-        static std::shared_ptr<GLShader> makeShader(const Path &l_filePath);
+        static std::shared_ptr<GLShader> makeShader(const Shader &l_shader);
     protected:
         // constructor with  filename of resource
-        GLShader(const Path &l_filePath);
+        GLShader(const Shader &l_shader);
 
-        Path m_shaderFile;
+        const Shader m_shader;
         unsigned int m_bindID;
     };
 

@@ -9,11 +9,11 @@ namespace ATMA
     /**
      * @brief OpenGL specific implementation of Shader
      */
-    class ATMA_API GLShaderOpenGLImpl: public GLShader
+    class GLShaderOpenGLImpl: public GLShader
     {
     public:
         // constructor with name and filename of resource
-        GLShaderOpenGLImpl(const Path &l_filePath);
+        GLShaderOpenGLImpl(const Shader &l_shader);
 
         // default deconstructor
         virtual ~GLShaderOpenGLImpl();
@@ -23,8 +23,6 @@ namespace ATMA
          * @param l_type expected type of shader to be compiled
          */
         virtual void compile(ShaderType l_type) override;
-    protected:
-        std::string m_shaderText;
     };
 
 }

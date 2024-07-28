@@ -20,6 +20,42 @@ namespace ATMA
             return m_values[l_row][l_col];
         }
 
+        constexpr inline Mat3<T> transpose()
+        {
+            return {
+                {{m_values[2][2], m_values[1][2], m_values[0][2]},
+                 {m_values[2][1], m_values[1][1], m_values[0][1]},
+                 {m_values[2][0], m_values[1][0], m_values[0][0]}}
+            };
+        }
+
+        constexpr inline Mat3<T> inverse()
+        {
+            T determinant = m_values[0][0] * (m_values[1][1] * m_values[2][2] - m_values[2][1] * m_values[1][2]) - 
+                            m_values[0][1] * (m_values[1][0] * m_values[2][2] - m_values[1][2] * m_values[2][0]) +
+                            m_values[0][2] * (m_values[1][0] * m_values[2][1] - m_values[1][1] * m_values[2][0]);
+
+            T inverseDeterminate = 1 / determinant;
+            return {{
+                {
+                    (m_values[1][1] * m_values[2][2] - m_values[2][1] * m_values[1][2]) * inverseDeterminate,
+                    (m_values[0][2] * m_values[2][1] - m_values[0][1] * m_values[2][2]) * inverseDeterminate,
+                    (m_values[0][1] * m_values[1][2] - m_values[0][2] * m_values[1][1]) * inverseDeterminate
+                },
+                {
+                    (m_values[1][2] * m_values[2][0] - m_values[1][0] * m_values[2][2]) * inverseDeterminate,
+                    (m_values[0][0] * m_values[2][2] - m_values[0][2] * m_values[2][0]) * inverseDeterminate,
+                    (m_values[1][0] * m_values[0][2] - m_values[0][0] * m_values[1][2]) * inverseDeterminate
+                },
+                {
+                    (m_values[1][0] * m_values[2][1] - m_values[2][0] * m_values[1][1]) * inverseDeterminate,
+                    (m_values[2][0] * m_values[0][1] - m_values[0][0] * m_values[2][1]) * inverseDeterminate,
+                    (m_values[0][0] * m_values[1][1] - m_values[1][0] * m_values[0][1]) * inverseDeterminate
+                }
+            }};
+
+        }
+
         T m_values[3][3]{
             {0, 0, 0},
             {0, 0, 0},

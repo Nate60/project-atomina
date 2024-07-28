@@ -11,7 +11,7 @@ namespace ATMA
      * explicit templates for int, float, and double
      */
     template<class T>
-    class ATMA_API RandomGenerator
+    class RandomGenerator
     {
     private:
         std::random_device m_device;
@@ -66,7 +66,7 @@ namespace ATMA
 
     // explicit template specialization for int since it uses different distribution class
     template<>
-    class ATMA_API RandomGenerator<int>
+    class RandomGenerator<int>
     {
     private:
         std::random_device m_device;

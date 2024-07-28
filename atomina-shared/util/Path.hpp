@@ -9,7 +9,7 @@ namespace ATMA
      * Wrapper for std::filesystem::path that maps relative paths to the path
      * that contains the running executable
      */
-    class ATMA_API Path
+    class Path
     {
     public:
         /**

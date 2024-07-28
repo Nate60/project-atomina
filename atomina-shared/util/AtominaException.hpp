@@ -9,7 +9,7 @@ namespace ATMA
      * Abstract Exception class, provides basic constructor and message storage
      * No default constructor is provided
      */
-    class ATMA_API AtominaException: public std::runtime_error
+    class AtominaException: public std::runtime_error
     {
     public:
         AtominaException(const std::string &l_message) noexcept: runtime_error(l_message) {}
@@ -19,7 +19,7 @@ namespace ATMA
      * Exception to be thrown when an error occurs when registering an id or related object to
      * a manager
      */
-    struct ATMA_API RegistrationException: public AtominaException
+    struct RegistrationException: public AtominaException
     {
 
         RegistrationException(const std::string &l_message) noexcept: AtominaException(l_message) {}
@@ -28,7 +28,7 @@ namespace ATMA
     /**
      * Exception to be thrown when a value cannot be found and cannot recover
      */
-    struct ATMA_API ValueNotFoundException: public AtominaException
+    struct ValueNotFoundException: public AtominaException
     {
 
         ValueNotFoundException(const std::string &l_message) noexcept: AtominaException(l_message)
@@ -39,7 +39,7 @@ namespace ATMA
     /**
      * Exception thrown when the logger engine has not been initialized
      */
-    struct ATMA_API InitializationException: public AtominaException
+    struct InitializationException: public AtominaException
     {
         InitializationException(const std::string &l_message) noexcept: AtominaException(l_message)
         {
@@ -50,7 +50,7 @@ namespace ATMA
      * Exception thrown when acquisition of resources fails
      */
 
-    struct ATMA_API ResourceAcquisitionException: public AtominaException
+    struct ResourceAcquisitionException: public AtominaException
     {
         ResourceAcquisitionException(const std::string &l_message) noexcept:
             AtominaException(l_message)
@@ -61,7 +61,7 @@ namespace ATMA
     /**
      * exception for network related errors
      */
-    struct ATMA_API NetworkException: public AtominaException
+    struct NetworkException: public AtominaException
     {
         NetworkException(const std::string &l_message) noexcept: AtominaException(l_message) {}
     };
@@ -69,7 +69,7 @@ namespace ATMA
     /**
     * exception for timer related errors
     */
-    struct ATMA_API TimeException : public AtominaException
+    struct TimeException : public AtominaException
     {
         TimeException(const std::string &l_message) noexcept: AtominaException(l_message) {}
     };
