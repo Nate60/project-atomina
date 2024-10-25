@@ -29,11 +29,9 @@ namespace ATMA
         ctx.addSystemType<SysCollider>(SystemType(System::Collider));
     }
 
-    void Game::run()
-    {
+    void Game::setup(ATMAContext &l_ctx) {}
 
-        active = true;
-    }
+    void Game::update(ATMAContext &l_ctx){}
 
-    void Game::shutdown() {}
+    void Game::shutdown(ATMAContext &l_ctx) {}
 }

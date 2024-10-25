@@ -13,6 +13,10 @@
 class GameApp: public ATMA::Game
 {
 public:
+
+    std::shared_ptr<ATMA::AppWindow> m_win;
+    std::shared_ptr<ATMA::GLRenderer> m_renderer;
+
     // default constructor
     GameApp();
 
@@ -20,16 +24,21 @@ public:
     ~GameApp();
 
     /**
+     * real implementation of the game apps setup function to house the setup
+     */
+    virtual void setup(ATMA::ATMAContext &l_ctx) override;
+
+    /**
      * real implementation of the game apps run function to house the
      * game loop
      */
-    virtual void run() override;
+    virtual void update(ATMA::ATMAContext &l_ctx) override;
 
     /**
      * real implementation of the game apps shut down function
      * to initiate shut down of the app
      */
-    virtual void shutdown() override;
+    virtual void shutdown(ATMA::ATMAContext &l_ctx) override;
 };
 
 /**

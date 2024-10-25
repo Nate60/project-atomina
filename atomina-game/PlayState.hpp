@@ -42,7 +42,7 @@ public:
         );
         playerRender->m_self->m_prog = m_defaultProg;
         playerRender->m_self->m_texture = m_playerTexture;
-        playerRender->m_self->m_size = ATMA::Vec2<float>{0.1f, 0.2f};
+        playerRender->m_self->m_size = ATMA::Vec2<float>{36.f, 72.f};
         playerRender->m_self->m_pos = ATMA::Vec2<float>{0.f, 0.f};
         playerRender->m_self->m_stackPos = 0;
         m_active = true;

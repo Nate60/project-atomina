@@ -1,5 +1,6 @@
 #include "pch.hpp"
 #include "Entry.hpp"
+#include "ATMAContext.hpp"
 
 
 /*
@@ -20,7 +21,17 @@ int main()
 
     try
     {
-        app->run();
+        app->initializeContext();
+        auto &ctx = ATMA::ATMAContext::getContext();
+        ATMA_ENGINE_INFO("Setting up application");
+        app->setup(ctx);
+        ATMA_ENGINE_INFO("Starting game loop");
+        while (app->active)
+        {
+            app->update(ctx);
+        }
+        ATMA_ENGINE_INFO("Ending game loop, shutting down application");
+        app->shutdown(ctx);
     }
     catch(ATMA::AtominaException e)
     {
