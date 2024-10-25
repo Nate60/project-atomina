@@ -28,25 +28,28 @@ public:
     {
         for(auto &id: m_objects)
         {
+            float dv = l_dt / 280000000.f;
+            ATMA_ENGINE_TRACE("dv: {}", dv);
+            
             auto vel = ctx.getAttribute<ATMA::AttrVelocity>(
                 id, ATMA::AttributeType(ATMA::Attribute::Velocity)
             );
             if(vel->m_dpos.y > -2)
             {
-                vel->m_dpos.y -= (l_dt >> 23) / 700.f;
+                vel->m_dpos.y -= dv;
             }
             else
             {
                 vel->m_dpos.y = -2;
             }
 
-            if(vel->m_drot > -2)
+            if(vel->m_drot > -0.1f)
             {
-                vel->m_drot -= (l_dt >> 23) / 40.f;
+                vel->m_drot -= dv/5.f;
             }
             else
             {
-                vel->m_drot = -2;
+                vel->m_drot = -0.1f;
             }
             auto pos =
                 ctx.getAttribute<ATMA::AttrShape>(id, ATMA::AttributeType(ATMA::Attribute::Shape));
@@ -56,22 +59,31 @@ public:
             auto collider = ctx.getAttribute<ATMA::AttrCollidable>(
                 id, ATMA::AttributeType(ATMA::Attribute::Collidable)
             );
-            if(pos->m_pos.y < -0.85f)
+            if(pos->m_pos.y < -320.f)
             {
                 ctx.dispatchObjectEvent(
                     ATMA::ObjectEventContext{GameEventType(GameEventEnum::GAMEOVER), ATMA::Props{}}
                 );
                 vel->m_drot = 0;
-                pos->m_pos.y = -0.85f;
+                pos->m_pos.y = -320.f;
             }
-            else if(pos->m_pos.y > 0.85)
+            else if(pos->m_pos.y > 320.f)
             {
                 ctx.dispatchObjectEvent(
                     ATMA::ObjectEventContext{GameEventType(GameEventEnum::GAMEOVER), ATMA::Props{}}
                 );
                 vel->m_dpos.y = -0.02f;
-                pos->m_pos.y = 0.85;
+                pos->m_pos.y = 320.f;
             }
+            ATMA_ENGINE_TRACE(
+                "m_dpos.x: {0} m_dpos.y: {1} m_pos.x: {2} m_pos.y: {3} m_drot: {4} m_rot: {5} ",
+                vel->m_dpos.x,
+                vel->m_dpos.y,
+                pos->m_pos.x,
+                pos->m_pos.y,
+                vel->m_drot,
+                pos->m_rot
+            );
             renderPos->m_self->m_pos.x = pos->m_pos.x;
             renderPos->m_self->m_pos.y = pos->m_pos.y;
             renderPos->m_self->m_rot = pos->m_rot;
@@ -91,7 +103,7 @@ public:
             auto vel = ctx.getAttribute<ATMA::AttrVelocity>(
                 id, ATMA::AttributeType(ATMA::Attribute::Velocity)
             );
-            vel->m_dpos.y = 0.03f;
+            vel->m_dpos.y = 1.2f;
             vel->m_drot = 0;
             auto shape =
                 ctx.getAttribute<ATMA::AttrShape>(id, ATMA::AttributeType(ATMA::Attribute::Shape));
