@@ -14,6 +14,7 @@ namespace ATMA
 
     void SysTranslator::update(const long long &l_dt)
     {
+        auto step = l_dt / 1000000.f;
         m_stopwatch.start();
         for(auto &obj: m_objects)
         {
@@ -23,14 +24,11 @@ namespace ATMA
                 ATMAContext::getContext().getAttribute<AttrVelocity>(
                     obj, AttrType(Attribute::Velocity)
                 );
-            attrPos->m_pos.x += attrVel->m_dpos.x * (l_dt >> 23);
-            attrPos->m_pos.y += attrVel->m_dpos.y * (l_dt >> 23);
-            attrPos->m_rot += attrVel->m_drot * (l_dt >> 23);
+            attrPos->m_pos.x += attrVel->m_dpos.x * step;
+            attrPos->m_pos.y += attrVel->m_dpos.y * step;
+            attrPos->m_rot += attrVel->m_drot * step;
         }
         m_stopwatch.stop();
-        // ATMA_ENGINE_TRACE(
-        //     "Translater update took {}ms", m_stopwatch.getElapsedDuration() / 1000000.0
-        // );
         m_stopwatch.reset();
     }
 

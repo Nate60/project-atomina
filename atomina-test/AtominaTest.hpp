@@ -11,6 +11,7 @@ class GameTest: public ATMA::Game
 public:
     GameTest();
     ~GameTest();
-    virtual void run() override;
-    virtual void shutdown() override;
+    virtual void setup(ATMA::ATMAContext &l_ctx) override;
+    virtual void update(ATMA::ATMAContext &l_ctx) override;
+    virtual void shutdown(ATMA::ATMAContext &l_ctx) override;
 };

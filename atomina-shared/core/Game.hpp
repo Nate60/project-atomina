@@ -37,17 +37,19 @@ namespace ATMA
          */
         void initializeContext();
 
+        virtual void setup(ATMAContext &l_ctx);
+
         /**
          * stub virtual function to be extended and implemented by the game
          * and contains the main game loop
          */
-        virtual void run();
+        virtual void update(ATMAContext &l_ctx);
 
         /**
          * stub function to be implemented by the game to initiate shutdown
          * and start clean up of the app
          */
-        virtual void shutdown();
+        virtual void shutdown(ATMAContext &l_ctx);
 
         bool active = false;
     };

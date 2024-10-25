@@ -4,28 +4,33 @@ GameTest::GameTest() {}
 
 GameTest::~GameTest() {}
 
-void
-GameTest::run()
+void GameTest::setup(ATMA::ATMAContext &l_ctx)
+{
+    ATMA_ENGINE_INFO("Setting up test wrapper");
+    l_ctx.purge();
+    active = true;
+}
+
+void GameTest::update(ATMA::ATMAContext &l_ctx)
 {
     ATMA_ENGINE_INFO("Test Wrapper is now running");
-    active = true;
     ::testing::InitGoogleTest();
     auto result = RUN_ALL_TESTS();
     if(result > 0)
     {
         ATMA_ENGINE_ERROR("One or more tests have failed");
+        active = false;
         exit(1);
     }
     else
     {
         ATMA_ENGINE_INFO("Tests passed successfully!");
     }
+    active = false;
 }
 
-void
-GameTest::shutdown()
-{
-    active = false;
+void GameTest::shutdown(ATMA::ATMAContext &l_ctx) {
+
 }
 
 
