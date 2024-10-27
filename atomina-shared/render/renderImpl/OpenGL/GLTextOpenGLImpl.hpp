@@ -2,6 +2,7 @@
 #include "pch.hpp"
 #include "util/Props.hpp"
 #include "render/GLText.hpp"
+#include "math/MathFuncs.hpp"
 
 namespace ATMA
 {
