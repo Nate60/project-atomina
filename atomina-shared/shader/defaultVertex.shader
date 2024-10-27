@@ -19,6 +19,6 @@ main()
 
     gl_Position = vec4((inverse(u_camera) * u_translate * u_scale * u_rot * vec3(a_pos, 1.0)), 1.0);
     v_colour = a_colour;
-    vec3 srcRegion = u_sourceRegion * u_sourcePos * vec3(a_texCoord, 1.0);
+    vec3 srcRegion = u_sourcePos * u_sourceRegion * vec3(a_texCoord, 1.0);
     v_texCoord = vec2(srcRegion.x, srcRegion.y);
 }

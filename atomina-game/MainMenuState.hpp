@@ -67,29 +67,32 @@ public:
             m_menuObjs[i].first->m_self->m_prog = m_defaultProg;
             m_menuObjs[i].first->m_self->m_texture = m_unselectedTexture;
             m_menuObjs[i].first->m_self->m_pos = ATMA::Vec2<float>{1.f, 1.f};
-            m_menuObjs[i].first->m_self->m_size = ATMA::Vec2<float>{0.3f, 0.1f};
+            m_menuObjs[i].first->m_self->m_size = ATMA::Vec2<float>{30.f, 10.f};
             m_menuObjs[i].first->m_self->m_stackPos = 0;
         }
         m_menuObjs[0].second->m_self = ATMA::GLText::makeText("Exit");
         m_menuObjs[0].second->m_self->m_texture = m_font;
+        m_menuObjs[0].second->m_self->m_prog = m_defaultProg;
         m_menuObjs[0].second->m_self->m_stackPos = 1;
-        m_menuObjs[0].second->m_self->m_size = ATMA::Vec2<float>{0.07f, 0.1f};
-        m_menuObjs[0].second->m_self->m_pos = ATMA::Vec2<float>{-0.21f, -0.25f};
-        m_menuObjs[0].first->m_self->m_pos = ATMA::Vec2<float>{0.f, -0.25f};
+        m_menuObjs[0].second->m_self->m_size = ATMA::Vec2<float>{7.f, 10.f};
+        m_menuObjs[0].second->m_self->m_pos = ATMA::Vec2<float>{-21.f, -25.f};
+        m_menuObjs[0].first->m_self->m_pos = ATMA::Vec2<float>{0.f, -25.f};
 
         m_menuObjs[1].second->m_self = ATMA::GLText::makeText("Options");
         m_menuObjs[1].second->m_self->m_texture = m_font;
+        m_menuObjs[1].second->m_self->m_prog = m_defaultProg;
         m_menuObjs[1].second->m_self->m_stackPos = 1;
-        m_menuObjs[1].second->m_self->m_size = ATMA::Vec2<float>{0.04f, 0.1f};
-        m_menuObjs[1].second->m_self->m_pos = ATMA::Vec2<float>{-0.25f, 0.f};
+        m_menuObjs[1].second->m_self->m_size = ATMA::Vec2<float>{4.f, 10.f};
+        m_menuObjs[1].second->m_self->m_pos = ATMA::Vec2<float>{-25.f, 0.f};
         m_menuObjs[1].first->m_self->m_pos = ATMA::Vec2<float>{0.f, 0.f};
 
         m_menuObjs[2].second->m_self = ATMA::GLText::makeText("Play");
         m_menuObjs[2].second->m_self->m_texture = m_font;
+        m_menuObjs[2].second->m_self->m_prog = m_defaultProg;
         m_menuObjs[2].second->m_self->m_stackPos = 1;
-        m_menuObjs[2].second->m_self->m_size = ATMA::Vec2<float>{0.07f, 0.1f};
-        m_menuObjs[2].second->m_self->m_pos = ATMA::Vec2<float>{-0.21f, 0.25f};
-        m_menuObjs[2].first->m_self->m_pos = ATMA::Vec2<float>{0.f, 0.25f};
+        m_menuObjs[2].second->m_self->m_size = ATMA::Vec2<float>{7.f, 10.f};
+        m_menuObjs[2].second->m_self->m_pos = ATMA::Vec2<float>{-21.f, 25.f};
+        m_menuObjs[2].first->m_self->m_pos = ATMA::Vec2<float>{0.f, 25.f};
         m_menuObjs[2].first->m_self->m_texture = m_selectedTexture;
         ctx.onUpdate([&](const long long &l_dt) {});
     }

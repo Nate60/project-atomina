@@ -33,6 +33,8 @@ void GameApp::setup(ATMA::ATMAContext &l_ctx)
     ATMA_ENGINE_INFO("Created mainmenu");
     l_ctx.addState(GameStateType(GameStateEnum::PLAYSTATE), std::move(playState));
     ATMA_ENGINE_INFO("Created playstate");
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void GameApp::update(ATMA::ATMAContext &l_ctx)
