@@ -57,12 +57,12 @@ public:
         for(int i = 0; i < 3; i++)
         {
             ctx.addAttribute(m_menuOpts[i].first, ATMA::AttributeType(ATMA::Attribute::Render));
-            ctx.addAttribute(m_menuOpts[i].second, ATMA::AttributeType(ATMA::Attribute::Render));
+            ctx.addAttribute(m_menuOpts[i].second, ATMA::AttributeType(ATMA::Attribute::Text));
             m_menuObjs[i].first = ctx.getAttribute<ATMA::AttrRenderable>(
                 m_menuOpts[i].first, ATMA::AttributeType(ATMA::Attribute::Render)
             );
-            m_menuObjs[i].second = ctx.getAttribute<ATMA::AttrRenderable>(
-                m_menuOpts[i].second, ATMA::AttributeType(ATMA::Attribute::Render)
+            m_menuObjs[i].second = ctx.getAttribute<ATMA::AttrText>(
+                m_menuOpts[i].second, ATMA::AttributeType(ATMA::Attribute::Text)
             );
             m_menuObjs[i].first->m_self->m_prog = m_defaultProg;
             m_menuObjs[i].first->m_self->m_texture = m_unselectedTexture;
@@ -70,7 +70,7 @@ public:
             m_menuObjs[i].first->m_self->m_size = ATMA::Vec2<float>{30.f, 10.f};
             m_menuObjs[i].first->m_self->m_stackPos = 0;
         }
-        m_menuObjs[0].second->m_self = ATMA::GLText::makeText("Exit");
+        m_menuObjs[0].second->m_self->m_text = "Exit";
         m_menuObjs[0].second->m_self->m_texture = m_font;
         m_menuObjs[0].second->m_self->m_prog = m_defaultProg;
         m_menuObjs[0].second->m_self->m_stackPos = 1;
@@ -78,7 +78,7 @@ public:
         m_menuObjs[0].second->m_self->m_pos = ATMA::Vec2<float>{-21.f, -25.f};
         m_menuObjs[0].first->m_self->m_pos = ATMA::Vec2<float>{0.f, -25.f};
 
-        m_menuObjs[1].second->m_self = ATMA::GLText::makeText("Options");
+        m_menuObjs[1].second->m_self->m_text = "Options";
         m_menuObjs[1].second->m_self->m_texture = m_font;
         m_menuObjs[1].second->m_self->m_prog = m_defaultProg;
         m_menuObjs[1].second->m_self->m_stackPos = 1;
@@ -86,7 +86,7 @@ public:
         m_menuObjs[1].second->m_self->m_pos = ATMA::Vec2<float>{-25.f, 0.f};
         m_menuObjs[1].first->m_self->m_pos = ATMA::Vec2<float>{0.f, 0.f};
 
-        m_menuObjs[2].second->m_self = ATMA::GLText::makeText("Play");
+        m_menuObjs[2].second->m_self->m_text = "Play";
         m_menuObjs[2].second->m_self->m_texture = m_font;
         m_menuObjs[2].second->m_self->m_prog = m_defaultProg;
         m_menuObjs[2].second->m_self->m_stackPos = 1;
@@ -106,7 +106,7 @@ public:
         for(int i = 0; i < 3; i++)
         {
             ctx.removeAttribute(m_menuOpts[i].first, ATMA::AttributeType(ATMA::Attribute::Render));
-            ctx.removeAttribute(m_menuOpts[i].second, ATMA::AttributeType(ATMA::Attribute::Render));
+            ctx.removeAttribute(m_menuOpts[i].second, ATMA::AttributeType(ATMA::Attribute::Text));
         }
     }
 
@@ -200,7 +200,7 @@ private:
         {0, 0},
         {0, 0}
     };
-    std::pair<std::shared_ptr<ATMA::AttrRenderable>, std::shared_ptr<ATMA::AttrRenderable>>
+    std::pair<std::shared_ptr<ATMA::AttrRenderable>, std::shared_ptr<ATMA::AttrText>>
         m_menuObjs[3]{};
     int m_selected = 0;
     std::shared_ptr<ATMA::GLTexture> m_selectedTexture;

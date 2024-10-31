@@ -1,5 +1,5 @@
 # set the project name and version
-project(Atomina_Shared VERSION 0.1)
+project(Atomina_Shared VERSION 0.1.0)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 20 FORCE)

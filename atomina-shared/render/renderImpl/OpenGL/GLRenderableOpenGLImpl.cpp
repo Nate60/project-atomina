@@ -8,7 +8,7 @@ namespace ATMA
     {
         if(m_prog == nullptr || m_texture == nullptr)
         {
-            //Cant draw without a shader program or a texture
+            ATMA_ENGINE_WARN("Drawing Renderable without texture or program");
             return;
         }
             m_prog->exec();
@@ -18,8 +18,9 @@ namespace ATMA
             m_prog->setUniformMat3f("u_translate", translationMatrix(m_pos.x, m_pos.y));
             m_prog->setUniformMat3f("u_scale", scalingMatrix(m_size.x, m_size.y) );
             m_prog->setUniformMat3f("u_rot", rotationMatrix(m_rot));
-            m_prog->setUniformMat3f("u_sourceRegion", identityMatrix<float>());
-            m_prog->setUniformMat3f("u_sourcePos", identityMatrix<float>());
+            m_prog->setUniformMat3f("u_textureRegion", identityMatrix<float>());
+            m_prog->setUniformMat3f("u_texturePos", identityMatrix<float>());
+            m_prog->setUniformMat3f("u_textureCamera", identityMatrix<float>());
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
 

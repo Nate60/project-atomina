@@ -20,6 +20,8 @@ namespace ATMA
         ctx.registerAttributeType<AttrShape>(AttributeType(Attribute::Shape));
         ctx.registerAttributeType<AttrVelocity>(AttributeType(Attribute::Velocity));
         ctx.registerAttributeType<AttrRenderable>(AttributeType(Attribute::Render));
+        ctx.registerAttributeType<AttrText>(AttributeType(Attribute::Text));
+        ctx.registerAttributeType<AttrSprite>(AttributeType(Attribute::Sprite));
         ctx.registerAttributeType<AttrCollidable>(AttributeType(Attribute::Collidable));
 
         // system registration

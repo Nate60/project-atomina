@@ -6,8 +6,9 @@ namespace ATMA
 
     SysTranslator::SysTranslator(): SysBase(SystemType(System::Translator), "Translator")
     {
-        m_req.set(AttrType(Attribute::Shape));
-        m_req.set(AttrType(Attribute::Velocity));
+        m_req.push_back(std::bitset<ATConst::OBJECT_BIT_SIZE>{});
+        m_req[0].set(AttrType(Attribute::Shape));
+        m_req[0].set(AttrType(Attribute::Velocity));
     }
 
     SysTranslator::~SysTranslator() {}
@@ -19,10 +20,10 @@ namespace ATMA
         for(auto &obj: m_objects)
         {
             std::shared_ptr<AttrShape> attrPos =
-                ATMAContext::getContext().getAttribute<AttrShape>(obj, AttrType(Attribute::Shape));
+                ATMAContext::getContext().getAttribute<AttrShape>(obj.second, AttrType(Attribute::Shape));
             std::shared_ptr<AttrVelocity> attrVel =
                 ATMAContext::getContext().getAttribute<AttrVelocity>(
-                    obj, AttrType(Attribute::Velocity)
+                    obj.second, AttrType(Attribute::Velocity)
                 );
             attrPos->m_pos.x += attrVel->m_dpos.x * step;
             attrPos->m_pos.y += attrVel->m_dpos.y * step;

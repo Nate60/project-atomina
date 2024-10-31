@@ -28,6 +28,8 @@ void GameApp::setup(ATMA::ATMAContext &l_ctx)
 
     auto sysFly = l_ctx.getSystem<SysFly>(ATMA::SysType(ATMA::System::COUNT));
     l_ctx.addObjectEventListener(GameEventType(GameEventEnum::FLAP), sysFly);
+    l_ctx.addObjectEventListener(GameEventType(GameEventEnum::GAMEOVER), playState);
+    l_ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::Collision), playState);
 
     l_ctx.addState(GameStateType(GameStateEnum::MAINMENU), std::move(state));
     ATMA_ENGINE_INFO("Created mainmenu");

@@ -4,6 +4,7 @@
 #include "GLTexture.hpp"
 #include "GLProgram.hpp"
 #include "util/Props.hpp"
+#include "math/MathFuncs.hpp"
 
 namespace ATMA
 {
