@@ -40,30 +40,31 @@ public:
      */
     virtual void activate() override
     {
-        ctx.addAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Render));
+        ctx.addAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Sprite));
         ctx.addAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Velocity));
         ctx.addAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Shape));
-        ctx.addAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Controllable));
         ctx.addAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Collidable));
-        ctx.addAttribute(m_promptID, ATMA::AttributeType(ATMA::Attribute::Render));
-        auto playerRender = ctx.getAttribute<ATMA::AttrRenderable>(
-            m_playerID, ATMA::AttributeType(ATMA::Attribute::Render)
+        ctx.addAttribute(m_promptID, ATMA::AttributeType(ATMA::Attribute::Text));
+        auto playerSprite = ctx.getAttribute<ATMA::AttrSprite>(
+            m_playerID, ATMA::AttributeType(ATMA::Attribute::Sprite)
         );
-        playerRender->m_self->m_prog = m_defaultProg;
-        playerRender->m_self->m_texture = m_playerTexture;
-        playerRender->m_self->m_size = ATMA::Vec2<float>{36.f, 72.f};
-        playerRender->m_self->m_pos = ATMA::Vec2<float>{0.f, 0.f};
-        playerRender->m_self->m_stackPos = 0;
+        playerSprite->m_self->m_prog = m_defaultProg;
+        playerSprite->m_self->m_texture = m_playerTexture;
+        playerSprite->m_self->m_size = ATMA::Vec2<float>{36.f, 72.f};
+        playerSprite->m_self->m_pos = ATMA::Vec2<float>{0.f, 0.f};
+        playerSprite->m_self->m_selectSize = ATMA::Vec2<float>{64.f,64.f};
+        playerSprite->m_self->m_selectPos = ATMA::Vec2<float>{0.f,0.f};
+        playerSprite->m_self->m_stackPos = 0;
         auto playerCollide = ctx.getAttribute<ATMA::AttrCollidable>(
             m_playerID, ATMA::AttributeType(ATMA::Attribute::Collidable)
         );
-        playerCollide->m_collider.a = ATMA::Vec2<float>{0, 0};
-        playerCollide->m_collider.b = ATMA::Vec2<float>{0, 0.07f};
-        playerCollide->m_collider.r = 0.03f;
-        auto promptRender = ctx.getAttribute<ATMA::AttrRenderable>(
-            m_promptID, ATMA::AttributeType(ATMA::Attribute::Render)
+        playerCollide->m_collider.a = ATMA::Vec2<float>{};
+        playerCollide->m_collider.b = ATMA::Vec2<float>{0, playerSprite->m_self->m_size.y/2.f};
+        playerCollide->m_collider.r = playerSprite->m_self->m_size.y/4.f;
+        auto promptRender = ctx.getAttribute<ATMA::AttrText>(
+            m_promptID, ATMA::AttributeType(ATMA::Attribute::Text)
         );
-        promptRender->m_self = ATMA::GLText::makeText("Press Space");
+        promptRender->m_self->m_text = "Press Space";
         promptRender->m_self->m_prog = m_defaultProg;
         promptRender->m_self->m_texture = m_font;
         promptRender->m_self->m_size = ATMA::Vec2<float>{4.f, 10.f};
@@ -81,17 +82,17 @@ public:
         m_active = false;
         m_started = false;
         m_gameOver = false;
-        ctx.removeAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Render));
+        ctx.removeAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Sprite));
         ctx.removeAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Shape));
         ctx.removeAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Velocity));
         if(ctx.hasAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Controllable)))
             ctx.removeAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Controllable));
-        if(ctx.hasAttribute(m_promptID, ATMA::AttributeType(ATMA::Attribute::Render)))
-            ctx.removeAttribute(m_promptID, ATMA::AttributeType(ATMA::Attribute::Render));
-        if(ctx.hasAttribute(m_gameOverID, ATMA::AttributeType(ATMA::Attribute::Render)))
-            ctx.removeAttribute(m_gameOverID, ATMA::AttributeType(ATMA::Attribute::Render));
-        if(ctx.hasAttribute(m_highScoreID, ATMA::AttributeType(ATMA::Attribute::Render)))
-            ctx.removeAttribute(m_highScoreID, ATMA::AttributeType(ATMA::Attribute::Render));
+        if(ctx.hasAttribute(m_promptID, ATMA::AttributeType(ATMA::Attribute::Text)))
+            ctx.removeAttribute(m_promptID, ATMA::AttributeType(ATMA::Attribute::Text));
+        if(ctx.hasAttribute(m_gameOverID, ATMA::AttributeType(ATMA::Attribute::Text)))
+            ctx.removeAttribute(m_gameOverID, ATMA::AttributeType(ATMA::Attribute::Text));
+        if(ctx.hasAttribute(m_highScoreID, ATMA::AttributeType(ATMA::Attribute::Text)))
+            ctx.removeAttribute(m_highScoreID, ATMA::AttributeType(ATMA::Attribute::Text));
         if(ctx.hasAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Collidable)))
             ctx.removeAttribute(m_playerID, ATMA::AttributeType(ATMA::Attribute::Collidable));
         for(auto &pipes: m_pipes)
@@ -153,17 +154,10 @@ public:
                                 {
                                     // pipe spawn logic
                                     m_lastSpawn += (l_dt >> 21);
-                                    auto highScoreRender = ctx.getAttribute<ATMA::AttrRenderable>(
-                                        m_highScoreID, ATMA::AttributeType(ATMA::Attribute::Render)
+                                    auto highScoreRender = ctx.getAttribute<ATMA::AttrText>(
+                                        m_highScoreID, ATMA::AttributeType(ATMA::Attribute::Text)
                                     );
-                                    highScoreRender->m_self = ATMA::GLText::makeText(
-                                        "High Score: " + std::to_string(m_highScore),
-                                        highScoreRender->m_self->m_size,
-                                        m_font,
-                                        m_defaultProg,
-                                        highScoreRender->m_self->m_pos,
-                                        1
-                                    );
+                                    highScoreRender->m_self->m_text = "High Score: " + std::to_string(m_highScore);
 
                                     for(auto pipes = m_pipes.begin(); pipes < m_pipes.end();)
                                     {
@@ -241,12 +235,12 @@ public:
                                     {
 
                                         float middleOffset = m_floatRand(
-                                            std::min(150u, m_highScore) / -400.f,
-                                            std::min(150u, m_highScore) / 400.f
+                                            std::min(150u, m_highScore) / -4.f,
+                                            std::min(150u, m_highScore) / 4.f
                                         );
 
                                         float gapReduction = m_floatRand(
-                                            0.f, (std::min(150u, m_highScore) / 500.f) + 0.05f
+                                            0.f, (std::min(150u, m_highScore) / 6.f) + 0.05f
                                         );
                                         m_pipes.push_back({ctx.createObject(), ctx.createObject()});
                                         const std::pair<unsigned int, unsigned int> &pipes =
@@ -270,32 +264,32 @@ public:
                                             pipes.first, ATMA::AttributeType(ATMA::Attribute::Shape)
                                         );
                                         shape->m_pos.x = 360.f;
-                                        shape->m_pos.y = 80.f + middleOffset - (gapReduction / 2);
+                                        shape->m_pos.y = 250.f + middleOffset - (gapReduction / 2);
                                         shape->m_rot = 180.f;
                                         auto vel = ctx.getAttribute<ATMA::AttrVelocity>(
                                             pipes.first,
                                             ATMA::AttributeType(ATMA::Attribute::Velocity)
                                         );
-                                        vel->m_dpos.x = -0.01;
+                                        vel->m_dpos.x = -0.2f;
                                         auto render = ctx.getAttribute<ATMA::AttrRenderable>(
                                             pipes.first,
                                             ATMA::AttributeType(ATMA::Attribute::Render)
                                         );
                                         render->m_self->m_texture = m_wallTexture;
-                                        render->m_self->m_size = ATMA::Vec2<float>{10.f, 40.f};
+                                        render->m_self->m_size = ATMA::Vec2<float>{60.f, 160.f};
+                                        render->m_self->m_prog = m_defaultProg;
                                         render->m_self->m_pos =
-                                            ATMA::Vec2<float>{1.f, shape->m_pos.y};
+                                            ATMA::Vec2<float>{shape->m_pos.x, shape->m_pos.y};
                                         render->m_self->m_rot = 180.f;
                                         render->m_self->m_stackPos = 0;
                                         auto collider = ctx.getAttribute<ATMA::AttrCollidable>(
                                             pipes.first,
                                             ATMA::AttributeType(ATMA::Attribute::Collidable)
                                         );
-                                        collider->m_collider.a = ATMA::Vec2<float>{0, 0};
-                                        collider->m_collider.b = ATMA::Vec2<float>{0, 0.3f};
-                                        collider->m_collider.r = 0.05f;
-                                        collider->m_collider.setBase(ATMA::Vec2<float>{
-                                            1.f, shape->m_pos.y});
+                                        collider->m_collider.r = render->m_self->m_size.x / 2.f;
+                                        collider->m_collider.a = ATMA::Vec2<float>{0, shape->m_pos.y + collider->m_collider.r - render->m_self->m_size.y /2.f};
+                                        collider->m_collider.b = ATMA::Vec2<float>{0, shape->m_pos.y - collider->m_collider.r + render->m_self->m_size.y /2.f};
+                                        collider->m_collider.setBase(ATMA::Vec2<float>{360.f, shape->m_pos.y + render->m_self->m_size.y/2.f});
                                         collider->m_collider.setRotation(180.0f);
                                         ctx.addAttribute(
                                             pipes.second,
@@ -317,30 +311,31 @@ public:
                                             pipes.first, ATMA::AttributeType(ATMA::Attribute::Shape)
                                         );
                                         shape->m_pos.x = 360.f;
-                                        shape->m_pos.y = -80.f + middleOffset + (gapReduction / 2);
+                                        shape->m_pos.y = -250.f + middleOffset + (gapReduction / 2);
                                         vel = ctx.getAttribute<ATMA::AttrVelocity>(
                                             pipes.second,
                                             ATMA::AttributeType(ATMA::Attribute::Velocity)
                                         );
-                                        vel->m_dpos.x = -0.05;
+                                        vel->m_dpos.x = -0.2f;
                                         render = ctx.getAttribute<ATMA::AttrRenderable>(
                                             pipes.second,
                                             ATMA::AttributeType(ATMA::Attribute::Render)
                                         );
                                         render->m_self->m_texture = m_wallTexture;
-                                        render->m_self->m_size = ATMA::Vec2<float>{10.f, 40.f};
+                                        render->m_self->m_size = ATMA::Vec2<float>{60.f, 160.f};
+                                        render->m_self->m_prog = m_defaultProg;
                                         render->m_self->m_pos =
-                                            ATMA::Vec2<float>{360.f, shape->m_pos.y};
+                                            ATMA::Vec2<float>{shape->m_pos.x, shape->m_pos.y};
                                         render->m_self->m_stackPos = 0;
                                         collider = ctx.getAttribute<ATMA::AttrCollidable>(
                                             pipes.second,
                                             ATMA::AttributeType(ATMA::Attribute::Collidable)
                                         );
-                                        collider->m_collider.a = ATMA::Vec2<float>{0, 0};
-                                        collider->m_collider.b = ATMA::Vec2<float>{0, 0.3f};
-                                        collider->m_collider.r = 0.05f;
-                                        collider->m_collider.setBase(ATMA::Vec2<float>{
-                                            1.f, shape->m_pos.y});
+                                                      collider->m_collider.r = render->m_self->m_size.x / 2.f;
+                                        collider->m_collider.a = ATMA::Vec2<float>{0, shape->m_pos.y + collider->m_collider.r - render->m_self->m_size.y /2.f};
+                                        collider->m_collider.b = ATMA::Vec2<float>{0, shape->m_pos.y - collider->m_collider.r + render->m_self->m_size.y /2.f};
+                                        collider->m_collider.setBase(ATMA::Vec2<float>{360.f, shape->m_pos.y - render->m_self->m_size.y/2.f});
+                                        collider->m_collider.setRotation(0.f);
                                         m_lastSpawn = 0;
                                     }
                                 }
@@ -353,22 +348,21 @@ public:
                                 m_playerID, ATMA::AttributeType(ATMA::Attribute::Controllable)
                             );
                             ctx.removeAttribute(
-                                m_promptID, ATMA::AttributeType(ATMA::Attribute::Render)
+                                m_promptID, ATMA::AttributeType(ATMA::Attribute::Text)
                             );
                             ctx.addAttribute(
-                                m_highScoreID, ATMA::AttributeType(ATMA::Attribute::Render)
+                                m_highScoreID, ATMA::AttributeType(ATMA::Attribute::Text)
                             );
-                            auto highScoreRender = ctx.getAttribute<ATMA::AttrRenderable>(
-                                m_highScoreID, ATMA::AttributeType(ATMA::Attribute::Render)
+                            auto highScoreRender = ctx.getAttribute<ATMA::AttrText>(
+                                m_highScoreID, ATMA::AttributeType(ATMA::Attribute::Text)
                             );
-                            highScoreRender->m_self = ATMA::GLText::makeText(
-                                "High Score: 0",
-                                ATMA::Vec2<float>{4.f, 10.f},
-                                m_font,
-                                m_defaultProg,
-                                ATMA::Vec2<float>{-50.f, 180.f},
-                                1
-                            );
+                            highScoreRender->m_self->m_text = "High Score: 0";
+                            highScoreRender->m_self->m_prog = m_defaultProg;
+                            highScoreRender->m_self->m_texture = m_font;
+                            highScoreRender->m_self->m_size = ATMA::Vec2<float>{16.f, 16.f};
+                            highScoreRender->m_self->m_pos = ATMA::Vec2<float>{-180.f, 280.f};
+                            highScoreRender->m_self->m_stackPos = 1;
+                            
                         }
                         break;
                     }
@@ -392,16 +386,15 @@ public:
         );
         playerVel->m_drot = 8.9f;
         m_gameOver = true;
-        ctx.addAttribute(m_gameOverID, ATMA::AttributeType(ATMA::Attribute::Render));
-        ctx.getAttribute<ATMA::AttrRenderable>(
-               m_gameOverID, ATMA::AttributeType(ATMA::Attribute::Render)
-        )
-            ->m_self = m_gameOverText;
-
+        ctx.addAttribute(m_gameOverID, ATMA::AttributeType(ATMA::Attribute::Text));
+        m_gameOverText = ctx.getAttribute<ATMA::AttrText>(
+               m_gameOverID, ATMA::AttributeType(ATMA::Attribute::Text)
+        )->m_self;
         m_gameOverText->m_text = "Game Over";
         m_gameOverText->m_texture = m_font;
-        m_gameOverText->m_size = ATMA::Vec2<float>{4.f, 10.f};
-        m_gameOverText->m_pos = ATMA::Vec2<float>{-30.f, 22.f};
+        m_gameOverText->m_prog = m_defaultProg;
+        m_gameOverText->m_size = ATMA::Vec2<float>{8.f, 12.f};
+        m_gameOverText->m_pos = ATMA::Vec2<float>{-70.f, 22.f};
         m_gameOverText->m_stackPos = 1;
         ctx.onUpdate([&](const long long &l_dt) {});
     }

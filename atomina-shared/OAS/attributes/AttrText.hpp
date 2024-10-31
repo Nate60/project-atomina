@@ -2,23 +2,23 @@
 #include "core/api.hpp"
 #include "OAS/Attribute.hpp"
 #include "OAS/AttrBase.hpp"
-#include "render/GLRenderable.hpp"
+#include "render/GLText.hpp"
 
 namespace ATMA
 {
 
     /**
-     * An Attribute that holds the members of an object required to render to a display
+     * An Attribute that holds the members of an object required to render text to a display
      */
-    class AttrRenderable: public AttrBase
+    class AttrText: public AttrBase
     {
     public:
 
         // default constructor
-        AttrRenderable();
+        AttrText();
 
         // deconstructor
-        virtual ~AttrRenderable();
+        virtual ~AttrText();
 
         // friend function to output attributes
         friend std::stringstream &operator>>(std::stringstream &l_stream, AttrBase &b);
@@ -29,7 +29,7 @@ namespace ATMA
          */
         void readIn(std::stringstream &l_stream);
 
-        std::shared_ptr<GLRenderable> m_self = GLRenderable::makeRenderable();
+        std::shared_ptr<GLText> m_self = GLText::makeText();
       
     };
 

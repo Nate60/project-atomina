@@ -1,6 +1,8 @@
 # project-atomina
 2D Game Engine Project
 
+Version [0.1.1]
+
 My Personal Game Engine using CMake and C++20
 
 Compatible with MSVC and GCC
@@ -30,6 +32,9 @@ GoogleTest (for the test project only) 1.11.0#5:
 
 https://github.com/gabime/spdlog
 
+GLFW3 3.3.8:
+
+//TODO: Link
 
 ## Project Setup
 
