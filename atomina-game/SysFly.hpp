@@ -12,11 +12,12 @@ public:
      */
     SysFly(): SysBase(ATMA::SystemType(ATMA::System::COUNT), "Fly")
     {
-        m_req.set(ATMA::AttrType(ATMA::Attribute::Shape));
-        m_req.set(ATMA::AttrType(ATMA::Attribute::Velocity));
-        m_req.set(ATMA::AttrType(ATMA::Attribute::Controllable));
-        m_req.set(ATMA::AttrType(ATMA::Attribute::Collidable));
-        m_req.set(ATMA::AttrType(ATMA::Attribute::Render));
+        m_req.push_back(std::bitset<ATConst::OBJECT_BIT_SIZE>{});
+        m_req[0].set(ATMA::AttrType(ATMA::Attribute::Shape));
+        m_req[0].set(ATMA::AttrType(ATMA::Attribute::Velocity));
+        m_req[0].set(ATMA::AttrType(ATMA::Attribute::Controllable));
+        m_req[0].set(ATMA::AttrType(ATMA::Attribute::Collidable));
+        m_req[0].set(ATMA::AttrType(ATMA::Attribute::Sprite));
     }
 
     /**
@@ -28,19 +29,19 @@ public:
     {
         for(auto &id: m_objects)
         {
-            float dv = l_dt / 280000000.f;
+            float dv = l_dt / 300000000.f;
             ATMA_ENGINE_TRACE("dv: {}", dv);
             
             auto vel = ctx.getAttribute<ATMA::AttrVelocity>(
-                id, ATMA::AttributeType(ATMA::Attribute::Velocity)
+                id.second, ATMA::AttributeType(ATMA::Attribute::Velocity)
             );
-            if(vel->m_dpos.y > -2)
+            if(vel->m_dpos.y > -1)
             {
                 vel->m_dpos.y -= dv;
             }
             else
             {
-                vel->m_dpos.y = -2;
+                vel->m_dpos.y = -1;
             }
 
             if(vel->m_drot > -0.1f)
@@ -52,12 +53,12 @@ public:
                 vel->m_drot = -0.1f;
             }
             auto pos =
-                ctx.getAttribute<ATMA::AttrShape>(id, ATMA::AttributeType(ATMA::Attribute::Shape));
-            auto renderPos = ctx.getAttribute<ATMA::AttrRenderable>(
-                id, ATMA::AttributeType(ATMA::Attribute::Render)
+                ctx.getAttribute<ATMA::AttrShape>(id.second, ATMA::AttributeType(ATMA::Attribute::Shape));
+            auto sprite = ctx.getAttribute<ATMA::AttrSprite>(
+                id.second, ATMA::AttributeType(ATMA::Attribute::Sprite)
             );
             auto collider = ctx.getAttribute<ATMA::AttrCollidable>(
-                id, ATMA::AttributeType(ATMA::Attribute::Collidable)
+                id.second, ATMA::AttributeType(ATMA::Attribute::Collidable)
             );
             if(pos->m_pos.y < -320.f)
             {
@@ -84,9 +85,9 @@ public:
                 vel->m_drot,
                 pos->m_rot
             );
-            renderPos->m_self->m_pos.x = pos->m_pos.x;
-            renderPos->m_self->m_pos.y = pos->m_pos.y;
-            renderPos->m_self->m_rot = pos->m_rot;
+            sprite->m_self->m_pos.x = pos->m_pos.x;
+            sprite->m_self->m_pos.y = pos->m_pos.y;
+            sprite->m_self->m_rot = pos->m_rot;
             collider->m_collider.setBase(ATMA::Vec2<float>{pos->m_pos.x, pos->m_pos.y});
             collider->m_collider.setRotation(pos->m_rot);
         }
@@ -101,12 +102,12 @@ public:
         for(auto &id: m_objects)
         {
             auto vel = ctx.getAttribute<ATMA::AttrVelocity>(
-                id, ATMA::AttributeType(ATMA::Attribute::Velocity)
+                id.second, ATMA::AttributeType(ATMA::Attribute::Velocity)
             );
-            vel->m_dpos.y = 1.2f;
+            vel->m_dpos.y = 1.05f;
             vel->m_drot = 0;
             auto shape =
-                ctx.getAttribute<ATMA::AttrShape>(id, ATMA::AttributeType(ATMA::Attribute::Shape));
+                ctx.getAttribute<ATMA::AttrShape>(id.second, ATMA::AttributeType(ATMA::Attribute::Shape));
             shape->m_rot = 15.f;
         }
     }

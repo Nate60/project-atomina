@@ -4,6 +4,8 @@
 #include "OAS/SysBase.hpp"
 #include "OAS/System.hpp"
 #include "OAS/attributes/AttrRenderable.hpp"
+#include "OAS/attributes/AttrText.hpp"
+#include "OAS/attributes/AttrSprite.hpp"
 #include "core/ATMAContext.hpp"
 
 namespace ATMA

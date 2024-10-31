@@ -11,12 +11,11 @@ namespace ATMA
     {
         for(auto &system: m_systems)
         {
-            if(system.second->match(l_bits) && !system.second->hasObject(l_objectID))
-            {
-                system.second->addObject(l_objectID);
-            }
-            else if(!system.second->match(l_bits) && system.second->hasObject(l_objectID))
-            {
+            int patternID = system.second->match(l_bits);
+            bool hasObj = system.second->hasObject(l_objectID) != -1;
+            if(patternID >= 0 && !hasObj){
+                system.second->addObject(l_objectID, patternID);
+            }else if(patternID < 0 && hasObj){
                 system.second->removeObject(l_objectID);
             }
         }
@@ -26,9 +25,9 @@ namespace ATMA
     {
         for(auto &obj: m_objects)
         {
-            if(m_systems[l_systemID]->match(obj.second.first))
+            if(auto patternID = m_systems[l_systemID]->match(obj.second.first); patternID >= 0)
             {
-                m_systems[l_systemID]->addObject(obj.first);
+                m_systems[l_systemID]->addObject(obj.first, patternID);
             }
         }
     }

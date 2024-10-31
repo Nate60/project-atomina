@@ -5,9 +5,9 @@
 namespace ATMA
 {
 
-    bool SysBase::addObject(const ObjectId &l_id)
+    bool SysBase::addObject(const ObjectId &l_id, const unsigned int &l_patternID)
     {
-        if(std::count(m_objects.begin(), m_objects.end(), l_id))
+        if(hasObject(l_id) >= 0)
         {
             ATMA_ENGINE_WARN(
                 "Unable to add object id: {0:d} as it already exists in system: {1:d} ",
@@ -16,30 +16,29 @@ namespace ATMA
             );
             return false;
         }
-        m_objects.push_back(l_id);
+        m_objects.push_back(std::make_pair(l_patternID, l_id));
         ATMA_ENGINE_INFO("Added object id: {0:d} to system: {1} ", l_id, shared_from_this());
         return true;
     }
 
-    bool SysBase::hasObject(const ObjectId &l_id) const
+    int SysBase::hasObject(const ObjectId &l_id) const
     {
-        if(std::count(m_objects.begin(), m_objects.end(), l_id))
+        for(auto itr = m_objects.begin(); itr != m_objects.end(); itr++)
         {
-            return true;
+            if(itr->second == l_id){
+                return (int)itr->first;
+            }
         }
-        else
-        {
-            return false;
-        }
+        return -1;
     }
 
     bool SysBase::removeObject(const ObjectId &l_id)
     {
-        for(auto it = m_objects.begin(); it != m_objects.end(); it++)
+        for(auto itr = m_objects.begin(); itr != m_objects.end(); itr++)
         {
-            if(*it == l_id)
+            if(itr->second == l_id)
             {
-                m_objects.erase(it);
+                m_objects.erase(itr);
                 ATMA_ENGINE_INFO(
                     "Removed object id: {0:d} from system: {1} ", l_id, shared_from_this()
                 );
@@ -59,9 +58,15 @@ namespace ATMA
         return m_type;
     }
 
-    bool SysBase::match(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits) const
+    const int SysBase::match(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits) const
     {
-        return (~m_req | l_bits).all();
+        for(auto itr = m_req.begin(); itr != m_req.end(); itr++){
+            if((~(*itr) | l_bits).all())
+            {
+                return itr - m_req.begin();
+            }
+        }
+        return -1;
     }
 
     void SysBase::purge()

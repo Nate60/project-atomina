@@ -61,6 +61,7 @@ namespace ATMA
     void AppWindow::notifyClose()
     {
         m_closed = true;
+        glfwSetWindowShouldClose(m_windowHandle, GLFW_TRUE);
     }
 
     void AppWindow::show()
