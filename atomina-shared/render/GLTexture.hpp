@@ -3,6 +3,7 @@
 #include "resource/Resource.hpp"
 #include "resource/ResourceEnum.hpp"
 #include "math/Vec2.hpp"
+#include "math/MathFuncs.hpp"
 #include "util/Log.hpp"
 #include "util/Path.hpp"
 #include "GLBuffer.hpp"
@@ -25,7 +26,8 @@ namespace ATMA
             m_width(l_width), 
             m_height(l_height),
             m_channels(l_channels),
-            m_data(l_data)
+            m_data(l_data),
+            m_proj(translationMatrix<float>(-1.f,-1.f) * scalingMatrix<float>(l_width, l_height))
         {
 
         }
@@ -35,7 +37,8 @@ namespace ATMA
             m_width(0),
             m_height(0),
             m_channels(0),
-            m_data()
+            m_data(),
+            m_proj(identityMatrix<float>())
         {
 
         }
@@ -43,6 +46,7 @@ namespace ATMA
         const int m_width;
         const int m_height;
         const int m_channels;
+        const Mat3<float> m_proj;
         const unsigned char *m_data;
 
     };
@@ -53,7 +57,7 @@ namespace ATMA
     class GLTexture: public LoadedResource
     {
     public:
-        friend class std::unique_ptr<GLTexture>;
+        const Texture m_texture;
 
         // deconstructor
         virtual ~GLTexture();
@@ -93,7 +97,6 @@ namespace ATMA
 
         // constructor with name and filename of resource
         GLTexture(const Texture &l_texture);
-        const Texture m_texture;
         unsigned int m_bindID;
         std::shared_ptr<VertexBuffer> m_vertBuf;
         std::shared_ptr<IndexBuffer> m_indexBuf;

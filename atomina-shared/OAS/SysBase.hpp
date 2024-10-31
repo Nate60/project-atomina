@@ -39,14 +39,14 @@ namespace ATMA
          * gives the enumerator for the type of system
          * @returns type enum of the system
          */
-        SystemType getType() const;
+        [[nodiscard]] SystemType getType() const;
 
         /**
          * returns true if the bitset matches the required bitset completely
          * @param l_bits bitset of the object to see if it matches the requirements
          * @returns if the bitset matches the requirement of the system
          */
-        bool match(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits) const;
+        [[nodiscard]] const int match(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits) const;
 
         /**
          * updates all attributes of all the objects contained in the system
@@ -61,14 +61,14 @@ namespace ATMA
          * @param l_id id of the object
          * @returns if the operation was successful
          */
-        bool addObject(const ObjectId &l_id);
+        bool addObject(const ObjectId &l_id, const unsigned int &l_patternID = 0u);
 
         /**
          * checks if the object is registering in the system
          * @param l_id id of the object
          * @returns if the object is registered
          */
-        bool hasObject(const ObjectId &l_id) const;
+        [[nodiscard]] int hasObject(const ObjectId &l_id) const;
 
         /**
          * removes object from the system
@@ -89,8 +89,8 @@ namespace ATMA
         void purge();
 
         SystemType m_type;
-        std::bitset<ATConst::OBJECT_BIT_SIZE> m_req;
-        std::vector<ObjectId> m_objects;
+        std::vector<std::bitset<ATConst::OBJECT_BIT_SIZE>> m_req;
+        std::vector<std::pair<unsigned int, ObjectId>> m_objects;
         StopWatch m_stopwatch{};
     };
 

@@ -51,6 +51,8 @@
 #include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrControllable.hpp"
 #include "OAS/attributes/AttrRenderable.hpp"
+#include "OAS/attributes/AttrText.hpp"
+#include "OAS/attributes/AttrSprite.hpp"
 #include "OAS/attributes/AttrVelocity.hpp"
 #include "OAS/attributes/AttrCollidable.hpp"
 #include "OAS/SysBase.hpp"
@@ -97,19 +99,21 @@
 #include "render/GLRenderContext.hpp"
 #include "render/GLContext.hpp"
 #include "render/GLText.hpp"
+#include "render/GLSprite.hpp"
 #include "render/renderImpl/Dummy/GLBufferDummyImpl.hpp"
 #include "render/renderImpl/Dummy/GLProgramDummyImpl.hpp"
 #include "render/renderImpl/Dummy/GLShaderDummyImpl.hpp"
 #include "render/renderImpl/Dummy/GLTextureDummyImpl.hpp"
 #include "render/renderImpl/Dummy/GLRenderableDummyImpl.hpp"
 #include "render/renderImpl/Dummy/GLTextDummyImpl.hpp"
+#include "render/renderImpl/Dummy/GLSpriteDummyImpl.hpp"
 #include "render/renderImpl/OpenGL/GLBufferOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLProgramOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLShaderOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLTextureOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLRenderableOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLTextOpenGLImpl.hpp"
-
+#include "render/renderImpl/OpenGL/GLSpriteOpenGLImpl.hpp"
 
 
 #ifdef _WINDOWS
