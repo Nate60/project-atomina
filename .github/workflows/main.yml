@@ -17,7 +17,8 @@ jobs:
   build_linux:
     strategy:
       matrix:
-       build_type: [Release, Debug]
+        build_type: [Release, Debug]
+        app_type: [Server, OpenGL]
 
     runs-on: ubuntu-22.04
     env:
@@ -70,7 +71,7 @@ jobs:
 
     - name: Build CMake Files
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
-      run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE="../../deps/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -G "Ninja"
+      run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE="../../deps/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -DATMA_APP_TYPE:STRING=${{matrix.app_type}} -G "Ninja"
 
     - name: Build Project
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
@@ -147,7 +148,8 @@ jobs:
   build_windows:
     strategy:
       matrix:
-       build_type: [Release, Debug]
+        build_type: [Release, Debug]
+        app_type: [Server, OpenGL]
 
     runs-on: windows-2019
 
@@ -204,7 +206,7 @@ jobs:
 
     - name: Build CMake Files
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
-      run: cmake ../../ -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_C_COMPILER:STRING="cl.exe" -DCMAKE_CXX_COMPILER:STRING="cl.exe" -DCMAKE_BUILD_TYPE:STRING="${{matrix.build_type}}" -DCMAKE_INSTALL_PREFIX:PATH="${{env.SOLUTION_FILE_PATH}}/out/install/x64-debug" 2>&1 -DCMAKE_TOOLCHAIN_FILE="../../deps/vcpkg/scripts/buildsystems/vcpkg.cmake" -G "Ninja"
+      run: cmake ../../ -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_C_COMPILER:STRING="cl.exe" -DCMAKE_CXX_COMPILER:STRING="cl.exe" -DCMAKE_BUILD_TYPE:STRING="${{matrix.build_type}}" -DCMAKE_INSTALL_PREFIX:PATH="${{env.SOLUTION_FILE_PATH}}/out/install/x64-debug" 2>&1 -DCMAKE_TOOLCHAIN_FILE="../../deps/vcpkg/scripts/buildsystems/vcpkg.cmake" -DATMA_APP_TYPE:STRING=${{matrix.app_type}} -G "Ninja"
 
     - name: Build Project
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 

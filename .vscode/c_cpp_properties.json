@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Win64Debug",
+            "name": "Win64DebugServer",
             "includePath": [
                 "${workspaceFolder}/**"
             ],
@@ -9,7 +9,8 @@
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
-                "_WINDOWS"
+                "_WINDOWS",
+                "ATMA_SERVER"
             ],
             "windowsSdkVersion": "10.0.20348.0",
             "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/bin/Hostx64/x64/cl.exe",
@@ -40,14 +41,15 @@
             "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
-            "name": "Win64Release",
+            "name": "Win64ReleaseServer",
             "includePath": [
                 "${workspaceFolder}/**"
             ],
             "defines": [
                 "UNICODE",
                 "_UNICODE",
-                "_WINDOWS"
+                "_WINDOWS",
+                "ATMA_SERVER"
             ],
             "windowsSdkVersion": "10.0.20348.0",
             "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/bin/Hostx64/x64/cl.exe",
@@ -75,12 +77,13 @@
             "compileCommands": "${workspaceFolder}/out/build/x64-release/compile_commands.json"
         },
         {
-            "name": "Linux64Release",
+            "name": "Linux64ReleaseServer",
             "includePath": [
                 "${workspaceFolder}/**"
             ],
             "defines": [
-                "__linux__"
+                "__linux__",
+                "ATMA_SERVER"
             ],
             "compilerPath": "/usr/bin/gcc-12",
             "cStandard": "c17",
@@ -104,7 +107,7 @@
             "compileCommands": "${workspaceFolder}/out/build/compile_commands.json"
         },
         {
-            "name": "Linux64Debug",
+            "name": "Linux64DebugServer",
             "includePath": [
                 "${workspaceFolder}/atomina-shared/**",
                 "${workspaceFolder}/atomina-test/**",
@@ -114,13 +117,14 @@
             ],
             "defines": [
                 "_DEBUG",
-                "__linux__"
+                "__linux__",
+                "ATMA_SERVER"
             ],
             "compilerPath": "/usr/bin/gcc-12",
             "cStandard": "c17",
             "cppStandard": "c++20",
             "intelliSenseMode": "linux-clang-x64",
-            "compileCommands": "${workspaceFolder}/out/build/compile_commands.json"
+            "compileCommands": "${workspaceFolder}/out/build/Debug/Server/compile_commands.json"
         },
         {
             "name": "Linux64DebugOpenGL",

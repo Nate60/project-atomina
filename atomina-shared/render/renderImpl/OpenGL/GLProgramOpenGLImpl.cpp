@@ -5,25 +5,21 @@ namespace ATMA
 {
     GLProgramOpenGLImpl::GLProgramOpenGLImpl()
     {
-        ATMA_ENGINE_TRACE("Creating OPEN GL Program");
         m_bindID = glCreateProgram();
     }
 
     GLProgramOpenGLImpl::~GLProgramOpenGLImpl()
     {
-        ATMA_ENGINE_TRACE("Deleting OPEN GL Program");
         glDeleteProgram(m_bindID);
     }
 
     void GLProgramOpenGLImpl::attachShader(const std::shared_ptr<GLShader> &l_shader)
     {
-        ATMA_ENGINE_TRACE("Attaching shader to OPEN GL Program");
         glAttachShader(m_bindID, l_shader->getBindID());
     }
 
     void GLProgramOpenGLImpl::link()
     {
-        ATMA_ENGINE_TRACE("Linking OPEN GL Program");
         int success;
         char infoLog[2048];
         glLinkProgram(m_bindID);

@@ -29,9 +29,6 @@ namespace ATMA
                 Vec2<float> result{};
                 if(getCollideVector(collideComp->m_collider, otherComp->m_collider, result))
                 {
-                    ATMA_ENGINE_TRACE(
-                        "Object id {0} and object id {1} collided", m_objects[i].second, m_objects[j].second
-                    );
                     Props eventProps{};
                     eventProps["id1"] = std::make_any<unsigned int>(m_objects[i].second);
                     eventProps["id2"] = std::make_any<unsigned int>(m_objects[j].second);
@@ -42,7 +39,6 @@ namespace ATMA
             }
         }
         m_stopwatch.stop();
-        // ATMA_ENGINE_TRACE("Collider update took {}ms", m_stopwatch.getElapsedDuration()/1000000.0);
         m_stopwatch.reset();
     }
 

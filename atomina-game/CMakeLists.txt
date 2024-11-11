@@ -1,7 +1,5 @@
 # set the project name and version
-project(Atomina_Game VERSION 0.1)
-
-set(Intel_Processor CACHE BOOL "false")
+project(Atomina_Game VERSION 0.1.1)
 
 file(GLOB_RECURSE atomina_game_src CONFIGURE_DEPENDS "*.hpp" "*.cpp")
 list(FILTER atomina_game_src EXCLUDE REGEX ".*\/cmake\/.*")
@@ -11,7 +9,6 @@ set_target_properties(Atomina_Shared PROPERTIES
 )
 
 add_executable(Atomina_Game ${atomina_game_src})
-
 
 target_link_directories(Atomina_Game PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/../lib/${CMAKE_BUILD_TYPE}/)
 

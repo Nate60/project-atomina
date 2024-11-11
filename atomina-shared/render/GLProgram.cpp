@@ -13,12 +13,10 @@ namespace ATMA
 
     GLProgram::GLProgram() 
     {
-        ATMA_ENGINE_TRACE("Creating GL Program");
     }
 
     GLProgram::~GLProgram() 
     {
-        ATMA_ENGINE_TRACE("Deleting GL Program");
     }
 
     std::shared_ptr<GLProgram> GLProgram::makeProgram()

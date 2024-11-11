@@ -49,7 +49,6 @@ protected:
 
     void SetUp() override
     {
-        ATMA_ENGINE_TRACE("Starting setup...");
         m_client = {m_address, m_port};
         m_host = {m_port};
         m_client.setBlocking(false);
