@@ -58,10 +58,6 @@
 #    undef max
 #    undef DELETE
 #elif __linux__
-#    include <X11/Xlib.h>
-#    include <X11/keysymdef.h>
-#    include <X11/XKBlib.h>
-#    include <X11/Xutil.h>
 #    include <GL/glew.h>
 #    include <GL/glxew.h>
 #    include <GLFW/glfw3.h>

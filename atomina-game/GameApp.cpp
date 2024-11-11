@@ -1,3 +1,4 @@
+#ifndef ATMA_SERVER
 #include "GameApp.hpp"
 
 GameApp::GameApp() {}
@@ -7,7 +8,6 @@ GameApp::~GameApp() {}
 void GameApp::setup(ATMA::ATMAContext &l_ctx) 
 {
     active = true;
-
     l_ctx.addSystemType<SysFly>(ATMA::SysType(ATMA::System::COUNT));
 
     auto winID = l_ctx.createWindow();
@@ -35,8 +35,7 @@ void GameApp::setup(ATMA::ATMAContext &l_ctx)
     ATMA_ENGINE_INFO("Created mainmenu");
     l_ctx.addState(GameStateType(GameStateEnum::PLAYSTATE), std::move(playState));
     ATMA_ENGINE_INFO("Created playstate");
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    m_renderer->toggleBlend(true);
 }
 
 void GameApp::update(ATMA::ATMAContext &l_ctx)
@@ -65,3 +64,4 @@ std::unique_ptr<ATMA::Game> ATMA::CreateGame()
 {
     return std::unique_ptr<ATMA::Game>{new GameApp()};
 }
+#endif

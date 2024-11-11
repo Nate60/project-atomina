@@ -47,12 +47,13 @@
       }
     },
     {
-      "name": "x64-debug-win",
+      "name": "x64-debug-win-server",
       "displayName": "x64 Debug Windows",
       "description": "Target Windows (64-bit) with the Visual Studio development environment. (Debug)",
       "inherits": "windows-base",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ATMA_APP_TYPE": "Server"
       }
     },
     {
@@ -62,16 +63,18 @@
       "inherits": "windows-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "ATMA_USE_OPENGL": "ON"
+        "ATMA_APP_TYPE": "OpenGL"
       }
     },
     {
-      "name": "x64-release-win",
+      "name": "x64-release-win-server",
       "displayName": "x64 Release Windows",
       "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
       "inherits": "windows-base",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "ATMA_APP_TYPE": "Server"
+        
       }
     },
     {
@@ -81,16 +84,17 @@
       "inherits": "windows-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "ATMA_USE_OPENGL": "ON"
+        "ATMA_APP_TYPE": "OpenGL"
       }
     },
     {
-      "name": "x64-debug-linux",
+      "name": "x64-debug-linux-server",
       "displayName": "x64 Debug Linux",
       "description": "Target Linux (64-bit) with the remote development environment. (Debug)",
       "inherits": "linux-base",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ATMA_APP_TYPE": "Server"
       }
     },
     {
@@ -100,16 +104,17 @@
       "inherits": "linux-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "ATMA_USE_OPENGL": "ON"
+        "ATMA_APP_TYPE": "OpenGL"
       }
     },
     {
-      "name": "x64-release-linux",
+      "name": "x64-release-linux-server",
       "displayName": "x64 Release Linux",
       "description": "Target Linux (64-bit) with the remote development environment. (Release)",
       "inherits": "linux-base",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "ATMA_APP_TYPE": "Server"
       }
     },
     {
@@ -119,7 +124,7 @@
       "inherits": "linux-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "ATMA_USE_OPENGL": "ON"
+        "ATMA_APP_TYPE": "OpenGL"
       }
     }
   ]

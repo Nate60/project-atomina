@@ -10,18 +10,15 @@
  * extension of the Game class from atomina-api
  * used as actual implementation
  */
-class GameApp: public ATMA::Game
+class ServerApp: public ATMA::Server
 {
 public:
 
-    std::shared_ptr<ATMA::AppWindow> m_win;
-    std::shared_ptr<ATMA::GLRenderer> m_renderer;
-
     // default constructor
-    GameApp();
+    ServerApp();
 
     // deconstructor
-    ~GameApp();
+    ~ServerApp();
 
     /**
      * real implementation of the game apps setup function to house the setup
@@ -40,3 +37,4 @@ public:
      */
     virtual void shutdown(ATMA::ATMAContext &l_ctx) override;
 };
+

@@ -15,12 +15,10 @@ namespace ATMA
 
     GLTexture::GLTexture(const Texture &l_texture): m_texture(l_texture), LoadedResource()
     {
-        ATMA_ENGINE_TRACE("Creating GL Texture");
     }
 
     GLTexture::~GLTexture() 
     {
-        ATMA_ENGINE_TRACE("Deleting GL Texture");
     }
 
     const unsigned int &GLTexture::getID() const
