@@ -1,19 +1,13 @@
 # set the project name and version
-project(Atomina_Shared VERSION 0.1.0)
+project(Atomina_Shared VERSION 0.1.1)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 20 FORCE)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-set(Intel_Processor CACHE BOOL "false")
 
 file(GLOB_RECURSE atomina_shared_src CONFIGURE_DEPENDS "*.hpp" "*.cpp" "*.glsl")
 list(FILTER atomina_shared_src EXCLUDE REGEX ".*\/cmake\/.*")
-
-if(ATMA_USE_OPENGL)
-    message(STATUS "ATMA_USE_OPENGL = ${ATMA_USE_OPENGL}")
-    add_compile_definitions(ATMA_OPENGL)
-endif()
 
 if(MSVC)
     list(FILTER atomina_shared_src EXCLUDE REGEX ".*/platform/Linux/.*")
@@ -29,8 +23,13 @@ set_property(TARGET Atomina_Shared PROPERTY POSITION_INDEPENDENT_CODE ON)
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Atomina_Shared PROPERTY CXX_STANDARD 20)
 endif()
-
-target_link_libraries(Atomina_Shared PUBLIC spdlog::spdlog GLEW::GLEW glfw)
+if(ATMA_APP_TYPE STREQUAL "OpenGL")
+    list(FILTER atomina_shared_src EXCLUDE REGEX ".*/renderImpl/Dummy/.*")
+    target_link_libraries(Atomina_Shared PUBLIC spdlog::spdlog GLEW::GLEW glfw)
+else()
+    list(FILTER atomina_shared_src EXCLUDE REGEX ".*/renderImpl/OpenGL/.*")
+    target_link_libraries(Atomina_Shared PUBLIC spdlog::spdlog glfw)
+endif()
 
 
 target_sources(Atomina_Shared PRIVATE ${atomina_shared_src})
@@ -38,6 +37,8 @@ target_include_directories(Atomina_Shared PRIVATE "../atomina-shared" "${FMT_INC
 #definition for dll for exports
 set_target_properties(Atomina_Shared PROPERTIES COMPILE_DEFINITIONS "ATOMINADLL_EXPORTS")
 
+message(STATUS "Compile Definitions: ${COMPILE_DEFINITIONS}")
+message(STATUS "ATMA_APP_TYPE: ${ATMA_APP_TYPE}")
 
 install(TARGETS Atomina_Shared
         CONFIGURATIONS Debug

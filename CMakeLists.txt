@@ -1,6 +1,7 @@
 # set the project name and version
 cmake_minimum_required (VERSION 3.24 FATAL_ERROR)
 
+#policies
 # https://cmake.org/cmake/help/latest/prop_tgt/MSVC_RUNTIME_LIBRARY.html
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
 	message(STATUS "Policy CMP0091 set")
@@ -27,7 +28,17 @@ if(UNIX)
     add_compile_options(-std=c++20 -std=gnu++20)
 endif()
 
-add_compile_definitions(__TBB_DYNAMIC_LOAD_ENABLED=0)
+set(ATMA_APP_TYPE "${ATMA_APP_TYPE}" CACHE STRING "Determines the application type" FORCE)
+
+if(ATMA_APP_TYPE STREQUAL "Server")
+	message(STATUS "Adding Server compile definition")
+    add_compile_definitions("ATMA_SERVER")
+elseif(ATMA_APP_TYPE STREQUAL "OpenGL")
+	message(STATUS "Adding OpenGL compile definition")
+	add_compile_definitions("ATMA_OPENGL")
+else()
+	message(STATUS "No app type compile definition")
+endif()
 
 message(STATUS "CMAKE_VERSION = ${CMAKE_VERSION}")
 message(STATUS "CMAKE_GENERATOR = ${CMAKE_GENERATOR}")
@@ -37,16 +48,16 @@ message(STATUS "Linker executable: ${CMAKE_LINKER}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Binary output directory: ${CMAKE_BINARY_DIR}")
 message(STATUS "System Target Architecture: ${CMAKE_SYSTEM_PROCESSOR}")
+message(STATUS "Atomina App Type: '${ATMA_APP_TYPE}'")
+message(STATUS "Compile Definitions: ${COMPILE_DEFINITIONS}")
 
-project(Atomina_Main VERSION 0.1.0)
+project(Atomina_Main VERSION 0.1.1)
 
 # Stop in source builds
 SET(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 
 option(ATOMINA_BUILD_TESTS "Build tests" ON)
 SET(CMAKE_COLOR_DIAGNOSTICS ON)
-
-
 
 get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
 foreach(dir ${dirs})
@@ -69,9 +80,10 @@ SET(ATOMINA_APP_NAME "Atomina-Engine App")
 #dependencies
 find_package(spdlog CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
-find_package(GLEW REQUIRED)
-find_package(X11 REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
+if(ATMA_APP_TYPE STREQUAL "OpenGL")
+	find_package(GLEW REQUIRED)
+endif()
 if(MSVC)
 	find_package(stb REQUIRED)
 elseif(UNIX) # for some reason stb using different casing on different OSes
@@ -85,10 +97,12 @@ find_path(LIB_DIR lib)
 find_path(SPDLOG_INCLUDE spdlog)
 find_path(GTEST_INCLUDE gtest)
 find_path(GLFW_INCLUDE GLFW)
-if(MSVC)
-	find_path(GLEW_INCLUDE gl)
-elseif(UNIX) # for some reason glew using different casing on different OSes
-	find_path(GLEW_INCLUDE GL)
+if(ATMA_APP_TYPE STREQUAL "OpenGL")
+	if(MSVC)
+		find_path(GLEW_INCLUDE gl)
+	elseif(UNIX) # for some reason glew using different casing on different OSes
+		find_path(GLEW_INCLUDE GL)
+	endif()
 endif()
 find_path(FMT_INCLUDE fmt)
 
@@ -96,6 +110,7 @@ message(STATUS "spdlog path: ${SPDLOG_INCLUDE}")
 message(STATUS "gtest path: ${GTEST_INCLUDE}")
 message(STATUS "GLEW path: ${GLEW_INCLUDE}")
 message(STATUS "fmt path: ${FMT_INCLUDE}")
+message(STATUS "GLFW path: ${GLFW_INCLUDE}")
 
 add_subdirectory("atomina-shared" atomina-shared)
 add_subdirectory("atomina-game" atomina-game)

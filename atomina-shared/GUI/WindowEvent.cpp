@@ -9,7 +9,6 @@ namespace ATMA
         m_type(WindowEventEnum::None),
         m_props{}
     {
-        ATMA_ENGINE_TRACE("Creating Window Event");
     }
 
     WindowEvent::WindowEvent(AppWindow *l_win, const WindowEventEnum &l_type):

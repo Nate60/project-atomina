@@ -50,7 +50,6 @@ namespace ATMA
           
         }
         m_stopwatch.stop();
-        // ATMA_ENGINE_TRACE("Renderer update took {}ms", m_stopwatch.getElapsedDuration()/1000000.0);
         m_stopwatch.reset();
 
     }

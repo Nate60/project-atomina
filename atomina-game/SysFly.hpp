@@ -30,7 +30,6 @@ public:
         for(auto &id: m_objects)
         {
             float dv = l_dt / 300000000.f;
-            ATMA_ENGINE_TRACE("dv: {}", dv);
             
             auto vel = ctx.getAttribute<ATMA::AttrVelocity>(
                 id.second, ATMA::AttributeType(ATMA::Attribute::Velocity)
@@ -76,15 +75,7 @@ public:
                 vel->m_dpos.y = -0.02f;
                 pos->m_pos.y = 320.f;
             }
-            ATMA_ENGINE_TRACE(
-                "m_dpos.x: {0} m_dpos.y: {1} m_pos.x: {2} m_pos.y: {3} m_drot: {4} m_rot: {5} ",
-                vel->m_dpos.x,
-                vel->m_dpos.y,
-                pos->m_pos.x,
-                pos->m_pos.y,
-                vel->m_drot,
-                pos->m_rot
-            );
+
             sprite->m_self->m_pos.x = pos->m_pos.x;
             sprite->m_self->m_pos.y = pos->m_pos.y;
             sprite->m_self->m_rot = pos->m_rot;
