@@ -17,8 +17,11 @@ int main()
 
     ATMA::Log::Init();
     ATMA_ENGINE_INFO("Init logger!");
+    #ifdef ATMA_SERVER
+    std::unique_ptr<ATMA::Server> app = ATMA::CreateServer();
+    #else
     std::unique_ptr<ATMA::Game> app = ATMA::CreateGame();
-
+    #endif
     try
     {
         app->initializeContext();

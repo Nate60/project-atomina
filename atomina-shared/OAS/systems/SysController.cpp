@@ -18,7 +18,6 @@ namespace ATMA
     {
         m_stopwatch.start();
         m_stopwatch.stop();
-        // ATMA_ENGINE_TRACE("Controller update took {}ms", m_stopwatch.getElapsedDuration()/1000000.0);
         m_stopwatch.reset();
     }
 

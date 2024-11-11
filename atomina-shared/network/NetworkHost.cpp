@@ -64,11 +64,9 @@ namespace ATMA
         ATMA_ENGINE_INFO("Host is purging connections");
         for(auto &l_client: m_clients)
         {
-            ATMA_ENGINE_TRACE("deleting client");
             l_client.second->closeSocket();
         }
         m_clients.clear();
-        ATMA_ENGINE_TRACE("Network Host purged clients");
         m_nextId = 0;
     }
 
