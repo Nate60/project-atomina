@@ -4,18 +4,21 @@
 #include "GLRenderable.hpp"
 #include "GUI/AppWindow.hpp"
 #include "math/MathFuncs.hpp"
+#include "GLRenderContext.hpp"
 
 namespace ATMA
 {
 
-    //using ElementStack = std::priority_queue<
-    //    std::shared_ptr<GLRenderable>,
-    //    std::vector<std::shared_ptr<GLRenderable>>,
-    //    GLRenderableCompare>;
-
     class GLRenderer
     {
     public:
+
+        GLRenderer();
+
+        virtual ~GLRenderer();
+
+        void toggleBlend(const bool &l_toggle);
+
         void setFrameBufferDimensions(const int &w, const int &h);
 
         void setWindow(std::shared_ptr<AppWindow> l_win);
@@ -43,6 +46,7 @@ namespace ATMA
                 GLRenderableCompare()
             };
         std::shared_ptr<AppWindow> m_target{};
+        std::shared_ptr<GLRenderContext> m_renderCtx;
     };
 
 }
