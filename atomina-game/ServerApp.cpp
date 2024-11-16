@@ -9,19 +9,25 @@ void ServerApp::setup(ATMA::ATMAContext &l_ctx)
 {
     active = true;
     ATMA_ENGINE_INFO("Running Server");
-    l_ctx.addSystemType<SysFly>(ATMA::SysType(ATMA::System::COUNT));
+    m_host.startListening();
 
 }
 
 void ServerApp::update(ATMA::ATMAContext &l_ctx)
 {
-
-    l_ctx.update();
-
+    std::optional<unsigned int> conn_opt = std::nullopt;
+    while(conn_opt == std::nullopt)
+    {
+        conn_opt = m_host.acceptConnections();
+    }
+    ATMA_ENGINE_INFO("User has connected");
+    auto conn = conn_opt.value();
 }
 
 void ServerApp::shutdown(ATMA::ATMAContext &l_ctx)
 {
+    m_host.stopListening();
+    m_host.purgeConnections();
     ATMA_ENGINE_INFO("Shutting down game");
 }
 
