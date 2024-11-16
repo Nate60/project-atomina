@@ -1,10 +1,8 @@
 #pragma once
 #include <atomina.hpp>
-#include "MainMenuState.hpp"
 #include "GameStateType.hpp"
 #include "GameEventType.hpp"
-#include "PlayState.hpp"
-#include "SysFly.hpp"
+
 
 /*
  * extension of the Game class from atomina-api
@@ -14,6 +12,7 @@ class ServerApp: public ATMA::Server
 {
 public:
 
+    ATMA::NetworkHost m_host{4734};
     // default constructor
     ServerApp();
 
