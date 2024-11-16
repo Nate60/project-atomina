@@ -8,7 +8,6 @@ GameApp::~GameApp() {}
 void GameApp::setup(ATMA::ATMAContext &l_ctx) 
 {
     active = true;
-    l_ctx.addSystemType<SysFly>(ATMA::SysType(ATMA::System::COUNT));
 
     auto winID = l_ctx.createWindow();
     m_win = l_ctx.getWindow(winID);
@@ -22,20 +21,9 @@ void GameApp::setup(ATMA::ATMAContext &l_ctx)
     auto vertShaderID = l_ctx.registerResource("vertex", 1u, "shader/defaultVertex.shader");
     auto fragShaderID = l_ctx.registerResource("frag", 1u, "shader/defaultFrag.shader");
 
-    std::shared_ptr<MainMenuState> state =
-        std::make_shared<MainMenuState>(m_win, vertShaderID, fragShaderID);
-    std::shared_ptr<PlayState> playState = std::make_shared<PlayState>(vertShaderID, fragShaderID);
-
-    auto sysFly = l_ctx.getSystem<SysFly>(ATMA::SysType(ATMA::System::COUNT));
-    l_ctx.addObjectEventListener(GameEventType(GameEventEnum::FLAP), sysFly);
-    l_ctx.addObjectEventListener(GameEventType(GameEventEnum::GAMEOVER), playState);
-    l_ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::Collision), playState);
-
-    l_ctx.addState(GameStateType(GameStateEnum::MAINMENU), std::move(state));
-    ATMA_ENGINE_INFO("Created mainmenu");
-    l_ctx.addState(GameStateType(GameStateEnum::PLAYSTATE), std::move(playState));
-    ATMA_ENGINE_INFO("Created playstate");
     m_renderer->toggleBlend(true);
+    m_conn.connect();
+    
 }
 
 void GameApp::update(ATMA::ATMAContext &l_ctx)
@@ -44,6 +32,7 @@ void GameApp::update(ATMA::ATMAContext &l_ctx)
     {
         active = false;
     }
+
     m_win->poll();
     m_renderer->startScene(ATMA::GLCamera{
         {0.f,0.f},
