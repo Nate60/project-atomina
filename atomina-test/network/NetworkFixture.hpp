@@ -44,20 +44,20 @@ protected:
     const unsigned short m_port = 8899;
     ATMA::URL m_address{"127.0.0.1"};
 
-    ATMA::NetworkClient m_client{m_address, m_port};
-    ATMA::NetworkHost m_host{m_port};
+    ATMA::NetworkClient m_client{};
+    ATMA::NetworkHost m_host{};
 
     void SetUp() override
     {
-        m_client = {m_address, m_port};
-        m_host = {m_port};
+        m_client = {};
+        m_host = {};
         m_client.setBlocking(false);
     }
 
     void TearDown() override
     {
         ATMA_ENGINE_TRACE("starting tear down");
-        // m_client.disconnect();
+        m_client.disconnect();
         ATMA_ENGINE_TRACE("disconnected client");
         m_host.purgeConnections();
         ATMA_ENGINE_TRACE("purged host connections");
