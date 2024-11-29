@@ -102,12 +102,57 @@ TEST_F(NetworkClientHostFixture, HostCanAcceptConnection)
         3,
         [&]() -> void
         {
-            this->m_host.startListening();
-            this->m_client.connect();
+            this->m_host.startListening(this->m_port);
+            this->m_client.connect(this->m_address, this->m_port);
             EXPECT_TRUE(this->m_host.acceptConnections() != std::nullopt);
         }
     );
 }
+
+/**
+ * Client should be able to reconnect
+ */
+TEST_F(NetworkClientHostFixture, ClientCanReconnect)
+{
+    ATMA::RetryExecutor::withRetries(
+        3,
+        [&]() -> void
+        {
+            this->m_host.startListening(this->m_port);
+            this->m_client.connect(this->m_address, this->m_port);
+            auto clientConn = this->m_host.acceptConnections();
+            this->m_client.disconnect();
+            this->m_host.closeConnection(clientConn.value());
+            this->m_client.connect(this->m_address, this->m_port);
+            EXPECT_TRUE(this->m_host.acceptConnections() != std::nullopt);
+        }
+    );
+}
+
+/**
+ * Client should be able to reconnect
+ */
+TEST_F(NetworkClientHostFixture, HostCanRelisten)
+{
+    ATMA::RetryExecutor::withRetries(
+        3,
+        [&]() -> void
+        {
+            this->m_host.startListening(this->m_port);
+            this->m_client.connect(this->m_address, this->m_port);
+            auto clientConn = this->m_host.acceptConnections();
+            this->m_client.disconnect();
+            this->m_host.closeConnection(clientConn.value());
+            this->m_host.purgeConnections();
+            this->m_host.stopListening();
+            this->m_host.startListening(this->m_port);
+            this->m_client.connect(this->m_address, this->m_port);
+            EXPECT_TRUE(this->m_host.acceptConnections() != std::nullopt);
+
+        }
+    );
+}
+
 
 /**
  * Clients should be able to send data to their connected host
@@ -119,8 +164,8 @@ TEST_F(NetworkClientHostFixture, ClientCanSend)
         3,
         [&]() -> void
         {
-            this->m_host.startListening();
-            this->m_client.connect();
+            this->m_host.startListening(this->m_port);
+            this->m_client.connect(this->m_address, this->m_port);
             auto client = this->m_host.acceptConnections();
             this->m_host.setBlocking(client.value(), false);
 
@@ -154,8 +199,8 @@ TEST_F(NetworkClientHostFixture, HostCanSend)
         3,
         [&]() -> void
         {
-            this->m_host.startListening();
-            this->m_client.connect();
+            this->m_host.startListening(this->m_port);
+            this->m_client.connect(this->m_address, this->m_port);
             auto client = this->m_host.acceptConnections();
             this->m_host.setBlocking(client.value(), false);
 
@@ -186,12 +231,12 @@ TEST_F(NetworkClientHostFixture, HostCanAcceptTwoConnections)
         3,
         [&]() -> void
         {
-            ATMA::NetworkClient secondClient{this->m_address, this->m_port};
+            ATMA::NetworkClient secondClient{};
             secondClient.setBlocking(false);
-            this->m_host.startListening();
-            this->m_client.connect();
+            this->m_host.startListening(this->m_port);
+            this->m_client.connect(this->m_address, this->m_port);
             auto firstConn = this->m_host.acceptConnections();
-            secondClient.connect();
+            secondClient.connect(this->m_address, this->m_port);
             auto secondConn = this->m_host.acceptConnections();
             EXPECT_TRUE(firstConn != std::nullopt);
             EXPECT_TRUE(secondConn != std::nullopt);
@@ -210,13 +255,13 @@ TEST_F(NetworkClientHostFixture, HostCanReceiveTwoMessages)
         3,
         [&]() -> void
         {
-            ATMA::NetworkClient secondClient{this->m_address, this->m_port};
+            ATMA::NetworkClient secondClient{};
             secondClient.setBlocking(false);
-            this->m_host.startListening();
-            this->m_client.connect();
+            this->m_host.startListening(this->m_port);
+            this->m_client.connect(this->m_address,this->m_port);
             auto firstConn = this->m_host.acceptConnections();
             this->m_host.setBlocking(firstConn.value(), false);
-            secondClient.connect();
+            secondClient.connect(this->m_address, this->m_port);
             auto secondConn = this->m_host.acceptConnections();
             m_host.setBlocking(secondConn.value(), false);
 
@@ -257,13 +302,13 @@ TEST_F(NetworkClientHostFixture, HostCanSendTwoMessages)
         3,
         [&]() -> void
         {
-            ATMA::NetworkClient secondClient{this->m_address, this->m_port};
+            ATMA::NetworkClient secondClient{};
             secondClient.setBlocking(false);
-            this->m_host.startListening();
-            this->m_client.connect();
+            this->m_host.startListening(this->m_port);
+            this->m_client.connect(this->m_address, this->m_port);
             auto firstConn = this->m_host.acceptConnections();
             this->m_host.setBlocking(firstConn.value(), false);
-            secondClient.connect();
+            secondClient.connect(this->m_address, this->m_port);
             auto secondConn = this->m_host.acceptConnections();
             m_host.setBlocking(secondConn.value(), false);
 
@@ -304,13 +349,13 @@ TEST_F(NetworkClientHostFixture, HostCanBroadcastMessages)
         3,
         [&]() -> void
         {
-            ATMA::NetworkClient secondClient{this->m_address, this->m_port};
+            ATMA::NetworkClient secondClient{};
             secondClient.setBlocking(false);
-            this->m_host.startListening();
-            this->m_client.connect();
+            this->m_host.startListening(this->m_port);
+            this->m_client.connect(this->m_address, this->m_port);
             auto firstConn = this->m_host.acceptConnections();
             this->m_host.setBlocking(firstConn.value(), false);
-            secondClient.connect();
+            secondClient.connect(this->m_address, this->m_port);
             auto secondConn = this->m_host.acceptConnections();
             m_host.setBlocking(secondConn.value(), false);
 
