@@ -9,7 +9,7 @@ void ServerApp::setup(ATMA::ATMAContext &l_ctx)
 {
     active = true;
     ATMA_ENGINE_INFO("Running Server");
-    m_host.startListening();
+    m_host.startListening(4734);
 
 }
 

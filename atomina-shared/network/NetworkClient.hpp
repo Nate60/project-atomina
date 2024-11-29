@@ -19,7 +19,7 @@ namespace ATMA
     {
     public:
         // constructor specifying address and port of the host for connection
-        NetworkClient(const URL &l_addr, const unsigned short &l_port);
+        NetworkClient();
 
         // default deconstructor
         virtual ~NetworkClient();
@@ -29,7 +29,7 @@ namespace ATMA
         /**
          * open connection on Client's port and address
          */
-        void connect();
+        void connect(const URL &l_addr, const unsigned short &l_port);
 
         /**
          * close Clients connection

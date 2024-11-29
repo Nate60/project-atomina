@@ -4,13 +4,8 @@
 namespace ATMA
 {
 
-    NetworkHost::NetworkHost(const unsigned short &l_port): m_port(l_port)
+    NetworkHost::NetworkHost()
     {
-#ifdef _WINDOWS_
-        m_listener = std::make_unique<SocketListenerWinImpl>(l_port);
-#elif __linux__
-        m_listener = std::make_unique<SocketListenerUnixImpl>(l_port);
-#endif
     }
 
     NetworkHost::NetworkHost(NetworkHost &&l_other) noexcept: m_port(l_other.m_port)
@@ -23,8 +18,13 @@ namespace ATMA
 
     NetworkHost::~NetworkHost() {}
 
-    bool NetworkHost::startListening()
+    bool NetworkHost::startListening(const unsigned short &l_port)
     {
+#ifdef _WINDOWS_
+        m_listener = std::make_unique<SocketListenerWinImpl>(l_port);
+#elif __linux__
+        m_listener = std::make_unique<SocketListenerUnixImpl>(l_port);
+#endif
         return m_listener->startListening();
     }
 
