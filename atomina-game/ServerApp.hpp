@@ -12,7 +12,7 @@ class ServerApp: public ATMA::Server
 {
 public:
 
-    ATMA::NetworkHost m_host{4734};
+    ATMA::NetworkHost m_host{};
     // default constructor
     ServerApp();
 

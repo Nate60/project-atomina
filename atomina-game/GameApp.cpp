@@ -20,10 +20,15 @@ void GameApp::setup(ATMA::ATMAContext &l_ctx)
     m_renderer->setWindow(m_win);
     auto vertShaderID = l_ctx.registerResource("vertex", 1u, "shader/defaultVertex.shader");
     auto fragShaderID = l_ctx.registerResource("frag", 1u, "shader/defaultFrag.shader");
-
+    auto fontID = l_ctx.registerResource("font", 0u, "res/defaultFont.png");
+    m_conn = std::make_shared<ATMA::NetworkClient>();
+    std::shared_ptr<MainMenuState> state =
+        std::make_shared<MainMenuState>(m_win, vertShaderID, fragShaderID, fontID);
+    l_ctx.addState(GameStateType(GameStateEnum::MAINMENU), std::move(state));
+    std::shared_ptr<LobbyState> lobby = 
+        std::make_shared<LobbyState>(m_win, m_conn, vertShaderID, fragShaderID, fontID);
+    l_ctx.addState(GameStateType(GameStateEnum::LOBBY), std::move(lobby));
     m_renderer->toggleBlend(true);
-    m_conn.connect();
-    
 }
 
 void GameApp::update(ATMA::ATMAContext &l_ctx)

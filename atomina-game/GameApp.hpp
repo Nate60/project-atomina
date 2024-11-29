@@ -2,6 +2,8 @@
 #include <atomina.hpp>
 #include "GameStateType.hpp"
 #include "GameEventType.hpp"
+#include "MainMenuState.hpp"
+#include "LobbyState.hpp"
 
 /*
  * extension of the Game class from atomina-api
@@ -13,7 +15,7 @@ public:
 
     std::shared_ptr<ATMA::AppWindow> m_win;
     std::shared_ptr<ATMA::GLRenderer> m_renderer;
-    ATMA::NetworkClient m_conn{ATMA::URL{"127.0.0.1"}, 4734};
+    std::shared_ptr<ATMA::NetworkClient> m_conn;
 
     // default constructor
     GameApp();

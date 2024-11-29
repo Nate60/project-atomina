@@ -23,7 +23,7 @@ namespace ATMA
         using ClientMap = std::unordered_map<ClientId, std::unique_ptr<Socket>>;
     public:
         // constructor specifying the port to listen on
-        NetworkHost(const unsigned short &l_port);
+        NetworkHost();
 
         // move constructor
         NetworkHost(NetworkHost &&l_other) noexcept;
@@ -33,9 +33,10 @@ namespace ATMA
 
         /**
          * start up listener to start listening for connections on Host port
+         * @param l_port port to host on
          * @return if successful
          */
-        bool startListening();
+        bool startListening(const unsigned short &l_port);
 
         /*
          * stop listener from listening for connections
