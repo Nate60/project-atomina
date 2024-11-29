@@ -8,6 +8,7 @@ enum class GameStateEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::State::COUNT),
     MAINMENU,
+    LOBBY,
     PLAYSTATE,
 };
 

@@ -3,17 +3,13 @@
 
 namespace ATMA
 {
-    NetworkClient::NetworkClient(const URL &l_addr, const unsigned short &l_port):
-        m_addr(l_addr.getIP()),
-        m_port(l_port)
+    NetworkClient::NetworkClient()
     {
 #ifdef _WINDOWS_
         m_socket = std::make_unique<SocketWinImpl>();
 #elif __linux__
         m_socket = std::make_unique<SocketUnixImpl>();
 #endif
-
-        ATMA_ENGINE_INFO("Network Client created for IP: {0} : {1}", m_addr.getIP(), m_port);
     }
 
     NetworkClient::NetworkClient(NetworkClient &&l_other) noexcept
@@ -25,8 +21,11 @@ namespace ATMA
 
     NetworkClient::~NetworkClient() {}
 
-    void NetworkClient::connect()
+    void NetworkClient::connect(const URL &l_addr, const unsigned short &l_port)
     {
+        m_addr = l_addr;
+        m_port = l_port;
+        ATMA_ENGINE_INFO("Network Client created for IP: {0} : {1}", m_addr.getIP(), m_port);
         if(!(m_socket->connectSocket(m_addr, m_port)))
             throw NetworkException(
                 "Unable to connect to remote address [" + m_addr.getIP() + ":"
