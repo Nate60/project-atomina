@@ -25,6 +25,7 @@ namespace ATMA
 #elif __linux__
         m_listener = std::make_unique<SocketListenerUnixImpl>(l_port);
 #endif
+        m_port = l_port;
         return m_listener->startListening();
     }
 
@@ -82,6 +83,47 @@ namespace ATMA
         m_clients = std::move(l_other.m_clients);
         m_nextId = l_other.m_nextId;
         return *this;
+    }
+
+    bool NetworkHost::sendBytes(
+        const ClientId &l_client,
+        const std::span<unsigned char> &l_bytes,
+        const size_t &l_size
+    )
+    {
+        ATMA_ENGINE_INFO("Network Host is sending {0} bytes over port: {1}", l_size, m_port);
+        return m_clients[l_client]->sendBytes(l_bytes, l_size);
+    }
+
+    bool NetworkHost::receiveBytes
+    (
+        const ClientId &l_client,
+        std::span<unsigned char> &l_buffer,
+        const size_t &l_size,
+        size_t &l_receivedBytes
+    )
+    {
+        std::span<unsigned char> buf{l_buffer};
+        if(auto res = m_clients[l_client]->receiveBytes(buf, l_size, l_receivedBytes); res)
+        {
+            ATMA_ENGINE_INFO(
+                "Network Host has received {0} bytes over port: {1}", l_receivedBytes, m_port
+            );
+            return true;
+        }
+        else
+            return false;
+    }
+
+    bool NetworkHost::broadcastBytes(const std::span<unsigned char> &l_bytes, const size_t &l_size)
+    {
+        bool b{true};
+        for(auto &l_client: m_clients)
+        {
+            if(!(l_client.second->sendBytes(l_bytes, l_size)))
+                b = false;
+        }
+        return b;
     }
 
 }

@@ -8,14 +8,10 @@ using namespace std::string_literals;
  */
 TEST_F(NetworkFixture, SocketCanConnect)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            this->listener->startListening();
-            EXPECT_TRUE(this->socket->connectSocket(m_address, m_port));
-        }
-    );
+
+    this->listener->startListening();
+    EXPECT_TRUE(this->socket->connectSocket(m_address, m_port));
+
 }
 
 /**
@@ -24,17 +20,11 @@ TEST_F(NetworkFixture, SocketCanConnect)
  */
 TEST_F(NetworkFixture, ListenerCanAcceptConnection)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            this->listener->startListening();
-            this->socket->connectSocket(m_address, m_port);
-            auto client = this->listener->acceptConnection();
-            EXPECT_NE(client, nullptr);
-            client->closeSocket();
-        }
-    );
+    this->listener->startListening();
+    this->socket->connectSocket(m_address, m_port);
+    auto client = this->listener->acceptConnection();
+    EXPECT_NE(client, nullptr);
+    client->closeSocket();
 }
 
 /**
@@ -43,21 +33,17 @@ TEST_F(NetworkFixture, ListenerCanAcceptConnection)
  */
 TEST_F(NetworkFixture, SocketCanSend)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            this->listener->startListening();
-            this->socket->connectSocket(m_address, m_port);
-            auto client = this->listener->acceptConnection();
 
-            char msg[] = {'1', '2', '3', '\0'};
+    this->listener->startListening();
+    this->socket->connectSocket(m_address, m_port);
+    auto client = this->listener->acceptConnection();
 
-            std::span<char> buffer{msg};
-            EXPECT_TRUE(this->socket->sendBytes(buffer));
-            client->closeSocket();
-        }
-    );
+    unsigned char msg[] = {'1', '2', '3', '\0'};
+
+    std::span<unsigned char,4> buffer{msg};
+    EXPECT_TRUE(this->socket->sendBytes(buffer, buffer.size()));
+    client->closeSocket();
+
 }
 
 /**
@@ -66,30 +52,131 @@ TEST_F(NetworkFixture, SocketCanSend)
  */
 TEST_F(NetworkFixture, SocketCanReceive)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            this->listener->startListening();
-            this->socket->connectSocket(m_address, m_port);
-            auto client = this->listener->acceptConnection();
+    this->listener->startListening();
+    this->socket->connectSocket(m_address, m_port);
+    auto client = this->listener->acceptConnection();
 
-            char send_msg[] = {'1', '2', '3', '\0'};
-            char recv_msg[] = {'0', '0', '0', '\0'};
-            std::span<char> send_buffer{send_msg};
-            std::span<char> recv_buffer{recv_msg};
-            size_t recv_bytes;
+    unsigned char msg[] = {'1', '2', '3', '\0'};
 
-            this->socket->sendBytes(send_buffer);
-            client->receiveBytes(recv_buffer, recv_bytes);
-            for(int i = 0; i < 4; i++)
-            {
-                EXPECT_TRUE(recv_buffer.data()[i] == send_buffer.data()[i]);
-            }
-            EXPECT_TRUE(recv_bytes == 4);
-            client->closeSocket();
-        }
+    std::span<unsigned char, 4> buffer{msg};
+    unsigned char recv_msg[4];
+    std::span<unsigned char> bufferRecv{recv_msg};
+    size_t recv_bytes;
+
+    this->socket->sendBytes(buffer, buffer.size());
+    client->receiveBytes(bufferRecv, 4, recv_bytes);
+    for(int i = 0; i < 4; i++)
+    {
+        EXPECT_EQ(buffer[i], bufferRecv[i]);
+    }
+    EXPECT_TRUE(recv_bytes == 4);
+    client->closeSocket();
+
+}
+
+/**
+ * Sockets should be able to receive bytes from a message that were sent across their
+ * active connection 
+ */
+TEST_F(NetworkFixture, SocketCanReceiveNetworkMessage)
+{
+
+    this->listener->startListening();
+    this->socket->connectSocket(m_address, m_port);
+    auto client = this->listener->acceptConnection();
+    std::vector<unsigned char> sendingMessage =
+        ATMA::NetworkSerde::serialize(ATMA::NetworkMessage {
+            ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
+                ATMA::Props{
+                    {
+                        {
+                            "port", 
+                            std::pair<unsigned char,std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}
+                        }
+                    }
+       
+                }
+        });
+    std::span<unsigned char> send_buffer{sendingMessage};
+    unsigned char recv_msg[ATMA::NETWORKMESSAGEBUFFERSIZE];
+    std::span<unsigned char> recv_buffer{recv_msg};
+    size_t recv_bytes;
+    this->socket->sendBytes(send_buffer, sendingMessage.size());
+    client->receiveBytes(recv_buffer, ATMA::NETWORKMESSAGEBUFFERSIZE, recv_bytes);
+    std::vector<unsigned char> v{recv_msg,recv_msg + recv_bytes};
+    ATMA::NetworkMessage nm = ATMA::NetworkSerde::deserialize(v);
+    client->closeSocket();
+    EXPECT_EQ(nm.m_values.getAs<int>("port"), 4);
+
+}
+
+/**
+ * Sockets should be able to receive bytes from a message that were sent across their
+ * active connection 
+ */
+TEST_F(NetworkFixture, SocketCanReceiveNetworkMessageLargerThanBuffer)
+{
+
+    this->listener->startListening();
+    this->socket->connectSocket(m_address, m_port);
+    auto client = this->listener->acceptConnection();
+    std::vector<unsigned char> sendingMessage =
+        ATMA::NetworkSerde::serialize(ATMA::NetworkMessage {
+            ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
+                ATMA::Props{
+                    {
+                        {
+                            "port", 
+                            std::pair<unsigned char,std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}
+                        },
+                        {
+                            "ServerName",
+                            std::pair<unsigned char, std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::STRING), "MyServer"s}
+                        },
+                        {
+                            "PlayerName",
+                            std::pair<unsigned char, std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::STRING), "Player 1"s}
+                        },
+                        {
+                            "TimeStamp",
+                            std::pair<unsigned char,std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::LONGLONG), 123456789LL}
+                        }
+                    }
+       
+                }
+        });
+    std::span<unsigned char> send_buffer{sendingMessage};
+    unsigned char recv_msg[ATMA::NETWORKMESSAGEBUFFERSIZE];
+    std::span<unsigned char> recv_buffer{recv_msg};
+    std::vector<unsigned char> wholeMessage{};
+    size_t recv_bytes;
+    size_t total_bytes;
+    this->socket->sendBytes(send_buffer, sendingMessage.size());
+    unsigned short messageSize;
+    client->receiveBytes(recv_buffer, ATMA::NETWORKMESSAGEBUFFERSIZE, recv_bytes);
+    total_bytes = recv_bytes;
+    for(int i = 0; i < recv_bytes; i++)
+    {
+        wholeMessage.emplace_back(recv_buffer[i]);
+    }
+    std::copy(
+            recv_buffer.begin(),
+            recv_buffer.begin() + sizeof(unsigned short),
+            reinterpret_cast<unsigned char *>(&messageSize)
     );
+    while(total_bytes < messageSize){
+        client->receiveBytes(recv_buffer, ATMA::NETWORKMESSAGEBUFFERSIZE, recv_bytes);
+        total_bytes += recv_bytes;
+        for(int i = 0; i < recv_bytes; i++)
+        {
+            wholeMessage.emplace_back(recv_buffer[i]);
+        }
+    }
+    ATMA::NetworkMessage nm = ATMA::NetworkSerde::deserialize(wholeMessage);
+    client->closeSocket();
+    EXPECT_EQ(nm.m_values.getAs<int>("port"), 4);
+    EXPECT_EQ(nm.m_values.getAs<std::string>("PlayerName"), "Player 1"s);
+
 }
 
 /**
@@ -98,15 +185,11 @@ TEST_F(NetworkFixture, SocketCanReceive)
  */
 TEST_F(NetworkClientHostFixture, HostCanAcceptConnection)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            this->m_host.startListening(this->m_port);
-            this->m_client.connect(this->m_address, this->m_port);
-            EXPECT_TRUE(this->m_host.acceptConnections() != std::nullopt);
-        }
-    );
+
+    this->m_host.startListening(this->m_port);
+    this->m_client.connect(this->m_address, this->m_port);
+    EXPECT_TRUE(this->m_host.acceptConnections() != std::nullopt);
+
 }
 
 /**
@@ -114,19 +197,15 @@ TEST_F(NetworkClientHostFixture, HostCanAcceptConnection)
  */
 TEST_F(NetworkClientHostFixture, ClientCanReconnect)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            this->m_host.startListening(this->m_port);
-            this->m_client.connect(this->m_address, this->m_port);
-            auto clientConn = this->m_host.acceptConnections();
-            this->m_client.disconnect();
-            this->m_host.closeConnection(clientConn.value());
-            this->m_client.connect(this->m_address, this->m_port);
-            EXPECT_TRUE(this->m_host.acceptConnections() != std::nullopt);
-        }
-    );
+
+    this->m_host.startListening(this->m_port);
+    this->m_client.connect(this->m_address, this->m_port);
+    auto clientConn = this->m_host.acceptConnections();
+    this->m_client.disconnect();
+    this->m_host.closeConnection(clientConn.value());
+    this->m_client.connect(this->m_address, this->m_port);
+    EXPECT_TRUE(this->m_host.acceptConnections() != std::nullopt);
+
 }
 
 /**
@@ -134,23 +213,18 @@ TEST_F(NetworkClientHostFixture, ClientCanReconnect)
  */
 TEST_F(NetworkClientHostFixture, HostCanRelisten)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            this->m_host.startListening(this->m_port);
-            this->m_client.connect(this->m_address, this->m_port);
-            auto clientConn = this->m_host.acceptConnections();
-            this->m_client.disconnect();
-            this->m_host.closeConnection(clientConn.value());
-            this->m_host.purgeConnections();
-            this->m_host.stopListening();
-            this->m_host.startListening(this->m_port);
-            this->m_client.connect(this->m_address, this->m_port);
-            EXPECT_TRUE(this->m_host.acceptConnections() != std::nullopt);
 
-        }
-    );
+    this->m_host.startListening(this->m_port);
+    this->m_client.connect(this->m_address, this->m_port);
+    auto clientConn = this->m_host.acceptConnections();
+    this->m_client.disconnect();
+    this->m_host.closeConnection(clientConn.value());
+    this->m_host.purgeConnections();
+    this->m_host.stopListening();
+    this->m_host.startListening(this->m_port);
+    this->m_client.connect(this->m_address, this->m_port);
+    EXPECT_TRUE(this->m_host.acceptConnections() != std::nullopt);
+
 }
 
 
@@ -160,33 +234,29 @@ TEST_F(NetworkClientHostFixture, HostCanRelisten)
  */
 TEST_F(NetworkClientHostFixture, ClientCanSend)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            this->m_host.startListening(this->m_port);
-            this->m_client.connect(this->m_address, this->m_port);
-            auto client = this->m_host.acceptConnections();
-            this->m_host.setBlocking(client.value(), false);
 
-            char send_msg[] = {'1', '2', '3', '\0'};
-            char recv_msg[] = {'0', '0', '0', '\0'};
-            std::span<char> send_buffer{send_msg};
-            std::span<char> recv_buffer{recv_msg};
-            size_t recv_bytes;
+    this->m_host.startListening(this->m_port);
+    this->m_client.connect(this->m_address, this->m_port);
+    auto client = this->m_host.acceptConnections();
+    this->m_host.setBlocking(client.value(), true);
 
-            this->m_client.sendBytes(send_buffer);
-            this->m_host.receiveBytes(client.value(), recv_buffer, recv_bytes);
-            ATMA_ENGINE_TRACE("Starting data check...");
-            for(int i = 0; i < 4; i++)
-            {
-                EXPECT_TRUE(recv_buffer.data()[i] == send_buffer.data()[i]);
-            }
-            ATMA_ENGINE_TRACE("Ending data check...");
-            EXPECT_TRUE(recv_bytes == 4);
-            ATMA_ENGINE_TRACE("Test complete...");
-        }
-    );
+    unsigned char send_msg[] = {'1', '2', '3', '\0'};
+    unsigned char recv_msg[] = {'0', '0', '0', '\0'};
+    std::span<unsigned char> send_buffer{send_msg};
+    std::span<unsigned char> recv_buffer{recv_msg};
+    size_t recv_bytes;
+
+    this->m_client.sendBytes(send_buffer, 4);
+    this->m_host.receiveBytes(client.value(), recv_buffer, 4, recv_bytes);
+    ATMA_ENGINE_TRACE("Starting data check...");
+    for(int i = 0; i < 4; i++)
+    {
+        EXPECT_EQ(recv_buffer.data()[i], send_buffer.data()[i]);
+    }
+    ATMA_ENGINE_TRACE("Ending data check...");
+    EXPECT_TRUE(recv_bytes == 4);
+    ATMA_ENGINE_TRACE("Test complete...");
+
 }
 
 /**
@@ -195,30 +265,25 @@ TEST_F(NetworkClientHostFixture, ClientCanSend)
  */
 TEST_F(NetworkClientHostFixture, HostCanSend)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            this->m_host.startListening(this->m_port);
-            this->m_client.connect(this->m_address, this->m_port);
-            auto client = this->m_host.acceptConnections();
-            this->m_host.setBlocking(client.value(), false);
+    this->m_host.startListening(this->m_port);
+    this->m_client.connect(this->m_address, this->m_port);
+    auto client = this->m_host.acceptConnections();
+    this->m_host.setBlocking(client.value(), false);
 
-            char send_msg[] = {'1', '2', '3', '\0'};
-            char recv_msg[] = {'0', '0', '0', '\0'};
-            std::span<char> send_buffer{send_msg};
-            std::span<char> recv_buffer{recv_msg};
-            size_t recv_bytes;
+    unsigned char send_msg[] = {'1', '2', '3', '\0'};
+    unsigned char recv_msg[] = {'0', '0', '0', '\0'};
+    std::span<unsigned char> send_buffer{send_msg};
+    std::span<unsigned char> recv_buffer{recv_msg};
+    size_t recv_bytes;
 
-            this->m_host.sendBytes(client.value(), send_buffer);
-            this->m_client.receiveBytes(recv_buffer, recv_bytes);
-            for(int i = 0; i < 4; i++)
-            {
-                EXPECT_TRUE(recv_buffer.data()[i] == send_buffer.data()[i]);
-            }
-            EXPECT_TRUE(recv_bytes == 4);
-        }
-    );
+    this->m_host.sendBytes(client.value(), send_buffer, 4);
+    this->m_client.receiveBytes(recv_buffer, 4, recv_bytes);
+    for(int i = 0; i < 4; i++)
+    {
+        EXPECT_EQ(recv_buffer.data()[i], send_buffer.data()[i]);
+    }
+    EXPECT_TRUE(recv_bytes == 4);
+
 }
 
 /**
@@ -227,23 +292,18 @@ TEST_F(NetworkClientHostFixture, HostCanSend)
  */
 TEST_F(NetworkClientHostFixture, HostCanAcceptTwoConnections)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            ATMA::NetworkClient secondClient{};
-            secondClient.setBlocking(false);
-            this->m_host.startListening(this->m_port);
-            this->m_client.connect(this->m_address, this->m_port);
-            auto firstConn = this->m_host.acceptConnections();
-            secondClient.connect(this->m_address, this->m_port);
-            auto secondConn = this->m_host.acceptConnections();
-            EXPECT_TRUE(firstConn != std::nullopt);
-            EXPECT_TRUE(secondConn != std::nullopt);
-            EXPECT_TRUE(firstConn.value() != secondConn.value());
-            secondClient.disconnect();
-        }
-    );
+    ATMA::NetworkClient secondClient{};
+    secondClient.setBlocking(false);
+    this->m_host.startListening(this->m_port);
+    this->m_client.connect(this->m_address, this->m_port);
+    auto firstConn = this->m_host.acceptConnections();
+    secondClient.connect(this->m_address, this->m_port);
+    auto secondConn = this->m_host.acceptConnections();
+    EXPECT_TRUE(firstConn != std::nullopt);
+    EXPECT_TRUE(secondConn != std::nullopt);
+    EXPECT_NE(firstConn.value(), secondConn.value());
+    secondClient.disconnect();
+
 }
 
 /**
@@ -251,46 +311,42 @@ TEST_F(NetworkClientHostFixture, HostCanAcceptTwoConnections)
  */
 TEST_F(NetworkClientHostFixture, HostCanReceiveTwoMessages)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            ATMA::NetworkClient secondClient{};
-            secondClient.setBlocking(false);
-            this->m_host.startListening(this->m_port);
-            this->m_client.connect(this->m_address,this->m_port);
-            auto firstConn = this->m_host.acceptConnections();
-            this->m_host.setBlocking(firstConn.value(), false);
-            secondClient.connect(this->m_address, this->m_port);
-            auto secondConn = this->m_host.acceptConnections();
-            m_host.setBlocking(secondConn.value(), false);
 
-            char send_msg[] = {'1', '2', '3', '\0'};
-            char recv_msg1[] = {'0', '0', '0', '\0'};
-            char recv_msg2[] = {'0', '0', '0', '\0'};
-            std::span<char> send_buffer{send_msg};
-            std::span<char> recv_buffer1{recv_msg1};
-            std::span<char> recv_buffer2{recv_msg2};
-            size_t recv_bytes1;
-            size_t recv_bytes2;
+    ATMA::NetworkClient secondClient{};
+    secondClient.setBlocking(false);
+    this->m_host.startListening(this->m_port);
+    this->m_client.connect(this->m_address,this->m_port);
+    auto firstConn = this->m_host.acceptConnections();
+    this->m_host.setBlocking(firstConn.value(), false);
+    secondClient.connect(this->m_address, this->m_port);
+    auto secondConn = this->m_host.acceptConnections();
+    m_host.setBlocking(secondConn.value(), false);
 
-            this->m_client.sendBytes(send_buffer);
-            this->m_host.receiveBytes(firstConn.value(), recv_buffer1, recv_bytes1);
+    unsigned char send_msg[] = {'1', '2', '3', '\0'};
+    unsigned char recv_msg1[] = {'0', '0', '0', '\0'};
+    unsigned char recv_msg2[] = {'0', '0', '0', '\0'};
+    std::span<unsigned char> send_buffer{send_msg};
+    std::span<unsigned char> recv_buffer1{recv_msg1};
+    std::span<unsigned char> recv_buffer2{recv_msg2};
+    size_t recv_bytes1;
+    size_t recv_bytes2;
 
-            secondClient.sendBytes(send_buffer);
-            this->m_host.receiveBytes(secondConn.value(), recv_buffer2, recv_bytes2);
+    this->m_client.sendBytes(send_buffer, 4);
+    this->m_host.receiveBytes(firstConn.value(), recv_buffer1, 4, recv_bytes1);
 
-            for(int i = 0; i < 4; i++)
-            {
-                EXPECT_TRUE(recv_buffer1.data()[i] == send_buffer.data()[i]);
-                EXPECT_TRUE(recv_buffer2.data()[i] == send_buffer.data()[i]);
-            }
-            EXPECT_TRUE(recv_bytes1 == 4);
-            EXPECT_TRUE(recv_bytes2 == 4);
+    secondClient.sendBytes(send_buffer,4);
+    this->m_host.receiveBytes(secondConn.value(), recv_buffer2, 4, recv_bytes2);
 
-            secondClient.disconnect();
-        }
-    );
+    for(int i = 0; i < 4; i++)
+    {
+        EXPECT_TRUE(recv_buffer1.data()[i] == send_buffer.data()[i]);
+        EXPECT_TRUE(recv_buffer2.data()[i] == send_buffer.data()[i]);
+    }
+    EXPECT_TRUE(recv_bytes1 == 4);
+    EXPECT_TRUE(recv_bytes2 == 4);
+
+    secondClient.disconnect();
+
 }
 
 /**
@@ -298,46 +354,40 @@ TEST_F(NetworkClientHostFixture, HostCanReceiveTwoMessages)
  */
 TEST_F(NetworkClientHostFixture, HostCanSendTwoMessages)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            ATMA::NetworkClient secondClient{};
-            secondClient.setBlocking(false);
-            this->m_host.startListening(this->m_port);
-            this->m_client.connect(this->m_address, this->m_port);
-            auto firstConn = this->m_host.acceptConnections();
-            this->m_host.setBlocking(firstConn.value(), false);
-            secondClient.connect(this->m_address, this->m_port);
-            auto secondConn = this->m_host.acceptConnections();
-            m_host.setBlocking(secondConn.value(), false);
+    ATMA::NetworkClient secondClient{};
+    secondClient.setBlocking(false);
+    this->m_host.startListening(this->m_port);
+    this->m_client.connect(this->m_address, this->m_port);
+    auto firstConn = this->m_host.acceptConnections();
+    this->m_host.setBlocking(firstConn.value(), false);
+    secondClient.connect(this->m_address, this->m_port);
+    auto secondConn = this->m_host.acceptConnections();
+    m_host.setBlocking(secondConn.value(), false);
 
-            char send_msg[] = {'1', '2', '3', '\0'};
-            char recv_msg1[] = {'0', '0', '0', '\0'};
-            char recv_msg2[] = {'0', '0', '0', '\0'};
-            std::span<char> send_buffer{send_msg};
-            std::span<char> recv_buffer1{recv_msg1};
-            std::span<char> recv_buffer2{recv_msg2};
-            size_t recv_bytes1;
-            size_t recv_bytes2;
+    unsigned char send_msg[] = {'1', '2', '3', '\0'};
+    unsigned char recv_msg1[] = {'0', '0', '0', '\0'};
+    unsigned char recv_msg2[] = {'0', '0', '0', '\0'};
+    std::span<unsigned char> send_buffer{send_msg};
+    std::span<unsigned char> recv_buffer1{recv_msg1};
+    std::span<unsigned char> recv_buffer2{recv_msg2};
+    size_t recv_bytes1;
+    size_t recv_bytes2;
 
-            this->m_host.sendBytes(firstConn.value(), send_buffer);
-            this->m_client.receiveBytes(recv_buffer1, recv_bytes1);
+    this->m_host.sendBytes(firstConn.value(), send_buffer, 4);
+    this->m_client.receiveBytes(recv_buffer1, 4, recv_bytes1);
 
-            this->m_host.sendBytes(secondConn.value(), send_buffer);
-            secondClient.receiveBytes(recv_buffer2, recv_bytes2);
+    this->m_host.sendBytes(secondConn.value(), send_buffer, 4);
+    secondClient.receiveBytes(recv_buffer2, 4, recv_bytes2);
 
-            for(int i = 0; i < 4; i++)
-            {
-                EXPECT_TRUE(recv_buffer1.data()[i] == send_buffer.data()[i]);
-                EXPECT_TRUE(recv_buffer2.data()[i] == send_buffer.data()[i]);
-            }
-            EXPECT_TRUE(recv_bytes1 == 4);
-            EXPECT_TRUE(recv_bytes2 == 4);
+    for(int i = 0; i < 4; i++)
+    {
+        EXPECT_TRUE(recv_buffer1.data()[i] == send_buffer.data()[i]);
+        EXPECT_TRUE(recv_buffer2.data()[i] == send_buffer.data()[i]);
+    }
+    EXPECT_TRUE(recv_bytes1 == 4);
+    EXPECT_TRUE(recv_bytes2 == 4);
 
-            secondClient.disconnect();
-        }
-    );
+    secondClient.disconnect();
 }
 
 /**
@@ -345,42 +395,37 @@ TEST_F(NetworkClientHostFixture, HostCanSendTwoMessages)
  */
 TEST_F(NetworkClientHostFixture, HostCanBroadcastMessages)
 {
-    ATMA::RetryExecutor::withRetries(
-        3,
-        [&]() -> void
-        {
-            ATMA::NetworkClient secondClient{};
-            secondClient.setBlocking(false);
-            this->m_host.startListening(this->m_port);
-            this->m_client.connect(this->m_address, this->m_port);
-            auto firstConn = this->m_host.acceptConnections();
-            this->m_host.setBlocking(firstConn.value(), false);
-            secondClient.connect(this->m_address, this->m_port);
-            auto secondConn = this->m_host.acceptConnections();
-            m_host.setBlocking(secondConn.value(), false);
 
-            char send_msg[] = {'1', '2', '3', '\0'};
-            char recv_msg1[] = {'0', '0', '0', '\0'};
-            char recv_msg2[] = {'0', '0', '0', '\0'};
-            std::span<char> send_buffer{send_msg};
-            std::span<char> recv_buffer1{recv_msg1};
-            std::span<char> recv_buffer2{recv_msg2};
-            size_t recv_bytes1;
-            size_t recv_bytes2;
+    ATMA::NetworkClient secondClient{};
+    secondClient.setBlocking(false);
+    this->m_host.startListening(this->m_port);
+    this->m_client.connect(this->m_address, this->m_port);
+    auto firstConn = this->m_host.acceptConnections();
+    this->m_host.setBlocking(firstConn.value(), false);
+    secondClient.connect(this->m_address, this->m_port);
+    auto secondConn = this->m_host.acceptConnections();
+    m_host.setBlocking(secondConn.value(), false);
 
-            this->m_host.broadcastBytes(send_buffer);
-            this->m_client.receiveBytes(recv_buffer1, recv_bytes1);
-            secondClient.receiveBytes(recv_buffer2, recv_bytes2);
+    unsigned char send_msg[] = {'1', '2', '3', '\0'};
+    unsigned char recv_msg1[] = {'0', '0', '0', '\0'};
+    unsigned char recv_msg2[] = {'0', '0', '0', '\0'};
+    std::span<unsigned char> send_buffer{send_msg};
+    std::span<unsigned char> recv_buffer1{recv_msg1};
+    std::span<unsigned char> recv_buffer2{recv_msg2};
+    size_t recv_bytes1;
+    size_t recv_bytes2;
 
-            for(int i = 0; i < 4; i++)
-            {
-                EXPECT_TRUE(recv_buffer1.data()[i] == send_buffer.data()[i]);
-                EXPECT_TRUE(recv_buffer2.data()[i] == send_buffer.data()[i]);
-            }
-            EXPECT_TRUE(recv_bytes1 == 4);
-            EXPECT_TRUE(recv_bytes2 == 4);
+    this->m_host.broadcastBytes(send_buffer, 4);
+    this->m_client.receiveBytes(recv_buffer1, 4, recv_bytes1);
+    secondClient.receiveBytes(recv_buffer2, 4, recv_bytes2);
 
-            secondClient.disconnect();
-        }
-    );
+    for(int i = 0; i < 4; i++)
+    {
+        EXPECT_TRUE(recv_buffer1.data()[i] == send_buffer.data()[i]);
+        EXPECT_TRUE(recv_buffer2.data()[i] == send_buffer.data()[i]);
+    }
+    EXPECT_TRUE(recv_bytes1 == 4);
+    EXPECT_TRUE(recv_bytes2 == 4);
+
+    secondClient.disconnect();
 }

@@ -73,6 +73,7 @@ namespace ATMA
             ATMA_ENGINE_INFO("No connection was accepted");
             return nullptr;
         }
+
         return m_client;
     }
 

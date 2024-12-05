@@ -81,6 +81,9 @@
 #include "network/SocketListener.hpp"
 #include "network/NetworkClient.hpp"
 #include "network/NetworkHost.hpp"
+#include "network/NetworkMessageTypes.hpp"
+#include "network/NetworkMessage.hpp"
+#include "network/NetworkSerde.hpp"
 
 // GUI
 #include "GUI/AppWindow.hpp"

@@ -56,7 +56,7 @@ namespace ATMA
          * @param l_buffer array view of the bytes
          * @return if the operation was successful
          */
-        virtual bool sendBytes(const std::span<char> &l_buffer) override;
+        virtual bool sendBytes(const std::span<unsigned char> &l_buffer, const size_t &l_size) override;
 
         /**
          * receives bytes from a remote server over the socket
@@ -64,12 +64,12 @@ namespace ATMA
          * @param l_receivedBytes stores the amount of bytes actually received
          * @return if the operation was successful
          */
-        virtual bool receiveBytes(std::span<char> &l_buffer, size_t &l_receivedBytes) override;
+        virtual bool receiveBytes(std::span<unsigned char> &l_buffer, const size_t &l_size, size_t &l_receivedBytes) override;
 
         friend class SocketListenerWinImpl;
+        SOCKET m_socket = INVALID_SOCKET;
     private:
         addrinfo *m_addrinfo = NULL, m_hints;
-        SOCKET m_socket = INVALID_SOCKET;
     };
 
 }

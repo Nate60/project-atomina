@@ -68,9 +68,9 @@ namespace ATMA
         }
     }
 
-    bool SocketUnixImpl::sendBytes(const std::span<char> &l_buffer)
+    bool SocketUnixImpl::sendBytes(const std::span<unsigned char> &l_buffer, const size_t &l_size)
     {
-        int result = send(m_socket, l_buffer.data(), l_buffer.size(), 0);
+        int result = send(m_socket, reinterpret_cast<const char *>(l_buffer.data()), l_size, 0);
         if(result < 0)
         {
             ATMA_ENGINE_WARN("Socket failed to send bytes: {0}", errno);
@@ -80,9 +80,9 @@ namespace ATMA
         return true;
     }
 
-    bool SocketUnixImpl::receiveBytes(std::span<char> &l_buffer, size_t &l_receivedBytes)
+    bool SocketUnixImpl::receiveBytes(std::span<unsigned char> &l_buffer, const size_t &l_size, size_t &l_receivedBytes)
     {
-        int result = read(m_socket, l_buffer.data(), l_buffer.size());
+        int result = read(m_socket, reinterpret_cast<char *>(l_buffer.data()), l_size);
         if(result >= 0)
         {
             l_receivedBytes = result;
