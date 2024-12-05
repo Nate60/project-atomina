@@ -1,5 +1,5 @@
 # set the project name and version
-project(Atomina_Game VERSION 0.1.2)
+project(Atomina_Game VERSION 0.1.3)
 
 file(GLOB_RECURSE atomina_game_src CONFIGURE_DEPENDS "*.hpp" "*.cpp")
 list(FILTER atomina_game_src EXCLUDE REGEX ".*\/cmake\/.*")

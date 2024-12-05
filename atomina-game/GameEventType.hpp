@@ -7,8 +7,10 @@
 enum class GameEventEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::ObjectEvent::COUNT),
-    GAMEOVER,
-    FLAP,
+    CONNECT,
+    DISCONNECT,
+    SYNC,
+
 };
 
 /**

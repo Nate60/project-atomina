@@ -78,9 +78,9 @@ namespace ATMA
         }
     }
 
-    bool SocketWinImpl::sendBytes(const std::span<char> &l_buffer)
+    bool SocketWinImpl::sendBytes(const std::span<unsigned char> &l_buffer, const size_t &l_size)
     {
-        int result = send(m_socket, l_buffer.data(), l_buffer.size(), 0);
+        int result = send(m_socket, reinterpret_cast<char*>(l_buffer.data()), l_size, 0);
         if(result == SOCKET_ERROR)
         {
             ATMA_ENGINE_WARN("Socket failed to send bytes: {0}", WSAGetLastError());
@@ -90,9 +90,13 @@ namespace ATMA
         return true;
     }
 
-    bool SocketWinImpl::receiveBytes(std::span<char> &l_buffer, size_t &l_receivedBytes)
+    bool SocketWinImpl::receiveBytes(
+        std::span<unsigned char> &l_buffer,
+        const size_t &l_size,
+        size_t &l_receivedBytes
+    )
     {
-        int result = recv(m_socket, l_buffer.data(), l_buffer.size(), 0);
+        int result = recv(m_socket, reinterpret_cast<char *>(l_buffer.data()), l_size, 0);
         if(result > 0)
         {
             l_receivedBytes = result;

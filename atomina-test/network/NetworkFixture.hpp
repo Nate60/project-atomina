@@ -66,3 +66,4 @@ protected:
         ATMA_ENGINE_TRACE("stopped teardown...");
     }
 };
+
