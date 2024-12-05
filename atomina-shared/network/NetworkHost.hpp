@@ -73,17 +73,8 @@ namespace ATMA
          * @param l_bytes: byte buffer to send to all clients
          * @return if all message sends were successful
          */
-        template<size_t N>
-        bool broadcastBytes(const std::span<char, N> &l_bytes)
-        {
-            bool b{true};
-            for(auto &l_client: m_clients)
-            {
-                if(!(l_client.second->sendBytes(l_bytes)))
-                    b = false;
-            }
-            return b;
-        }
+        bool broadcastBytes(const std::span<unsigned char> &l_bytes, const size_t &l_size);
+
 
         /**
          * send bytes to corresponding client
@@ -92,12 +83,12 @@ namespace ATMA
          * @param l_bytes: byte buffer containing bytes to send
          * @return if successful
          */
-        template<size_t N>
-        bool sendBytes(const ClientId &l_client, const std::span<char, N> &l_bytes)
-        {
-            ATMA_ENGINE_INFO("Network Host is sending {0} bytes over port: {1}", N, m_port);
-            return m_clients[l_client]->sendBytes(l_bytes);
-        }
+        bool sendBytes(
+            const ClientId &l_client,
+            const std::span<unsigned char> &l_bytes,
+            const size_t &l_size
+        );
+
 
         /**
          * receive bytes from a client connection
@@ -108,23 +99,13 @@ namespace ATMA
          * @param l_receivedBytes: the amount of bytes received
          * @return if successful
          */
-        template<size_t N>
         bool receiveBytes(
             const ClientId &l_client,
-            std::span<char, N> &l_buffer,
+            std::span<unsigned char> &l_buffer,
+            const size_t &l_size,
             size_t &l_receivedBytes
-        )
-        {
-            if(auto res = m_clients[l_client]->receiveBytes(l_buffer, l_receivedBytes); res)
-            {
-                ATMA_ENGINE_INFO(
-                    "Network Host has received {0} bytes over port: {1}", l_receivedBytes, m_port
-                );
-                return true;
-            }
-            else
-                return false;
-        }
+        );
+
 
         NetworkHost &operator=(NetworkHost &&l_other);
     protected:

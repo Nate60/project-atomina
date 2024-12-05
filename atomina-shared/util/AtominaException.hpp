@@ -67,6 +67,17 @@ namespace ATMA
     };
 
     /**
+     * exception for Serialization and Deserialization
+     */
+    struct SerializationException : public AtominaException
+    {
+        SerializationException(const std::string &l_message) noexcept: AtominaException(l_message)
+        {
+        }
+    };
+
+
+    /**
     * exception for timer related errors
     */
     struct TimeException : public AtominaException

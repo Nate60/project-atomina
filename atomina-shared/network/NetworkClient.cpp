@@ -52,5 +52,36 @@ namespace ATMA
         m_socket = std::move(l_other.m_socket);
         return *this;
     }
+    
+    void NetworkClient::sendBytes(const std::span<unsigned char> &l_bytes, const size_t &l_size)
+    {
+        if(!(m_socket->sendBytes(l_bytes, l_size)))
+            throw NetworkException(
+                "Unable to send bytes to remote address [" + m_addr.getIP() + ":"
+                + std::to_string(m_port) + "]"
+            );
+        else
+            ATMA_ENGINE_INFO(
+                "Network Client sent {0} bytes over: {1}:{2}", l_size, m_addr.getIP(), m_port
+            );
+    }
+    
+    void NetworkClient::receiveBytes(
+        std::span<unsigned char> &l_buffer,
+        const size_t &l_size,
+        size_t &l_receivedBytes
+    )
+    {
+        std::span<unsigned char> buf{l_buffer};
+        if(!(m_socket->receiveBytes(buf, l_size, l_receivedBytes)))
+            throw NetworkException("Unable to receive bytes");
+        else
+            ATMA_ENGINE_INFO(
+                "Network Client received {0} bytes over: {1}:{2}",
+                l_receivedBytes,
+                m_addr.getIP(),
+                m_port
+            );
+    }
 
 }
