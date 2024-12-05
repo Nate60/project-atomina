@@ -1,7 +1,7 @@
 # list(APPEND VCPKG_TARGET_TRIPLET "x64-windows")
 
 # set the project name and version
-project(Atomina_Test VERSION 0.1.2)
+project(Atomina_Test VERSION 0.1.3)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 20 FORCE)

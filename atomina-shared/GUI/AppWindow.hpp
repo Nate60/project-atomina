@@ -2,6 +2,7 @@
 #include "pch.hpp"
 #include "math/Vec2.hpp"
 #include "util/Log.hpp"
+#include "util/Props.hpp"
 #include "GUI/WindowEvent.hpp"
 
 

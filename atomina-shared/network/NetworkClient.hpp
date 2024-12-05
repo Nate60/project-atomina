@@ -48,19 +48,7 @@ namespace ATMA
          *  @tparam size of the buffer
          *  @param l_bytes: array of bytes to send
          */
-        template<size_t N>
-        void sendBytes(const std::span<char, N> &l_bytes)
-        {
-            if(!(m_socket->sendBytes(l_bytes)))
-                throw NetworkException(
-                    "Unable to send bytes to remote address [" + m_addr.getIP() + ":"
-                    + std::to_string(m_port) + "]"
-                );
-            else
-                ATMA_ENGINE_INFO(
-                    "Network Client sent {0} bytes over: {1}:{2}", N, m_addr.getIP(), m_port
-                );
-        }
+        void sendBytes(const std::span<unsigned char> &l_bytes, const size_t &l_size);
 
         /**
          * receive bytes from socket. enforces buffer size so that way there is not buffer overflow
@@ -68,19 +56,12 @@ namespace ATMA
          * @param l_buffer: buffer to put bytes into
          * @param l_receivedBytes: length of received buffer
          */
-        template<size_t N>
-        void receiveBytes(std::span<char, N> &l_buffer, size_t &l_receivedBytes)
-        {
-            if(!(m_socket->receiveBytes(l_buffer, l_receivedBytes)))
-                throw NetworkException("Unable to receive bytes");
-            else
-                ATMA_ENGINE_INFO(
-                    "Network Client received {0} bytes over: {1}:{2}",
-                    l_receivedBytes,
-                    m_addr.getIP(),
-                    m_port
-                );
-        }
+        void receiveBytes(
+            std::span<unsigned char> &l_buffer,
+            const size_t &l_size,
+            size_t &l_receivedBytes
+        );
+
 
         NetworkClient &operator=(NetworkClient &&l_other);
     protected:

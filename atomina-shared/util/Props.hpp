@@ -28,12 +28,25 @@ namespace ATMA
             return !(itr == m_self.end());
         }
     public:
+
         /**
          * default constructor can specifiy if the object should
          * be case sensitive
          * @param l_isCaseSensitive toggle case sensitivity
          */
-        Props(const bool &l_isCaseSensitive = false);
+        Props(
+            const bool &l_isCaseSensitive
+        );
+
+        /**
+         * constructor can specifiy if the object should
+         * be case sensitive and also the values
+         * @param l_isCaseSensitive toggle case sensitivity
+         */
+        Props(
+            const std::map<std::string, std::any> &l_values = {},
+            const bool &l_isCaseSensitive = false
+        );
 
         /**
          * copy constructor
@@ -57,28 +70,57 @@ namespace ATMA
          * @param l_key string key to get value
          * @returns the associated any object containing the value
          */
-        std::any &operator[](const std::string &l_key);
-
+        inline std::any &operator[](const std::string &l_key)
+        {
+            if(!m_caseSensitve)
+            {
+                auto newKey = l_key;
+                std::transform(newKey.begin(), newKey.end(), newKey.begin(), ::toupper);
+                return m_self[newKey];
+            }
+            else
+                return m_self[l_key];
+        }
         /**
          * overloaded operator to access const values of inner map
          * @param l_key string key to get value
          * @returns the associated any object containing the value
          */
-        const std::any &operator[](const std::string &l_key) const;
+        inline const std::any &operator[](const std::string &l_key) const
+        {
+            if(!m_caseSensitve)
+            {
+                auto newKey = l_key;
+                std::transform(newKey.begin(), newKey.end(), newKey.begin(), ::toupper);
+                return m_self.at(newKey);
+            }
+            else
+                return m_self.at(l_key);
+        }
 
         /**
          * copy operator
          * @param l_other existing props object
          * @returns new props object from copied object
          */
-        Props &operator=(const Props &l_other);
+        inline Props &operator=(const Props &l_other)
+        {
+            m_self = l_other.m_self;
+            m_caseSensitve = l_other.m_caseSensitve;
+            return *this;
+        }
 
         /**
          * move operator
          * @param l_other existing r value reference props
          * @returns new props objects from moved object
          */
-        Props &operator=(Props &&l_other);
+        inline Props &operator=(Props &&l_other)
+        {
+            m_self = std::move(l_other.m_self);
+            m_caseSensitve = std::move(l_other.m_caseSensitve);
+            return *this;
+        }
 
         /**
          * gets the value from the associated key and type
@@ -129,7 +171,35 @@ namespace ATMA
          * removes the key and value from the map
          * @param l_key key to remove key value pair from map
          */
-        void remove(const std::string &l_key);
+        inline void remove(const std::string &l_key)
+        {
+            if(!m_caseSensitve)
+            {
+                auto newKey = l_key;
+                std::transform(newKey.begin(), newKey.end(), newKey.begin(), ::toupper);
+                auto itr = m_self.find(newKey);
+                if(itr == m_self.end())
+                {
+                    throw ValueNotFoundException("Properites does not contain key " + newKey);
+                }
+                else
+                {
+                    m_self.erase(itr);
+                }
+            }
+            else
+            {
+                auto itr = m_self.find(l_key);
+                if(itr == m_self.end())
+                {
+                    throw ValueNotFoundException("Properites does not contain key " + l_key);
+                }
+                else
+                {
+                    m_self.erase(itr);
+                }
+            }
+        }
 
         /**
          * checks to see if map contains the key
@@ -137,19 +207,65 @@ namespace ATMA
          * @param l_key the key to check for
          * @returns if the key is found
          */
-        bool contains(const std::string &l_key) const;
+        inline bool contains(const std::string &l_key) const
+        {
+            if(!m_caseSensitve)
+            {
+                auto newKey = l_key;
+                std::transform(newKey.begin(), newKey.end(), newKey.begin(), ::toupper);
+                return hasKeyPostTransform(newKey);
+            }
+            else
+            {
+                return hasKeyPostTransform(l_key);
+            }
+        }
+
+        /**
+         * check the size of the map
+         * @returns size of the map
+         */
+        inline size_t size() const
+        {
+            return m_self.size();
+        }
+
 
         /**
          * gives the iterator to the underlying map
          * @returns iterator to beginning of the map
          */
-        std::unordered_map<std::string,std::any>::iterator begin();
+        inline std::unordered_map<std::string,std::any>::iterator begin()
+        {
+           return m_self.begin();
+        }
 
         /**
          * gives the iterator for the end of map
          * @returns iterator to end of the map
          */
-        std::unordered_map<std::string,std::any>::iterator end();
+        inline std::unordered_map<std::string,std::any>::iterator end()
+        {
+            return m_self.end();
+        }
+        
+        /**
+         * gives the iterator to the underlying map
+         * @returns iterator to beginning of the map
+         */
+        inline std::unordered_map<std::string, std::any>::const_iterator begin() const
+        {
+            return m_self.begin();
+        }
+
+        /**
+         * gives the iterator for the end of map
+         * @returns iterator to end of the map
+         */
+        inline std::unordered_map<std::string, std::any>::const_iterator end() const
+        {
+            return m_self.end();
+        }
     };
 
 }

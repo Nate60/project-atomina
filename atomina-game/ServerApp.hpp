@@ -10,6 +10,8 @@
  */
 class ServerApp: public ATMA::Server
 {
+protected:
+    std::optional<unsigned int> conn_opt = std::nullopt;
 public:
 
     ATMA::NetworkHost m_host{};
