@@ -31,7 +31,7 @@ namespace ATMA
         ObjectEventType(const unsigned int &l_int): m_type(static_cast<ObjectEvent>(l_int)) {}
 
         // conversion operator
-        operator unsigned int()
+        inline operator unsigned int() const
         {
             return static_cast<unsigned int>(m_type);
         }
