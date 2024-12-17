@@ -33,13 +33,3 @@ protected:
         return std::make_pair(t, value);
     }
 };
-
-//template<>
-//class TypedNetworkMessageFixture<std::string>
-//{
-//protected:
-//    std::pair<unsigned char, std::any> getSomeProperty(unsigned char t)
-//    {
-//        return std::make_pair(ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::STRING),"abcdefghijkl");
-//    }
-//};

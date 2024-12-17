@@ -66,8 +66,8 @@ namespace ATMA
         NetworkClient &operator=(NetworkClient &&l_other);
     protected:
         std::unique_ptr<Socket> m_socket;
-        URL m_addr;
-        unsigned short m_port;
+        URL m_addr{};
+        unsigned short m_port{};
     };
 
 }

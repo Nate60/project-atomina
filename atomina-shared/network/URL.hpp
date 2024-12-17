@@ -11,11 +11,9 @@ namespace ATMA
     class URL
     {
     public:
-        // default constructor
-        URL();
 
         // constructor specifying IP
-        URL(const std::string &l_url);
+        URL(const std::string &l_url = std::string{"127.0.0.1"});
 
         // deconstructor
         virtual ~URL();

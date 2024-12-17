@@ -6,7 +6,7 @@
  * Dummy system for testing internals of ATMA Contexts
  * and implementations that require systems
  */
-class TestSystem: public ATMA::SysBase
+class TestSystem: public ATMA::SysBase, public ATMA::NetworkMessageListener
 {
 private:
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
@@ -28,4 +28,6 @@ public:
      * @param l_e event details of the passed event
      */
     virtual void notify(const ATMA::ObjectEventContext &l_e) override;
+
+    virtual void notify(const std::optional<const unsigned int> &l_id, const ATMA::NetworkMessage &l_msg) override;
 };

@@ -16,6 +16,15 @@ TestSystem::notify(const ATMA::ObjectEventContext &l_e)
     }
 }
 
+void TestSystem::notify(const std::optional<const unsigned int> &l_id, const ATMA::NetworkMessage &l_msg)
+{
+    for(auto &obj: m_objects)
+    {
+        std::shared_ptr<TestAttribute> attr = ctx.getAttribute<TestAttribute>(obj.second, 0u);
+        attr->flag = true;
+    }
+}
+
 void
 TestSystem::update(const long long &l_dt)
 {

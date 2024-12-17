@@ -22,7 +22,7 @@ namespace ATMA
          * pass the event details to the object to be handled
          * @param l_e event details
          */
-        virtual void notify(const NetworkMessage &l_e) = 0;
+        virtual void notify(const std::optional<const unsigned int> &l_id, const NetworkMessage &l_e) = 0;
 
         /**
          * checks if the object is actively listening
@@ -30,10 +30,10 @@ namespace ATMA
          */
         bool isEnabled()
         {
-            return m_enabled;
+            return m_netEnabled;
         }
     protected:
-        bool m_enabled = true;
+        bool m_netEnabled = true;
     };
 
 }

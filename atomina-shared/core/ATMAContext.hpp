@@ -15,6 +15,7 @@
 #include "resource/loaders/GLTextureLoader.hpp"
 #include "resource/loaders/GLShaderLoader.hpp"
 #include "resource/loaders/DummyResourceLoader.hpp"
+#include "network/NetworkManager.hpp"
 #include "GUI/AppWindow.hpp"
 #include "render/GLRenderer.hpp"
 #ifdef _WINDOWS
@@ -72,6 +73,8 @@ namespace ATMA
     public:
         // destructor
         ~ATMAContext();
+
+        
     protected:
         std::chrono::steady_clock m_engineClock{};
         std::chrono::time_point<std::chrono::steady_clock> m_lastUpdate = m_engineClock.now();
@@ -123,7 +126,10 @@ namespace ATMA
          * @param l_systemID id of the system that has changed
          */
         void systemUpdated(const unsigned int &l_systemID);
+
+        NetworkManager networkManager {};
     public:
+        NetworkManager &netManager{networkManager};
         // deleted functions
         ATMAContext(ATMAContext const &) = delete;
         void operator=(ATMAContext const &) = delete;

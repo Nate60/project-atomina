@@ -84,6 +84,7 @@
 #include "network/NetworkMessageTypes.hpp"
 #include "network/NetworkMessage.hpp"
 #include "network/NetworkSerde.hpp"
+#include "network/NetworkManager.hpp"
 
 // GUI
 #include "GUI/AppWindow.hpp"

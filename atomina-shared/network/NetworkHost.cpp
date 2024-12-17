@@ -42,6 +42,7 @@ namespace ATMA
 
         if(std::unique_ptr<Socket> l_client = m_listener->acceptConnection(); l_client != nullptr)
         {
+            ATMA_ENGINE_INFO("Accepted client connection, giving id {}", m_nextId); 
             auto id = m_nextId;
             m_nextId++;
             m_clients[id] = std::move(l_client);
@@ -73,6 +74,7 @@ namespace ATMA
 
     void NetworkHost::setBlocking(const ClientId &l_client, const bool &l_block)
     {
+        ATMA_ENGINE_INFO("Setting client with id {} to block {}", l_client, l_block);
         m_clients[l_client]->setBlocking(l_block);
     }
 

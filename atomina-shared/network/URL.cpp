@@ -3,8 +3,6 @@
 
 namespace ATMA
 {
-    URL::URL(): m_addr("127.0.0.1") {}
-
     URL::URL(const std::string &l_url): m_addr(l_url) {}
 
     URL::~URL() {}

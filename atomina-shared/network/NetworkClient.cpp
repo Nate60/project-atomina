@@ -25,7 +25,6 @@ namespace ATMA
     {
         m_addr = l_addr;
         m_port = l_port;
-        ATMA_ENGINE_INFO("Network Client created for IP: {0} : {1}", m_addr.getIP(), m_port);
         if(!(m_socket->connectSocket(m_addr, m_port)))
             throw NetworkException(
                 "Unable to connect to remote address [" + m_addr.getIP() + ":"
