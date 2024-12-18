@@ -40,12 +40,12 @@ namespace ATMA
         // need to create a pointer to new object on heap so that it can live outside the function
         // scope
 
-        if(std::unique_ptr<Socket> l_client = m_listener->acceptConnection(); l_client != nullptr)
+        if(std::shared_ptr<Socket> l_client = m_listener->acceptConnection(); l_client != nullptr)
         {
             ATMA_ENGINE_INFO("Accepted client connection, giving id {}", m_nextId); 
             auto id = m_nextId;
             m_nextId++;
-            m_clients[id] = std::move(l_client);
+            m_clients[id] = l_client;
             return id;
         }
         else

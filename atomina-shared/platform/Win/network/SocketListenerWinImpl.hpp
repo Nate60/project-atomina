@@ -45,7 +45,7 @@ namespace ATMA
          * accepts a connection if there is a socket waiting
          * @return either a nullptr or a pointer to an active socket
          */
-        virtual std::unique_ptr<Socket> acceptConnection() override;
+        virtual std::shared_ptr<Socket> acceptConnection() override;
     private:
         addrinfo *m_addrinfo = NULL, m_hints;
         SOCKET m_listener = INVALID_SOCKET;

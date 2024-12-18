@@ -20,7 +20,7 @@ namespace ATMA
     class NetworkHost
     {
         using ClientId = unsigned int;
-        using ClientMap = std::unordered_map<ClientId, std::unique_ptr<Socket>>;
+        using ClientMap = std::unordered_map<ClientId, std::shared_ptr<Socket>>;
     public:
         // constructor specifying the port to listen on
         NetworkHost();

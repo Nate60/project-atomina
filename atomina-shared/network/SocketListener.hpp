@@ -13,7 +13,7 @@ namespace ATMA
     {
     public:
         // constructor specifying port
-        SocketListener(const unsigned int &l_port);
+        SocketListener(const unsigned short &l_port);
 
         // deconstructor
         virtual ~SocketListener();
@@ -34,7 +34,9 @@ namespace ATMA
          * accepts a connection if there is a socket waiting
          * @return either a nullptr or a pointer to an active socket
          */
-        virtual std::unique_ptr<Socket> acceptConnection() = 0;
+        virtual std::shared_ptr<Socket> acceptConnection() = 0;
+
+        static std::shared_ptr<SocketListener> makeSocketListener(const unsigned short &l_port);
 
         const unsigned short m_port;
     };

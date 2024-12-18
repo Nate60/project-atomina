@@ -8,8 +8,11 @@
 
 namespace ATMA
 {
+    using ClientId = unsigned int;
+    using ClientMap = std::unordered_map<ClientId, std::unique_ptr<Socket>>;
     using NetworkMessageTypeID = unsigned int;
     using MessageListeners = std::unordered_map<NetworkMessageTypeID, std::vector<std::shared_ptr<NetworkMessageListener>>>;
+    
 
     class NetworkManager
     {
@@ -39,14 +42,14 @@ namespace ATMA
         void purgeListeners();
 
     protected:
-        bool m_listening{false};
         bool m_connected{false};
-        std::unique_ptr<std::jthread> m_listeningThread = nullptr;
-        std::unique_ptr<std::jthread> m_connectionThread = nullptr;
-        std::unordered_map<unsigned int, std::jthread> m_receivingThreads{};
-        NetworkHost m_host{};
-        NetworkClient m_conn{};
+        bool m_listening{false};
+        std::shared_ptr<Socket> m_connSocket;
+        URL m_addr{};
+        unsigned short m_hostPort{};
+        std::shared_ptr<SocketListener> m_listenerSocket;
+        ClientMap m_clients;
+        ClientId m_nextId = 0;
         MessageListeners m_listeners{};
-
     };
 }

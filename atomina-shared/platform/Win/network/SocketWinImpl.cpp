@@ -52,6 +52,7 @@ namespace ATMA
             return false;
         }
 
+        ATMA_ENGINE_TRACE("Created WinSock with handle {}", m_socket);
         return true;
     }
 
@@ -65,7 +66,7 @@ namespace ATMA
 
     void SocketWinImpl::setBlocking(const bool &l_bool)
     {
-
+        ATMA_ENGINE_TRACE("Setting WinSock with handle {} to blocking={}", m_socket, l_bool);
         if(!l_bool)
         {
             unsigned long ul = 1;
@@ -76,10 +77,12 @@ namespace ATMA
             unsigned long ul = 0;
             ioctlsocket(m_socket, FIONBIO, (unsigned long *)&ul);
         }
+  
     }
 
     bool SocketWinImpl::sendBytes(const std::span<unsigned char> &l_buffer, const size_t &l_size)
     {
+        ATMA_ENGINE_TRACE("Sending bytes over WinSock with handle {}", m_socket);
         int result = send(m_socket, reinterpret_cast<char*>(l_buffer.data()), l_size, 0);
         if(result == SOCKET_ERROR)
         {
@@ -96,6 +99,7 @@ namespace ATMA
         size_t &l_receivedBytes
     )
     {
+        ATMA_ENGINE_TRACE("Receiving bytes over WinSock with handle {}", m_socket);
         int result = recv(m_socket, reinterpret_cast<char *>(l_buffer.data()), l_size, 0);
         if(result > 0)
         {

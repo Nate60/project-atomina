@@ -62,9 +62,9 @@ namespace ATMA
         return true;
     }
 
-    std::unique_ptr<Socket> SocketListenerUnixImpl::acceptConnection()
+    std::shared_ptr<Socket> SocketListenerUnixImpl::acceptConnection()
     {
-        std::unique_ptr<SocketUnixImpl> m_client = std::make_unique<SocketUnixImpl>();
+        std::shared_ptr<SocketUnixImpl> m_client = std::make_shared<SocketUnixImpl>();
         socklen_t addr_size;
         sockaddr_storage client_addr;
         m_client->m_socket = accept(m_socket, (sockaddr *)&client_addr, &addr_size);

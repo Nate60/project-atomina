@@ -59,9 +59,9 @@ namespace ATMA
         return true;
     }
 
-    std::unique_ptr<Socket> SocketListenerWinImpl::acceptConnection()
+    std::shared_ptr<Socket> SocketListenerWinImpl::acceptConnection()
     {
-        std::unique_ptr<SocketWinImpl> m_client = std::make_unique<SocketWinImpl>();
+        std::shared_ptr<SocketWinImpl> m_client = std::make_shared<SocketWinImpl>();
         m_client->m_socket = INVALID_SOCKET;
         m_client->m_socket = accept(m_listener, NULL, NULL);
         if(m_client->m_socket == INVALID_SOCKET)
@@ -70,6 +70,7 @@ namespace ATMA
             closesocket(m_listener);
             return nullptr;
         }
+        ATMA_ENGINE_TRACE("Accepted WinSock with handle {}", m_client->m_socket);
         return m_client;
     }
 
