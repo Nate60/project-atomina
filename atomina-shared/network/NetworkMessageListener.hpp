@@ -18,6 +18,14 @@ namespace ATMA
         // deconstructor
         ~NetworkMessageListener() {}
 
+        static inline void dispatch (const std::optional<const unsigned int> &l_id, const NetworkMessage &l_msg, const std::vector<std::shared_ptr<NetworkMessageListener>> &l_subs)
+        {
+            for(auto &sub: l_subs)
+            {
+                sub->notify(l_id, l_msg);
+            }
+        }
+
         /**
          * pass the event details to the object to be handled
          * @param l_e event details

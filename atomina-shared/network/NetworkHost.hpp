@@ -12,7 +12,6 @@
 
 namespace ATMA
 {
-
     /*
      * TCP Host with one listener and collection of clients spawned from that
      * one listener
@@ -75,7 +74,6 @@ namespace ATMA
          */
         bool broadcastBytes(const std::span<unsigned char> &l_bytes, const size_t &l_size);
 
-
         /**
          * send bytes to corresponding client
          * @tparam size of the buffer
@@ -88,7 +86,6 @@ namespace ATMA
             const std::span<unsigned char> &l_bytes,
             const size_t &l_size
         );
-
 
         /**
          * receive bytes from a client connection
@@ -105,7 +102,6 @@ namespace ATMA
             const size_t &l_size,
             size_t &l_receivedBytes
         );
-
 
         NetworkHost &operator=(NetworkHost &&l_other);
     protected:
