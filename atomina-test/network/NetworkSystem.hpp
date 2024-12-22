@@ -1,6 +1,6 @@
 #pragma once
 #include "AtominaTest.hpp"
-#include "TestAttribute.hpp"
+#include "NetworkAttribute.hpp"
 
 /**
  * Dummy system for testing internals of ATMA Contexts

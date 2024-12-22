@@ -1,4 +1,4 @@
-#include "TestAttribute.hpp"
+#include "NetworkAttribute.hpp"
 
 TestAttribute::TestAttribute(): AttrBase(0u, "Test") {}
 

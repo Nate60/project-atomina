@@ -95,6 +95,12 @@ namespace ATMA
         }
     }
 
+    std::string SocketUnixImpl::toString()
+    {
+        return std::to_string(m_socket);
+    }
+
+
 }
 
 #else
