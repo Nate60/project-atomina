@@ -56,6 +56,7 @@ namespace ATMA
     enum class NetworkMessageEnum
     {
         NONE = 0,
+        CONNECTION_STARTED,
         DISCONNECT,
         PORT_REQUEST,
         PORT_RESPONSE

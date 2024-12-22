@@ -86,13 +86,13 @@ namespace ATMA
         if(result >= 0)
         {
             l_receivedBytes = result;
+            return l_receivedBytes > 0;
         }
         else
         {
             ATMA_ENGINE_WARN("Socket failed to received bytes: {0}", errno);
             return false;
         }
-        return true;
     }
 
 }

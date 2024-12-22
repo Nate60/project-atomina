@@ -101,21 +101,24 @@ namespace ATMA
     {
         ATMA_ENGINE_TRACE("Receiving bytes over WinSock with handle {}", m_socket);
         int result = recv(m_socket, reinterpret_cast<char *>(l_buffer.data()), l_size, 0);
-        if(result > 0)
+        if(result >= 0)
         {
             l_receivedBytes = result;
-        }
-        else if(result == 0)
-        {
-            return false;
+            return l_receivedBytes > 0;
         }
         else
         {
             ATMA_ENGINE_WARN("Socket failed to received bytes: {0}", WSAGetLastError());
             return false;
         }
-        return true;
     }
+
+    
+    std::string SocketWinImpl::toString()
+    {
+        return std::to_string(m_socket);
+    }
+
 
 }
 

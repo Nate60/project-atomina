@@ -57,7 +57,14 @@ namespace ATMA
          */
         virtual bool receiveBytes(std::span<unsigned char> &l_buffer, const size_t &l_size, size_t &l_receivedBytes) = 0;
 
+        virtual std::string toString() = 0;
+
         static std::shared_ptr<Socket> makeSocket();
     };
+
+    inline std::ostream& operator<<(std::ostream& os, const std::shared_ptr<Socket> e)
+    {
+        return os << e->toString();
+    }
 
 }

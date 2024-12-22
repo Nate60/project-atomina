@@ -66,6 +66,9 @@ namespace ATMA
          */
         virtual bool receiveBytes(std::span<unsigned char> &l_buffer, const size_t &l_size, size_t &l_receivedBytes) override;
 
+        
+        virtual std::string toString() override;
+
         friend class SocketListenerWinImpl;
         SOCKET m_socket = INVALID_SOCKET;
     private:
