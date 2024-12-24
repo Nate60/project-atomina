@@ -4,9 +4,6 @@
 namespace ATMA
 {
 
-    void GLRenderableDummyImpl::draw(const Props &l_props)
-    {
-
-    }
+    void GLRenderableDummyImpl::draw(const Props &l_props) {}
 
 }

@@ -14,8 +14,7 @@ namespace ATMA
         return m_success;
     }
 
-    RetryExecutor
-    RetryExecutor::withRetries(const unsigned int &l_count, const std::function<void(void)> &l_func)
+    RetryExecutor RetryExecutor::withRetries(const unsigned int &l_count, const std::function<void(void)> &l_func)
     {
         return RetryExecutor(l_count, l_func);
     }

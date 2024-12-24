@@ -14,7 +14,7 @@ namespace ATMA
 
     SysController::~SysController() {}
 
-    void SysController::update(const long long &l_dt) 
+    void SysController::update(const long long &l_dt)
     {
         m_stopwatch.start();
         m_stopwatch.stop();

@@ -23,8 +23,7 @@ namespace ATMA
          */
         bool isSuccessful() const;
 
-        static RetryExecutor
-        withRetries(const unsigned int &l_count, const std::function<void(void)> &l_func);
+        static RetryExecutor withRetries(const unsigned int &l_count, const std::function<void(void)> &l_func);
     private:
         void tryExec(const unsigned int &l_count, const std::function<void(void)> &l_func)
         {

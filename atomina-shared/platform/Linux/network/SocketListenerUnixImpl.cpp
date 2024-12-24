@@ -5,16 +5,9 @@
 namespace ATMA
 {
 
-    SocketListenerUnixImpl::SocketListenerUnixImpl(const unsigned short &l_port):
-        SocketListener(l_port)
+    SocketListenerUnixImpl::SocketListenerUnixImpl(const unsigned short &l_port): SocketListener(l_port)
     {
-    }
-
-    SocketListenerUnixImpl::~SocketListenerUnixImpl() {}
-
-    bool SocketListenerUnixImpl::startListening()
-    {
-
+        ATMA_ENGINE_TRACE("Creating unix sock listener");
         m_hints = {};
         m_hints.ai_family = AF_UNSPEC;
         m_hints.ai_socktype = SOCK_STREAM;
@@ -26,10 +19,12 @@ namespace ATMA
         {
             ATMA_ENGINE_WARN("Socket Listener failed to get address info: {0}", errno);
             freeaddrinfo(m_addrinfo);
-            return false;
+            throw NetworkException("Socket Listener unable to get address info " + std::to_string(errno));
         }
 
         m_socket = socket(m_addrinfo->ai_family, m_addrinfo->ai_socktype, m_addrinfo->ai_protocol);
+
+        fcntl(m_socket, F_SETFL, O_NONBLOCK);
 
         int yes = 1;
 
@@ -41,40 +36,43 @@ namespace ATMA
             ATMA_ENGINE_WARN("Socket Listener failed to bind to port: {0}", errno);
             freeaddrinfo(m_addrinfo);
             close(m_socket);
-            return false;
+            throw NetworkException("Socket Listener unable to bind to port" + std::to_string(errno));
         }
 
         status = listen(m_socket, m_queueSize);
         if(status != 0)
         {
             ATMA_ENGINE_WARN("Socket Listener failed to start listening: {0}", errno);
+            freeaddrinfo(m_addrinfo);
             close(m_socket);
-            return false;
+            throw NetworkException("Socket Listener unable to start listening " + std::to_string(errno));
         }
-
-        return true;
+        ATMA_ENGINE_TRACE("Finished creating unix sock listener {}", m_socket);
     }
 
-    bool SocketListenerUnixImpl::stopListening()
+    SocketListenerUnixImpl::~SocketListenerUnixImpl()
     {
+        ATMA_ENGINE_TRACE("Destroying unix socket listener {}", m_socket);
         freeaddrinfo(m_addrinfo);
         close(m_socket);
-        return true;
     }
 
-    std::unique_ptr<Socket> SocketListenerUnixImpl::acceptConnection()
+    std::shared_ptr<Socket> SocketListenerUnixImpl::acceptConnection()
     {
-        std::unique_ptr<SocketUnixImpl> m_client = std::make_unique<SocketUnixImpl>();
-        socklen_t addr_size;
+        socklen_t addr_size = sizeof(sockaddr_storage);
         sockaddr_storage client_addr;
-        m_client->m_socket = accept(m_socket, (sockaddr *)&client_addr, &addr_size);
-        if(m_client->m_socket < 0)
+        int socket = accept(m_socket, (sockaddr *)&client_addr, &addr_size);
+        if(socket < 0)
         {
-            ATMA_ENGINE_INFO("No connection was accepted");
             return nullptr;
         }
+        ATMA_ENGINE_TRACE("unix socket {} accepted from listener {}", socket, m_socket);
+        return std::make_shared<SocketUnixImpl>(std::move(socket), m_port);
+    }
 
-        return m_client;
+    const std::string SocketListenerUnixImpl::toString() const
+    {
+        return std::to_string(m_socket);
     }
 
 }

@@ -12,27 +12,12 @@ namespace ATMA
      */
     class Socket
     {
+    protected:
+        // protected constructor so only factory function can make it
+        Socket(const URL &l_addr, const unsigned short &l_port);
     public:
-        // default constructor
-        Socket();
-
         // deconstructor
         virtual ~Socket();
-
-        /**
-         * starts the connection to the host listener and waits for
-         * it to accept the connection
-         * @param l_addr remote URL of the host listener
-         * @param l_port remote port of the host listener
-         * @return if the operation was successful
-         */
-        virtual bool connectSocket(const URL &l_addr, const unsigned short &l_port) = 0;
-
-        /**
-         * ends the connection to the remote server
-         * @return if the operation was succcessful
-         */
-        virtual bool closeSocket() = 0;
 
         /**
          * @brief toggles if the socket will wait for a message to be
@@ -43,7 +28,8 @@ namespace ATMA
 
         /**
          * sends bytes over the socket to the server, will block
-         * if blocking is set to true (by default)
+         * if blocking is set to true (by default) will fail if the buffer size is smaller
+         * than size given
          * @param l_buffer array view of the bytes
          * @return if the operation was successful
          */
@@ -53,9 +39,37 @@ namespace ATMA
          * receives bytes from a remote server over the socket
          * @param l_buffer array view to store the received bytes
          * @param l_receivedBytes stores the amount of bytes actually received
-         * @return if the operation was successful
+         * @return 0 if no message received, 1 if message received, and -1 if an error occured
          */
-        virtual bool receiveBytes(std::span<unsigned char> &l_buffer, const size_t &l_size, size_t &l_receivedBytes) = 0;
+        virtual const short
+        receiveBytes(std::span<unsigned char> &l_buffer, const size_t &l_size, size_t &l_receivedBytes) = 0;
+
+        /**
+         * convert socket info into string for logging
+         * @return socket info as string
+         */
+        virtual const std::string toString() const = 0;
+
+        /**
+         * factory function for creating sockets
+         * @param l_url endpoint to connect to
+         * @param l_port port to connect to
+         * @return shared pointer to socket
+         */
+        static std::shared_ptr<Socket> makeSocket(const URL &l_url, const unsigned short &l_port);
+
+        const URL m_url;
+        const unsigned short m_port;
     };
+
+    /**
+     * socket logging formatting func
+     * @param os output stream to pipe into
+     * @param sock socket object to log
+     */
+    inline std::ostream &operator<<(std::ostream &os, std::shared_ptr<Socket> sock)
+    {
+        return os << sock->toString();
+    }
 
 }

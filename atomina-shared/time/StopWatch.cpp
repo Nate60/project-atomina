@@ -37,7 +37,7 @@ namespace ATMA
         }
     }
 
-    void StopWatch::unpause() 
+    void StopWatch::unpause()
     {
         if(m_paused && !m_clock.isStopped())
         {

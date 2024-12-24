@@ -6,8 +6,8 @@ namespace ATMA
 {
     /**
      * list of possible key board event codes
-    */
-	enum class KeyEnum
+     */
+    enum class KeyEnum
     {
         SPACE = GLFW_KEY_SPACE,
         APSOTROPHE = GLFW_KEY_APOSTROPHE,
@@ -25,7 +25,7 @@ namespace ATMA
         _7 = GLFW_KEY_7,
         _8 = GLFW_KEY_8,
         _9 = GLFW_KEY_9,
-        SEMICOLON = GLFW_KEY_SEMICOLON,  
+        SEMICOLON = GLFW_KEY_SEMICOLON,
         EQUAL = GLFW_KEY_EQUAL,
         A = GLFW_KEY_A,
         B = GLFW_KEY_B,
@@ -53,9 +53,9 @@ namespace ATMA
         X = GLFW_KEY_X,
         Y = GLFW_KEY_Y,
         Z = GLFW_KEY_Z,
-        LEFT_BRACKET = GLFW_KEY_LEFT_BRACKET,     
-        BACKSLASH = GLFW_KEY_BACKSLASH,  
-        RIGHT_BRACKET = GLFW_KEY_RIGHT_BRACKET,      
+        LEFT_BRACKET = GLFW_KEY_LEFT_BRACKET,
+        BACKSLASH = GLFW_KEY_BACKSLASH,
+        RIGHT_BRACKET = GLFW_KEY_RIGHT_BRACKET,
         GRAVE = GLFW_KEY_GRAVE_ACCENT,
         WORLD_1 = GLFW_KEY_WORLD_1,
         WORLD_2 = GLFW_KEY_WORLD_2,
@@ -73,7 +73,7 @@ namespace ATMA
         PAGE_DOWN = GLFW_KEY_PAGE_DOWN,
         HOME = GLFW_KEY_HOME,
         END = GLFW_KEY_END,
-        CAPS_LOCK =GLFW_KEY_CAPS_LOCK,
+        CAPS_LOCK = GLFW_KEY_CAPS_LOCK,
         SCROLL_LOCK = GLFW_KEY_SCROLL_LOCK,
         NUM_LOCK = GLFW_KEY_NUM_LOCK,
         PRINT_SCREEN = GLFW_KEY_PRINT_SCREEN,

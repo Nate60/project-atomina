@@ -49,9 +49,9 @@ namespace ATMA
 
             // MUTEX LOCK
             std::lock_guard<std::mutex> lock{m_mtx};
-            path_itr->second = static_cast<size_t>(std::count(
-                std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>(), '\n'
-            ));
+            path_itr->second = static_cast<size_t>(
+                std::count(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>(), '\n')
+            );
 
             ++path_itr;
             file.close();

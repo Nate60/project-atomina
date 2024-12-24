@@ -4,25 +4,13 @@
 namespace ATMA
 {
 
-    WindowEvent::WindowEvent(AppWindow *l_win):
-        m_win(l_win),
-        m_type(WindowEventEnum::None),
-        m_props{}
+    WindowEvent::WindowEvent(AppWindow *l_win): m_win(l_win), m_type(WindowEventEnum::None), m_props{} {}
+
+    WindowEvent::WindowEvent(AppWindow *l_win, const WindowEventEnum &l_type): m_win(l_win), m_type(l_type), m_props{}
     {
     }
 
-    WindowEvent::WindowEvent(AppWindow *l_win, const WindowEventEnum &l_type):
-        m_win(l_win),
-        m_type(l_type),
-        m_props{}
-    {
-    }
-
-    WindowEvent::WindowEvent(
-        AppWindow *l_win,
-        const WindowEventEnum &l_type,
-        const Props &l_props
-    ):
+    WindowEvent::WindowEvent(AppWindow *l_win, const WindowEventEnum &l_type, const Props &l_props):
         m_win(l_win),
         m_type(l_type),
         m_props(l_props)

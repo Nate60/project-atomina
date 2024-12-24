@@ -19,8 +19,9 @@ TEST_F(NetworkMessageFixture, CanDeserializeSerializedNetworkMessage)
 {
     ATMA::NetworkMessage nm{ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_REQUEST)};
     auto bytes = ATMA::NetworkSerde::serialize(nm);
-    auto output = ATMA::NetworkSerde::deserialize(bytes);
-    EXPECT_EQ(output.m_type, nm.m_type);
+    size_t empty;
+    auto output = ATMA::NetworkSerde::deserialize(bytes, empty);
+    EXPECT_EQ(output.type(), nm.type());
 }
 
 TYPED_TEST_SUITE(TypedNetworkMessageFixture, NetworkMessageTypes);
@@ -90,8 +91,9 @@ TYPED_TEST(TypedNetworkMessageFixture, CanDeserializeSerializedNetworkMessageWit
     p["second"] = second;
     ATMA::NetworkMessage nm{ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_REQUEST), p};
     auto bytes = ATMA::NetworkSerde::serialize(nm);
-    auto output = ATMA::NetworkSerde::deserialize(bytes);
-    EXPECT_EQ(output.m_type, nm.m_type);
-    EXPECT_EQ(std::numeric_limits<TypeParam>::max(), output.m_values.getAs<TypeParam>("first"));
-    EXPECT_EQ(std::numeric_limits<TypeParam>::max(), output.m_values.getAs<TypeParam>("second"));
+    size_t cursor;
+    auto output = ATMA::NetworkSerde::deserialize(bytes, cursor);
+    EXPECT_EQ(output.type(), nm.type());
+    EXPECT_EQ(std::numeric_limits<TypeParam>::max(), output.values().getAs<TypeParam>("first"));
+    EXPECT_EQ(std::numeric_limits<TypeParam>::max(), output.values().getAs<TypeParam>("second"));
 }

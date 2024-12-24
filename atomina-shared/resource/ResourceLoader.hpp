@@ -9,23 +9,38 @@ namespace ATMA
 {
 
     /**
-     * interface class for acquirable resource by the engine
+     * interface class for acquirable resource loaders by the engine
      */
     template<class T>
     class ResourceLoader
     {
     public:
-        std::shared_ptr<T> load(const std::string &l_name, const Path &l_path) 
+
+        /**
+        * factory function for creating class subtype resource
+        * @param l_name name of resource
+        * @param l_path file path to resource
+        * @return shared pointer to resource
+        */
+        std::shared_ptr<T> load(const std::string &l_name, const Path &l_path)
         {
             return std::make_shared<T>(l_name, l_path, ResType(ResourceEnum::None));
         }
-
-        std::shared_ptr<T> load(const std::string& l_name)
+                
+        /**
+        * factory function for creating class subtype resource
+        * @param l_name name of resource
+        * @return shared pointer to resource
+        */
+        std::shared_ptr<T> load(const std::string &l_name)
         {
             throw ResourceAcquisitionException("Empty Resource cannot be loaded with path");
         }
 
+        //default constructor
         ResourceLoader() {}
+
+        //deconstructor
         virtual ~ResourceLoader() {}
     };
 

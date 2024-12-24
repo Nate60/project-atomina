@@ -51,7 +51,7 @@ message(STATUS "System Target Architecture: ${CMAKE_SYSTEM_PROCESSOR}")
 message(STATUS "Atomina App Type: '${ATMA_APP_TYPE}'")
 message(STATUS "Compile Definitions: ${COMPILE_DEFINITIONS}")
 
-project(Atomina_Main VERSION 0.1.4)
+project(Atomina_Main VERSION 0.1.5)
 
 # Stop in source builds
 SET(CMAKE_DISABLE_IN_SOURCE_BUILD ON)

@@ -19,22 +19,23 @@ namespace ATMA
         virtual ~SocketListener();
 
         /**
-         * opens port to active sockets
-         * @return if the operation was successful
-         */
-        virtual bool startListening() = 0;
-
-        /**
-         * closes port so no more connections can be opened
-         * @return if the operation was successful
-         */
-        virtual bool stopListening() = 0;
-
-        /**
          * accepts a connection if there is a socket waiting
          * @return either a nullptr or a pointer to an active socket
          */
-        virtual std::unique_ptr<Socket> acceptConnection() = 0;
+        virtual std::shared_ptr<Socket> acceptConnection() = 0;
+
+        /**
+         * factory function for socket listener
+         * @param l_port port to open listener on
+         * @return shared pointer to socket listener
+         */
+        static std::shared_ptr<SocketListener> makeSocketListener(const unsigned short &l_port);
+
+        /**
+         * convert socket info into string for logging
+         * @return socket info as string
+         */
+        virtual const std::string toString() const = 0;
 
         const unsigned short m_port;
     };

@@ -10,8 +10,7 @@ namespace ATMA
 
     ResourceLoader<GLShader>::~ResourceLoader() {}
 
-    std::shared_ptr<GLShader>
-    ResourceLoader<GLShader>::load(const std::string &l_name, const Path &l_path)
+    std::shared_ptr<GLShader> ResourceLoader<GLShader>::load(const std::string &l_name, const Path &l_path)
     {
         std::string shaderText = ""s;
         std::ifstream l_fileStream{l_path.toString()};

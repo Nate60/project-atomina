@@ -46,7 +46,6 @@ namespace ATMA
          * @param l_mat matrix of values
          */
         virtual void setUniformMat3f(const std::string &l_name, const Mat3<float> &l_mat) = 0;
-
     protected:
         // default constructor, protected so it cannot be created outside the class
         GLProgram();
