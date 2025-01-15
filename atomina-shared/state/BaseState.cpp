@@ -5,13 +5,7 @@
 namespace ATMA
 {
 
-    BaseState::BaseState():
-        m_active(false),
-        m_communicable(false),
-        m_transcendent(false),
-        m_transparent(false)
-    {
-    }
+    BaseState::BaseState(): m_active(false), m_communicable(false), m_transcendent(false), m_transparent(false) {}
 
     BaseState::BaseState(BaseState &&b) noexcept:
         m_active(b.m_active),

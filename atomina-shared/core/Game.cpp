@@ -13,7 +13,7 @@ namespace ATMA
         //--SETUP--//
 
         auto &ctx = ATMAContext::getContext();
-        
+
         GLContext::init();
         // attribute registration
         ctx.registerAttributeType<AttrControllable>(AttributeType(Attribute::Controllable));
@@ -33,7 +33,7 @@ namespace ATMA
 
     void Game::setup(ATMAContext &l_ctx) {}
 
-    void Game::update(ATMAContext &l_ctx){}
+    void Game::update(ATMAContext &l_ctx) {}
 
     void Game::shutdown(ATMAContext &l_ctx) {}
 }

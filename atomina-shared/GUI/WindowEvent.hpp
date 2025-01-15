@@ -36,11 +36,7 @@ namespace ATMA
         WindowEvent(AppWindow *l_win, const WindowEventEnum &l_eventType);
 
         // constructor with event type specificed and properties
-        WindowEvent(
-            AppWindow *l_win,
-            const WindowEventEnum &l_eventType,
-            const Props &l_props
-        );
+        WindowEvent(AppWindow *l_win, const WindowEventEnum &l_eventType, const Props &l_props);
 
         // default constructor
         virtual ~WindowEvent();

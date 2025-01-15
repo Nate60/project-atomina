@@ -26,7 +26,6 @@ namespace ATMA
          */
         virtual void setViewPort(const Vec2<int> &l_pos, const Vec2<int> &l_size) override;
 
-
         /**
          * clears the view port that he Render context has been set to
          * to be all one colour
@@ -34,7 +33,6 @@ namespace ATMA
         virtual void clear() override;
 
         virtual void toggleBlend(const bool &l_toggle) override;
-        
     };
 
 }

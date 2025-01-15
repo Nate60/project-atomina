@@ -1,12 +1,15 @@
 #ifndef ATMA_SERVER
-#include "GameApp.hpp"
+#    include "GameApp.hpp"
+
 
 GameApp::GameApp() {}
 
 GameApp::~GameApp() {}
 
-void GameApp::setup(ATMA::ATMAContext &l_ctx) 
+void GameApp::setup(ATMA::ATMAContext &l_ctx)
 {
+    l_ctx.registerAttributeType<AttrConnection>(GameAttributeType(GameAttributeEnum::CONNECTION));
+    l_ctx.addSystemType<SysConnection>(GameSystemType(GameSystemEnum::CONNECTION));
     active = true;
 
     auto winID = l_ctx.createWindow();
@@ -21,32 +24,30 @@ void GameApp::setup(ATMA::ATMAContext &l_ctx)
     auto vertShaderID = l_ctx.registerResource("vertex", 1u, "shader/defaultVertex.shader");
     auto fragShaderID = l_ctx.registerResource("frag", 1u, "shader/defaultFrag.shader");
     auto fontID = l_ctx.registerResource("font", 0u, "res/defaultFont.png");
-    m_conn = std::make_shared<ATMA::NetworkClient>();
-    std::shared_ptr<MainMenuState> state =
-        std::make_shared<MainMenuState>(m_win, vertShaderID, fragShaderID, fontID);
+    std::shared_ptr<MainMenuState> state = std::make_shared<MainMenuState>(m_win, vertShaderID, fragShaderID, fontID);
     l_ctx.addState(GameStateType(GameStateEnum::MAINMENU), std::move(state));
-    std::shared_ptr<LobbyState> lobby = 
-        std::make_shared<LobbyState>(m_win, m_conn, vertShaderID, fragShaderID, fontID);
+    std::shared_ptr<LobbyState> lobby = std::make_shared<LobbyState>(m_win, vertShaderID, fragShaderID, fontID);
+    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), lobby);
+    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_JOIN), lobby);
     l_ctx.addState(GameStateType(GameStateEnum::LOBBY), std::move(lobby));
     m_renderer->toggleBlend(true);
 }
 
 void GameApp::update(ATMA::ATMAContext &l_ctx)
 {
-    if (m_win->shouldClose())
+    if(m_win->shouldClose())
     {
         active = false;
     }
 
     m_win->poll();
     m_renderer->startScene(ATMA::GLCamera{
-        {0.f,0.f},
-        {360.f,360.f}
+        {  0.f,   0.f},
+        {360.f, 360.f}
     });
     l_ctx.update();
     m_renderer->finishScene();
     m_win->swapBuffers();
-
 }
 
 void GameApp::shutdown(ATMA::ATMAContext &l_ctx)

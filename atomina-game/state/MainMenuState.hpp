@@ -1,6 +1,6 @@
 #pragma once
 #include <atomina.hpp>
-#include "GameStateType.hpp"
+#include "../GameEnums.hpp"
 
 using namespace std::placeholders;
 using namespace std::string_literals;
@@ -61,9 +61,8 @@ public:
             m_menuObjs[i].first = ctx.getAttribute<ATMA::AttrRenderable>(
                 m_menuOpts[i].first, ATMA::AttributeType(ATMA::Attribute::Render)
             );
-            m_menuObjs[i].second = ctx.getAttribute<ATMA::AttrText>(
-                m_menuOpts[i].second, ATMA::AttributeType(ATMA::Attribute::Text)
-            );
+            m_menuObjs[i].second =
+                ctx.getAttribute<ATMA::AttrText>(m_menuOpts[i].second, ATMA::AttributeType(ATMA::Attribute::Text));
             m_menuObjs[i].first->m_self->m_prog = m_defaultProg;
             m_menuObjs[i].first->m_self->m_texture = m_unselectedTexture;
             m_menuObjs[i].first->m_self->m_pos = ATMA::Vec2<float>{1.f, 1.f};
@@ -181,7 +180,6 @@ public:
             }
         case ATMA::WindowEventEnum::Resized:
 
-
             break;
         case ATMA::WindowEventEnum::Closed:
             l_winEvent.m_win->notifyClose();
@@ -197,8 +195,7 @@ private:
         {0, 0},
         {0, 0}
     };
-    std::pair<std::shared_ptr<ATMA::AttrRenderable>, std::shared_ptr<ATMA::AttrText>>
-        m_menuObjs[3]{};
+    std::pair<std::shared_ptr<ATMA::AttrRenderable>, std::shared_ptr<ATMA::AttrText>> m_menuObjs[3]{};
     int m_selected = 0;
     std::shared_ptr<ATMA::GLTexture> m_selectedTexture;
     std::shared_ptr<ATMA::GLTexture> m_unselectedTexture;

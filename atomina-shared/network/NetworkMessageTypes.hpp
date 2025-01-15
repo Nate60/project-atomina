@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.hpp"
 
-
 namespace ATMA
 {
     /**
@@ -36,10 +35,7 @@ namespace ATMA
         NetworkMessageValueType(const NetworkMessageValueEnum &l_type): m_type(l_type) {}
 
         // conversion constructor
-        NetworkMessageValueType(const unsigned char &l_char):
-            m_type(static_cast<NetworkMessageValueEnum>(l_char))
-        {
-        }
+        NetworkMessageValueType(const unsigned char &l_char): m_type(static_cast<NetworkMessageValueEnum>(l_char)) {}
 
         // conversion operator
         operator unsigned char()
@@ -56,8 +52,11 @@ namespace ATMA
     enum class NetworkMessageEnum
     {
         NONE = 0,
+        INVALID,
+        CONNECTION_STARTED,
         DISCONNECT,
         PORT_REQUEST,
+        PORT_JOIN,
         PORT_RESPONSE
     };
 
@@ -72,10 +71,7 @@ namespace ATMA
         NetworkMessageType(const NetworkMessageEnum &l_type): m_type(l_type) {}
 
         // conversion constructor
-        NetworkMessageType(const unsigned int &l_int):
-            m_type(static_cast<NetworkMessageEnum>(l_int))
-        {
-        }
+        NetworkMessageType(const unsigned int &l_int): m_type(static_cast<NetworkMessageEnum>(l_int)) {}
 
         // conversion operator
         operator unsigned int()

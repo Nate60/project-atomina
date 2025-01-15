@@ -11,13 +11,9 @@
 namespace ATMA
 {
 
-    GLProgram::GLProgram() 
-    {
-    }
+    GLProgram::GLProgram() {}
 
-    GLProgram::~GLProgram() 
-    {
-    }
+    GLProgram::~GLProgram() {}
 
     std::shared_ptr<GLProgram> GLProgram::makeProgram()
     {

@@ -2,26 +2,25 @@
 #include "Entry.hpp"
 #include "ATMAContext.hpp"
 
-
 /*
  * Lib entry point into execution
- * 
+ *
  */
 int main()
 {
-    #ifdef _WINDOWS
+#ifdef _WINDOWS
     // required for winsock
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2, 2), &wsaData);
-    #endif
+#endif
 
     ATMA::Log::Init();
     ATMA_ENGINE_INFO("Init logger!");
-    #ifdef ATMA_SERVER
+#ifdef ATMA_SERVER
     std::unique_ptr<ATMA::Server> app = ATMA::CreateServer();
-    #else
+#else
     std::unique_ptr<ATMA::Game> app = ATMA::CreateGame();
-    #endif
+#endif
     try
     {
         app->initializeContext();
@@ -29,7 +28,7 @@ int main()
         ATMA_ENGINE_INFO("Setting up application");
         app->setup(ctx);
         ATMA_ENGINE_INFO("Starting game loop");
-        while (app->active)
+        while(app->active)
         {
             app->update(ctx);
         }

@@ -12,10 +12,9 @@ namespace ATMA
             {3, 8, 3},
             {2, 8, 6}
         });
-        m_vertBuf = VertexBuffer::makeBuffer({1.0f,  1.0f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-                                    1.0f,  -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                                    -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-                                    -1.0f, 1.0f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+        m_vertBuf = VertexBuffer::makeBuffer({1.0f, 1.0f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f,  0.0f, 1.0f, -1.0f, 0.0f,
+                                              0.0f, 1.0f, 0.0f,  1.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,  1.0f,
+                                              0.0f, 1.0f, -1.0f, 1.0f, 0.0f, 1.0f,  1.0f,  0.0f, 0.0f, 0.0f});
         m_indexBuf = IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
         m_vertArr->bind();
         m_vertBuf->bind();
@@ -24,7 +23,9 @@ namespace ATMA
         glGenTextures(1, &m_bindID);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_bindID);
-        glTexStorage2D(GL_TEXTURE_2D, 1, OpenGLImageDataFormat(m_texture.m_channels), m_texture.m_width, m_texture.m_height);
+        glTexStorage2D(
+            GL_TEXTURE_2D, 1, OpenGLImageDataFormat(m_texture.m_channels), m_texture.m_width, m_texture.m_height
+        );
     }
 
     GLTextureOpenGLImpl::~GLTextureOpenGLImpl()
@@ -54,14 +55,12 @@ namespace ATMA
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    std::shared_ptr<GLTexture> GLTextureOpenGLImpl::getSubImage(
-        const Vec2<unsigned int> &l_pos,
-        const Vec2<unsigned int> &l_size
-    )
+    std::shared_ptr<GLTexture>
+    GLTextureOpenGLImpl::getSubImage(const Vec2<unsigned int> &l_pos, const Vec2<unsigned int> &l_size)
     {
         auto sub_image = std::unique_ptr<GLTextureOpenGLImpl>{new GLTextureOpenGLImpl{m_texture}};
         glBindTexture(GL_TEXTURE_2D, sub_image->getID());
-        //glTexStorage2D(GL_TEXTURE_2D, 1, OpenGLImageDataFormat(m_channels), l_size.x, l_size.y);
+        // glTexStorage2D(GL_TEXTURE_2D, 1, OpenGLImageDataFormat(m_channels), l_size.x, l_size.y);
         glCopyImageSubData(
             m_bindID,
             GL_TEXTURE_2D,

@@ -4,8 +4,7 @@
 namespace ATMA
 {
 
-    IndexBufferOpenGLImpl::IndexBufferOpenGLImpl(const std::vector<unsigned int> &l_data):
-        IndexBuffer(l_data)
+    IndexBufferOpenGLImpl::IndexBufferOpenGLImpl(const std::vector<unsigned int> &l_data): IndexBuffer(l_data)
     {
         glGenBuffers(1, &m_bindID);
     }
@@ -28,12 +27,7 @@ namespace ATMA
     void IndexBufferOpenGLImpl::bind()
     {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bindID);
-        glBufferData(
-            GL_ELEMENT_ARRAY_BUFFER,
-            m_data.size() * sizeof(unsigned int),
-            m_data.data(),
-            GL_STATIC_DRAW
-        );
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_data.size() * sizeof(unsigned int), m_data.data(), GL_STATIC_DRAW);
     }
 
     void IndexBufferOpenGLImpl::unbind()
@@ -41,8 +35,7 @@ namespace ATMA
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
-    VertexBufferOpenGLImpl::VertexBufferOpenGLImpl(const std::vector<float> &l_data):
-        VertexBuffer(l_data)
+    VertexBufferOpenGLImpl::VertexBufferOpenGLImpl(const std::vector<float> &l_data): VertexBuffer(l_data)
     {
         glGenBuffers(1, &m_bindID);
     }
@@ -65,7 +58,7 @@ namespace ATMA
 
     void VertexBufferOpenGLImpl::bind()
     {
- 
+
         glBindBuffer(GL_ARRAY_BUFFER, m_bindID);
         glBufferData(GL_ARRAY_BUFFER, m_data.size() * sizeof(float), m_data.data(), GL_STATIC_DRAW);
     }
@@ -75,15 +68,12 @@ namespace ATMA
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    VertexArrayOpenGLImpl::VertexArrayOpenGLImpl(const std::vector<LayoutElement> &l_list):
-        VertexArray(l_list)
+    VertexArrayOpenGLImpl::VertexArrayOpenGLImpl(const std::vector<LayoutElement> &l_list): VertexArray(l_list)
     {
         glGenVertexArrays(1, &m_bindID);
     }
 
-    VertexArrayOpenGLImpl::VertexArrayOpenGLImpl(
-        const std::initializer_list<LayoutElement> &l_elements
-    ):
+    VertexArrayOpenGLImpl::VertexArrayOpenGLImpl(const std::initializer_list<LayoutElement> &l_elements):
         VertexArray(l_elements)
     {
         glGenVertexArrays(1, &m_bindID);

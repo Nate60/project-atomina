@@ -39,6 +39,10 @@ namespace ATMA
          */
         void initializeContext();
 
+        /**
+        * use for any pre game-loop setup as it will be executed before
+        * creating the game loop
+        */
         virtual void setup(ATMAContext &l_ctx);
 
         /**
