@@ -11,34 +11,42 @@ namespace ATMA
         m_closed = false;
         m_windowHandle = glfwCreateWindow(m_size.x, m_size.y, m_name.c_str(), NULL, NULL);
         glfwSetWindowUserPointer(m_windowHandle, this);
-        glfwSetFramebufferSizeCallback(m_windowHandle, [](GLFWwindow *win, int w, int h){
-            AppWindow *appwindow = (AppWindow *)(glfwGetWindowUserPointer(win));
-            ATMAContext &ctx = ATMAContext::getContext();
-            appwindow->setSize(Vec2<unsigned int>{(unsigned int)w, (unsigned int)h});
-            ctx.getRenderer()->setFrameBufferDimensions(w,h);
-        });
-        glfwSetKeyCallback(m_windowHandle, [](GLFWwindow *win, int key, int scancode, int action, int mods){
-            AppWindow *appwindow = (AppWindow *)(glfwGetWindowUserPointer(win));
-            ATMAContext &ctx = ATMAContext::getContext();
-            Props p{};
-            p["keycode"] = key;
-            p["repeat"] = (action == GLFW_REPEAT);
-            WindowEventEnum t;
-            if(action == GLFW_PRESS)
+        glfwSetFramebufferSizeCallback(
+            m_windowHandle,
+            [](GLFWwindow *win, int w, int h)
             {
-                t = WindowEventEnum::KeyDowned;
-            } 
-            else
-            {
-                t = WindowEventEnum::KeyUpped;
+                AppWindow *appwindow = (AppWindow *)(glfwGetWindowUserPointer(win));
+                ATMAContext &ctx = ATMAContext::getContext();
+                appwindow->setSize(Vec2<unsigned int>{(unsigned int)w, (unsigned int)h});
+                ctx.getRenderer()->setFrameBufferDimensions(w, h);
             }
-            ctx.dispatchWindowEvent(WindowEvent{appwindow,t,p});
-        });
+        );
+        glfwSetKeyCallback(
+            m_windowHandle,
+            [](GLFWwindow *win, int key, int scancode, int action, int mods)
+            {
+                AppWindow *appwindow = (AppWindow *)(glfwGetWindowUserPointer(win));
+                ATMAContext &ctx = ATMAContext::getContext();
+                Props p{};
+                p["keycode"] = key;
+                p["repeat"] = (action == GLFW_REPEAT);
+                WindowEventEnum t;
+                if(action == GLFW_PRESS)
+                {
+                    t = WindowEventEnum::KeyDowned;
+                }
+                else
+                {
+                    t = WindowEventEnum::KeyUpped;
+                }
+                ctx.dispatchWindowEvent(WindowEvent{appwindow, t, p});
+            }
+        );
     }
 
     AppWindow::~AppWindow()
     {
-        
+
         ATMA_ENGINE_INFO("Destroying App Window {0}", m_name);
     }
 

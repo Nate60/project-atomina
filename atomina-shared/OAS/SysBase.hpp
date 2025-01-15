@@ -26,11 +26,7 @@ namespace ATMA
         const std::string m_sysTypeName;
 
         // constructor with system type and type name
-        SysBase(const SystemType &l_type, const std::string &l_typeName):
-            m_type(l_type),
-            m_sysTypeName(l_typeName)
-        {
-        }
+        SysBase(const SystemType &l_type, const std::string &l_typeName): m_type(l_type), m_sysTypeName(l_typeName) {}
 
         // destructor
         virtual ~SysBase() {}
@@ -94,4 +90,8 @@ namespace ATMA
         StopWatch m_stopwatch{};
     };
 
+    inline std::ostream &operator<<(std::ostream &os, const SysBase &sys)
+    {
+        return os << sys.m_sysTypeName;
+    }
 }

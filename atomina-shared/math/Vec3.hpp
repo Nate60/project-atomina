@@ -114,7 +114,7 @@ namespace ATMA
     constexpr inline Vec3<T> normalize(Vec3<T> l_vector)
     {
         T dist = static_cast<T>(std::sqrt(l_vector * l_vector));
-        if(dist == 0) //0 vector cannot be normalized
+        if(dist == 0) // 0 vector cannot be normalized
             return l_vector;
         return Vec3<T>{l_vector.x / dist, l_vector.y / dist, l_vector.z / dist};
     }

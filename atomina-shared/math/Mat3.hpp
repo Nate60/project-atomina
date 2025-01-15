@@ -31,29 +31,22 @@ namespace ATMA
 
         constexpr inline Mat3<T> inverse()
         {
-            T determinant = m_values[0][0] * (m_values[1][1] * m_values[2][2] - m_values[2][1] * m_values[1][2]) - 
-                            m_values[0][1] * (m_values[1][0] * m_values[2][2] - m_values[1][2] * m_values[2][0]) +
-                            m_values[0][2] * (m_values[1][0] * m_values[2][1] - m_values[1][1] * m_values[2][0]);
+            T determinant = m_values[0][0] * (m_values[1][1] * m_values[2][2] - m_values[2][1] * m_values[1][2])
+                          - m_values[0][1] * (m_values[1][0] * m_values[2][2] - m_values[1][2] * m_values[2][0])
+                          + m_values[0][2] * (m_values[1][0] * m_values[2][1] - m_values[1][1] * m_values[2][0]);
 
             T inverseDeterminate = 1 / determinant;
-            return {{
-                {
-                    (m_values[1][1] * m_values[2][2] - m_values[2][1] * m_values[1][2]) * inverseDeterminate,
-                    (m_values[0][2] * m_values[2][1] - m_values[0][1] * m_values[2][2]) * inverseDeterminate,
-                    (m_values[0][1] * m_values[1][2] - m_values[0][2] * m_values[1][1]) * inverseDeterminate
-                },
-                {
-                    (m_values[1][2] * m_values[2][0] - m_values[1][0] * m_values[2][2]) * inverseDeterminate,
-                    (m_values[0][0] * m_values[2][2] - m_values[0][2] * m_values[2][0]) * inverseDeterminate,
-                    (m_values[1][0] * m_values[0][2] - m_values[0][0] * m_values[1][2]) * inverseDeterminate
-                },
-                {
-                    (m_values[1][0] * m_values[2][1] - m_values[2][0] * m_values[1][1]) * inverseDeterminate,
-                    (m_values[2][0] * m_values[0][1] - m_values[0][0] * m_values[2][1]) * inverseDeterminate,
-                    (m_values[0][0] * m_values[1][1] - m_values[1][0] * m_values[0][1]) * inverseDeterminate
-                }
-            }};
-
+            return {
+                {{(m_values[1][1] * m_values[2][2] - m_values[2][1] * m_values[1][2]) * inverseDeterminate,
+(m_values[0][2] * m_values[2][1] - m_values[0][1] * m_values[2][2]) * inverseDeterminate,
+(m_values[0][1] * m_values[1][2] - m_values[0][2] * m_values[1][1]) * inverseDeterminate},
+                 {(m_values[1][2] * m_values[2][0] - m_values[1][0] * m_values[2][2]) * inverseDeterminate,
+                 (m_values[0][0] * m_values[2][2] - m_values[0][2] * m_values[2][0]) * inverseDeterminate,
+                 (m_values[1][0] * m_values[0][2] - m_values[0][0] * m_values[1][2]) * inverseDeterminate},
+                 {(m_values[1][0] * m_values[2][1] - m_values[2][0] * m_values[1][1]) * inverseDeterminate,
+                 (m_values[2][0] * m_values[0][1] - m_values[0][0] * m_values[2][1]) * inverseDeterminate,
+                 (m_values[0][0] * m_values[1][1] - m_values[1][0] * m_values[0][1]) * inverseDeterminate}}
+            };
         }
 
         T m_values[3][3]{
@@ -174,7 +167,8 @@ a.m_values[0][2] - b.m_values[0][2]},
         return {
             (a.m_values[0][0] * b.x + a.m_values[0][1] * b.y + a.m_values[0][2] * b.z),
             (a.m_values[1][0] * b.x + a.m_values[1][1] * b.y + a.m_values[1][2] * b.z),
-            (a.m_values[2][0] * b.x + a.m_values[2][1] * b.y + a.m_values[2][2] * b.z)};
+            (a.m_values[2][0] * b.x + a.m_values[2][1] * b.y + a.m_values[2][2] * b.z)
+        };
     }
 
     /**

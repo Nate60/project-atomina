@@ -4,11 +4,10 @@
 namespace ATMA
 {
 
-	AttrRenderable::AttrRenderable():AttrBase(AttrType(Attribute::Render), "Renderable")
-	{}
+    AttrRenderable::AttrRenderable(): AttrBase(AttrType(Attribute::Render), "Renderable") {}
 
-	AttrRenderable::~AttrRenderable() {}
+    AttrRenderable::~AttrRenderable() {}
 
-	void AttrRenderable::readIn(std::stringstream &l_stream){}
+    void AttrRenderable::readIn(std::stringstream &l_stream) {}
 
 }

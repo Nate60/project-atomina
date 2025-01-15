@@ -35,9 +35,7 @@ namespace ATMA
         if(!success)
         {
             glGetShaderInfoLog(m_bindID, 1024, NULL, infoLog);
-            ATMA_ENGINE_ERROR(
-                "Error with compiling shader: {0} [OPENGL]: {1}", m_shader.m_name, infoLog
-            );
+            ATMA_ENGINE_ERROR("Error with compiling shader: {0} [OPENGL]: {1}", m_shader.m_name, infoLog);
         }
     }
 }

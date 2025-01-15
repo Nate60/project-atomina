@@ -13,7 +13,6 @@ namespace ATMA
     class AttrSprite: public AttrBase
     {
     public:
-
         // default constructor
         AttrSprite();
 
@@ -30,7 +29,6 @@ namespace ATMA
         void readIn(std::stringstream &l_stream);
 
         std::shared_ptr<GLSprite> m_self = GLSprite::makeSprite();
-      
     };
 
 }

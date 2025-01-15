@@ -11,8 +11,7 @@ namespace ATMA
 
     std::vector<stdfs::path> getDirectoryList(const stdfs::path &path, const std::string &filter)
     {
-        std::basic_regex regex{
-            filter, std::regex_constants::ECMAScript | std::regex_constants::icase};
+        std::basic_regex regex{filter, std::regex_constants::ECMAScript | std::regex_constants::icase};
         std::vector<stdfs::path> paths{};
         std::vector<stdfs::path> filtered_paths{};
         for(const auto &dir: stdfs::directory_iterator{stdfs::current_path()})

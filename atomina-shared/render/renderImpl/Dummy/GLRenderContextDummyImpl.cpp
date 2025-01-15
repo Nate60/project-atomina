@@ -5,36 +5,17 @@ namespace ATMA
 {
 
     // default constructor
-    GLRenderContextDummyImpl::GLRenderContextDummyImpl()
-    {
-
-    }
+    GLRenderContextDummyImpl::GLRenderContextDummyImpl() {}
 
     // default deconstructor
-    GLRenderContextDummyImpl::~GLRenderContextDummyImpl()
-    {
+    GLRenderContextDummyImpl::~GLRenderContextDummyImpl() {}
 
-    }
+    void GLRenderContextDummyImpl::init() {}
 
-    void GLRenderContextDummyImpl::init()
-    {
-        
-    }
+    void GLRenderContextDummyImpl::setViewPort(const Vec2<int> &l_pos, const Vec2<int> &l_size) {}
 
-    void GLRenderContextDummyImpl::setViewPort(const Vec2<int> &l_pos, const Vec2<int> &l_size)
-    {
+    void GLRenderContextDummyImpl::clear() {}
 
-    }
-
-    void GLRenderContextDummyImpl::clear() 
-    {
-        
-    }
-
-    
-    void GLRenderContextDummyImpl::toggleBlend(const bool &l_toggle) 
-    {
-        
-    }
+    void GLRenderContextDummyImpl::toggleBlend(const bool &l_toggle) {}
 
 }

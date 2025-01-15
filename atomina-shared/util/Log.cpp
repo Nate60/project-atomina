@@ -12,7 +12,7 @@ namespace ATMA
     {
         if(!s_initialized)
         {
-            spdlog::set_pattern("%^[%T] %n: %v%$");
+            spdlog::set_pattern("%^[%T][%t] %n: %v%$");
             s_EngineLogger = spdlog::stdout_color_mt("ATMA");
             s_EngineLogger->set_level(spdlog::level::trace);
             s_initialized = true;

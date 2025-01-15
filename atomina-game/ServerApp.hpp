@@ -1,8 +1,8 @@
 #pragma once
 #include <atomina.hpp>
-#include "GameStateType.hpp"
-#include "GameEventType.hpp"
-
+#include "GameEnums.hpp"
+#include "OAS/SysConnection.hpp"
+#include "OAS/AttrConnection.hpp"
 
 /*
  * extension of the Game class from atomina-api
@@ -11,10 +11,10 @@
 class ServerApp: public ATMA::Server
 {
 protected:
-    std::optional<unsigned int> conn_opt = std::nullopt;
-public:
+    static const int MAX_PORTS = 2;
+    std::vector<std::optional<unsigned int>> m_ports{};
 
-    ATMA::NetworkHost m_host{};
+public:
     // default constructor
     ServerApp();
 
@@ -38,4 +38,3 @@ public:
      */
     virtual void shutdown(ATMA::ATMAContext &l_ctx) override;
 };
-

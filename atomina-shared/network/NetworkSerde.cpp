@@ -3,185 +3,266 @@
 
 namespace ATMA
 {
-    const NetworkMessage NetworkSerde::deserialize(const std::vector<unsigned char> &l_bytes)
+    const NetworkMessage NetworkSerde::deserialize(const std::vector<unsigned char> &l_bytes, size_t &l_amountUsed)
     {
-        unsigned short advance = 0;
+        l_amountUsed = 0;
+        ATMA_ENGINE_TRACE("deserializing message with {} bytes", l_bytes.size());
         // skip byte size header
-        advance += sizeof(unsigned short);
+        l_amountUsed += sizeof(unsigned short);
         // determine message type
         unsigned int messageType;
+        // need to check we are not going out of bounds
+        if(l_bytes.size() <= l_amountUsed + sizeof(unsigned int))
+        {
+            ATMA_ENGINE_WARN("encountered malformed message stream, too small");
+            return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+        }
         std::copy(
-            l_bytes.begin() + advance,
-            l_bytes.begin() + advance + sizeof(unsigned int),
+            l_bytes.begin() + l_amountUsed,
+            l_bytes.begin() + l_amountUsed + sizeof(unsigned int),
             reinterpret_cast<unsigned char *>(&messageType)
         );
-        advance += sizeof(unsigned int);
+        l_amountUsed += sizeof(unsigned int);
         Props p{};
-        while(l_bytes[advance] != '\0')
+        while(l_bytes[l_amountUsed] != '\0')
         {
             // get value name
             std::string key = "";
-            for(char c = l_bytes[advance]; c != '\0'; c = l_bytes[advance])
+            for(char c = l_bytes[l_amountUsed]; c != '\0'; c = l_bytes[l_amountUsed])
             {
                 key += c;
-                advance++;
+                l_amountUsed++;
+                if(l_bytes.size() <= l_amountUsed)
+                {
+                    ATMA_ENGINE_WARN("network message unexpected end of stream");
+                    return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                }
             }
             // skip string terminator and value type so we can start at first byte in value
-            advance += 2;
-            switch(static_cast<NetworkMessageValueEnum>(l_bytes[advance - 1]))
+            l_amountUsed += 2;
+            if(l_bytes.size() <= l_amountUsed)
+            {
+                ATMA_ENGINE_WARN("network message unexpected end of stream");
+                return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+            }
+            switch(static_cast<NetworkMessageValueEnum>(l_bytes[l_amountUsed - 1]))
             {
             case NetworkMessageValueEnum::CHAR:
-                p[key] = (char)l_bytes[advance];
-                advance++;
+                p[key] = (char)l_bytes[l_amountUsed];
+                l_amountUsed++;
                 break;
             case NetworkMessageValueEnum::UNSIGNEDCHAR:
-                p[key] = l_bytes[advance];
-                advance++;
+                p[key] = l_bytes[l_amountUsed];
+                l_amountUsed++;
                 break;
             case NetworkMessageValueEnum::SHORT:
                 {
+                    if(l_bytes.size() <= l_amountUsed + sizeof(short))
+                    {
+                        ATMA_ENGINE_WARN("network message unexpected end of stream");
+                        return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                    }
                     short s;
                     std::copy(
-                        l_bytes.begin() + advance,
-                        l_bytes.begin() + advance + sizeof(short),
+                        l_bytes.begin() + l_amountUsed,
+                        l_bytes.begin() + l_amountUsed + sizeof(short),
                         reinterpret_cast<unsigned char *>(&s)
                     );
-                    advance += sizeof(short);
+                    l_amountUsed += sizeof(short);
                     p[key] = s;
                 }
                 break;
             case NetworkMessageValueEnum::UNSIGNEDSHORT:
                 {
+                    if(l_bytes.size() <=l_amountUsed + sizeof(unsigned short))
+                    {
+                        ATMA_ENGINE_WARN("network message unexpected end of stream");
+                        return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                    }
                     unsigned short s;
                     std::copy(
-                        l_bytes.begin() + advance,
-                        l_bytes.begin() + advance + sizeof(unsigned short),
+                        l_bytes.begin() + l_amountUsed,
+                        l_bytes.begin() + l_amountUsed + sizeof(unsigned short),
                         reinterpret_cast<unsigned char *>(&s)
                     );
-                    advance += sizeof(unsigned short);
+                    l_amountUsed += sizeof(unsigned short);
                     p[key] = s;
                 }
                 break;
             case NetworkMessageValueEnum::INT:
                 {
+                    if(l_bytes.size() <= l_amountUsed + sizeof(int))
+                    {
+                        ATMA_ENGINE_WARN("network message unexpected end of stream");
+                        return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                    }
                     int n;
                     std::copy(
-                        l_bytes.begin() + advance,
-                        l_bytes.begin() + advance + sizeof(int),
+                        l_bytes.begin() + l_amountUsed,
+                        l_bytes.begin() + l_amountUsed + sizeof(int),
                         reinterpret_cast<unsigned char *>(&n)
                     );
-                    advance += sizeof(int);
+                    l_amountUsed += sizeof(int);
                     p[key] = n;
                 }
                 break;
             case NetworkMessageValueEnum::UNSIGNEDINT:
                 {
+                    if(l_bytes.size() <= l_amountUsed + sizeof(unsigned int))
+                    {
+                        ATMA_ENGINE_WARN("network message unexpected end of stream");
+                        return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                    }
                     unsigned int n;
                     std::copy(
-                        l_bytes.begin() + advance,
-                        l_bytes.begin() + advance + sizeof(unsigned int),
+                        l_bytes.begin() + l_amountUsed,
+                        l_bytes.begin() + l_amountUsed + sizeof(unsigned int),
                         reinterpret_cast<unsigned char *>(&n)
                     );
-                    advance += sizeof(unsigned int);
+                    l_amountUsed += sizeof(unsigned int);
                     p[key] = n;
                 }
                 break;
             case NetworkMessageValueEnum::FLOAT:
                 {
+                    if(l_bytes.size() <= l_amountUsed + sizeof(float))
+                    {
+                        ATMA_ENGINE_WARN("network message unexpected end of stream");
+                        return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                    }
                     float f;
                     std::copy(
-                        l_bytes.begin() + advance,
-                        l_bytes.begin() + advance + sizeof(float),
+                        l_bytes.begin() + l_amountUsed,
+                        l_bytes.begin() + l_amountUsed + sizeof(float),
                         reinterpret_cast<unsigned char *>(&f)
                     );
-                    advance += sizeof(float);
+                    l_amountUsed += sizeof(float);
                     p[key] = f;
                 }
                 break;
             case NetworkMessageValueEnum::LONG:
                 {
+                    if(l_bytes.size() <= l_amountUsed + sizeof(long))
+                    {
+                        ATMA_ENGINE_WARN("network message unexpected end of stream");
+                        return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                    }
                     long l;
                     std::copy(
-                        l_bytes.begin() + advance,
-                        l_bytes.begin() + advance + sizeof(long),
+                        l_bytes.begin() + l_amountUsed,
+                        l_bytes.begin() + l_amountUsed + sizeof(long),
                         reinterpret_cast<unsigned char *>(&l)
                     );
-                    advance += sizeof(long);
+                    l_amountUsed += sizeof(long);
                     p[key] = l;
                 }
                 break;
             case NetworkMessageValueEnum::UNSIGNEDLONG:
                 {
+                    if(l_bytes.size() <= l_amountUsed + sizeof(unsigned long))
+                    {
+                        ATMA_ENGINE_WARN("network message unexpected end of stream");
+                        return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                    }
                     unsigned long l;
                     std::copy(
-                        l_bytes.begin() + advance,
-                        l_bytes.begin() + advance + sizeof(unsigned long),
+                        l_bytes.begin() + l_amountUsed,
+                        l_bytes.begin() + l_amountUsed + sizeof(unsigned long),
                         reinterpret_cast<unsigned char *>(&l)
                     );
-                    advance += sizeof(unsigned long);
+                    l_amountUsed += sizeof(unsigned long);
                     p[key] = l;
                 }
                 break;
             case NetworkMessageValueEnum::DOUBLE:
                 {
+                    if(l_bytes.size() <= l_amountUsed + sizeof(double))
+                    {
+                        ATMA_ENGINE_WARN("network message unexpected end of stream");
+                        return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                    }
                     double d;
                     std::copy(
-                        l_bytes.begin() + advance,
-                        l_bytes.begin() + advance + sizeof(double),
+                        l_bytes.begin() + l_amountUsed,
+                        l_bytes.begin() + l_amountUsed + sizeof(double),
                         reinterpret_cast<unsigned char *>(&d)
                     );
-                    advance += sizeof(double);
+                    l_amountUsed += sizeof(double);
                     p[key] = d;
                 }
                 break;
             case NetworkMessageValueEnum::LONGLONG:
                 {
+                    if(l_bytes.size() <= l_amountUsed + sizeof(long long))
+                    {
+                        ATMA_ENGINE_WARN("network message unexpected end of stream");
+                        return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                    }
                     long long l;
                     std::copy(
-                        l_bytes.begin() + advance,
-                        l_bytes.begin() + advance + sizeof(long long),
+                        l_bytes.begin() + l_amountUsed,
+                        l_bytes.begin() + l_amountUsed + sizeof(long long),
                         reinterpret_cast<unsigned char *>(&l)
                     );
-                    advance += sizeof(long long);
+                    l_amountUsed += sizeof(long long);
                     p[key] = l;
                 }
                 break;
             case NetworkMessageValueEnum::UNSIGNEDLONGLONG:
                 {
+                    if(l_bytes.size() <= l_amountUsed + sizeof(unsigned long long))
+                    {
+                        ATMA_ENGINE_WARN("network message unexpected end of stream");
+                        return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                    }
                     unsigned long long l;
                     std::copy(
-                        l_bytes.begin() + advance,
-                        l_bytes.begin() + advance + sizeof(unsigned long long),
+                        l_bytes.begin() + l_amountUsed,
+                        l_bytes.begin() + l_amountUsed + sizeof(unsigned long long),
                         reinterpret_cast<unsigned char *>(&l)
                     );
-                    advance += sizeof(unsigned long long);
+                    l_amountUsed += sizeof(unsigned long long);
                     p[key] = l;
                 }
                 break;
             case NetworkMessageValueEnum::STRING:
                 {
                     std::string s{};
-                    for(char c = l_bytes[advance]; c != '\0'; c = l_bytes[advance])
+                    for(char c = l_bytes[l_amountUsed]; c != '\0'; c = l_bytes[l_amountUsed])
                     {
                         s += c;
-                        advance++;
+                        l_amountUsed++;
+                        if(l_bytes.size() <= l_amountUsed)
+                        {
+                            ATMA_ENGINE_WARN("network message unexpected end of stream");
+                            return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+                        }
                     }
-                    advance++;
+                    l_amountUsed++;
                     p[key] = s;
                 }
                 break;
             default:
-                throw ATMA::SerializationException("type not supported for deserialization");
+                ATMA_ENGINE_WARN("unexpected network message value type");
+                return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
+            }
+            if(l_bytes.size() <= l_amountUsed)
+            {
+                ATMA_ENGINE_WARN("network message unexpected end of stream");
+                return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
             }
         }
+        //we want cursor to point to index after last character used
+        // also this will make l_amountUsed equal to the bytestream of one entire message
+        l_amountUsed++;
         return NetworkMessage{messageType, p};
     }
 
     const std::vector<unsigned char> NetworkSerde::serialize(const NetworkMessage &l_message)
     {
         std::vector<unsigned char> bytes{};
-        bytes.reserve(l_message.m_values.size() * 16 + 6);
-        //reserve space for byte size header
+        bytes.reserve(l_message.values().size() * 16 + 6);
+        // reserve space for byte size header
         unsigned short messageSize = 0;
         for(int i = 0; i < sizeof(messageSize); i++)
         {
@@ -190,15 +271,15 @@ namespace ATMA
             messageSize++;
         }
         // get message type
-        for(int i = 0; i < sizeof(l_message.m_type); i++)
+        for(int i = 0; i < sizeof(l_message.type()); i++)
         {
             short shift = i * sizeof(unsigned char) * 8;
-            bytes.emplace_back((l_message.m_type >> shift) & 0xFF);
+            bytes.emplace_back((l_message.type() >> shift) & 0xFF);
             messageSize++;
         }
 
         // get values of message properties
-        for(const auto &p: l_message.m_values)
+        for(const auto &p: l_message.values())
         {
             // property name first
             for(const auto &c: p.first)
@@ -350,7 +431,7 @@ namespace ATMA
         }
         bytes.emplace_back('\0');
         messageSize++;
-        //update message size
+        // update message size
         for(int i = 0; i < sizeof(messageSize); i++)
         {
             short shift = i * sizeof(unsigned char) * 8;

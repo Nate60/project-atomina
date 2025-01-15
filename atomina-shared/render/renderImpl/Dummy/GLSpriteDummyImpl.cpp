@@ -4,9 +4,6 @@
 namespace ATMA
 {
 
-    void GLSpriteDummyImpl::draw(const Props &l_props)
-    {
-        
-    }
+    void GLSpriteDummyImpl::draw(const Props &l_props) {}
 
 }

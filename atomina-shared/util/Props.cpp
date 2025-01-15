@@ -6,10 +6,10 @@ namespace ATMA
 
     Props::Props(const bool &l_isCaseSensitive): m_caseSensitve(l_isCaseSensitive) {}
 
-    Props::Props(const std::map<std::string,std::any> &l_values, const bool &l_isCaseSensitive):
+    Props::Props(const std::map<std::string, std::any> &l_values, const bool &l_isCaseSensitive):
         m_caseSensitve(l_isCaseSensitive)
     {
-        for (const auto& v : l_values)
+        for(const auto &v: l_values)
         {
             if(!m_caseSensitve)
             {
