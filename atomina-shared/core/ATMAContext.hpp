@@ -15,6 +15,7 @@
 #include "resource/loaders/GLTextureLoader.hpp"
 #include "resource/loaders/GLShaderLoader.hpp"
 #include "resource/loaders/DummyResourceLoader.hpp"
+#include "network/NetworkManager.hpp"
 #include "GUI/AppWindow.hpp"
 #include "render/GLRenderer.hpp"
 #ifdef _WINDOWS
@@ -36,12 +37,10 @@ namespace ATMA
 
     using ObjectID = unsigned int;
     using AttrTypeID = unsigned int;
-    using ObjectAttributes = std::pair<
-        std::bitset<ATConst::OBJECT_BIT_SIZE>,
-        std::unordered_map<AttrTypeID, std::shared_ptr<AttrBase>>>;
+    using ObjectAttributes =
+        std::pair<std::bitset<ATConst::OBJECT_BIT_SIZE>, std::unordered_map<AttrTypeID, std::shared_ptr<AttrBase>>>;
     using ObjectContainer = std::unordered_map<ObjectID, ObjectAttributes>;
-    using AttributeFactory =
-        std::unordered_map<AttrTypeID, std::function<std::shared_ptr<AttrBase>(void)>>;
+    using AttributeFactory = std::unordered_map<AttrTypeID, std::function<std::shared_ptr<AttrBase>(void)>>;
 
     using SystemID = unsigned int;
     using SystemContainer = std::unordered_map<SystemID, std::shared_ptr<SysBase>>;
@@ -51,14 +50,12 @@ namespace ATMA
     using ResourceID = unsigned int;
     using ResourceTypeID = unsigned int;
 
-    using ResourceContainer = std::unordered_map<
-        ResourceID,
-        std::tuple<ResourceTypeID, std::string, std::optional<std::string>>>;
+    using ResourceContainer =
+        std::unordered_map<ResourceID, std::tuple<ResourceTypeID, std::string, std::optional<std::string>>>;
     using LoadedResourceContainer = std::unordered_map<ResourceID, std::shared_ptr<LoadedResource>>;
 
     using ObjectEventID = unsigned int;
-    using ObjectEventListeners =
-        std::unordered_map<ObjectEventID, std::vector<std::shared_ptr<ObjectEventListener>>>;
+    using ObjectEventListeners = std::unordered_map<ObjectEventID, std::vector<std::shared_ptr<ObjectEventListener>>>;
 
     using AppWindowID = unsigned int;
     using AppWindowContainer = std::unordered_map<AppWindowID, std::shared_ptr<AppWindow>>;
@@ -112,10 +109,7 @@ namespace ATMA
          * @param l_objectID object id of the object that was changed
          * @param l_bits the bit set of the object describing which attributes it has
          */
-        void objectUpdated(
-            const unsigned int &l_objectID,
-            const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits
-        );
+        void objectUpdated(const unsigned int &l_objectID, const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
 
         /**
          * Called when a system has been removed or added to the context and
@@ -123,7 +117,10 @@ namespace ATMA
          * @param l_systemID id of the system that has changed
          */
         void systemUpdated(const unsigned int &l_systemID);
+
+        NetworkManager m_networkManager {};
     public:
+        NetworkManager &netManager{m_networkManager};
         // deleted functions
         ATMAContext(ATMAContext const &) = delete;
         void operator=(ATMAContext const &) = delete;
@@ -140,7 +137,12 @@ namespace ATMA
             return context;
         }
 
-        std::shared_ptr<GLRenderer> &getRenderer()
+
+        /**
+         * function to obtain context's renderer
+         * #@returns reference to context renderer
+         */
+        inline std::shared_ptr<GLRenderer> &getRenderer()
         {
             return m_renderer;
         }
@@ -163,8 +165,7 @@ namespace ATMA
             }
             else
             {
-                m_attrFactory[l_attrType] = []() -> std::shared_ptr<AttrBase>
-                { return std::make_shared<T>(); };
+                m_attrFactory[l_attrType] = []() -> std::shared_ptr<AttrBase> { return std::make_shared<T>(); };
                 ATMA_ENGINE_INFO("Registered Attribute of type {0:d}", l_attrType);
             }
         }
@@ -182,8 +183,7 @@ namespace ATMA
          * @param l_bits
          * @returns id of the new object
          */
-        [[nodiscard]] unsigned int
-        createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
+        [[nodiscard]] unsigned int createObject(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
 
         /**
          * Adds an attribute of the given id type to the given id
@@ -209,8 +209,7 @@ namespace ATMA
          * @param l_attrType type id to check for
          * @returns if the attribute was found or not
          */
-        [[nodiscard]] bool
-        hasAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType);
+        [[nodiscard]] bool hasAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType);
 
         /**
          * gets a pointer to the specified attribute from the given object
@@ -221,15 +220,13 @@ namespace ATMA
          * @throws ValueNotFound Exception if object or attribute cannot be found in the context
          */
         template<class T>
-        [[nodiscard]] std::shared_ptr<T>
-        getAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType)
+        [[nodiscard]] std::shared_ptr<T> getAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType)
         {
             auto itr = m_objects.find(l_objectID);
             if(itr == m_objects.end())
             {
                 throw ValueNotFoundException(
-                    "object id: " + std::to_string(l_objectID)
-                    + " does not contain any attributes or does not exist"
+                    "object id: " + std::to_string(l_objectID) + " does not contain any attributes or does not exist"
                 );
             }
             else
@@ -308,9 +305,7 @@ namespace ATMA
             auto itr = m_systems.find(l_systemID);
             if(itr == m_systems.end())
             {
-                throw ValueNotFoundException(
-                    "system id: " + std::to_string(l_systemID) + " does not exist"
-                );
+                throw ValueNotFoundException("system id: " + std::to_string(l_systemID) + " does not exist");
             }
             else
             {
@@ -389,8 +384,7 @@ namespace ATMA
             if(itr == m_resources.end())
             {
                 throw ValueNotFoundException(
-                    "resource ID: " + std::to_string(l_resourceID)
-                    + " has not been registered with ATMA Context"
+                    "resource ID: " + std::to_string(l_resourceID) + " has not been registered with ATMA Context"
                 );
             }
             else
@@ -458,10 +452,7 @@ namespace ATMA
          * @param l_id type id of the object event that the listener is listening for
          * @param l_listener pointer to the listener
          */
-        void addObjectEventListener(
-            const ObjectEventID &l_id,
-            std::shared_ptr<ObjectEventListener> l_listener
-        );
+        void addObjectEventListener(const ObjectEventID &l_id, std::shared_ptr<ObjectEventListener> l_listener);
 
         /**
          * Creates a new app window in the context

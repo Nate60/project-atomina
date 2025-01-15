@@ -1,6 +1,6 @@
 #pragma once
 #include <atomina.hpp>
-#include "GameStateType.hpp"
+#include "../GameEnums.hpp"
 
 using namespace std::placeholders;
 using namespace std::string_literals;
@@ -9,15 +9,14 @@ using namespace std::string_literals;
  * Game Implementation of state to implement a user defined extended state
  * that is external to the engine
  */
-class LobbyState: public ATMA::BaseState
+class LobbyState: public ATMA::BaseState, public ATMA::NetworkMessageListener
 {
 public:
     ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
 
-        // default constructor
+    // default constructor
     LobbyState(
         std::shared_ptr<ATMA::AppWindow> l_win,
-        std::shared_ptr<ATMA::NetworkClient> l_conn, 
         const unsigned int &l_vertID,
         const unsigned int &l_fragID,
         const unsigned int &l_fontID
@@ -36,14 +35,12 @@ public:
         m_defaultProg->link();
         auto unselectedTextID = ctx.registerResource("unselected", 0u, "res/unselected.png");
         m_unselectedTexture = ctx.loadResource<ATMA::GLTexture>(unselectedTextID);
-        m_conn = l_conn;
         for(int i = 0; i < 2; i++)
         {
             m_connectedPlayers[i].first = ctx.createObject();
             m_connectedPlayers[i].second = ctx.createObject();
         }
     }
-
 
     virtual ~LobbyState() {}
 
@@ -52,36 +49,15 @@ public:
      */
     virtual void activate() override
     {
-        m_active = true;
-        m_conn->connect(ATMA::URL{"127.0.0.1"}, 4734);
-        static ATMA::NetworkMessage nm{
-            ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_REQUEST)
-        };
-        short playerPort;
-        std::vector<unsigned char> messageStream = ATMA::NetworkSerde::serialize(nm);
-        std::span<unsigned char> messageBuffer{messageStream};
-        m_conn->sendBytes(messageBuffer, messageStream.size());
 
-        unsigned char buffer[ATMA::NETWORKMESSAGEBUFFERSIZE];
-        size_t recvBytes = 0;
-        std::span<unsigned char> bufferView{buffer};
-        if(m_conn->receiveBytes(bufferView, ATMA::NETWORKMESSAGEBUFFERSIZE, recvBytes);
-           recvBytes > 0)
-        {
-            ATMA::NetworkMessage resp = ATMA::NetworkSerde::deserialize(
-                std::vector<unsigned char>{bufferView.begin(), bufferView.begin() + recvBytes}
-            );
-            playerPort = resp.m_values.getAs<short>("port");
-        }
+        ctx.netManager.startConnection(ATMA::URL{"127.0.0.1"}, 4734);
+        static ATMA::NetworkMessage nm{ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_REQUEST)};
+        ctx.netManager.sendMessage(nm);
 
         for(int i = 0; i < 2; i++)
         {
-            ctx.addAttribute(
-                m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render)
-            );
-            ctx.addAttribute(
-                m_connectedPlayers[i].second, ATMA::AttributeType(ATMA::Attribute::Text)
-            );
+            ctx.addAttribute(m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render));
+            ctx.addAttribute(m_connectedPlayers[i].second, ATMA::AttributeType(ATMA::Attribute::Text));
             m_connectedPlayersObjs[i].first = ctx.getAttribute<ATMA::AttrRenderable>(
                 m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render)
             );
@@ -101,19 +77,15 @@ public:
         m_connectedPlayersObjs[0].second->m_self->m_pos = ATMA::Vec2{215.f, 190.f};
         m_connectedPlayersObjs[0].second->m_self->m_size = ATMA::Vec2{8.f, 14.f};
 
-        
         m_connectedPlayersObjs[1].first->m_self->m_pos = ATMA::Vec2{290.f, -145.f};
         m_connectedPlayersObjs[1].first->m_self->m_size = ATMA::Vec2{90.f, 45.f};
         m_connectedPlayersObjs[1].second->m_self->m_pos = ATMA::Vec2{215.f, -145.f};
         m_connectedPlayersObjs[1].second->m_self->m_size = ATMA::Vec2{8.f, 14.f};
-        for (int i = 0; i < 2; i++)
+        for(int i = 0; i < 2; i++)
         {
-            if(i == playerPort)
-                m_connectedPlayersObjs[i].second->m_self->m_text = "You";
-            else
                 m_connectedPlayersObjs[i].second->m_self->m_text = "Waiting...";
         }
-         
+        m_active = true;
     }
 
     /**
@@ -127,6 +99,41 @@ public:
             ctx.removeAttribute(m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render));
             ctx.removeAttribute(m_connectedPlayers[i].second, ATMA::AttributeType(ATMA::Attribute::Text));
         }
+    }
+
+    virtual void notify(const std::optional<const unsigned int> &l_id, const ATMA::NetworkMessage &l_e) override 
+    {
+
+        auto &ctx = ATMA::ATMAContext::getContext();
+        switch(l_e.type())
+        {
+        case static_cast<unsigned int>(ATMA::NetworkMessageEnum::PORT_RESPONSE):
+            {
+                while(!m_active){}
+                for(int i = 0; i < 2; i++)
+                {
+                    switch(l_e.values().getAs<short>("port"+std::to_string(i)))
+                    {
+                    case -1:
+                        m_connectedPlayersObjs[i].second->m_self->m_text = "OtherPlayer";
+                        break;
+                    case 1:
+                        m_connectedPlayersObjs[i].second->m_self->m_text = "You";
+                        break;
+                    }
+                }
+                break;
+            }
+        case static_cast<unsigned int>(ATMA::NetworkMessageEnum::PORT_JOIN):
+            {
+                while(!m_active){}
+                m_connectedPlayersObjs[l_e.values().getAs<short>("port")].second->m_self->m_text = "OtherPlayer";
+                break;
+            }
+        default:
+            break;
+        }
+
     }
 
     /**
@@ -147,15 +154,11 @@ public:
     {
         return;
     }
-
 protected:
     std::shared_ptr<ATMA::GLProgram> m_defaultProg;
     std::shared_ptr<ATMA::AppWindow> m_win;
     std::shared_ptr<ATMA::GLTexture> m_font;
-    std::shared_ptr<ATMA::NetworkClient> m_conn;
     std::shared_ptr<ATMA::GLTexture> m_unselectedTexture;
     std::pair<unsigned int, unsigned int> m_connectedPlayers[2]{};
-    std::pair<std::shared_ptr<ATMA::AttrRenderable>, std::shared_ptr<ATMA::AttrText>>
-        m_connectedPlayersObjs[2]{};
-
+    std::pair<std::shared_ptr<ATMA::AttrRenderable>, std::shared_ptr<ATMA::AttrText>> m_connectedPlayersObjs[2]{};
 };

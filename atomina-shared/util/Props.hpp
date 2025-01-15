@@ -28,25 +28,19 @@ namespace ATMA
             return !(itr == m_self.end());
         }
     public:
-
         /**
          * default constructor can specifiy if the object should
          * be case sensitive
          * @param l_isCaseSensitive toggle case sensitivity
          */
-        Props(
-            const bool &l_isCaseSensitive
-        );
+        Props(const bool &l_isCaseSensitive);
 
         /**
          * constructor can specifiy if the object should
          * be case sensitive and also the values
          * @param l_isCaseSensitive toggle case sensitivity
          */
-        Props(
-            const std::map<std::string, std::any> &l_values = {},
-            const bool &l_isCaseSensitive = false
-        );
+        Props(const std::map<std::string, std::any> &l_values = {}, const bool &l_isCaseSensitive = false);
 
         /**
          * copy constructor
@@ -81,6 +75,7 @@ namespace ATMA
             else
                 return m_self[l_key];
         }
+
         /**
          * overloaded operator to access const values of inner map
          * @param l_key string key to get value
@@ -230,25 +225,24 @@ namespace ATMA
             return m_self.size();
         }
 
-
         /**
          * gives the iterator to the underlying map
          * @returns iterator to beginning of the map
          */
-        inline std::unordered_map<std::string,std::any>::iterator begin()
+        inline std::unordered_map<std::string, std::any>::iterator begin()
         {
-           return m_self.begin();
+            return m_self.begin();
         }
 
         /**
          * gives the iterator for the end of map
          * @returns iterator to end of the map
          */
-        inline std::unordered_map<std::string,std::any>::iterator end()
+        inline std::unordered_map<std::string, std::any>::iterator end()
         {
             return m_self.end();
         }
-        
+
         /**
          * gives the iterator to the underlying map
          * @returns iterator to beginning of the map

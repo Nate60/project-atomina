@@ -30,6 +30,7 @@
 #include <bitset>
 #include <cstdarg>
 #include <thread>
+#include <semaphore>
 #include <future>
 #include <chrono>
 #include <optional>

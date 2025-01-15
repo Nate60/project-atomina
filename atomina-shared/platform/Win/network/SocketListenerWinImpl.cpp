@@ -5,10 +5,9 @@
 namespace ATMA
 {
 
-    SocketListenerWinImpl::SocketListenerWinImpl(const unsigned short &l_port):
-        SocketListener(l_port)
+    SocketListenerWinImpl::SocketListenerWinImpl(const unsigned short &l_port): SocketListener(l_port)
     {
-
+        ATMA_ENGINE_TRACE("Creating win sock listener");
         ZeroMemory(&m_hints, sizeof(m_hints));
         m_hints.ai_family = AF_INET;
         m_hints.ai_socktype = SOCK_STREAM;
@@ -18,59 +17,61 @@ namespace ATMA
         int addr = getaddrinfo(NULL, std::to_string(l_port).c_str(), &m_hints, &m_addrinfo);
         if(addr != 0)
         {
-            throw InitializationException("Socket Listener unable to get address info");
+            throw NetworkException("Socket Listener unable to get address info");
         }
-    }
-
-    SocketListenerWinImpl::~SocketListenerWinImpl() {}
-
-    bool SocketListenerWinImpl::startListening()
-    {
-        m_listener =
-            socket(m_addrinfo->ai_family, m_addrinfo->ai_socktype, m_addrinfo->ai_protocol);
+        m_listener = socket(m_addrinfo->ai_family, m_addrinfo->ai_socktype, m_addrinfo->ai_protocol);
         if(m_listener == INVALID_SOCKET)
         {
-            ATMA_ENGINE_WARN("Socket Listener failed to create socket: {0}", WSAGetLastError());
+            auto err = WSAGetLastError();
+            ATMA_ENGINE_WARN("Socket Listener failed to create socket: {0}", err);
             freeaddrinfo(m_addrinfo);
-            return false;
+            throw NetworkException("Socket Listener unable to create socket " + std::to_string(err));
         }
 
-        auto addr = bind(m_listener, m_addrinfo->ai_addr, static_cast<int>(m_addrinfo->ai_addrlen));
+        unsigned long ul = 1;
+        ioctlsocket(m_listener, FIONBIO, (unsigned long *)&ul);
+
+        auto socketBind = bind(m_listener, m_addrinfo->ai_addr, static_cast<int>(m_addrinfo->ai_addrlen));
         freeaddrinfo(m_addrinfo);
-        if(addr == SOCKET_ERROR)
+        if(socketBind == SOCKET_ERROR)
         {
-            ATMA_ENGINE_WARN("Socket Listener failed to bind");
+            auto err = WSAGetLastError();
+            ATMA_ENGINE_WARN("Socket Listener failed to bind {}", err);
             closesocket(m_listener);
-            return false;
+            freeaddrinfo(m_addrinfo);
+            throw NetworkException("Socket Listener unable to bind socket " + std::to_string(err));
         }
 
         if(listen(m_listener, SOMAXCONN) == SOCKET_ERROR)
         {
-            ATMA_ENGINE_WARN("Socket Listener failed to listen");
+            auto err = WSAGetLastError();
+            ATMA_ENGINE_WARN("Socket Listener failed to listen {}", err);
             closesocket(m_listener);
-            return false;
+            throw NetworkException("Socket Listener unable to listen " + std::to_string(err));
         }
-        return true;
+        ATMA_ENGINE_TRACE("Finished creating win sock listener {}", m_listener);
     }
 
-    bool SocketListenerWinImpl::stopListening()
+    SocketListenerWinImpl::~SocketListenerWinImpl()
     {
+        ATMA_ENGINE_TRACE("Destroying win socket listener {}", m_listener);
         closesocket(m_listener);
-        return true;
     }
 
-    std::unique_ptr<Socket> SocketListenerWinImpl::acceptConnection()
+    std::shared_ptr<Socket> SocketListenerWinImpl::acceptConnection()
     {
-        std::unique_ptr<SocketWinImpl> m_client = std::make_unique<SocketWinImpl>();
-        m_client->m_socket = INVALID_SOCKET;
-        m_client->m_socket = accept(m_listener, NULL, NULL);
-        if(m_client->m_socket == INVALID_SOCKET)
+        SOCKET socket = accept(m_listener, NULL, NULL);
+        if(socket == INVALID_SOCKET)
         {
-            ATMA_ENGINE_INFO("No connection was accepted");
-            closesocket(m_listener);
             return nullptr;
         }
-        return m_client;
+        ATMA_ENGINE_TRACE("win socket {} accepted from listener {}", socket, m_listener);
+        return std::make_shared<SocketWinImpl>(std::move(socket), m_port);
+    }
+
+    const std::string SocketListenerWinImpl::toString() const
+    {
+        return std::to_string(m_listener);
     }
 
 }

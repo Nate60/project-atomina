@@ -19,9 +19,7 @@ namespace ATMA
     {
         static std::once_flag flag{};
         static std::shared_ptr<GLRenderContext> renderCtx;
-        std::call_once(flag, [&](){
-            renderCtx = __ATMAMAKEGLRENDERCONTEXT();
-        });
+        std::call_once(flag, [&]() { renderCtx = __ATMAMAKEGLRENDERCONTEXT(); });
         return renderCtx;
     }
 

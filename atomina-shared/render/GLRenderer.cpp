@@ -9,10 +9,7 @@ namespace ATMA
         m_renderCtx = GLRenderContext::getRenderContext();
     }
 
-    GLRenderer::~GLRenderer()
-    {
-
-    }
+    GLRenderer::~GLRenderer() {}
 
     void GLRenderer::toggleBlend(const bool &l_toggle)
     {
@@ -21,20 +18,14 @@ namespace ATMA
 
     void GLRenderer::setFrameBufferDimensions(const int &w, const int &h)
     {
-        m_renderCtx->setViewPort({0,0}, {w,h});
+        m_renderCtx->setViewPort({0, 0}, {w, h});
     }
 
     void GLRenderer::setWindow(std::shared_ptr<AppWindow> l_win)
     {
         static std::once_flag once;
         glfwMakeContextCurrent(l_win->m_windowHandle);
-        std::call_once(
-            once,
-            [&]()
-            {
-                m_renderCtx->init();
-            }
-        );
+        std::call_once(once, [&]() { m_renderCtx->init(); });
     }
 
     void GLRenderer::startScene(const GLCamera &l_camera)

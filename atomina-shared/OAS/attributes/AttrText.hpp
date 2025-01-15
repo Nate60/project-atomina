@@ -13,7 +13,6 @@ namespace ATMA
     class AttrText: public AttrBase
     {
     public:
-
         // default constructor
         AttrText();
 
@@ -30,7 +29,6 @@ namespace ATMA
         void readIn(std::stringstream &l_stream);
 
         std::shared_ptr<GLText> m_self = GLText::makeText();
-      
     };
 
 }

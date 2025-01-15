@@ -19,7 +19,6 @@ namespace ATMA
      * @param l_filter regex pattern to match against
      * @return list of full qualified paths in the directory
      */
-    std::vector<stdfs::path>
-    getDirectoryList(const stdfs::path &l_path, const std::string &l_filter = ".*[.].*");
+    std::vector<stdfs::path> getDirectoryList(const stdfs::path &l_path, const std::string &l_filter = ".*[.].*");
 
 }

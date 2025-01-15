@@ -26,7 +26,6 @@ namespace ATMA
          */
         static std::shared_ptr<GLRenderContext> getRenderContext();
 
-
         /**
          * Context is created on first get, but that may not be when we want to initialize the
          * GLLibrary Context. For example GLEW requires that a window is created first
@@ -39,7 +38,6 @@ namespace ATMA
          */
         virtual void setViewPort(const Vec2<int> &l_pos, const Vec2<int> &l_size) = 0;
 
-
         /**
          * clears the view port that he Render context has been set to
          * to be all one colour
@@ -50,10 +48,9 @@ namespace ATMA
          * toggles rendering blends
          */
         virtual void toggleBlend(const bool &l_toggle) = 0;
-
     protected:
         // protected constructor so it cannot be publicly instantiated
-        
+
         GLRenderContext();
         friend class AppWindow;
     };

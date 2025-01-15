@@ -20,20 +20,14 @@ namespace ATMA
         for(auto &c: m_text)
         {
             // set uniforms
-            m_prog->setUniformMat3f(
-                "u_camera", l_props.value_or<Mat3<float>>("u_camera", identityMatrix<float>())
-            );
+            m_prog->setUniformMat3f("u_camera", l_props.value_or<Mat3<float>>("u_camera", identityMatrix<float>()));
             m_prog->setUniformMat3f("u_translate", translationMatrix(m_pos.x + advance, m_pos.y));
             m_prog->setUniformMat3f("u_scale", scalingMatrix(m_size.x, m_size.y));
             m_prog->setUniformMat3f("u_rot", rotationMatrix(m_rot));
-            m_prog->setUniformMat3f(
-                "u_textureRegion", scalingMatrix<float>(GLYPH_SIZE, GLYPH_SIZE)
-            );
+            m_prog->setUniformMat3f("u_textureRegion", scalingMatrix<float>(GLYPH_SIZE, GLYPH_SIZE));
             m_prog->setUniformMat3f(
                 "u_texturePos",
-                translationMatrix<float>(
-                    (c % GLYPHS_PER_ROW) * GLYPH_SIZE, (c / GLYPHS_PER_ROW) * GLYPH_SIZE
-                )
+                translationMatrix<float>((c % GLYPHS_PER_ROW) * GLYPH_SIZE, (c / GLYPHS_PER_ROW) * GLYPH_SIZE)
             );
             m_prog->setUniformMat3f("u_textureCamera", m_texture->m_texture.m_proj);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

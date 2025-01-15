@@ -3,10 +3,7 @@
 
 namespace ATMA
 {
-    AttrControllable::AttrControllable():
-        AttrBase(AttrType(Attribute::Controllable), "Controllable")
-    {
-    }
+    AttrControllable::AttrControllable(): AttrBase(AttrType(Attribute::Controllable), "Controllable") {}
 
     AttrControllable::~AttrControllable() {}
 

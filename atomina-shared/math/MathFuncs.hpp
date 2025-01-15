@@ -51,7 +51,12 @@ namespace ATMA
      * @param l_y: y coordinate point to get the noise at
      */
     template<class T, class V>
-    T perlin(const Vec2<T> l_gradient[4],const std::function<T(const T &, const T &, const V &)> l_lerp, const T &l_x, const T &l_y)
+    T perlin(
+        const Vec2<T> l_gradient[4],
+        const std::function<T(const T &, const T &, const V &)> l_lerp,
+        const T &l_x,
+        const T &l_y
+    )
     {
         T a0 = static_cast<T>(std::floor(l_x));
         T a1 = a0 + 1;
@@ -137,14 +142,14 @@ namespace ATMA
     }
 
     /**
-    * @brief given two points, find the closest point between those
-    * two points to the given point
-    * @tparam T subtype of Vec2
-    * @param l_a first point of line
-    * @param l_b second point of line
-    * @param l_point point to align to
-    * @returns point between two points closest to the line
-    */
+     * @brief given two points, find the closest point between those
+     * two points to the given point
+     * @tparam T subtype of Vec2
+     * @param l_a first point of line
+     * @param l_b second point of line
+     * @param l_point point to align to
+     * @returns point between two points closest to the line
+     */
     template<class T>
     constexpr inline Vec2<T> lerpClosest(const Vec2<T> &l_a, const Vec2<T> &l_b, const Vec2<T> &l_point)
     {
@@ -154,6 +159,5 @@ namespace ATMA
         T delta = ((l_point - l_a) * line) / (line * line);
         return l_a + (line * std::clamp<T>(delta, 0, 1));
     }
-
 
 }

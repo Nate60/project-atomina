@@ -98,11 +98,10 @@ namespace ATMA
     template<class T>
     constexpr inline Vec2<T> normalize(Vec2<T> l_vector)
     {
-        T dist = static_cast<T>(std::sqrt(l_vector * l_vector));  
-        if(dist == 0) //0 vector cannot be normalized
-            return l_vector; 
-        return Vec2<T>{l_vector.x/dist,l_vector.y/dist};
+        T dist = static_cast<T>(std::sqrt(l_vector * l_vector));
+        if(dist == 0) // 0 vector cannot be normalized
+            return l_vector;
+        return Vec2<T>{l_vector.x / dist, l_vector.y / dist};
     }
-   
 
 }
