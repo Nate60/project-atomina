@@ -128,7 +128,6 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflow)
     std::span<unsigned char> send_buffer{sendingMessage};
     host->sendBytes(send_buffer, sendingMessage.size());
     auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
-    this->ctx.netManager.stopConnection();
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L
@@ -174,7 +173,6 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflowLargerThanBuf
     std::span<unsigned char> send_buffer{sendingMessage};
     host->sendBytes(send_buffer, sendingMessage.size());
     auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
-    this->ctx.netManager.stopConnection();
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L
@@ -220,7 +218,6 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflow)
     std::span<unsigned char> send_buffer{sendingMessage};
     host->sendBytes(send_buffer, sendingMessage.size());
     auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
-    this->ctx.netManager.stopConnection();
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L
