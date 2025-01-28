@@ -10,6 +10,7 @@ enum class GameEventEnum
     CONNECT,
     DISCONNECT,
     SYNC,
+    TIMER_COMPLETE,
 };
 
 /**
@@ -21,6 +22,7 @@ enum class GameStateEnum
     MAINMENU,
     LOBBY,
     PLAYSTATE,
+    SERVER,
 };
 
 /**
@@ -30,6 +32,7 @@ enum class GameSystemEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::System::COUNT),
     CONNECTION,
+    TIME,
 };
 
 /**
@@ -39,6 +42,17 @@ enum class GameAttributeEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::Attribute::COUNT),
     CONNECTION,
+    TIMER,
+};
+
+enum class GameNetMessageEnum
+{
+    COUNT = static_cast<unsigned int>(ATMA::NetworkMessageEnum::COUNT),
+    PLAYER_CHOICE,
+    PLAYER_WIN,
+    PLAYER_LOSE,
+    PLAYER_TIED,
+
 };
 
 /**
@@ -129,4 +143,27 @@ public:
     }
 private:
     const GameAttributeEnum m_type;
+};
+
+
+/**
+ * wrapper class for State Enum that allows for implicit
+ * coversion to unsigned int
+ */
+class GameNetMessageType
+{
+public:
+    // normal constructor
+    GameNetMessageType(const GameNetMessageEnum &l_type): m_type(l_type) {}
+
+    // conversion constructor
+    GameNetMessageType(const unsigned int &l_int): m_type(static_cast<GameNetMessageEnum>(l_int)) {}
+
+    // conversion operator
+    operator unsigned int()
+    {
+        return static_cast<unsigned int>(m_type);
+    }
+private:
+    const GameNetMessageEnum m_type;
 };

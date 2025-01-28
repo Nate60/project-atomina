@@ -2,8 +2,10 @@
 #include "GameEnums.hpp"
 #include "state/MainMenuState.hpp"
 #include "state/LobbyState.hpp"
+#include "state/PlayState.hpp"
 #include "OAS/AttrConnection.hpp"
 #include "OAS/SysConnection.hpp"
+#include "OAS/SysTime.hpp"
 
 /*
  * extension of the Game class from atomina-api

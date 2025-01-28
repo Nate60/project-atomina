@@ -22,7 +22,24 @@ public:
     * @param l_dt the time since last update
     */
     virtual void update(const long long &l_dt) override
-    {}
+    {
+        auto &ctx = ATMA::ATMAContext::getContext();
+        for(auto &idPair : m_conns)
+        {
+            auto connAttr = ctx.getAttribute<AttrConnection>(idPair.second, GameAttributeType(GameAttributeEnum::CONNECTION));
+            std::lock_guard<std::mutex> lock{connAttr->m_msgMutex};
+            for(auto &msg: connAttr->m_msgs)
+            {
+                ATMA_ENGINE_TRACE("Sending out object network message type {}", msg.type());
+                ATMA::Props p = msg.values();
+                p["connId"] = idPair.first;
+                p["msgType"] = msg.type();
+                ATMA::ObjectEventContext e{ATMA::ObjectEventType(ATMA::ObjectEvent::Network), p};
+                ctx.dispatchObjectEvent(e);
+            }
+            connAttr->m_msgs.clear();
+        }
+    }
 
     /**
     * event callback function where the system will changes
@@ -35,6 +52,7 @@ public:
     virtual void notify(const std::optional<const unsigned int> &l_id, const ATMA::NetworkMessage &l_e) override 
     {
         auto &ctx = ATMA::ATMAContext::getContext();
+        ATMA_ENGINE_TRACE("Network System handling message with type {}", l_e.type());
         switch(l_e.type())
         {
         case static_cast<unsigned int>(ATMA::NetworkMessageEnum::CONNECTION_STARTED):
