@@ -2,6 +2,7 @@
 #    include "GameApp.hpp"
 
 
+
 GameApp::GameApp() {}
 
 GameApp::~GameApp() {}
@@ -10,6 +11,17 @@ void GameApp::setup(ATMA::ATMAContext &l_ctx)
 {
     l_ctx.registerAttributeType<AttrConnection>(GameAttributeType(GameAttributeEnum::CONNECTION));
     l_ctx.addSystemType<SysConnection>(GameSystemType(GameSystemEnum::CONNECTION));
+    l_ctx.registerAttributeType<AttrTimer>(GameAttributeType(GameAttributeEnum::TIMER));
+    l_ctx.addSystemType<SysTime>(GameSystemType(GameSystemEnum::TIME));
+    auto netSys = l_ctx.getSystem<SysConnection>(GameSystemType(GameSystemEnum::CONNECTION));
+    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::CONNECTION_STARTED), netSys);
+    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_JOIN), netSys);
+    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_REQUEST), netSys); 
+    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), netSys); 
+    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::STATE_CHANGE), netSys);
+    l_ctx.netManager.addMessageListener(GameNetMessageType(GameNetMessageEnum::PLAYER_WIN), netSys);
+    l_ctx.netManager.addMessageListener(GameNetMessageType(GameNetMessageEnum::PLAYER_TIED), netSys);
+    l_ctx.netManager.addMessageListener(GameNetMessageType(GameNetMessageEnum::PLAYER_LOSE), netSys);
     active = true;
 
     auto winID = l_ctx.createWindow();
@@ -27,9 +39,12 @@ void GameApp::setup(ATMA::ATMAContext &l_ctx)
     std::shared_ptr<MainMenuState> state = std::make_shared<MainMenuState>(m_win, vertShaderID, fragShaderID, fontID);
     l_ctx.addState(GameStateType(GameStateEnum::MAINMENU), std::move(state));
     std::shared_ptr<LobbyState> lobby = std::make_shared<LobbyState>(m_win, vertShaderID, fragShaderID, fontID);
-    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), lobby);
-    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_JOIN), lobby);
+    l_ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::Network), lobby);
     l_ctx.addState(GameStateType(GameStateEnum::LOBBY), std::move(lobby));
+    std::shared_ptr<PlayState> play = std::make_shared<PlayState>(m_win, vertShaderID, fragShaderID, fontID);
+    l_ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::Network), play);
+    l_ctx.addObjectEventListener(GameEventType(GameEventEnum::TIMER_COMPLETE), play);
+    l_ctx.addState(GameStateType(GameStateEnum::PLAYSTATE), std::move(play));
     m_renderer->toggleBlend(true);
 }
 
