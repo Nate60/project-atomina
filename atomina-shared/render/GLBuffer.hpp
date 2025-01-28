@@ -138,8 +138,7 @@ namespace ATMA
          * @param l_data interal data
          * @return new buffer pointer of the pre-determined implemenation type
          */
-        static std::shared_ptr<VertexArray>
-        makeBuffer(const std::initializer_list<LayoutElement> &l_list);
+        static std::shared_ptr<VertexArray> makeBuffer(const std::initializer_list<LayoutElement> &l_list);
 
         /**
          * @brief factory function to create empty buffer

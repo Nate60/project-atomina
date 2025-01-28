@@ -2,8 +2,8 @@
 #include "pch.hpp"
 #include "math/Vec2.hpp"
 #include "util/Log.hpp"
+#include "util/Props.hpp"
 #include "GUI/WindowEvent.hpp"
-
 
 namespace ATMA
 {
@@ -18,10 +18,9 @@ namespace ATMA
     class AppWindow: public std::enable_shared_from_this<AppWindow>
     {
     public:
-        AppWindow(
-            const Vec2<unsigned int> &l_size = {180, 180},
-            const std::string &l_name = "Atomina Application"
-        );
+        // default constructor with optional parameters
+        AppWindow(const Vec2<unsigned int> &l_size = {180, 180}, const std::string &l_name = "Atomina Application");
+
         // default deconstructor
         virtual ~AppWindow();
 
@@ -36,7 +35,6 @@ namespace ATMA
          * @returns dimensions as a vector
          */
         const Vec2<unsigned int> &getSize() const;
-
 
         /**
          * notify the window to show to the display
@@ -71,7 +69,6 @@ namespace ATMA
         const bool shouldClose() const;
 
         GLFWwindow *m_windowHandle;
-
     protected:
         // Only constructor with default values to allow for default constructor
         // Specified the size and name of the window
@@ -83,5 +80,15 @@ namespace ATMA
 
         friend class GLRenderer;
     };
+
+    /**
+     * window logging formatting func
+     * @param os output stream to pipe into
+     * @param w window object to log
+     */
+    inline std::ostream &operator<<(std::ostream &os, const AppWindow &w)
+    {
+        return os << w.getName();
+    }
 
 }

@@ -10,15 +10,9 @@
 namespace ATMA
 {
 
-    GLShader::GLShader(const Shader &l_shader): m_shader(l_shader), LoadedResource()
-    {
-        ATMA_ENGINE_TRACE("Creating GL Shader");
-    }
+    GLShader::GLShader(const Shader &l_shader): m_shader(l_shader), LoadedResource() {}
 
-    GLShader::~GLShader() 
-    {
-        ATMA_ENGINE_TRACE("Deleting GL Shader");
-    }
+    GLShader::~GLShader() {}
 
     const unsigned int &GLShader::getBindID() const
     {

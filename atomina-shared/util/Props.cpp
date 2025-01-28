@@ -6,6 +6,22 @@ namespace ATMA
 
     Props::Props(const bool &l_isCaseSensitive): m_caseSensitve(l_isCaseSensitive) {}
 
+    Props::Props(const std::map<std::string, std::any> &l_values, const bool &l_isCaseSensitive):
+        m_caseSensitve(l_isCaseSensitive)
+    {
+        for(const auto &v: l_values)
+        {
+            if(!m_caseSensitve)
+            {
+                auto newKey = v.first;
+                std::transform(newKey.begin(), newKey.end(), newKey.begin(), ::toupper);
+                m_self[newKey] = v.second;
+            }
+            else
+                m_self[v.first] = v.second;
+        }
+    }
+
     Props::Props(const Props &l_other)
     {
         m_self = l_other.m_self;
@@ -19,85 +35,5 @@ namespace ATMA
     }
 
     Props::~Props() {}
-
-    std::any &Props::operator[](const std::string &l_key)
-    {
-        if(!m_caseSensitve)
-        {
-            auto newKey = l_key;
-            std::transform(newKey.begin(), newKey.end(), newKey.begin(), ::toupper);
-            return m_self[newKey];
-        }
-        else
-            return m_self[l_key];
-    }
-
-    Props &Props::operator=(const Props &l_other)
-    {
-        m_self = l_other.m_self;
-        m_caseSensitve = l_other.m_caseSensitve;
-        return *this;
-    }
-
-    Props &Props::operator=(Props &&l_other)
-    {
-        m_self = std::move(l_other.m_self);
-        m_caseSensitve = std::move(l_other.m_caseSensitve);
-        return *this;
-    }
-
-    void Props::remove(const std::string &l_key)
-    {
-        if(!m_caseSensitve)
-        {
-            auto newKey = l_key;
-            std::transform(newKey.begin(), newKey.end(), newKey.begin(), ::toupper);
-            auto itr = m_self.find(newKey);
-            if(itr == m_self.end())
-            {
-                throw ValueNotFoundException("Properites does not contain key " + newKey);
-            }
-            else
-            {
-                m_self.erase(itr);
-            }
-        }
-        else
-        {
-            auto itr = m_self.find(l_key);
-            if(itr == m_self.end())
-            {
-                throw ValueNotFoundException("Properites does not contain key " + l_key);
-            }
-            else
-            {
-                m_self.erase(itr);
-            }
-        }
-    }
-
-    bool Props::contains(const std::string &l_key) const
-    {
-        if(!m_caseSensitve)
-        {
-            auto newKey = l_key;
-            std::transform(newKey.begin(), newKey.end(), newKey.begin(), ::toupper);
-            return hasKeyPostTransform(newKey);
-        }
-        else
-        {
-            return hasKeyPostTransform(l_key);
-        }
-    }
-
-    std::unordered_map<std::string,std::any>::iterator Props::begin()
-    {
-        return m_self.begin();
-    }
-
-    std::unordered_map<std::string,std::any>::iterator Props::end()
-    {
-        return m_self.end();
-    }
 
 }

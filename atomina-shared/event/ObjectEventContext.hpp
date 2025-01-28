@@ -6,6 +6,8 @@
 namespace ATMA
 {
 
+    using std::string_literals::operator""s;
+
     /**
      * @brief contains information that is required to handle
      * an object event
@@ -22,5 +24,11 @@ namespace ATMA
         const unsigned int m_objectEventType;
         const Props m_properties{};
     };
+
+    // log formatting function
+    inline std::ostream &operator<<(std::ostream &os, const ObjectEventContext &e)
+    {
+        return os << e.m_properties.value_or("name", "[null]"s);
+    }
 
 }

@@ -4,9 +4,6 @@
 namespace ATMA
 {
 
-    void GLTextDummyImpl::draw(const Props &l_props)
-    {
-        
-    }
+    void GLTextDummyImpl::draw(const Props &l_props) {}
 
 }

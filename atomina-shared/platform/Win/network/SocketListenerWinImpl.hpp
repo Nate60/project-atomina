@@ -30,22 +30,16 @@ namespace ATMA
         virtual ~SocketListenerWinImpl();
 
         /**
-         * opens port to active sockets
-         * @return if the operation was successful
-         */
-        virtual bool startListening() override;
-
-        /**
-         * closes port so no more connections can be opened
-         * @return if the operation was successful
-         */
-        virtual bool stopListening() override;
-
-        /**
          * accepts a connection if there is a socket waiting
          * @return either a nullptr or a pointer to an active socket
          */
-        virtual std::unique_ptr<Socket> acceptConnection() override;
+        virtual std::shared_ptr<Socket> acceptConnection() override;
+
+        /**
+         * convert socket info into string for logging
+         * @return socket info as string
+         */
+        virtual const std::string toString() const override;
     private:
         addrinfo *m_addrinfo = NULL, m_hints;
         SOCKET m_listener = INVALID_SOCKET;

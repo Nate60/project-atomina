@@ -9,7 +9,8 @@
 #include "event/ObjectEventContext.hpp"
 #include "event/ObjectEvent.hpp"
 
-namespace ATMA{
+namespace ATMA
+{
 
     /**
      * System that implements collision detection for all collideable objects

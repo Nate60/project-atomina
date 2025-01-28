@@ -31,9 +31,7 @@ namespace ATMA
     struct ValueNotFoundException: public AtominaException
     {
 
-        ValueNotFoundException(const std::string &l_message) noexcept: AtominaException(l_message)
-        {
-        }
+        ValueNotFoundException(const std::string &l_message) noexcept: AtominaException(l_message) {}
     };
 
     /**
@@ -41,9 +39,7 @@ namespace ATMA
      */
     struct InitializationException: public AtominaException
     {
-        InitializationException(const std::string &l_message) noexcept: AtominaException(l_message)
-        {
-        }
+        InitializationException(const std::string &l_message) noexcept: AtominaException(l_message) {}
     };
 
     /**
@@ -52,10 +48,7 @@ namespace ATMA
 
     struct ResourceAcquisitionException: public AtominaException
     {
-        ResourceAcquisitionException(const std::string &l_message) noexcept:
-            AtominaException(l_message)
-        {
-        }
+        ResourceAcquisitionException(const std::string &l_message) noexcept: AtominaException(l_message) {}
     };
 
     /**
@@ -67,9 +60,17 @@ namespace ATMA
     };
 
     /**
-    * exception for timer related errors
-    */
-    struct TimeException : public AtominaException
+     * exception for Serialization and Deserialization
+     */
+    struct SerializationException: public AtominaException
+    {
+        SerializationException(const std::string &l_message) noexcept: AtominaException(l_message) {}
+    };
+
+    /**
+     * exception for timer related errors
+     */
+    struct TimeException: public AtominaException
     {
         TimeException(const std::string &l_message) noexcept: AtominaException(l_message) {}
     };

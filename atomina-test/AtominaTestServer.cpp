@@ -1,17 +1,18 @@
-#include "AtominaTest.hpp"
+#ifdef ATMA_SERVER
+#include "AtominaTestServer.hpp"
 
-GameTest::GameTest() {}
+ServerTest::ServerTest() {}
 
-GameTest::~GameTest() {}
+ServerTest::~ServerTest() {}
 
-void GameTest::setup(ATMA::ATMAContext &l_ctx)
+void ServerTest::setup(ATMA::ATMAContext &l_ctx)
 {
     ATMA_ENGINE_INFO("Setting up test wrapper");
     l_ctx.purge();
     active = true;
 }
 
-void GameTest::update(ATMA::ATMAContext &l_ctx)
+void ServerTest::update(ATMA::ATMAContext &l_ctx)
 {
     ATMA_ENGINE_INFO("Test Wrapper is now running");
     ::testing::InitGoogleTest();
@@ -29,13 +30,14 @@ void GameTest::update(ATMA::ATMAContext &l_ctx)
     active = false;
 }
 
-void GameTest::shutdown(ATMA::ATMAContext &l_ctx) {
+void ServerTest::shutdown(ATMA::ATMAContext &l_ctx) {
 
 }
 
 
-std::unique_ptr<ATMA::Game>
-ATMA::CreateGame()
+std::unique_ptr<ATMA::Server>
+ATMA::CreateServer()
 {
-    return std::unique_ptr<ATMA::Game>{new GameTest()};
+    return std::unique_ptr<ATMA::Server>{new ServerTest()};
 }
+#endif

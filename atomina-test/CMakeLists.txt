@@ -1,7 +1,7 @@
-list(APPEND VCPKG_TARGET_TRIPLET "x64-windows")
+# list(APPEND VCPKG_TARGET_TRIPLET "x64-windows")
 
 # set the project name and version
-project(Atomina_Test VERSION 0.1)
+project(Atomina_Test VERSION 0.2.0)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 20 FORCE)
@@ -20,7 +20,7 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Atomina_Test PROPERTY CXX_STANDARD 20)
 endif()
 
-target_link_libraries(Atomina_Test PUBLIC spdlog::spdlog GLEW::GLEW Atomina_Shared GTest::gtest)
+target_link_libraries(Atomina_Test PUBLIC spdlog::spdlog Atomina_Shared GTest::gtest)
 
 target_include_directories(Atomina_Test PRIVATE "../atomina-shared" "../atomina-test" "${FMT_INCLUDE}" "${SPDLOG_INCLUDE}" "${GTEST_INCLUDE}")
 

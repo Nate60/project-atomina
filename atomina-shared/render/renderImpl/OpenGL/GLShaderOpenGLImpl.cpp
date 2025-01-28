@@ -7,19 +7,16 @@ namespace ATMA
 
     GLShaderOpenGLImpl::GLShaderOpenGLImpl(const Shader &l_shader): GLShader(l_shader)
     {
-        ATMA_ENGINE_TRACE("Creating OPEN GL Shader");
         m_bindID = 0u;
     }
 
     GLShaderOpenGLImpl::~GLShaderOpenGLImpl()
     {
-        ATMA_ENGINE_TRACE("Deleting OPEN GL Shader");
         glDeleteShader(m_bindID);
     }
 
     void GLShaderOpenGLImpl::compile(ShaderType l_type)
     {
-        ATMA_ENGINE_TRACE("Compiling OPEN GL Shader");
         switch(l_type)
         {
         case ShaderType::Vertex:
@@ -38,9 +35,7 @@ namespace ATMA
         if(!success)
         {
             glGetShaderInfoLog(m_bindID, 1024, NULL, infoLog);
-            ATMA_ENGINE_ERROR(
-                "Error with compiling shader: {0} [OPENGL]: {1}", m_shader.m_name, infoLog
-            );
+            ATMA_ENGINE_ERROR("Error with compiling shader: {0} [OPENGL]: {1}", m_shader.m_name, infoLog);
         }
     }
 }

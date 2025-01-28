@@ -9,7 +9,7 @@
 
 namespace ATMA
 {
-    //NOTE: Templated classes should not be exported
+    // NOTE: Templated classes should not be exported
     /**
      * @brief 2 dimensional polygon that is defined by two semi circles
      * joined a by a rectangle. The center points of the semi circles are
@@ -91,8 +91,7 @@ namespace ATMA
     template<class T>
     constexpr inline bool operator==(Stadium<T> a, Stadium<T> b)
     {
-        return a.a == b.a && a.b == b.b
-            && std::fabs(a.r - b.r) <= std::numeric_limits<T>::epsilon();
+        return a.a == b.a && a.b == b.b && std::fabs(a.r - b.r) <= std::numeric_limits<T>::epsilon();
     }
 
     /**

@@ -13,7 +13,6 @@ namespace ATMA
     class AttrRenderable: public AttrBase
     {
     public:
-
         // default constructor
         AttrRenderable();
 
@@ -30,7 +29,6 @@ namespace ATMA
         void readIn(std::stringstream &l_stream);
 
         std::shared_ptr<GLRenderable> m_self = GLRenderable::makeRenderable();
-      
     };
 
 }

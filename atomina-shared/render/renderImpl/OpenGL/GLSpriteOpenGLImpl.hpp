@@ -10,6 +10,5 @@ namespace ATMA
     {
     public:
         virtual void draw(const Props &l_props);
-
     };
 }

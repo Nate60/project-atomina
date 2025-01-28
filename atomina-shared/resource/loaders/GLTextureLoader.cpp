@@ -4,25 +4,19 @@
 namespace ATMA
 {
 
-	ResourceLoader<GLTexture>::ResourceLoader()
-	{
+    ResourceLoader<GLTexture>::ResourceLoader() {}
 
-	}
+    ResourceLoader<GLTexture>::~ResourceLoader() {}
 
-	ResourceLoader<GLTexture>::~ResourceLoader()
-	{
-
-	}
-
-	std::shared_ptr<GLTexture> ResourceLoader<GLTexture>::load(const std::string& l_name, const Path& l_path)
-	{
+    std::shared_ptr<GLTexture> ResourceLoader<GLTexture>::load(const std::string &l_name, const Path &l_path)
+    {
         int width, height, channels;
-        unsigned char *data = stbi_load(l_path.toString().c_str(), &width, &height, &channels, 0);		
+        unsigned char *data = stbi_load(l_path.toString().c_str(), &width, &height, &channels, 0);
         Texture texture = Texture(l_name, l_path, width, height, channels, data);
         return GLTexture::makeTexture(texture);
-	}
+    }
 
-	std::shared_ptr<GLTexture> ResourceLoader<GLTexture>::load(const std::string &l_name)
+    std::shared_ptr<GLTexture> ResourceLoader<GLTexture>::load(const std::string &l_name)
     {
         throw ResourceAcquisitionException("Texture cannot be loaded without path");
     }

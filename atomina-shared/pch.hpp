@@ -2,7 +2,6 @@
 
 #define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
 
-
 #include <span>
 #include <string>
 #include <string_view>
@@ -18,6 +17,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -30,6 +30,7 @@
 #include <bitset>
 #include <cstdarg>
 #include <thread>
+#include <semaphore>
 #include <future>
 #include <chrono>
 #include <optional>
@@ -51,17 +52,14 @@
 
 #    include <gl/glew.h>
 #    include <gl/wglew.h>
-#	 include <GLFW/glfw3.h>
+#    include <GLFW/glfw3.h>
 #    include <Windows.h>
 #    include <Shlwapi.h>
 #    undef min // windows defines min and max which collides with math.min/max
 #    undef max
 #    undef DELETE
 #elif __linux__
-#    include <X11/Xlib.h>
-#    include <X11/keysymdef.h>
-#    include <X11/XKBlib.h>
-#    include <X11/Xutil.h>
+#    include <netinet/tcp.h>
 #    include <GL/glew.h>
 #    include <GL/glxew.h>
 #    include <GLFW/glfw3.h>

@@ -2,26 +2,18 @@
 #include "GLTexture.hpp"
 #ifdef ATMA_OPENGL
 #    include "renderImpl/OpenGL/GLTextureOpenGLImpl.hpp"
-#    define __ATMAMAKEGLTEXTURE(textureData)                                                       \
-        return std::make_shared<GLTextureOpenGLImpl>(textureData)
+#    define __ATMAMAKEGLTEXTURE(textureData) return std::make_shared<GLTextureOpenGLImpl>(textureData)
 #else
 #    include "renderImpl/Dummy/GLTextureDummyImpl.hpp"
-#    define __ATMAMAKEGLTEXTURE(textureData)                                                       \
-        return std::make_shared<GLTextureDummyImpl>(textureData)
+#    define __ATMAMAKEGLTEXTURE(textureData) return std::make_shared<GLTextureDummyImpl>(textureData)
 #endif
 
 namespace ATMA
 {
 
-    GLTexture::GLTexture(const Texture &l_texture): m_texture(l_texture), LoadedResource()
-    {
-        ATMA_ENGINE_TRACE("Creating GL Texture");
-    }
+    GLTexture::GLTexture(const Texture &l_texture): m_texture(l_texture), LoadedResource() {}
 
-    GLTexture::~GLTexture() 
-    {
-        ATMA_ENGINE_TRACE("Deleting GL Texture");
-    }
+    GLTexture::~GLTexture() {}
 
     const unsigned int &GLTexture::getID() const
     {

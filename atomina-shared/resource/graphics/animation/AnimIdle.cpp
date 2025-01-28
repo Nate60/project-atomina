@@ -14,17 +14,7 @@ namespace ATMA
         const unsigned int &l_activeEnd,
         const bool &l_loop
     ):
-        AnimBase(
-            l_name,
-            l_width,
-            l_height,
-            l_sheetLine,
-            l_startFrame,
-            l_endFrame,
-            l_activeStart,
-            l_activeEnd,
-            l_loop
-        )
+        AnimBase(l_name, l_width, l_height, l_sheetLine, l_startFrame, l_endFrame, l_activeStart, l_activeEnd, l_loop)
     {
     }
 

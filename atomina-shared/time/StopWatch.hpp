@@ -26,7 +26,7 @@ namespace ATMA
         bool isStarted();
 
         /**
-         * pauses the stopwatch 
+         * pauses the stopwatch
          * @throws TimeException if the stop watch is already paused, stopped, or not
          * started
          */
@@ -63,19 +63,17 @@ namespace ATMA
         void reset();
 
         /**
-         * Gives the duration from the current timepoint of the stopwatch excluding 
+         * Gives the duration from the current timepoint of the stopwatch excluding
          * any time that it was paused
          * @returns non-continuous duration in nanoseconds between its start and current timepoints.
          * if the stopwatch is stopped it will give the duration between its start and stop instead
          * @throws TimeException if the stopwatch has not been started
          */
         long long getElapsedDuration();
-
     protected:
         Clock m_clock{};
         bool m_paused{false};
-        long long m_pausedDuration{0L};        
+        long long m_pausedDuration{0L};
         std::chrono::time_point<std::chrono::steady_clock> m_lastPauseTime;
-
     };
 }

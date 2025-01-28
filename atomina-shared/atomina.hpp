@@ -26,6 +26,7 @@
 
 // Core
 #include "core/Game.hpp"
+#include "core/Server.hpp"
 #include "core/Entry.hpp"
 #include "core/ATMAContext.hpp"
 #include "core/ATMAFormats.hpp"
@@ -78,8 +79,10 @@
 #include "network/URL.hpp"
 #include "network/Socket.hpp"
 #include "network/SocketListener.hpp"
-#include "network/NetworkClient.hpp"
-#include "network/NetworkHost.hpp"
+#include "network/NetworkManager.hpp"
+#include "network/NetworkMessageTypes.hpp"
+#include "network/NetworkMessage.hpp"
+#include "network/NetworkSerde.hpp"
 
 // GUI
 #include "GUI/AppWindow.hpp"
@@ -107,6 +110,7 @@
 #include "render/renderImpl/Dummy/GLRenderableDummyImpl.hpp"
 #include "render/renderImpl/Dummy/GLTextDummyImpl.hpp"
 #include "render/renderImpl/Dummy/GLSpriteDummyImpl.hpp"
+#include "render/renderImpl/Dummy/GLRenderContextDummyImpl.hpp"
 #include "render/renderImpl/OpenGL/GLBufferOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLProgramOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLShaderOpenGLImpl.hpp"
@@ -114,6 +118,8 @@
 #include "render/renderImpl/OpenGL/GLRenderableOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLTextOpenGLImpl.hpp"
 #include "render/renderImpl/OpenGL/GLSpriteOpenGLImpl.hpp"
+#include "render/renderImpl/Dummy/GLSpriteDummyImpl.hpp"
+#include "render/renderImpl/OpenGL/GLRenderContextOpenGLImpl.hpp"
 
 
 #ifdef _WINDOWS

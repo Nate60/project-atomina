@@ -1,6 +1,6 @@
 #pragma once
 #include <atomina.hpp>
-#include "GameStateType.hpp"
+#include "../GameEnums.hpp"
 
 using namespace std::placeholders;
 using namespace std::string_literals;
@@ -16,13 +16,14 @@ public:
 
     // default constructor
     MainMenuState(
-        std::shared_ptr<ATMA::AppWindow> win,
+        std::shared_ptr<ATMA::AppWindow> l_win,
         const unsigned int &l_vertID,
-        const unsigned int &l_fragID
+        const unsigned int &l_fragID,
+        const unsigned int &l_fontID
     ):
         BaseState()
     {
-        m_win = win;
+        m_win = l_win;
         auto vertShader = ctx.loadResource<ATMA::GLShader>(l_vertID);
         vertShader->compile(ATMA::ShaderType::Vertex);
         auto fragShader = ctx.loadResource<ATMA::GLShader>(l_fragID);
@@ -33,8 +34,7 @@ public:
         m_defaultProg->link();
         auto selectedTextID = ctx.registerResource("selected", 0u, "res/selected.png");
         auto unselectedTextID = ctx.registerResource("unselected", 0u, "res/unselected.png");
-        auto fontID = ctx.registerResource("font", 1u, "res/defaultFont.png");
-        m_font = ctx.loadResource<ATMA::GLTexture>(fontID);
+        m_font = ctx.loadResource<ATMA::GLTexture>(l_fontID);
         m_selectedTexture = ctx.loadResource<ATMA::GLTexture>(selectedTextID);
         m_unselectedTexture = ctx.loadResource<ATMA::GLTexture>(unselectedTextID);
         for(int i = 0; i < 3; i++)
@@ -61,9 +61,8 @@ public:
             m_menuObjs[i].first = ctx.getAttribute<ATMA::AttrRenderable>(
                 m_menuOpts[i].first, ATMA::AttributeType(ATMA::Attribute::Render)
             );
-            m_menuObjs[i].second = ctx.getAttribute<ATMA::AttrText>(
-                m_menuOpts[i].second, ATMA::AttributeType(ATMA::Attribute::Text)
-            );
+            m_menuObjs[i].second =
+                ctx.getAttribute<ATMA::AttrText>(m_menuOpts[i].second, ATMA::AttributeType(ATMA::Attribute::Text));
             m_menuObjs[i].first->m_self->m_prog = m_defaultProg;
             m_menuObjs[i].first->m_self->m_texture = m_unselectedTexture;
             m_menuObjs[i].first->m_self->m_pos = ATMA::Vec2<float>{1.f, 1.f};
@@ -86,7 +85,7 @@ public:
         m_menuObjs[1].second->m_self->m_pos = ATMA::Vec2<float>{-25.f, 0.f};
         m_menuObjs[1].first->m_self->m_pos = ATMA::Vec2<float>{0.f, 0.f};
 
-        m_menuObjs[2].second->m_self->m_text = "Play";
+        m_menuObjs[2].second->m_self->m_text = "Connect";
         m_menuObjs[2].second->m_self->m_texture = m_font;
         m_menuObjs[2].second->m_self->m_prog = m_defaultProg;
         m_menuObjs[2].second->m_self->m_stackPos = 1;
@@ -138,7 +137,6 @@ public:
                 switch(keycode)
                 {
                 case ATMA::KeyEnum::DOWN:
-                    ATMA_ENGINE_INFO("performing down event");
                     m_menuObjs[m_selected].first->m_self->m_texture = m_unselectedTexture;
                     if(m_selected == 0)
                     {
@@ -171,7 +169,7 @@ public:
                     case 1:
                         break;
                     case 2:
-                        ctx.switchToState(GameStateType(GameStateEnum::PLAYSTATE));
+                        ctx.switchToState(GameStateType(GameStateEnum::LOBBY));
                         break;
                     }
                     break;
@@ -181,10 +179,6 @@ public:
             }
         case ATMA::WindowEventEnum::Resized:
 
-            // ATMA::ATMAContext::getContext().getRenderer()->setSize(
-            //     {l_winEvent.getProp<unsigned int>("width"s),
-            //      l_winEvent.getProp<unsigned int>("height"s)}
-            // );
             break;
         case ATMA::WindowEventEnum::Closed:
             l_winEvent.m_win->notifyClose();
@@ -200,8 +194,7 @@ private:
         {0, 0},
         {0, 0}
     };
-    std::pair<std::shared_ptr<ATMA::AttrRenderable>, std::shared_ptr<ATMA::AttrText>>
-        m_menuObjs[3]{};
+    std::pair<std::shared_ptr<ATMA::AttrRenderable>, std::shared_ptr<ATMA::AttrText>> m_menuObjs[3]{};
     int m_selected = 0;
     std::shared_ptr<ATMA::GLTexture> m_selectedTexture;
     std::shared_ptr<ATMA::GLTexture> m_unselectedTexture;

@@ -16,10 +16,8 @@ namespace ATMA
 
     void GLTextureDummyImpl::unbind() {}
 
-    std::shared_ptr<GLTexture> GLTextureDummyImpl::getSubImage(
-        const Vec2<unsigned int> &l_pos,
-        const Vec2<unsigned int> &l_size
-    )
+    std::shared_ptr<GLTexture>
+    GLTextureDummyImpl::getSubImage(const Vec2<unsigned int> &l_pos, const Vec2<unsigned int> &l_size)
     {
         auto sub_image = std::unique_ptr<GLTextureDummyImpl>{new GLTextureDummyImpl{m_texture}};
         return std::move(sub_image);

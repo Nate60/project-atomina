@@ -1,21 +1,21 @@
-#include "pch.hpp"
+ #include "pch.hpp"
 #include "ATMAContext.hpp"
 
 namespace ATMA
 {
 
-    void ATMAContext::objectUpdated(
-        const unsigned int &l_objectID,
-        const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits
-    )
+    void ATMAContext::objectUpdated(const unsigned int &l_objectID, const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits)
     {
         for(auto &system: m_systems)
         {
             int patternID = system.second->match(l_bits);
             bool hasObj = system.second->hasObject(l_objectID) != -1;
-            if(patternID >= 0 && !hasObj){
+            if(patternID >= 0 && !hasObj)
+            {
                 system.second->addObject(l_objectID, patternID);
-            }else if(patternID < 0 && hasObj){
+            }
+            else if(patternID < 0 && hasObj)
+            {
                 system.second->removeObject(l_objectID);
             }
         }
@@ -68,15 +68,12 @@ namespace ATMA
     void ATMAContext::addAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType)
     {
         if(l_objectID >= m_lastObjectID)
-            throw ValueNotFoundException(
-                "Object id: " + std::to_string(l_objectID) + " was not found"
-            );
+            throw ValueNotFoundException("Object id: " + std::to_string(l_objectID) + " was not found");
 
         auto attrItr = m_attrFactory.find(l_attrType);
         if(attrItr == m_attrFactory.end())
             throw ValueNotFoundException(
-                "Attribute type: " + std::to_string(l_attrType)
-                + " has not been registered in factory"
+                "Attribute type: " + std::to_string(l_attrType) + " has not been registered in factory"
             );
 
         auto itr = m_objects.find(l_objectID);
@@ -88,15 +85,11 @@ namespace ATMA
             std::shared_ptr<AttrBase> attr = m_attrFactory[l_attrType]();
             std::unordered_map<AttrTypeID, std::shared_ptr<AttrBase>> attrMap{};
             attrMap[l_attrType] = attr;
-            std::pair<
-                std::bitset<ATConst::OBJECT_BIT_SIZE>,
-                std::unordered_map<AttrTypeID, std::shared_ptr<AttrBase>>>
+            std::pair<std::bitset<ATConst::OBJECT_BIT_SIZE>, std::unordered_map<AttrTypeID, std::shared_ptr<AttrBase>>>
                 pair{bits, attrMap};
             ObjectAttributes attrs{pair};
             m_objects[l_objectID] = attrs;
-            ATMA_ENGINE_INFO(
-                "Added attribute type {0:d} to object id {1:d}", l_attrType, l_objectID
-            );
+            ATMA_ENGINE_INFO("Added attribute type {0:d} to object id {1:d}", l_attrType, l_objectID);
             objectUpdated(l_objectID, bits);
         }
         else
@@ -104,22 +97,18 @@ namespace ATMA
             // update attribute container
             itr->second.first.set(l_attrType);
             itr->second.second[l_attrType] = m_attrFactory[l_attrType]();
-            ATMA_ENGINE_INFO(
-                "Added attribute type {0:d} to object id {1:d}", l_attrType, l_objectID
-            );
+            ATMA_ENGINE_INFO("Added attribute type {0:d} to object id {1:d}", l_attrType, l_objectID);
             objectUpdated(l_objectID, itr->second.first);
         }
     }
 
-    void
-    ATMAContext::removeAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType)
+    void ATMAContext::removeAttribute(const unsigned int &l_objectID, const unsigned int &l_attrType)
     {
         auto itr = m_objects.find(l_objectID);
         if(itr == m_objects.end())
         {
             throw ValueNotFoundException(
-                "object id: " + std::to_string(l_objectID)
-                + " does not contain any attributes or does not exist"
+                "object id: " + std::to_string(l_objectID) + " does not contain any attributes or does not exist"
             );
         }
         else
@@ -136,9 +125,7 @@ namespace ATMA
             {
                 itr->second.first.reset(innerItr->first);
                 itr->second.second.erase(innerItr);
-                ATMA_ENGINE_INFO(
-                    "Removed attribute type {0:d} to object id {1:d}", l_attrType, l_objectID
-                );
+                ATMA_ENGINE_INFO("Removed attribute type {0:d} to object id {1:d}", l_attrType, l_objectID);
                 objectUpdated(l_objectID, itr->second.first);
             }
         }
@@ -161,8 +148,7 @@ namespace ATMA
     {
         if(m_systems.count(l_systemID) == 0)
             throw ValueNotFoundException(
-                "System type: " + std::to_string(l_systemID)
-                + " has not been registered in ATMA Context"
+                "System type: " + std::to_string(l_systemID) + " has not been registered in ATMA Context"
             );
         m_systems[l_systemID]->m_enabled = true;
         ATMA_ENGINE_INFO("Enabled system type: {0:d}", l_systemID);
@@ -172,8 +158,7 @@ namespace ATMA
     {
         if(m_systems.count(l_systemID) == 0)
             throw ValueNotFoundException(
-                "System type: " + std::to_string(l_systemID)
-                + " has not been registered in ATMA Context"
+                "System type: " + std::to_string(l_systemID) + " has not been registered in ATMA Context"
             );
         m_systems[l_systemID]->m_enabled = false;
         ATMA_ENGINE_INFO("Disabled system type: {0:d}", l_systemID);
@@ -212,8 +197,7 @@ namespace ATMA
         }
         else
             throw RegistrationException(
-                "State of type:" + std::to_string(l_stateType)
-                + " has already been registered to the context"
+                "State of type:" + std::to_string(l_stateType) + " has already been registered to the context"
             );
         ATMA_ENGINE_INFO("Registered State type: {0:d}", l_stateType);
     }
@@ -224,8 +208,7 @@ namespace ATMA
         if(itr == m_states.end())
         {
             throw ValueNotFoundException(
-                "State of type: " + std::to_string(l_stateType)
-                + " has not been registered to the context"
+                "State of type: " + std::to_string(l_stateType) + " has not been registered to the context"
             );
         }
         else
@@ -240,8 +223,7 @@ namespace ATMA
         if(m_states.count(l_stateType) == 0)
         {
             throw ValueNotFoundException(
-                "State of type: " + std::to_string(l_stateType)
-                + " has not been registered to the context"
+                "State of type: " + std::to_string(l_stateType) + " has not been registered to the context"
             );
         }
         if(m_states.count(m_currentStateID) != 0)
@@ -249,9 +231,7 @@ namespace ATMA
             ATMA_ENGINE_INFO("Deactivating State: {0:d}", m_currentStateID);
             m_states[m_currentStateID]->deactivate();
         }
-        ATMA_ENGINE_INFO(
-            "Switching from state Type: {0:d} to state Type: {1:d}", m_currentStateID, l_stateType
-        );
+        ATMA_ENGINE_INFO("Switching from state Type: {0:d} to state Type: {1:d}", m_currentStateID, l_stateType);
         m_currentStateID = l_stateType;
         ATMA_ENGINE_INFO("Activating State: {0:d}", m_currentStateID);
         m_states[m_currentStateID]->activate();
@@ -285,8 +265,7 @@ namespace ATMA
         if(itr == m_loadedResources.end())
         {
             throw ValueNotFoundException(
-                "Resource of id: " + std::to_string(l_resourceID)
-                + " has not been loaded to the context"
+                "Resource of id: " + std::to_string(l_resourceID) + " has not been loaded to the context"
             );
         }
         else
@@ -307,8 +286,7 @@ namespace ATMA
         if(itr == m_resources.end())
         {
             throw ValueNotFoundException(
-                "Resource of id: " + std::to_string(l_resourceID)
-                + " has not been registered to the context"
+                "Resource of id: " + std::to_string(l_resourceID) + " has not been registered to the context"
             );
         }
         else
@@ -336,9 +314,7 @@ namespace ATMA
                 {
                     if(listener->isEnabled())
                     {
-                        ATMA_ENGINE_INFO(
-                            "Listener for event type {0:d} notified", l_e.m_objectEventType
-                        );
+                        ATMA_ENGINE_INFO("Listener for event type {0:d} notified", l_e.m_objectEventType);
                         listener->notify(l_e);
                     }
                 }
@@ -360,33 +336,26 @@ namespace ATMA
         }
     }
 
-    void ATMAContext::addObjectEventListener(
-        const ObjectEventID &l_id,
-        std::shared_ptr<ObjectEventListener> l_listener
-    )
+    void ATMAContext::addObjectEventListener(const ObjectEventID &l_id, std::shared_ptr<ObjectEventListener> l_listener)
     {
         auto itr = m_listeners.find(l_id);
         if(itr == m_listeners.end())
         {
             std::vector<std::shared_ptr<ObjectEventListener>> newVec{l_listener};
             m_listeners[l_id] = newVec;
-            ATMA_ENGINE_INFO(
-                "Object Event Listener for Object Event ID: {0:d} has been added", l_id
-            );
+            ATMA_ENGINE_INFO("Object Event Listener for Object Event ID: {0:d} has been added", l_id);
         }
         else
         {
             m_listeners[l_id].emplace_back(l_listener);
-            ATMA_ENGINE_INFO(
-                "Object Event Listener for Object Event ID: {0:d} has been added", l_id
-            );
+            ATMA_ENGINE_INFO("Object Event Listener for Object Event ID: {0:d} has been added", l_id);
         }
     }
 
     unsigned int ATMAContext::createWindow()
     {
         m_windows[m_lastWindowID] = std::make_shared<AppWindow>();
-        auto id =  m_lastResourceId++;
+        auto id = m_lastResourceId++;
         ATMA_ENGINE_INFO("Created Window with id {}", id);
         return id;
     }
@@ -409,9 +378,7 @@ namespace ATMA
         auto itr = m_windows.find(l_id);
         if(itr == m_windows.end())
         {
-            throw ValueNotFoundException(
-                "Window with id: " + std::to_string(l_id) + " does not exist in ATMA context"
-            );
+            throw ValueNotFoundException("Window with id: " + std::to_string(l_id) + " does not exist in ATMA context");
         }
         else
         {
@@ -422,7 +389,7 @@ namespace ATMA
 
     void ATMAContext::update()
     {
-   
+
         auto dt = m_engineClock.now() - m_lastUpdate;
         m_lastUpdate = m_engineClock.now();
         m_updateCallback(dt.count());
@@ -479,6 +446,8 @@ namespace ATMA
 
     void ATMAContext::purge()
     {
+        netManager.purgeConnections();
+        netManager.purgeListeners();
         m_objects.clear();
         m_attrFactory.clear();
         m_systems.clear();
