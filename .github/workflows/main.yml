@@ -36,7 +36,7 @@ jobs:
       run: sudo apt-get update
 
     - name: Setup library Prerequisites
-      run: sudo apt-get install -y --fix-missing g++-12 libstdc++-12-dev libstdc++-12-doc gcc-12 gcc-12-base gcc-12-doc xorg-dev libtbb-dev libgl1-mesa-dev libglu1-mesa-dev ninja-build
+      run: sudo apt-get install -y --fix-missing g++-12 libstdc++-12-dev libstdc++-12-doc gcc-12 gcc-12-base gcc-12-doc xorg-dev libtbb-dev libgl1-mesa-dev libglu1-mesa-dev ninja-build libpipewire-0.3-dev
 
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@v3
@@ -72,6 +72,10 @@ jobs:
     - name: Build CMake Files
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
       run: cmake ../../ -DCMAKE_CXX_FLAGS="-fpic" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_TOOLCHAIN_FILE="../../deps/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_CONFIGURATION_TYPES=${{matrix.build_type}} -DATMA_APP_TYPE:STRING=${{matrix.app_type}} -G "Ninja"
+
+    - name: Check PipeWire Loc
+      working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build
+      run: ld -lpipewire-0.3 --verbose
 
     - name: Build Project
       working-directory: ${{env.SOLUTION_FILE_PATH}}/out/build 
@@ -151,7 +155,7 @@ jobs:
         build_type: [Release, Debug]
         app_type: [Server, OpenGL]
 
-    runs-on: windows-2019
+    runs-on: windows-2025
 
     steps:
 

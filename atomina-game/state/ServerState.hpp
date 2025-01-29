@@ -50,7 +50,7 @@ public:
                     };
                     ATMA::Props p{{{"port", pair}}};
                     ATMA::NetworkMessage broadcast{ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_JOIN), p};
-                    ctx.netManager.sendMessage(broadcast, m_ports[i]);
+                    ctx.m_netMan->sendMessage(broadcast, m_ports[i]);
                 }
                 m_ports.emplace_back(connId);
                 msgEntries["port" + std::to_string(i)] = std::pair<unsigned char, std::any>{
@@ -66,7 +66,7 @@ public:
                 ATMA::Props p{msgEntries};
                 ATMA_ENGINE_INFO("User has requested port data");
                 ATMA::NetworkMessage resp{ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), p};
-                ctx.netManager.sendMessage(resp, connId);
+                ctx.m_netMan->sendMessage(resp, connId);
             }
             break;
         case static_cast<unsigned int>(ATMA::NetworkMessageEnum::STATE_CHANGE):
@@ -75,11 +75,9 @@ public:
                     {{"state",
                       std::pair<unsigned char, std::any>{
                           ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::UNSIGNEDINT),
-                          l_e.m_properties.getAs<unsigned int>("state")
-                      }}}
-                };
+                          l_e.m_properties.getAs<unsigned int>("state")}}}};
                 ATMA::NetworkMessage nm{ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::STATE_CHANGE), p};
-                ctx.netManager.broadcastMessage(nm);
+                ctx.m_netMan->broadcastMessage(nm);
             }
             break;
         case static_cast<unsigned int>(GameNetMessageEnum::PLAYER_CHOICE):
@@ -89,64 +87,52 @@ public:
                 {
                     ATMA::Props left{
                         {
-                            {
-                                "you",
-                                std::pair<unsigned char, std::any>{
-                                    ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::UNSIGNEDINT),
-                                    m_playerChoices[0].second
-                                }
-                            },
-                            {
-                                 "them",
-                                 std::pair<unsigned char, std::any>{
-                                     ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::UNSIGNEDINT),
-                                     m_playerChoices[1].second
-                                 }
-                            },
-                        }
+                         {"you",
+                         std::pair<unsigned char, std::any>{
+                         ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::UNSIGNEDINT),
+                         m_playerChoices[0].second}},
+                         {"them",
+                         std::pair<unsigned char, std::any>{
+                         ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::UNSIGNEDINT),
+                         m_playerChoices[1].second}},
+                         }
                     };
                     ATMA::Props right{
                         {
-                            {
-                                "you",
-                                std::pair<unsigned char, std::any>{
-                                    ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::UNSIGNEDINT),
-                                    m_playerChoices[1].second
-                                }
-                            },
-                            {
-                                 "them",
-                                 std::pair<unsigned char, std::any>{
-                                     ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::UNSIGNEDINT),
-                                     m_playerChoices[0].second
-                                 }
-                            },
-                        }
+                         {"you",
+                         std::pair<unsigned char, std::any>{
+                         ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::UNSIGNEDINT),
+                         m_playerChoices[1].second}},
+                         {"them",
+                         std::pair<unsigned char, std::any>{
+                         ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::UNSIGNEDINT),
+                         m_playerChoices[0].second}},
+                         }
                     };
                     switch(compare(m_playerChoices[0].second, m_playerChoices[1].second))
                     {
                     case -1:
                         {
                             ATMA::NetworkMessage nm{GameNetMessageType(GameNetMessageEnum::PLAYER_LOSE), left};
-                            ctx.netManager.sendMessage(nm, m_playerChoices[0].first);
+                            ctx.m_netMan->sendMessage(nm, m_playerChoices[0].first);
                             nm = ATMA::NetworkMessage{GameNetMessageType(GameNetMessageEnum::PLAYER_WIN), right};
-                            ctx.netManager.sendMessage(nm, m_playerChoices[1].first);
+                            ctx.m_netMan->sendMessage(nm, m_playerChoices[1].first);
                         }
                         break;
                     case 0:
                         {
                             ATMA::NetworkMessage nm{GameNetMessageType(GameNetMessageEnum::PLAYER_TIED), left};
-                            ctx.netManager.sendMessage(nm, m_playerChoices[0].first);
+                            ctx.m_netMan->sendMessage(nm, m_playerChoices[0].first);
                             nm = ATMA::NetworkMessage{GameNetMessageType(GameNetMessageEnum::PLAYER_TIED), right};
-                            ctx.netManager.sendMessage(nm, m_playerChoices[1].first);
+                            ctx.m_netMan->sendMessage(nm, m_playerChoices[1].first);
                         }
                         break;
                     case 1:
                         {
                             ATMA::NetworkMessage nm{GameNetMessageType(GameNetMessageEnum::PLAYER_WIN), left};
-                            ctx.netManager.sendMessage(nm, m_playerChoices[0].first);
+                            ctx.m_netMan->sendMessage(nm, m_playerChoices[0].first);
                             nm = ATMA::NetworkMessage{GameNetMessageType(GameNetMessageEnum::PLAYER_LOSE), right};
-                            ctx.netManager.sendMessage(nm, m_playerChoices[1].first);
+                            ctx.m_netMan->sendMessage(nm, m_playerChoices[1].first);
                         }
                         break;
                     case 2:
@@ -176,7 +162,7 @@ public:
      * @param l_winEvent the event generated by the window
      * @returns whether or not the event was handled
      */
-    virtual void handleInput(const ATMA::WindowEvent &l_winEvent) {}
+    virtual void handleInput(const ATMA::WindowEvent &l_winEvent) override {}
 private:
     short compare(const unsigned int &l_left, const unsigned int &l_right)
     {

@@ -22,20 +22,20 @@ namespace ATMA
         std::shared_ptr<GLProgram> m_prog = nullptr;
 
         /**
-        * draw call to draw object to render target
-        * @param l_props properties to define how draw is made
-        */
+         * draw call to draw object to render target
+         * @param l_props properties to define how draw is made
+         */
         virtual void draw(const Props &l_props) = 0;
 
         /**
-        * factory function to create renderable object
-        * @param l_size in world space
-        * @param l_texture texture render
-        * @param l_prog shader program
-        * @param l_pos in world space
-        * @param l_stackPos priority in render order
-        * @param l_rot rotation in world space
-        */
+         * factory function to create renderable object
+         * @param l_size in world space
+         * @param l_texture texture render
+         * @param l_prog shader program
+         * @param l_pos in world space
+         * @param l_stackPos priority in render order
+         * @param l_rot rotation in world space
+         */
         static std::shared_ptr<GLRenderable> makeRenderable(
             const Vec2<float> &l_size = {},
             std::shared_ptr<GLTexture> l_texture = nullptr,
@@ -47,8 +47,8 @@ namespace ATMA
     };
 
     /**
-    * Comparable for defining how to compare renderables with respect to priority queues
-    */
+     * Comparable for defining how to compare renderables with respect to priority queues
+     */
     struct GLRenderableCompare
     {
         bool operator()(const std::shared_ptr<GLRenderable> &a, const std::shared_ptr<GLRenderable> &b);

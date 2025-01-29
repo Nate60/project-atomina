@@ -1,6 +1,8 @@
 #include "pch.hpp"
 #include "AppWindow.hpp"
 #include "core/ATMAContext.hpp"
+#include "render/GLRenderer.hpp"
+#include "state/StateManager.hpp"
 
 namespace ATMA
 {
@@ -18,7 +20,7 @@ namespace ATMA
                 AppWindow *appwindow = (AppWindow *)(glfwGetWindowUserPointer(win));
                 ATMAContext &ctx = ATMAContext::getContext();
                 appwindow->setSize(Vec2<unsigned int>{(unsigned int)w, (unsigned int)h});
-                ctx.getRenderer()->setFrameBufferDimensions(w, h);
+                ctx.m_renderer->setFrameBufferDimensions(w, h);
             }
         );
         glfwSetKeyCallback(
@@ -39,7 +41,7 @@ namespace ATMA
                 {
                     t = WindowEventEnum::KeyUpped;
                 }
-                ctx.dispatchWindowEvent(WindowEvent{appwindow, t, p});
+                ctx.m_stateMan->dispatchWindowEvent(WindowEvent{appwindow, t, p});
             }
         );
     }

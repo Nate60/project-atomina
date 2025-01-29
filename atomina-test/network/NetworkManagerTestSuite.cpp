@@ -9,16 +9,16 @@ using namespace std::string_literals;
  */
 TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceive)
 {
-    this->ctx.addSystemType<NetworkSystem>(0u);
-    auto sys = this->ctx.getSystem<NetworkSystem>(0u);
-    this->ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
-    this->ctx.registerAttributeType<NetworkAttribute>(0u);
-    auto objId = this->ctx.createObject();
-    this->ctx.addAttribute(objId, 0u);
+    this->ctx.m_sysMan->addSystemType<NetworkSystem>(0u);
+    auto sys = this->ctx.m_sysMan->getSystem<NetworkSystem>(0u);
+    this->ctx.m_netMan->addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
+    this->ctx.m_attrMan->registerAttributeType<NetworkAttribute>(0u);
+    auto objId = this->ctx.m_attrMan->createObject(ctx);
+    this->ctx.m_attrMan->addAttribute(ctx, objId, 0u);
     const unsigned short port = 8899;
     const ATMA::URL address{"127.0.0.1"};
     auto listener = ATMA::SocketListener::makeSocketListener(port);
-    this->ctx.netManager.startConnection(address, port);
+    this->ctx.m_netMan->startConnection(address, port);
     auto host = listener->acceptConnection();
     std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
         ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
@@ -26,12 +26,11 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceive)
             {{"port",
               std::pair<unsigned char, std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}}}
 
-        }
-    });
+        }});
     std::span<unsigned char> send_buffer{sendingMessage};
     host->sendBytes(send_buffer, sendingMessage.size());
-    auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
-    this->ctx.netManager.stopConnection();
+    auto respAttr = this->ctx.m_attrMan->getAttribute<NetworkAttribute>(objId, 0u);
+    this->ctx.m_netMan->stopConnection();
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L
@@ -48,17 +47,17 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceive)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceiveMutliple)
 {
-    this->ctx.addSystemType<NetworkSystem>(0u);
-    auto sys = this->ctx.getSystem<NetworkSystem>(0u);
-    this->ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
-    this->ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_JOIN), sys);
-    this->ctx.registerAttributeType<NetworkAttribute>(0u);
-    auto objId = this->ctx.createObject();
-    this->ctx.addAttribute(objId, 0u);
+    this->ctx.m_sysMan->addSystemType<NetworkSystem>(0u);
+    auto sys = this->ctx.m_sysMan->getSystem<NetworkSystem>(0u);
+    this->ctx.m_netMan->addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
+    this->ctx.m_netMan->addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_JOIN), sys);
+    this->ctx.m_attrMan->registerAttributeType<NetworkAttribute>(0u);
+    auto objId = this->ctx.m_attrMan->createObject(ctx);
+    this->ctx.m_attrMan->addAttribute(ctx, objId, 0u);
     const unsigned short port = 8899;
     const ATMA::URL address{"127.0.0.1"};
     auto listener = ATMA::SocketListener::makeSocketListener(port);
-    this->ctx.netManager.startConnection(address, port);
+    this->ctx.m_netMan->startConnection(address, port);
     auto host = listener->acceptConnection();
     std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
         ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
@@ -66,8 +65,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceiveMutliple)
             {{"port",
               std::pair<unsigned char, std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}}}
 
-        }
-    });
+        }});
     std::span<unsigned char> send_buffer{sendingMessage};
     host->sendBytes(send_buffer, sendingMessage.size());
     sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
@@ -76,11 +74,10 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceiveMutliple)
             {{"port",
               std::pair<unsigned char, std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 5}}}
 
-        }
-    });
+        }});
     std::span<unsigned char> send_buffer2{sendingMessage};
     host->sendBytes(send_buffer2, sendingMessage.size());
-    auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
+    auto respAttr = this->ctx.m_attrMan->getAttribute<NetworkAttribute>(objId, 0u);
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L
@@ -88,7 +85,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceiveMutliple)
           && !respAttr->m_resps[ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_JOIN)].contains("port"))
     {
     }
-    this->ctx.netManager.stopConnection();
+    this->ctx.m_netMan->stopConnection();
     EXPECT_EQ(
         respAttr->m_resps[ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE)].getAs<int>("port"), 4
     );
@@ -100,16 +97,16 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceiveMutliple)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflow)
 {
-    this->ctx.addSystemType<NetworkSystem>(0u);
-    auto sys = this->ctx.getSystem<NetworkSystem>(0u);
-    this->ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
-    this->ctx.registerAttributeType<NetworkAttribute>(0u);
-    auto objId = this->ctx.createObject();
-    this->ctx.addAttribute(objId, 0u);
+    this->ctx.m_sysMan->addSystemType<NetworkSystem>(0u);
+    auto sys = this->ctx.m_sysMan->getSystem<NetworkSystem>(0u);
+    this->ctx.m_netMan->addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
+    this->ctx.m_attrMan->registerAttributeType<NetworkAttribute>(0u);
+    auto objId = this->ctx.m_attrMan->createObject(ctx);
+    this->ctx.m_attrMan->addAttribute(ctx, objId, 0u);
     const unsigned short port = 8899;
     const ATMA::URL address{"127.0.0.1"};
     auto listener = ATMA::SocketListener::makeSocketListener(port);
-    this->ctx.netManager.startConnection(address, port);
+    this->ctx.m_netMan->startConnection(address, port);
     auto host = listener->acceptConnection();
     std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
         ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
@@ -117,8 +114,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflow)
             {{"port",
               std::pair<unsigned char, std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}}}
 
-        }
-    });
+        }});
     unsigned short messageSize = ATMA::NETWORKMESSAGEBUFFERSIZE;
     for(int i = 0; i < sizeof(messageSize); i++)
     {
@@ -127,7 +123,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflow)
     }
     std::span<unsigned char> send_buffer{sendingMessage};
     host->sendBytes(send_buffer, sendingMessage.size());
-    auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
+    auto respAttr = this->ctx.m_attrMan->getAttribute<NetworkAttribute>(objId, 0u);
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L
@@ -145,16 +141,16 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflow)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflowLargerThanBuffer)
 {
-    this->ctx.addSystemType<NetworkSystem>(0u);
-    auto sys = this->ctx.getSystem<NetworkSystem>(0u);
-    this->ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
-    this->ctx.registerAttributeType<NetworkAttribute>(0u);
-    auto objId = this->ctx.createObject();
-    this->ctx.addAttribute(objId, 0u);
+    this->ctx.m_sysMan->addSystemType<NetworkSystem>(0u);
+    auto sys = this->ctx.m_sysMan->getSystem<NetworkSystem>(0u);
+    this->ctx.m_netMan->addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
+    this->ctx.m_attrMan->registerAttributeType<NetworkAttribute>(0u);
+    auto objId = this->ctx.m_attrMan->createObject(ctx);
+    this->ctx.m_attrMan->addAttribute(ctx, objId, 0u);
     const unsigned short port = 8899;
     const ATMA::URL address{"127.0.0.1"};
     auto listener = ATMA::SocketListener::makeSocketListener(port);
-    this->ctx.netManager.startConnection(address, port);
+    this->ctx.m_netMan->startConnection(address, port);
     auto host = listener->acceptConnection();
     std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
         ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
@@ -162,8 +158,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflowLargerThanBuf
             {{"port",
               std::pair<unsigned char, std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}}}
 
-        }
-    });
+        }});
     unsigned short messageSize = ATMA::NETWORKMESSAGEBUFFERSIZE * 2;
     for(int i = 0; i < sizeof(messageSize); i++)
     {
@@ -172,7 +167,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflowLargerThanBuf
     }
     std::span<unsigned char> send_buffer{sendingMessage};
     host->sendBytes(send_buffer, sendingMessage.size());
-    auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
+    auto respAttr = this->ctx.m_attrMan->getAttribute<NetworkAttribute>(objId, 0u);
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L
@@ -190,16 +185,16 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflowLargerThanBuf
  */
 TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflow)
 {
-    this->ctx.addSystemType<NetworkSystem>(0u);
-    auto sys = this->ctx.getSystem<NetworkSystem>(0u);
-    this->ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
-    this->ctx.registerAttributeType<NetworkAttribute>(0u);
-    auto objId = this->ctx.createObject();
-    this->ctx.addAttribute(objId, 0u);
+    this->ctx.m_sysMan->addSystemType<NetworkSystem>(0u);
+    auto sys = this->ctx.m_sysMan->getSystem<NetworkSystem>(0u);
+    this->ctx.m_netMan->addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
+    this->ctx.m_attrMan->registerAttributeType<NetworkAttribute>(0u);
+    auto objId = this->ctx.m_attrMan->createObject(ctx);
+    this->ctx.m_attrMan->addAttribute(ctx, objId, 0u);
     const unsigned short port = 8899;
     const ATMA::URL address{"127.0.0.1"};
     auto listener = ATMA::SocketListener::makeSocketListener(port);
-    this->ctx.netManager.startConnection(address, port);
+    this->ctx.m_netMan->startConnection(address, port);
     auto host = listener->acceptConnection();
     std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
         ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
@@ -207,8 +202,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflow)
             {{"port",
               std::pair<unsigned char, std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}}}
 
-        }
-    });
+        }});
     unsigned short messageSize = 4;
     for(int i = 0; i < sizeof(messageSize); i++)
     {
@@ -217,7 +211,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflow)
     }
     std::span<unsigned char> send_buffer{sendingMessage};
     host->sendBytes(send_buffer, sendingMessage.size());
-    auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
+    auto respAttr = this->ctx.m_attrMan->getAttribute<NetworkAttribute>(objId, 0u);
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L
@@ -234,16 +228,16 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflow)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflowWithLargeMessage)
 {
-    this->ctx.addSystemType<NetworkSystem>(0u);
-    auto sys = this->ctx.getSystem<NetworkSystem>(0u);
-    this->ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::INVALID), sys);
-    this->ctx.registerAttributeType<NetworkAttribute>(0u);
-    auto objId = this->ctx.createObject();
-    this->ctx.addAttribute(objId, 0u);
+    this->ctx.m_sysMan->addSystemType<NetworkSystem>(0u);
+    auto sys = this->ctx.m_sysMan->getSystem<NetworkSystem>(0u);
+    this->ctx.m_netMan->addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::INVALID), sys);
+    this->ctx.m_attrMan->registerAttributeType<NetworkAttribute>(0u);
+    auto objId = this->ctx.m_attrMan->createObject(ctx);
+    this->ctx.m_attrMan->addAttribute(ctx, objId, 0u);
     const unsigned short port = 8899;
     const ATMA::URL address{"127.0.0.1"};
     auto listener = ATMA::SocketListener::makeSocketListener(port);
-    this->ctx.netManager.startConnection(address, port);
+    this->ctx.m_netMan->startConnection(address, port);
     auto host = listener->acceptConnection();
     std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
         ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
@@ -252,19 +246,15 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflowWithLargeMes
               std::pair<unsigned char, std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}},
              {"time",
               std::pair<unsigned char, std::any>{
-                  ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::LONGLONG), 1234LL
-              }},
+                  ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::LONGLONG), 1234LL}},
              {"name",
               std::pair<unsigned char, std::any>{
-                  ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::STRING), "player"s
-              }},
+                  ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::STRING), "player"s}},
              {"roomName",
               std::pair<unsigned char, std::any>{
-                  ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::STRING), "This is a server room"s
-              }}}
+                  ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::STRING), "This is a server room"s}}}
 
-        }
-    });
+        }});
     unsigned short messageSize = 4;
     for(int i = 0; i < sizeof(messageSize); i++)
     {
@@ -273,12 +263,18 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflowWithLargeMes
     }
     std::span<unsigned char> send_buffer{sendingMessage};
     host->sendBytes(send_buffer, sendingMessage.size());
-    auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
+    ATMA_ENGINE_TRACE("attempting to get response attribute");
+    auto respAttr = this->ctx.m_attrMan->getAttribute<NetworkAttribute>(objId, 0u);
+    ATMA_ENGINE_TRACE("Got response attribute");
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L
           && !respAttr->m_resps.contains(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::INVALID)))
     {
+    }
+    if(!respAttr->m_resps.contains(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::INVALID)))
+    {
+        ATMA_ENGINE_WARN("wait time expired");
     }
     EXPECT_TRUE(respAttr->m_resps.contains(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::INVALID)));
 }
@@ -291,21 +287,20 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanSend)
     const unsigned short port = 8899;
     const ATMA::URL address{"127.0.0.1"};
     auto listener = ATMA::SocketListener::makeSocketListener(port);
-    this->ctx.netManager.startConnection(address, port);
+    this->ctx.m_netMan->startConnection(address, port);
     auto host = listener->acceptConnection();
     unsigned char recv_msg[ATMA::NETWORKMESSAGEBUFFERSIZE];
     std::span<unsigned char> recv_buffer{recv_msg};
     std::vector<unsigned char> wholeMessage{};
     size_t recv_bytes;
     size_t total_bytes;
-    this->ctx.netManager.sendMessage(ATMA::NetworkMessage{
+    this->ctx.m_netMan->sendMessage(ATMA::NetworkMessage{
         ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
         ATMA::Props{
             {{"port",
               std::pair<unsigned char, std::any>{ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}}}
 
-        }
-    });
+        }});
     unsigned short messageSize;
     host->receiveBytes(recv_buffer, ATMA::NETWORKMESSAGEBUFFERSIZE, recv_bytes);
     total_bytes = recv_bytes;
@@ -329,7 +324,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanSend)
     }
     size_t empty;
     ATMA::NetworkMessage nm = ATMA::NetworkSerde::deserialize(wholeMessage, empty);
-    this->ctx.netManager.stopConnection();
+    this->ctx.m_netMan->stopConnection();
     EXPECT_EQ(nm.values().getAs<int>("port"), 4);
 }
 
@@ -338,25 +333,23 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanSend)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerHostCanSend)
 {
-    this->ctx.addSystemType<NetworkSystem>(0u);
-    auto sys = this->ctx.getSystem<NetworkSystem>(0u);
-    this->ctx.netManager.addMessageListener(
-        ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::CONNECTION_STARTED), sys
-    );
-    this->ctx.registerAttributeType<NetworkAttribute>(0u);
-    auto objId = this->ctx.createObject();
-    this->ctx.addAttribute(objId, 0u);
+    this->ctx.m_sysMan->addSystemType<NetworkSystem>(0u);
+    auto sys = this->ctx.m_sysMan->getSystem<NetworkSystem>(0u);
+    this->ctx.m_netMan->addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::CONNECTION_STARTED), sys);
+    this->ctx.m_attrMan->registerAttributeType<NetworkAttribute>(0u);
+    auto objId = this->ctx.m_attrMan->createObject(ctx);
+    this->ctx.m_attrMan->addAttribute(ctx, objId, 0u);
     const unsigned short port = 8899;
     const ATMA::URL address{"127.0.0.1"};
-    this->ctx.netManager.startHosting(port);
+    this->ctx.m_netMan->startHosting(port);
     auto sock = ATMA::Socket::makeSocket(address, port);
-    auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
+    auto respAttr = this->ctx.m_attrMan->getAttribute<NetworkAttribute>(objId, 0u);
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L && respAttr->m_connId == std::nullopt)
     {
     }
-    this->ctx.netManager.stopHosting();
+    this->ctx.m_netMan->stopHosting();
     if(respAttr->m_connId == std::nullopt)
     {
         ATMA_ENGINE_ERROR("could not fetch connection in time");
@@ -369,14 +362,13 @@ TEST_F(NetworkManagerFixture, NetworkManagerHostCanSend)
         std::vector<unsigned char> wholeMessage{};
         size_t recv_bytes;
         size_t total_bytes;
-        this->ctx.netManager.sendMessage(
+        this->ctx.m_netMan->sendMessage(
             ATMA::NetworkMessage{
                 ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
                 ATMA::Props{
                     {{"port",
                       std::pair<unsigned char, std::any>{
-                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
-                      }}}
+                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}}}
 
                 },
 
@@ -409,7 +401,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerHostCanSend)
         EXPECT_EQ(nm.values().getAs<int>("port"), 4);
     }
     ATMA_ENGINE_TRACE("end of unit test");
-    this->ctx.netManager.stopConnection(respAttr->m_connId);
+    this->ctx.m_netMan->stopConnection(respAttr->m_connId);
 }
 
 /**
@@ -417,26 +409,24 @@ TEST_F(NetworkManagerFixture, NetworkManagerHostCanSend)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerHostReceive)
 {
-    this->ctx.addSystemType<NetworkSystem>(0u);
-    auto sys = this->ctx.getSystem<NetworkSystem>(0u);
-    this->ctx.netManager.addMessageListener(
-        ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::CONNECTION_STARTED), sys
-    );
-    this->ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
-    this->ctx.registerAttributeType<NetworkAttribute>(0u);
-    auto objId = this->ctx.createObject();
-    this->ctx.addAttribute(objId, 0u);
+    this->ctx.m_sysMan->addSystemType<NetworkSystem>(0u);
+    auto sys = this->ctx.m_sysMan->getSystem<NetworkSystem>(0u);
+    this->ctx.m_netMan->addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::CONNECTION_STARTED), sys);
+    this->ctx.m_netMan->addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), sys);
+    this->ctx.m_attrMan->registerAttributeType<NetworkAttribute>(0u);
+    auto objId = this->ctx.m_attrMan->createObject(ctx);
+    this->ctx.m_attrMan->addAttribute(ctx, objId, 0u);
     const unsigned short port = 8899;
     const ATMA::URL address{"127.0.0.1"};
-    this->ctx.netManager.startHosting(port);
+    this->ctx.m_netMan->startHosting(port);
     auto sock = ATMA::Socket::makeSocket(address, port);
-    auto respAttr = this->ctx.getAttribute<NetworkAttribute>(objId, 0u);
+    auto respAttr = this->ctx.m_attrMan->getAttribute<NetworkAttribute>(objId, 0u);
     ATMA::StopWatch stopwatch{};
     stopwatch.start();
     while(stopwatch.getElapsedDuration() < 10000000L && respAttr->m_connId == std::nullopt)
     {
     }
-    this->ctx.netManager.stopHosting();
+    this->ctx.m_netMan->stopHosting();
     if(respAttr->m_connId == std::nullopt)
     {
         ADD_FAILURE();
@@ -448,14 +438,13 @@ TEST_F(NetworkManagerFixture, NetworkManagerHostReceive)
         std::vector<unsigned char> wholeMessage{};
         size_t recv_bytes;
         size_t total_bytes;
-        this->ctx.netManager.sendMessage(
+        this->ctx.m_netMan->sendMessage(
             ATMA::NetworkMessage{
                 ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
                 ATMA::Props{
                     {{"port",
                       std::pair<unsigned char, std::any>{
-                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
-                      }}}
+                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4}}}
 
                 },
 
@@ -484,8 +473,8 @@ TEST_F(NetworkManagerFixture, NetworkManagerHostReceive)
             }
         }
         size_t cursor;
-        ATMA::NetworkMessage nm = ATMA::NetworkSerde::deserialize(wholeMessage,cursor);
+        ATMA::NetworkMessage nm = ATMA::NetworkSerde::deserialize(wholeMessage, cursor);
         EXPECT_EQ(nm.values().getAs<int>("port"), 4);
     }
-    this->ctx.netManager.stopConnection(respAttr->m_connId);
+    this->ctx.m_netMan->stopConnection(respAttr->m_connId);
 }

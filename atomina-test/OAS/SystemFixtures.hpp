@@ -18,7 +18,7 @@ protected:
      */
     void addSystemType(const unsigned int &l_systemID)
     {
-        ctx.addSystemType<T>(l_systemID);
+        ctx.m_sysMan->addSystemType<T>(l_systemID);
     }
 
     /**

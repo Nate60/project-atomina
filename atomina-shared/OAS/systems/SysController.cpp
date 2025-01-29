@@ -1,4 +1,5 @@
 #include "OAS/attributes/AttrVelocity.hpp"
+#include "core/ATMAContext.hpp"
 #include "pch.hpp"
 #include "SysController.hpp"
 
@@ -14,7 +15,7 @@ namespace ATMA
 
     SysController::~SysController() {}
 
-    void SysController::update(const long long &l_dt)
+    void SysController::update(ATMAContext &l_ctx, const long long &l_dt)
     {
         m_stopwatch.start();
         m_stopwatch.stop();

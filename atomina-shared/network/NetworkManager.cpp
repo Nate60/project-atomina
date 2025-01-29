@@ -10,7 +10,7 @@ namespace ATMA
         ATMA_ENGINE_INFO(
             "Starting connection thread for id {} with handle {}",
             m_id.value_or(std::numeric_limits<unsigned int>::max()),
-            m_conn
+            m_conn->toString()
         );
 
         m_conn->setBlocking(false);
@@ -26,7 +26,7 @@ namespace ATMA
             }
             else if(res < 0)
             {
-                ATMA_ENGINE_WARN("socket handle {} received error", m_conn);
+                ATMA_ENGINE_WARN("socket handle {} received error", m_conn->toString());
                 break;
             }
 
@@ -55,7 +55,7 @@ namespace ATMA
             ATMA_ENGINE_TRACE(
                 "Got Network message of {} bytes on handle {} id {}",
                 totalBytes,
-                m_conn,
+                m_conn->toString(),
                 m_id.value_or(std::numeric_limits<unsigned int>::max())
             );
             // its possible that multiple messages can be received at once from
@@ -74,8 +74,8 @@ namespace ATMA
                     ATMA_ENGINE_TRACE("Dispatching message type {} to {} subscribers", msg.type(), itr->second.size());
                     NetworkMessageListener::dispatch(m_id, msg, itr->second);
                 }
-                //if message becomes invalid, we have no idea where the start of the message is so we need
-                //to abandon it
+                // if message becomes invalid, we have no idea where the start of the message is so we need
+                // to abandon it
                 if(msg.type() == NetworkMessageType(NetworkMessageEnum::INVALID))
                     break;
             }

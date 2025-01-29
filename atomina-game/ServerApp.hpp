@@ -11,8 +11,6 @@
 class ServerApp: public ATMA::Server
 {
 protected:
-
-
 public:
     // default constructor
     ServerApp();
@@ -29,7 +27,7 @@ public:
      * real implementation of the game apps run function to house the
      * game loop
      */
-    virtual void update(ATMA::ATMAContext &l_ctx) override;
+    virtual void update(ATMA::ATMAContext &l_ctx, const long long &l_dt) override;
 
     /**
      * real implementation of the game apps shut down function

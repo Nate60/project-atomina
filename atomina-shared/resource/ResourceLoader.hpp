@@ -15,32 +15,31 @@ namespace ATMA
     class ResourceLoader
     {
     public:
-
         /**
-        * factory function for creating class subtype resource
-        * @param l_name name of resource
-        * @param l_path file path to resource
-        * @return shared pointer to resource
-        */
+         * factory function for creating class subtype resource
+         * @param l_name name of resource
+         * @param l_path file path to resource
+         * @return shared pointer to resource
+         */
         std::shared_ptr<T> load(const std::string &l_name, const Path &l_path)
         {
             return std::make_shared<T>(l_name, l_path, ResType(ResourceEnum::None));
         }
-                
+
         /**
-        * factory function for creating class subtype resource
-        * @param l_name name of resource
-        * @return shared pointer to resource
-        */
+         * factory function for creating class subtype resource
+         * @param l_name name of resource
+         * @return shared pointer to resource
+         */
         std::shared_ptr<T> load(const std::string &l_name)
         {
             throw ResourceAcquisitionException("Empty Resource cannot be loaded with path");
         }
 
-        //default constructor
+        // default constructor
         ResourceLoader() {}
 
-        //deconstructor
+        // deconstructor
         virtual ~ResourceLoader() {}
     };
 

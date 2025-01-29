@@ -74,7 +74,7 @@ namespace ATMA
                 break;
             case NetworkMessageValueEnum::UNSIGNEDSHORT:
                 {
-                    if(l_bytes.size() <=l_amountUsed + sizeof(unsigned short))
+                    if(l_bytes.size() <= l_amountUsed + sizeof(unsigned short))
                     {
                         ATMA_ENGINE_WARN("network message unexpected end of stream");
                         return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
@@ -252,8 +252,8 @@ namespace ATMA
                 return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
             }
         }
-        //we want cursor to point to index after last character used
-        // also this will make l_amountUsed equal to the bytestream of one entire message
+        // we want cursor to point to index after last character used
+        //  also this will make l_amountUsed equal to the bytestream of one entire message
         l_amountUsed++;
         return NetworkMessage{messageType, p};
     }

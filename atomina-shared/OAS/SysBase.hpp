@@ -35,7 +35,7 @@ namespace ATMA
          * gives the enumerator for the type of system
          * @returns type enum of the system
          */
-        [[nodiscard]] SystemType getType() const;
+        [[nodiscard]] unsigned int getType() const;
 
         /**
          * returns true if the bitset matches the required bitset completely
@@ -48,9 +48,9 @@ namespace ATMA
          * updates all attributes of all the objects contained in the system
          * @param time time since last update
          */
-        virtual void update(const long long &l_dt) = 0;
+        virtual void update(ATMAContext &l_ctx, const long long &l_dt) = 0;
 
-        friend class ATMAContext;
+        friend class SystemManager;
     protected:
         /**
          * adds object to the system

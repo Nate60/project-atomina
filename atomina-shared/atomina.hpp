@@ -15,7 +15,6 @@
 #include "util/RetryExecutor.hpp"
 #include "util/Path.hpp"
 
-
 // Math
 #include "math/Vec2.hpp"
 #include "math/Vec3.hpp"
@@ -27,9 +26,8 @@
 // Core
 #include "core/Game.hpp"
 #include "core/Server.hpp"
-#include "core/Entry.hpp"
+#include "core/Engine.hpp"
 #include "core/ATMAContext.hpp"
-#include "core/ATMAFormats.hpp"
 
 // File
 #include "file/FileHandler.hpp"
@@ -38,12 +36,13 @@
 // Events
 #include "event/ObjectEventContext.hpp"
 #include "event/ObjectEvent.hpp"
+#include "event/ObjectEventManager.hpp"
 
 // States
-
 #include "state/State.hpp"
 #include "state/BaseState.hpp"
 #include "state/states/DummyState.hpp"
+#include "state/StateManager.hpp"
 
 // OAS
 #include "OAS/Attribute.hpp"
@@ -56,24 +55,28 @@
 #include "OAS/attributes/AttrSprite.hpp"
 #include "OAS/attributes/AttrVelocity.hpp"
 #include "OAS/attributes/AttrCollidable.hpp"
+#include "OAS/AttributeManager.hpp"
 #include "OAS/SysBase.hpp"
 #include "OAS/systems/SysTranslator.hpp"
 #include "OAS/systems/SysController.hpp"
 #include "OAS/systems/SysRenderer.hpp"
 #include "OAS/systems/SysCollider.hpp"
+#include "OAS/SystemManager.hpp"
 
 // Resource
 #include "resource/Resource.hpp"
 #include "resource/ResourceLoader.hpp"
 #include "resource/ResourceEnum.hpp"
 #include "resource/DummyResource.hpp"
+#include "resource/ResourceManager.hpp"
+#include "resource/loaders/AudioWaveLoader.hpp"
 #include "resource/loaders/GLTextureLoader.hpp"
+#include "resource/loaders/GLShaderLoader.hpp"
 #include "resource/loaders/DummyResourceLoader.hpp"
 
 #include "resource/graphics/AnimBase.hpp"
 #include "resource/graphics/animation/AnimDefault.hpp"
 #include "resource/graphics/animation/AnimIdle.hpp"
-
 
 // Network
 #include "network/URL.hpp"
@@ -87,8 +90,9 @@
 // GUI
 #include "GUI/AppWindow.hpp"
 #include "GUI/KeyCode.hpp"
+#include "GUI/WindowManager.hpp"
 
-//Time
+// Time
 #include "time/Clock.hpp"
 #include "time/StopWatch.hpp"
 
@@ -121,13 +125,17 @@
 #include "render/renderImpl/Dummy/GLSpriteDummyImpl.hpp"
 #include "render/renderImpl/OpenGL/GLRenderContextOpenGLImpl.hpp"
 
+// Sound
+#include "sound/AudioManager.hpp"
+#include "sound/AudioWave.hpp"
+#include "sound/AudioChannel.hpp"
 
 #ifdef _WINDOWS
-//Network
+// Network
 #    include "platform/Win/network/SocketWinImpl.hpp"
 #    include "platform/Win/network/SocketListenerWinImpl.hpp"
 #elif __linux__
-//Network
+// Network
 #    include "platform/Linux/network/SocketUnixImpl.hpp"
 #    include "platform/Linux/network/SocketListenerUnixImpl.hpp"
 #endif

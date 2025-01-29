@@ -44,17 +44,16 @@
 #include <spdlog/sinks/ostream_sink.h>
 #include <spdlog/fmt/ostr.h>
 #include <stb_image.h>
-
 #ifdef _WINDOWS
 #    ifndef WIN32_LEAN_AND_MEAN
 #        define WIN32_LEAN_AND_MEAN
 #    endif
-
 #    include <gl/glew.h>
 #    include <gl/wglew.h>
 #    include <GLFW/glfw3.h>
 #    include <Windows.h>
 #    include <Shlwapi.h>
+#    include <rtaudio/RtAudio.h>
 #    undef min // windows defines min and max which collides with math.min/max
 #    undef max
 #    undef DELETE
@@ -63,6 +62,8 @@
 #    include <GL/glew.h>
 #    include <GL/glxew.h>
 #    include <GLFW/glfw3.h>
+#    include <pipewire-0.3/pipewire/pipewire.h>
+#    include <spa/support/plugin.h>
 #    define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
 #    define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
 #    undef None // X11 defines None as a macro for 0L which can collide with enums

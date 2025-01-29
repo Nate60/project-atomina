@@ -9,9 +9,9 @@ TYPED_TEST_SUITE(AttributeFixture, AttributeTypes);
 TYPED_TEST(AttributeFixture, AddAttribute)
 {
     TypeParam attr{};
-    unsigned int obj = this->ctx.createObject();
+    unsigned int obj = this->ctx.m_attrMan->createObject(this->ctx);
     this->addAttribute(obj, attr);
-    EXPECT_TRUE(this->ctx.hasAttribute(obj, attr.getType()));
+    EXPECT_TRUE(this->ctx.m_attrMan->hasAttribute(obj, attr.getType()));
 }
 
 /**
@@ -58,10 +58,10 @@ TYPED_TEST(AttributeFixture, AddAttributeBadObject)
 TYPED_TEST(AttributeFixture, AddDuplicateAttribute)
 {
     TypeParam attr{};
-    unsigned int obj = this->ctx.createObject();
+    unsigned int obj = this->ctx.m_attrMan->createObject(this->ctx);
     this->addAttribute(obj, attr);
-    this->ctx.addAttribute(obj, attr.getType());
-    EXPECT_TRUE(this->ctx.hasAttribute(obj, attr.getType()));
+    this->ctx.m_attrMan->addAttribute(this->ctx, obj, attr.getType());
+    EXPECT_TRUE(this->ctx.m_attrMan->hasAttribute(obj, attr.getType()));
 }
 
 /**
@@ -70,10 +70,10 @@ TYPED_TEST(AttributeFixture, AddDuplicateAttribute)
 TYPED_TEST(AttributeFixture, RemoveAttribute)
 {
     TypeParam attr{};
-    unsigned int obj = this->ctx.createObject();
+    unsigned int obj = this->ctx.m_attrMan->createObject(this->ctx);
     this->addAttribute(obj, attr);
     this->removeAttribute(obj, attr);
-    EXPECT_FALSE(this->ctx.hasAttribute(obj, attr.getType()));
+    EXPECT_FALSE(this->ctx.m_attrMan->hasAttribute(obj, attr.getType()));
 }
 
 /**
@@ -93,7 +93,7 @@ TYPED_TEST(AttributeFixture, RemoveAttributeBadObject)
 TYPED_TEST(AttributeFixture, RemoveNonExistentAttribute)
 {
     TypeParam attr{};
-    unsigned int obj = this->ctx.createObject();
+    unsigned int obj = this->ctx.m_attrMan->createObject(this->ctx);
     EXPECT_THROW(this->removeAttribute(obj, attr), ATMA::ValueNotFoundException);
 }
 
@@ -104,10 +104,10 @@ TYPED_TEST(AttributeFixture, RemoveNonExistentAttribute)
 TYPED_TEST(AttributeFixture, GetAttributeContextShouldRetain)
 {
     TypeParam attr{};
-    unsigned int obj = this->ctx.createObject();
+    unsigned int obj = this->ctx.m_attrMan->createObject(this->ctx);
     this->addAttribute(obj, attr);
     std::shared_ptr<TypeParam> result = this->getAttribute(obj, attr);
-    EXPECT_TRUE(this->ctx.hasAttribute(obj, attr.getType()));
+    EXPECT_TRUE(this->ctx.m_attrMan->hasAttribute(obj, attr.getType()));
 }
 
 /**
@@ -117,7 +117,7 @@ TYPED_TEST(AttributeFixture, GetAttributeContextShouldRetain)
 TYPED_TEST(AttributeFixture, GetAttribute)
 {
     TypeParam attr{};
-    unsigned int obj = this->ctx.createObject();
+    unsigned int obj = this->ctx.m_attrMan->createObject(this->ctx);
     this->addAttribute(obj, attr);
     std::shared_ptr<TypeParam> result = this->getAttribute(obj, attr);
     EXPECT_EQ(attr.getType(), result.get()->getType());

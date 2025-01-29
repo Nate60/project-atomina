@@ -39,7 +39,8 @@ namespace ATConst
         0,
         0,
         0,
-        0};
+        0
+    };
 
 #elif __linux__
     const int DEFAULT_VISUAL_ATTRIBUTES[] = {
@@ -69,6 +70,7 @@ namespace ATConst
         1,
         GLX_SAMPLES,
         4,
-        0L};
+        0L
+    };
 #endif
 }
