@@ -16,6 +16,7 @@ class GameApp: public ATMA::Game
 public:
     std::shared_ptr<ATMA::AppWindow> m_win;
     std::shared_ptr<ATMA::GLRenderer> m_renderer;
+    ATMA::AudioChannel m_channel{};
 
     // default constructor
     GameApp();

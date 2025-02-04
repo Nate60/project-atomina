@@ -12,6 +12,7 @@
 #include "util/ATConst.hpp"
 #include "resource/Resource.hpp"
 #include "resource/ResourceLoader.hpp"
+#include "resource/loaders/AudioWaveLoader.hpp"
 #include "resource/loaders/GLTextureLoader.hpp"
 #include "resource/loaders/GLShaderLoader.hpp"
 #include "resource/loaders/DummyResourceLoader.hpp"

@@ -72,40 +72,11 @@ void GameApp::setup(ATMA::ATMAContext &l_ctx)
     l_ctx.addObjectEventListener(GameEventType(GameEventEnum::TIMER_COMPLETE), play);
     l_ctx.addState(GameStateType(GameStateEnum::PLAYSTATE), std::move(play));
     m_renderer->toggleBlend(true);
-    auto id = l_ctx.registerResource("testWave", 0u, std::optional<std::string>{"res/test.wav"});
-    auto res = l_ctx.loadResource<ATMA::AudioWave>(id);
-    RtAudio dac;
-    std::vector<unsigned int> deviceIds = dac.getDeviceIds();
-    if ( deviceIds.size() < 1 ) 
-    {
-        ATMA_ENGINE_ERROR("no devices found");
-        throw ATMA::AtominaException{"no audio devices found"};
-    }
- 
-    RtAudio::StreamParameters params;
-    params.deviceId = dac.getDefaultOutputDevice();
-    params.nChannels = res->m_wave.m_channels;
-    params.firstChannel = 0;
-    unsigned int bufferFrames = res->m_wave.m_data.size()/res->m_wave.m_channels/res->m_wave.m_sampleSize;
-    unsigned int data = id;
-    RtAudio::StreamOptions options;
-    options.flags = RTAUDIO_NONINTERLEAVED;
-    if(dac.openStream(&params, nullptr, RTAUDIO_SINT16, res->m_wave.m_sampleRate, &bufferFrames, &saw, (void *)&data))
-    {
-        ATMA_ENGINE_ERROR("failed to open stream");
-        throw ATMA::AtominaException{"unable to open audio stream"};
-    }
+    auto id = l_ctx.registerResource("testWave", 0u, std::optional<std::string>{"res/flick.wav"});
+   
+    m_channel.pushSound(id);
+    
 
-    // Stream is open ... now start it.
-    if ( dac.startStream() ) 
-    {
-        ATMA_ENGINE_ERROR("failed to start stream: {}",  dac.getErrorText());
-        throw ATMA::AtominaException{"unable to start stream"};
-    }
- 
-    while(dac.isStreamRunning()){}
- 
-    ATMA_ENGINE_INFO("stream finished playing");
 }
 
 void GameApp::update(ATMA::ATMAContext &l_ctx)

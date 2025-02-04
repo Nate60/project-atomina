@@ -125,6 +125,7 @@
 
 //Sound
 #include "sound/AudioWave.hpp"
+#include "sound/AudioChannel.hpp"
 
 #ifdef _WINDOWS
 //Network

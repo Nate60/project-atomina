@@ -438,6 +438,7 @@ private:
         case 2:
             return m_selectedScissorsTexture;
         }
+        return nullptr;
     }
 
     AttackOptionButton m_buttons[3]{};
