@@ -17,6 +17,7 @@
 #include "resource/loaders/GLShaderLoader.hpp"
 #include "resource/loaders/DummyResourceLoader.hpp"
 #include "network/NetworkManager.hpp"
+#include "sound/AudioManager.hpp"
 #include "GUI/AppWindow.hpp"
 #include "render/GLRenderer.hpp"
 #ifdef _WINDOWS
@@ -60,6 +61,8 @@ namespace ATMA
 
     using AppWindowID = unsigned int;
     using AppWindowContainer = std::unordered_map<AppWindowID, std::shared_ptr<AppWindow>>;
+
+    class AudioManager;
 
     /**
      * Singleton that houses all internal state within the Atomina Engine.
@@ -119,9 +122,11 @@ namespace ATMA
          */
         void systemUpdated(const unsigned int &l_systemID);
 
-        NetworkManager m_networkManager {};
+        NetworkManager m_networkManager{};
+        AudioManager m_audioManager{};
     public:
         NetworkManager &netManager{m_networkManager};
+        AudioManager &audioManager{m_audioManager};
         // deleted functions
         ATMAContext(ATMAContext const &) = delete;
         void operator=(ATMAContext const &) = delete;
@@ -137,7 +142,6 @@ namespace ATMA
                                         // Instantiated on first use.
             return context;
         }
-
 
         /**
          * function to obtain context's renderer

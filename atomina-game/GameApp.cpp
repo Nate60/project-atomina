@@ -73,9 +73,6 @@ void GameApp::setup(ATMA::ATMAContext &l_ctx)
     l_ctx.addState(GameStateType(GameStateEnum::PLAYSTATE), std::move(play));
     m_renderer->toggleBlend(true);
     auto id = l_ctx.registerResource("testWave", 0u, std::optional<std::string>{"res/flick.wav"});
-   
-    m_channel.pushSound(id);
-    
 
 }
 
