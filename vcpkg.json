@@ -1,6 +1,6 @@
 {
   "name": "atma-engine",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "builtin-baseline": "b49b2bdf22559c89eddbf29a29621a1dc6929320",
   "dependencies": [
     {
