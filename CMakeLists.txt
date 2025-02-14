@@ -51,7 +51,7 @@ message(STATUS "System Target Architecture: ${CMAKE_SYSTEM_PROCESSOR}")
 message(STATUS "Atomina App Type: '${ATMA_APP_TYPE}'")
 message(STATUS "Compile Definitions: ${COMPILE_DEFINITIONS}")
 
-project(Atomina_Main VERSION 0.2.0)
+project(Atomina_Main VERSION 0.2.1)
 
 # Stop in source builds
 SET(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
@@ -88,6 +88,7 @@ if(MSVC)
 	find_package(stb REQUIRED)
 elseif(UNIX) # for some reason stb using different casing on different OSes
 	find_package(Stb REQUIRED)
+    find_package(TBB REQUIRED components tbb)
 endif()
 
 include(GoogleTest)
