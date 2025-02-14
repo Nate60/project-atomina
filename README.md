@@ -1,7 +1,7 @@
 # project-atomina
 2D Game Engine Project
 
-Version [0.2.0]
+Version [0.2.1]
 
 My Personal Game Engine using CMake and C++20
 
