@@ -60,5 +60,6 @@ cd $DIR/../
 cd out/build/$buildtype/$apptype
 stat build.ninja
 cmake --build . --config $buildtype -j 4
+ln -sf compile_commands.json ../../../../compile_commands.json
 cd $EXECPATH
 

@@ -6,7 +6,7 @@
 namespace ATMA
 {
 
-    enum class AudioFrequency 
+    enum class AudioFrequency
     {
         FRFQ_8000 = 8000u,
         FREQ_44100 = 44100u,
@@ -22,17 +22,19 @@ namespace ATMA
         std::queue<unsigned int> m_soundQueue{};
     };
 
-
     class AudioChannel
     {
     public:
-        AudioChannel(const unsigned int &l_bufferSize = 1024u, const unsigned int &l_channelCount = 2u, const AudioFrequency &l_freq = AudioFrequency::FREQ_44100);
+        AudioChannel(
+            const unsigned int &l_bufferSize = 1024u,
+            const unsigned int &l_channelCount = 2u,
+            const AudioFrequency &l_freq = AudioFrequency::FREQ_44100
+        );
         virtual ~AudioChannel();
 
         void pushSound(const unsigned int &l_id);
 
         void playNow(const unsigned int &l_id);
-
     protected:
         static int bufferAudio(
             void *outputBuffer,
@@ -43,7 +45,6 @@ namespace ATMA
             void *userData
         );
 
-        
         AudioChannelState *m_state{};
         RtAudio m_dac;
     };

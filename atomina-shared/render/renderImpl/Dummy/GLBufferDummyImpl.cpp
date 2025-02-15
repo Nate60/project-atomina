@@ -4,8 +4,7 @@
 namespace ATMA
 {
 
-    IndexBufferDummyImpl::IndexBufferDummyImpl(const std::vector<unsigned int> &l_data):
-        IndexBuffer(l_data)
+    IndexBufferDummyImpl::IndexBufferDummyImpl(const std::vector<unsigned int> &l_data): IndexBuffer(l_data)
     {
         m_bindID = 0u;
     }
@@ -26,8 +25,7 @@ namespace ATMA
 
     void IndexBufferDummyImpl::unbind() {}
 
-    VertexBufferDummyImpl::VertexBufferDummyImpl(const std::vector<float> &l_data):
-        VertexBuffer(l_data)
+    VertexBufferDummyImpl::VertexBufferDummyImpl(const std::vector<float> &l_data): VertexBuffer(l_data)
     {
         m_bindID = 0u;
     }
@@ -48,15 +46,12 @@ namespace ATMA
 
     void VertexBufferDummyImpl::unbind() {}
 
-    VertexArrayDummyImpl::VertexArrayDummyImpl(const std::vector<LayoutElement> &l_list):
-        VertexArray(l_list)
+    VertexArrayDummyImpl::VertexArrayDummyImpl(const std::vector<LayoutElement> &l_list): VertexArray(l_list)
     {
         m_bindID = 0u;
     }
 
-    VertexArrayDummyImpl::VertexArrayDummyImpl(
-        const std::initializer_list<LayoutElement> &l_elements
-    ):
+    VertexArrayDummyImpl::VertexArrayDummyImpl(const std::initializer_list<LayoutElement> &l_elements):
         VertexArray(l_elements)
     {
         m_bindID = 0u;

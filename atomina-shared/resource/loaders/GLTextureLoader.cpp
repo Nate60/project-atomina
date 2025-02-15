@@ -18,7 +18,7 @@ namespace ATMA
 
     std::shared_ptr<GLTexture> ResourceLoader<GLTexture>::load(const std::string &l_name)
     {
-        Texture texture{l_name, ATMA::Path{""}, 0,0,0,0};
+        Texture texture{l_name, ATMA::Path{""}, 0, 0, 0, 0};
         return GLTexture::makeTexture(texture);
     }
 }

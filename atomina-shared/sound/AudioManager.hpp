@@ -10,7 +10,11 @@ namespace ATMA
         AudioManager();
         virtual ~AudioManager();
 
-        [[nodiscard]] unsigned int createAudioChannel(const unsigned int &l_bufferSize = 1024u, const unsigned int &l_channelCount = 2u, const AudioFrequency &l_freq = AudioFrequency::FREQ_44100);
+        [[nodiscard]] unsigned int createAudioChannel(
+            const unsigned int &l_bufferSize = 1024u,
+            const unsigned int &l_channelCount = 2u,
+            const AudioFrequency &l_freq = AudioFrequency::FREQ_44100
+        );
 
         void deleteAudioChannel(const unsigned int &l_id);
 

@@ -38,14 +38,14 @@ namespace ATMA
             T inverseDeterminate = 1 / determinant;
             return {
                 {{(m_values[1][1] * m_values[2][2] - m_values[2][1] * m_values[1][2]) * inverseDeterminate,
-(m_values[0][2] * m_values[2][1] - m_values[0][1] * m_values[2][2]) * inverseDeterminate,
-(m_values[0][1] * m_values[1][2] - m_values[0][2] * m_values[1][1]) * inverseDeterminate},
+                  (m_values[0][2] * m_values[2][1] - m_values[0][1] * m_values[2][2]) * inverseDeterminate,
+                  (m_values[0][1] * m_values[1][2] - m_values[0][2] * m_values[1][1]) * inverseDeterminate},
                  {(m_values[1][2] * m_values[2][0] - m_values[1][0] * m_values[2][2]) * inverseDeterminate,
-                 (m_values[0][0] * m_values[2][2] - m_values[0][2] * m_values[2][0]) * inverseDeterminate,
-                 (m_values[1][0] * m_values[0][2] - m_values[0][0] * m_values[1][2]) * inverseDeterminate},
+                  (m_values[0][0] * m_values[2][2] - m_values[0][2] * m_values[2][0]) * inverseDeterminate,
+                  (m_values[1][0] * m_values[0][2] - m_values[0][0] * m_values[1][2]) * inverseDeterminate},
                  {(m_values[1][0] * m_values[2][1] - m_values[2][0] * m_values[1][1]) * inverseDeterminate,
-                 (m_values[2][0] * m_values[0][1] - m_values[0][0] * m_values[2][1]) * inverseDeterminate,
-                 (m_values[0][0] * m_values[1][1] - m_values[1][0] * m_values[0][1]) * inverseDeterminate}}
+                  (m_values[2][0] * m_values[0][1] - m_values[0][0] * m_values[2][1]) * inverseDeterminate,
+                  (m_values[0][0] * m_values[1][1] - m_values[1][0] * m_values[0][1]) * inverseDeterminate}}
             };
         }
 
@@ -69,14 +69,14 @@ namespace ATMA
 
         return {
             {{a.m_values[0][0] + b.m_values[0][0],
-a.m_values[0][1] + b.m_values[0][1],
-a.m_values[0][2] + b.m_values[0][2]},
+              a.m_values[0][1] + b.m_values[0][1],
+              a.m_values[0][2] + b.m_values[0][2]},
              {a.m_values[1][0] + b.m_values[1][0],
-             a.m_values[1][1] + b.m_values[1][1],
-             a.m_values[1][2] + b.m_values[1][2]},
+              a.m_values[1][1] + b.m_values[1][1],
+              a.m_values[1][2] + b.m_values[1][2]},
              {a.m_values[2][0] + b.m_values[2][0],
-             a.m_values[2][1] + b.m_values[2][1],
-             a.m_values[2][2] + b.m_values[2][2]}}
+              a.m_values[2][1] + b.m_values[2][1],
+              a.m_values[2][2] + b.m_values[2][2]}}
         };
     }
 
@@ -92,14 +92,14 @@ a.m_values[0][2] + b.m_values[0][2]},
     {
         return {
             {{a.m_values[0][0] - b.m_values[0][0],
-a.m_values[0][1] - b.m_values[0][1],
-a.m_values[0][2] - b.m_values[0][2]},
+              a.m_values[0][1] - b.m_values[0][1],
+              a.m_values[0][2] - b.m_values[0][2]},
              {a.m_values[1][0] - b.m_values[1][0],
-             a.m_values[1][1] - b.m_values[1][1],
-             a.m_values[1][2] - b.m_values[1][2]},
+              a.m_values[1][1] - b.m_values[1][1],
+              a.m_values[1][2] - b.m_values[1][2]},
              {a.m_values[2][0] - b.m_values[2][0],
-             a.m_values[2][1] - b.m_values[2][1],
-             a.m_values[2][2] - b.m_values[2][2]}}
+              a.m_values[2][1] - b.m_values[2][1],
+              a.m_values[2][2] - b.m_values[2][2]}}
         };
     }
 
@@ -132,25 +132,25 @@ a.m_values[0][2] - b.m_values[0][2]},
     {
         return {
             {{(a.m_values[0][0] * b.m_values[0][0] + a.m_values[0][1] * b.m_values[1][0]
-+ a.m_values[0][2] * b.m_values[2][0]),
-(a.m_values[0][0] * b.m_values[0][1] + a.m_values[0][1] * b.m_values[1][1]
-+ a.m_values[0][2] * b.m_values[2][1]),
-(a.m_values[0][0] * b.m_values[0][2] + a.m_values[0][1] * b.m_values[1][2]
-+ a.m_values[0][2] * b.m_values[2][2])}, //  row 1
+               + a.m_values[0][2] * b.m_values[2][0]),
+              (a.m_values[0][0] * b.m_values[0][1] + a.m_values[0][1] * b.m_values[1][1]
+               + a.m_values[0][2] * b.m_values[2][1]),
+              (a.m_values[0][0] * b.m_values[0][2] + a.m_values[0][1] * b.m_values[1][2]
+               + a.m_values[0][2] * b.m_values[2][2])}, //  row 1
 
- {(a.m_values[1][0] * b.m_values[0][0] + a.m_values[1][1] * b.m_values[1][0]
- + a.m_values[1][2] * b.m_values[2][0]),
- (a.m_values[1][0] * b.m_values[0][1] + a.m_values[1][1] * b.m_values[1][1]
- + a.m_values[1][2] * b.m_values[2][1]),
- (a.m_values[1][0] * b.m_values[0][2] + a.m_values[1][1] * b.m_values[1][2]
- + a.m_values[1][2] * b.m_values[2][2])}, //  row 2
+             {(a.m_values[1][0] * b.m_values[0][0] + a.m_values[1][1] * b.m_values[1][0]
+               + a.m_values[1][2] * b.m_values[2][0]),
+              (a.m_values[1][0] * b.m_values[0][1] + a.m_values[1][1] * b.m_values[1][1]
+               + a.m_values[1][2] * b.m_values[2][1]),
+              (a.m_values[1][0] * b.m_values[0][2] + a.m_values[1][1] * b.m_values[1][2]
+               + a.m_values[1][2] * b.m_values[2][2])}, //  row 2
 
- {(a.m_values[2][0] * b.m_values[0][0] + a.m_values[2][1] * b.m_values[1][0]
- + a.m_values[2][2] * b.m_values[2][0]),
- (a.m_values[2][0] * b.m_values[0][1] + a.m_values[2][1] * b.m_values[1][1]
- + a.m_values[2][2] * b.m_values[2][1]),
- (a.m_values[2][0] * b.m_values[0][2] + a.m_values[2][1] * b.m_values[1][2]
- + a.m_values[2][2] * b.m_values[2][2])}}  // row 3
+             {(a.m_values[2][0] * b.m_values[0][0] + a.m_values[2][1] * b.m_values[1][0]
+               + a.m_values[2][2] * b.m_values[2][0]),
+              (a.m_values[2][0] * b.m_values[0][1] + a.m_values[2][1] * b.m_values[1][1]
+               + a.m_values[2][2] * b.m_values[2][1]),
+              (a.m_values[2][0] * b.m_values[0][2] + a.m_values[2][1] * b.m_values[1][2]
+               + a.m_values[2][2] * b.m_values[2][2])}}  // row 3
         };
     }
 

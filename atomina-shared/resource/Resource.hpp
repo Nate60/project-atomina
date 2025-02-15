@@ -6,16 +6,16 @@
 namespace ATMA
 {
     /**
-    * base resource pure virtual class for containing files
-    * located on the system and loading them into memory
-    */
+     * base resource pure virtual class for containing files
+     * located on the system and loading them into memory
+     */
     struct Resource
     {
     public:
-        //constructor defining name, path, and type of resource
+        // constructor defining name, path, and type of resource
         Resource(const std::string &l_name, const Path &l_path, const unsigned int &l_type);
 
-        //destructor
+        // destructor
         virtual ~Resource();
 
         const std::string m_name;
@@ -24,9 +24,9 @@ namespace ATMA
     };
 
     /**
-    * interface for loaded resources so the can be managed
-    * by the context
-    */
+     * interface for loaded resources so the can be managed
+     * by the context
+     */
     struct LoadedResource
     {
     };

@@ -74,8 +74,8 @@ namespace ATMA
                     ATMA_ENGINE_TRACE("Dispatching message type {} to {} subscribers", msg.type(), itr->second.size());
                     NetworkMessageListener::dispatch(m_id, msg, itr->second);
                 }
-                //if message becomes invalid, we have no idea where the start of the message is so we need
-                //to abandon it
+                // if message becomes invalid, we have no idea where the start of the message is so we need
+                // to abandon it
                 if(msg.type() == NetworkMessageType(NetworkMessageEnum::INVALID))
                     break;
             }

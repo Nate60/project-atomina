@@ -15,7 +15,6 @@
 #include "util/RetryExecutor.hpp"
 #include "util/Path.hpp"
 
-
 // Math
 #include "math/Vec2.hpp"
 #include "math/Vec3.hpp"
@@ -76,7 +75,6 @@
 #include "resource/graphics/animation/AnimDefault.hpp"
 #include "resource/graphics/animation/AnimIdle.hpp"
 
-
 // Network
 #include "network/URL.hpp"
 #include "network/Socket.hpp"
@@ -90,7 +88,7 @@
 #include "GUI/AppWindow.hpp"
 #include "GUI/KeyCode.hpp"
 
-//Time
+// Time
 #include "time/Clock.hpp"
 #include "time/StopWatch.hpp"
 
@@ -123,16 +121,16 @@
 #include "render/renderImpl/Dummy/GLSpriteDummyImpl.hpp"
 #include "render/renderImpl/OpenGL/GLRenderContextOpenGLImpl.hpp"
 
-//Sound
+// Sound
 #include "sound/AudioWave.hpp"
 #include "sound/AudioChannel.hpp"
 
 #ifdef _WINDOWS
-//Network
+// Network
 #    include "platform/Win/network/SocketWinImpl.hpp"
 #    include "platform/Win/network/SocketListenerWinImpl.hpp"
 #elif __linux__
-//Network
+// Network
 #    include "platform/Linux/network/SocketUnixImpl.hpp"
 #    include "platform/Linux/network/SocketListenerUnixImpl.hpp"
 #endif

@@ -3,15 +3,9 @@
 
 namespace ATMA
 {
-	ResourceLoader<AudioWave>::ResourceLoader()
-    {
+    ResourceLoader<AudioWave>::ResourceLoader() {}
 
-    }
-
-    ResourceLoader<AudioWave>::~ResourceLoader()
-    {
-
-    }
+    ResourceLoader<AudioWave>::~ResourceLoader() {}
 
     std::shared_ptr<AudioWave> ResourceLoader<AudioWave>::load(const std::string &l_name, const Path &l_path)
     {
@@ -60,15 +54,23 @@ namespace ATMA
                 buffer.begin() + 40 + sizeof(unsigned int),
                 reinterpret_cast<unsigned char *>(&dataSize)
             );
-            
+
             std::vector<unsigned char> data{};
             data.reserve(dataSize);
             for(int i = 0; i < dataSize; i++)
             {
-                data.emplace_back(buffer[44+i]);
+                data.emplace_back(buffer[44 + i]);
             }
-            ATMA_ENGINE_INFO("loaded .wav formatChunkSize={} format={} channels={} sampleRate={} sampleSize={} dataSize={}", formatChunkSize, format, channels, sampleRate, sampleSize, dataSize);
-            Wave w{l_name, l_path, channels, sampleRate, sampleSize/size_t(8), data};
+            ATMA_ENGINE_INFO(
+                "loaded .wav formatChunkSize={} format={} channels={} sampleRate={} sampleSize={} dataSize={}",
+                formatChunkSize,
+                format,
+                channels,
+                sampleRate,
+                sampleSize,
+                dataSize
+            );
+            Wave w{l_name, l_path, channels, sampleRate, sampleSize / size_t(8), data};
             return std::make_shared<AudioWave>(w);
         }
         return nullptr;
@@ -79,6 +81,5 @@ namespace ATMA
         Wave w{l_name, ATMA::Path{""}, 0, 0, 0, {}};
         return std::make_shared<AudioWave>(w);
     }
-
 
 }

@@ -9,51 +9,51 @@
 namespace ATMA
 {
     /**
-    * used to handle drawing renderable objects to a target window
-    */
+     * used to handle drawing renderable objects to a target window
+     */
     class GLRenderer
     {
     public:
-        //default constructor
+        // default constructor
         GLRenderer();
 
-        //deconstructor
+        // deconstructor
         virtual ~GLRenderer();
 
         /**
-        * enable texture blending
-        * @param l_toggle set blending
-        */
+         * enable texture blending
+         * @param l_toggle set blending
+         */
         void toggleBlend(const bool &l_toggle);
 
         /**
-        * define the size of the frame buffer
-        * @param w width
-        * @param h height
-        */
+         * define the size of the frame buffer
+         * @param w width
+         * @param h height
+         */
         void setFrameBufferDimensions(const int &w, const int &h);
 
         /**
-        * change the render target to a specific window
-        * @param l_win shared pointer to target window
-        */
+         * change the render target to a specific window
+         * @param l_win shared pointer to target window
+         */
         void setWindow(std::shared_ptr<AppWindow> l_win);
 
         /**
-        * give the camera to render to draw a scene
-        * @param l_camera to render from
-        */
+         * give the camera to render to draw a scene
+         * @param l_camera to render from
+         */
         void startScene(const GLCamera &l_camera);
 
         /**
-        * add renderable to render queue
-        * @param l_renderable to add
-        */
+         * add renderable to render queue
+         * @param l_renderable to add
+         */
         void addElement(std::shared_ptr<GLRenderable> l_renderable);
 
         /**
-        * finish draw call
-        */
+         * finish draw call
+         */
         void finishScene();
     protected:
         GLCamera m_camera{

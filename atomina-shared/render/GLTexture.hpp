@@ -12,12 +12,12 @@ namespace ATMA
 {
 
     /**
-    * Resource sub-class for texture to allow context to load to unload
-    */
+     * Resource sub-class for texture to allow context to load to unload
+     */
     struct Texture: public Resource
     {
     public:
-        //constructor defining name, path, width, height, amount of channels, and data
+        // constructor defining name, path, width, height, amount of channels, and data
         Texture(
             const std::string &l_name,
             const Path &l_path,
@@ -34,8 +34,8 @@ namespace ATMA
             m_proj(translationMatrix<float>(-1.f, -1.f) * scalingMatrix<float>(l_width, l_height))
         {
         }
-        
-        //default constructor
+
+        // default constructor
         Texture():
             Resource("", Path{""}, ResType(ResourceEnum::Texture)),
             m_width(0),
