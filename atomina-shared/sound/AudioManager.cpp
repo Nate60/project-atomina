@@ -5,9 +5,9 @@ namespace ATMA
 {
     AudioManager::AudioManager() {}
 
-    AudioManager::AudioManager() {}
+    AudioManager::~AudioManager() {}
 
-    unsigned int AudioManager::createAudioChannel(const unsigned int &l_bufferSize, const unsigned int &l_channelCount, const AudioFrequency &l_freq))
+    unsigned int AudioManager::createAudioChannel(const unsigned int &l_bufferSize, const unsigned int &l_channelCount, const AudioFrequency &l_freq)
     {
         m_channels[m_lastId++] = std::make_shared<AudioChannel>(l_bufferSize, l_channelCount, l_freq);
     }

@@ -17,7 +17,6 @@
 #include "resource/loaders/GLShaderLoader.hpp"
 #include "resource/loaders/DummyResourceLoader.hpp"
 #include "network/NetworkManager.hpp"
-#include "sound/AudioManager.hpp"
 #include "GUI/AppWindow.hpp"
 #include "render/GLRenderer.hpp"
 #ifdef _WINDOWS
@@ -36,6 +35,7 @@ namespace ATMA
     class ATMAContext;
     class SysBase;
     class BaseState;
+    class AudioMananger;
 
     using ObjectID = unsigned int;
     using AttrTypeID = unsigned int;
@@ -123,10 +123,8 @@ namespace ATMA
         void systemUpdated(const unsigned int &l_systemID);
 
         NetworkManager m_networkManager{};
-        AudioManager m_audioManager{};
     public:
         NetworkManager &netManager{m_networkManager};
-        AudioManager &audioManager{m_audioManager};
         // deleted functions
         ATMAContext(ATMAContext const &) = delete;
         void operator=(ATMAContext const &) = delete;
