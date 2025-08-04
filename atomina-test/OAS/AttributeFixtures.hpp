@@ -17,8 +17,8 @@ protected:
      */
     void addAttribute(const unsigned int &l_obj, T &l_attr)
     {
-        ctx.registerAttributeType<T>(l_attr.getType());
-        ctx.addAttribute(l_obj, l_attr.getType());
+        ctx.m_attrMan->registerAttributeType<T>(l_attr.getType());
+        ctx.m_attrMan->addAttribute(ctx, l_obj, l_attr.getType());
     }
 
     /**
@@ -28,7 +28,7 @@ protected:
      */
     void removeAttribute(const unsigned int &l_obj, T &l_attr)
     {
-        ctx.removeAttribute(l_obj, l_attr.getType());
+        ctx.m_attrMan->removeAttribute(ctx, l_obj, l_attr.getType());
     }
 
     /**
@@ -39,7 +39,12 @@ protected:
      */
     std::shared_ptr<T> getAttribute(const unsigned int &l_obj, T &l_attr)
     {
-        return ctx.getAttribute<T>(l_obj, l_attr.getType());
+        return ctx.m_attrMan->getAttribute<T>(l_obj, l_attr.getType());
+    }
+
+    void SetUp() override
+    {
+        ctx.purge();
     }
 
     /**

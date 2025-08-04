@@ -1,4 +1,5 @@
 #pragma once
+#include "core/ATMAContext.hpp"
 #include "pch.hpp"
 #include "core/api.hpp"
 #include "OAS/SysBase.hpp"
@@ -24,7 +25,7 @@ namespace ATMA
          * update internal members on an engine tick basis
          * @param l_dt the time since last update
          */
-        virtual void update(const long long &l_dt) override;
+        virtual void update(ATMAContext &l_ctx, const long long &l_dt) override;
 
         /**
          * event callback function where the system will changes

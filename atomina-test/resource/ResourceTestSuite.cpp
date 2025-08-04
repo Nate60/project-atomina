@@ -11,7 +11,7 @@ TYPED_TEST(ResourceFixture, CanRegisterResource)
 {
     auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
-    EXPECT_TRUE(ctx.hasResource(id));
+    EXPECT_TRUE(ctx.m_resMan->hasResource(id));
 }
 
 /**
@@ -20,7 +20,6 @@ TYPED_TEST(ResourceFixture, CanRegisterResource)
  */
 TYPED_TEST(ResourceFixture, CanLoadResource)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
     EXPECT_NE(res, nullptr);
@@ -35,8 +34,8 @@ TYPED_TEST(ResourceFixture, CanUnloadResource)
     auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
-    ctx.unloadResource(id);
-    EXPECT_FALSE(ctx.hasLoadedResource(id));
+    ctx.m_resMan->unloadResource(id);
+    EXPECT_FALSE(ctx.m_resMan->hasLoadedResource(id));
 }
 
 /**
@@ -46,8 +45,6 @@ TYPED_TEST(ResourceFixture, CanUnloadResource)
 TYPED_TEST(ResourceFixture, reloadingALoadedResourceReturnsResource)
 {
 
-    auto &ctx = this->ctx;
-    ATMA_ENGINE_INFO("loaded context");
     auto id = this->registerResource(0u);
     ATMA_ENGINE_INFO("resource registered");
     auto res = this->loadResource(id);
@@ -65,8 +62,8 @@ TYPED_TEST(ResourceFixture, CanRemoveResource)
 {
     auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
-    ctx.removeResource(id);
-    EXPECT_FALSE(ctx.hasResource(id));
+    ctx.m_resMan->removeResource(id);
+    EXPECT_FALSE(ctx.m_resMan->hasResource(id));
 }
 
 /**
@@ -78,7 +75,7 @@ TYPED_TEST(ResourceFixture, GetRemovedResource)
     auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
-    ctx.removeResource(id);
+    ctx.m_resMan->removeResource(id);
     EXPECT_THROW(this->loadResource(id), ATMA::ValueNotFoundException);
 }
 
@@ -91,6 +88,6 @@ TYPED_TEST(ResourceFixture, RemovingResourceUnloadsIt)
     auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
-    ctx.removeResource(id);
-    EXPECT_FALSE(ctx.hasLoadedResource(id));
+    ctx.m_resMan->removeResource(id);
+    EXPECT_FALSE(ctx.m_resMan->hasLoadedResource(id));
 }

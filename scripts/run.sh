@@ -8,6 +8,7 @@ while [ -L "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   [[ $SOURCE != /* ]] && SOURCE=$DIR/$SOURCE # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
+EXTRA_ARGS=()
 
 while :; do
     case $1 in
@@ -65,10 +66,17 @@ while :; do
                 exit 1
             fi
             ;;
-        -?) #unknown arg
-            printf "unknown argument $1\n"
+        -?) #extra argument
+            if [ -n "$2" ]; then
+                EXTRA_ARGS+=("$1")
+                EXTRA_ARGS+=("$2")
+                shift
+            else
+                EXTRA_ARGS+=("$1")
+            fi
             ;;
         *)
+            EXTRA_ARGS+=("$1")
             break
     esac
     shift
@@ -77,6 +85,8 @@ done
 cd $DIR/../
 cd out/build/$buildtype/$apptype
 stat bin/Atomina_$project
-./bin/Atomina_$project
+export ALSA_CONFIG_PATH=$DIR/../out/build/$buildtype/$apptype/vcpkg_installed/x64-linux/share/alsa/alsa.conf
+echo "./bin/Atomina_$project $EXTRA_ARGS"
+./bin/Atomina_$project $EXTRA_ARGS
 cd $EXECPATH
 

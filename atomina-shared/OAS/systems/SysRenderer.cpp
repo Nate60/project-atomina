@@ -1,6 +1,9 @@
 
+#include "core/ATMAContext.hpp"
 #include "pch.hpp"
 #include "SysRenderer.hpp"
+#include "render/GLRenderer.hpp"
+#include "../AttributeManager.hpp"
 
 namespace ATMA
 {
@@ -21,31 +24,30 @@ namespace ATMA
 
     SysRenderer::~SysRenderer() {}
 
-    void SysRenderer::update(const long long &l_dt)
+    void SysRenderer::update(ATMAContext &l_ctx, const long long &l_dt)
     {
         m_stopwatch.start();
-        auto &ctx = ATMAContext::getContext();
-        auto renderer = ctx.getRenderer();
         for(auto &id: m_objects)
         {
             switch(id.first)
             {
             case RENDER_PATTERN:
                 {
-                    auto attr = ctx.getAttribute<AttrRenderable>(id.second, AttributeType(Attribute::Render));
-                    renderer->addElement(attr->m_self);
+                    auto attr =
+                        l_ctx.m_attrMan->getAttribute<AttrRenderable>(id.second, AttributeType(Attribute::Render));
+                    l_ctx.m_renderer->addElement(attr->m_self);
                     break;
                 }
             case TEXT_PATTERN:
                 {
-                    auto attr = ctx.getAttribute<AttrText>(id.second, AttributeType(Attribute::Text));
-                    renderer->addElement(attr->m_self);
+                    auto attr = l_ctx.m_attrMan->getAttribute<AttrText>(id.second, AttributeType(Attribute::Text));
+                    l_ctx.m_renderer->addElement(attr->m_self);
                     break;
                 }
             case SPRITE_PATTERN:
                 {
-                    auto attr = ctx.getAttribute<AttrSprite>(id.second, AttributeType(Attribute::Sprite));
-                    renderer->addElement(attr->m_self);
+                    auto attr = l_ctx.m_attrMan->getAttribute<AttrSprite>(id.second, AttributeType(Attribute::Sprite));
+                    l_ctx.m_renderer->addElement(attr->m_self);
                     break;
                 }
             }

@@ -23,7 +23,6 @@ endif()
 target_link_libraries(Atomina_Test PUBLIC spdlog::spdlog Atomina_Shared GTest::gtest)
 
 target_include_directories(Atomina_Test PRIVATE "../atomina-shared" "../atomina-test" "${FMT_INCLUDE}" "${SPDLOG_INCLUDE}" "${GTEST_INCLUDE}")
-
 install(TARGETS Atomina_Test
         CONFIGURATIONS Debug
         RUNTIME DESTINATION Debug/bin)

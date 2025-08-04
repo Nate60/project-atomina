@@ -1,6 +1,7 @@
 #pragma once
 #include "AtominaTest.hpp"
 #include "TestAttribute.hpp"
+#include "core/ATMAContext.hpp"
 
 /**
  * Dummy system for testing internals of ATMA Contexts
@@ -21,7 +22,7 @@ public:
      * how many ticks have passed
      * @param l_dt time since last update
      */
-    virtual void update(const long long &l_dt) override;
+    virtual void update(ATMA::ATMAContext &l_ctx, const long long &l_dt) override;
 
     /**
      * Triggers any event specific functionality of the system

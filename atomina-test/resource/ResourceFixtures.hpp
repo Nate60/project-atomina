@@ -18,12 +18,10 @@ protected:
      * @param l_filename full qualified path to the resource
      * @returns unique identifier of the resource
      */
-    unsigned int registerResource(
-        const unsigned int &l_resourceType,
-        const std::optional<std::string> &l_filename = std::nullopt
-    )
+    unsigned int
+    registerResource(const unsigned int &l_resourceType, const std::optional<std::string> &l_filename = std::nullopt)
     {
-        return ctx.registerResource("", l_resourceType, l_filename);
+        return ctx.m_resMan->registerResource("", l_resourceType, l_filename);
     }
 
     /**
@@ -33,7 +31,7 @@ protected:
      */
     std::shared_ptr<T> loadResource(const unsigned int &l_resourceID)
     {
-        return ctx.loadResource<T>(l_resourceID);
+        return ctx.m_resMan->loadResource<T>(l_resourceID);
     }
 
     /**
@@ -41,6 +39,7 @@ protected:
      */
     void TearDown() override
     {
+
         ctx.purge();
     }
 };

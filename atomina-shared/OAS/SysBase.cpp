@@ -13,7 +13,7 @@ namespace ATMA
             return false;
         }
         m_objects.push_back(std::make_pair(l_patternID, l_id));
-        ATMA_ENGINE_INFO("Added object id: {0:d} to system: {1} ", l_id, shared_from_this());
+        ATMA_ENGINE_INFO("Added object id: {0:d} to system: {1} ", l_id, getType());
         return true;
     }
 
@@ -36,7 +36,7 @@ namespace ATMA
             if(itr->second == l_id)
             {
                 m_objects.erase(itr);
-                ATMA_ENGINE_INFO("Removed object id: {0:d} from system: {1} ", l_id, shared_from_this());
+                ATMA_ENGINE_INFO("Removed object id: {0:d} from system: {1} ", l_id, getType());
                 return true;
             }
         }

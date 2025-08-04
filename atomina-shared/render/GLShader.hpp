@@ -9,8 +9,8 @@
 namespace ATMA
 {
     /**
-    * enumeration of all shader types
-    */
+     * enumeration of all shader types
+     */
     enum class ShaderType
     {
         None = 0,
@@ -18,22 +18,21 @@ namespace ATMA
         Fragment
     };
 
-
     /**
-    * Resource sub-class for shader to allow the GLShader to managed
-    * by the context
-    */
+     * Resource sub-class for shader to allow the GLShader to managed
+     * by the context
+     */
     class Shader: public Resource
     {
     public:
-        //constructor specifing name, path, and source code
+        // constructor specifing name, path, and source code
         Shader(const std::string &l_name, const Path &l_path, const std::string &l_shaderSource):
             Resource(l_name, l_path, ResType(ResourceEnum::Shader)),
             m_source(l_shaderSource)
         {
         }
 
-        //default constructor
+        // default constructor
         Shader(): Resource("", Path{""}, ResType(ResourceEnum::Shader)), m_source("") {}
 
         const std::string m_source;
@@ -52,7 +51,7 @@ namespace ATMA
          * @brief compiles the shader source using GL context
          * @param l_type expected type of the shader being compiled
          */
-        virtual void compile(ShaderType l_type) = 0;
+        virtual void compile(const ShaderType &l_type) = 0;
 
         /**
          * @brief gets the reference id of the shader from the GL context

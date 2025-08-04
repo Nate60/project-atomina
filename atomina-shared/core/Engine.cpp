@@ -1,12 +1,12 @@
 #include "pch.hpp"
-#include "Entry.hpp"
+#include "Engine.hpp"
 #include "ATMAContext.hpp"
 
 /*
  * Lib entry point into execution
  *
  */
-int main()
+int main(int argc, char **argv)
 {
 #ifdef _WINDOWS
     // required for winsock
@@ -23,17 +23,24 @@ int main()
 #endif
     try
     {
+        std::chrono::steady_clock engineClock{};
+        std::chrono::time_point<std::chrono::steady_clock> lastUpdate = engineClock.now();
         app->initializeContext();
         auto &ctx = ATMA::ATMAContext::getContext();
         ATMA_ENGINE_INFO("Setting up application");
+        ctx.argc = &argc;
+        ctx.argv = argv;
         app->setup(ctx);
         ATMA_ENGINE_INFO("Starting game loop");
         while(app->active)
         {
-            app->update(ctx);
+            auto dt = engineClock.now() - lastUpdate;
+            lastUpdate = engineClock.now();
+            app->update(ctx, dt.count());
         }
         ATMA_ENGINE_INFO("Ending game loop, shutting down application");
         app->shutdown(ctx);
+        app->destoryContext(ctx);
     }
     catch(ATMA::AtominaException e)
     {

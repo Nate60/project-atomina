@@ -40,16 +40,21 @@ namespace ATMA
         void initializeContext();
 
         /**
-        * use for any pre game-loop setup as it will be executed before
-        * creating the game loop
-        */
+         * Deletes and cleans up the ATMAContext and the context should not be used after this point
+         */
+        void destoryContext(ATMAContext &l_ctx);
+
+        /**
+         * use for any pre game-loop setup as it will be executed before
+         * creating the game loop
+         */
         virtual void setup(ATMAContext &l_ctx);
 
         /**
          * stub virtual function to be extended and implemented by the game
          * and contains the main game loop
          */
-        virtual void update(ATMAContext &l_ctx);
+        virtual void update(ATMAContext &l_ctx, const long long &l_dt);
 
         /**
          * stub function to be implemented by the game to initiate shutdown

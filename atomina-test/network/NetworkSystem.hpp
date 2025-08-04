@@ -1,6 +1,7 @@
 #pragma once
 #include "AtominaTest.hpp"
 #include "NetworkAttribute.hpp"
+#include "core/ATMAContext.hpp"
 
 /**
  * Dummy system for testing internals of ATMA Contexts
@@ -25,7 +26,7 @@ public:
      * how many ticks have passed
      * @param l_dt time since last update
      */
-    virtual void update(const long long &l_dt) override {}
+    virtual void update(ATMA::ATMAContext &l_ctx, const long long &l_dt) override {}
 
     /**
      * Triggers any event specific functionality of the system
@@ -42,7 +43,7 @@ public:
         if(m_enabled)
             for(auto &obj: m_objects)
             {
-                std::shared_ptr<NetworkAttribute> attr = ctx.getAttribute<NetworkAttribute>(obj.second, 0u);
+                std::shared_ptr<NetworkAttribute> attr = ctx.m_attrMan->getAttribute<NetworkAttribute>(obj.second, 0u);
                 attr->m_connId = l_id;
                 if(auto itr = attr->m_resps.find(l_e.type()); itr != attr->m_resps.end())
                 {
