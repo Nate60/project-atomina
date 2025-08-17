@@ -29,10 +29,9 @@ namespace ATMA
         }
     }
 
-    void SystemManager::systemUpdated(const unsigned int &l_systemID)
+    void SystemManager::systemUpdated(ATMAContext *l_ctx, const unsigned int &l_systemID)
     {
-        auto &ctx = ATMAContext::getContext();
-        for(auto &obj: ctx.m_attrMan->m_objects)
+        for(auto &obj: l_ctx->m_attrMan->m_objects)
         {
             if(auto patternID = m_systems[l_systemID]->match(obj.second.first); patternID >= 0)
             {
@@ -101,7 +100,7 @@ namespace ATMA
         }
     }
 
-    void SystemManager::update(ATMAContext &l_ctx, const long long &l_dt)
+    void SystemManager::update(ATMAContext *l_ctx, const long long &l_dt)
     {
         for(auto &sys: m_systems)
         {

@@ -8,7 +8,7 @@ namespace ATMA
 
     ObjectEventManager::~ObjectEventManager() {}
 
-    void ObjectEventManager::dispatchObjectEvent(const ObjectEventContext &l_e)
+    void ObjectEventManager::dispatchObjectEvent(ATMAContext *l_ctx, const ObjectEventContext &l_e)
     {
         for(auto &listenerVec: m_listeners)
         {
@@ -19,7 +19,7 @@ namespace ATMA
                     if(listener->isEnabled())
                     {
                         ATMA_ENGINE_INFO("Listener for event type {0:d} notified", l_e.m_objectEventType);
-                        listener->notify(l_e);
+                        listener->notify(l_ctx, l_e);
                     }
                 }
             }

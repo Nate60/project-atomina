@@ -9,7 +9,7 @@ template<class T>
 class ResourceFixture: public ::testing::Test
 {
 public:
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
+    ATMA::ATMAContext *m_ctx;
 protected:
     /**
      * Adds resource to the ATMA contain with type of the template
@@ -21,7 +21,7 @@ protected:
     unsigned int
     registerResource(const unsigned int &l_resourceType, const std::optional<std::string> &l_filename = std::nullopt)
     {
-        return ctx.m_resMan->registerResource("", l_resourceType, l_filename);
+        return m_ctx->m_resMan->registerResource("", l_resourceType, l_filename);
     }
 
     /**
@@ -31,7 +31,13 @@ protected:
      */
     std::shared_ptr<T> loadResource(const unsigned int &l_resourceID)
     {
-        return ctx.m_resMan->loadResource<T>(l_resourceID);
+        return m_ctx->m_resMan->loadResource<T>(l_resourceID);
+    }
+
+    void SetUp() override
+    {
+
+        m_ctx = makeContext();
     }
 
     /**
@@ -39,8 +45,8 @@ protected:
      */
     void TearDown() override
     {
-
-        ctx.purge();
+        m_ctx->purge();
+        destroyContext(m_ctx);
     }
 };
 
@@ -50,13 +56,20 @@ protected:
 class UnTypedResourceFixture: public ::testing::Test
 {
 public:
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
+    ATMA::ATMAContext *m_ctx;
 protected:
+    void SetUp() override
+    {
+
+        m_ctx = makeContext();
+    }
+
     /**
-     * Cleans up the context after each test
+     * Cleans up context after each test
      */
     void TearDown() override
     {
-        ctx.purge();
+        m_ctx->purge();
+        destroyContext(m_ctx);
     }
 };

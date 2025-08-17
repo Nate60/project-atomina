@@ -8,6 +8,7 @@
 namespace ATMA
 {
 
+    class ATMAContext;
     using CallbackContainer = std::vector<std::function<void(const WindowEvent &)>>;
     using CallbackMap = std::unordered_map<WindowEventEnum, CallbackContainer>;
 
@@ -19,7 +20,11 @@ namespace ATMA
     {
     public:
         // default constructor with optional parameters
-        AppWindow(const Vec2<unsigned int> &l_size = {180, 180}, const std::string &l_name = "Atomina Application");
+        AppWindow(
+            ATMAContext *ctx,
+            const Vec2<unsigned int> &l_size = {180, 180},
+            const std::string &l_name = "Atomina Application"
+        );
 
         // default deconstructor
         virtual ~AppWindow();
@@ -76,6 +81,7 @@ namespace ATMA
         CallbackMap m_callbacks{};
         Vec2<unsigned int> m_size{};
         std::string m_name{};
+        ATMAContext *ctx = nullptr;
         bool m_closed{};
 
         friend class GLRenderer;

@@ -8,7 +8,7 @@ template<class T>
 class AttributeFixture: public ::testing::Test
 {
 public:
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
+    ATMA::ATMAContext *m_ctx;
 protected:
     /**
      * Helper function for adding attribute of the template class
@@ -17,8 +17,8 @@ protected:
      */
     void addAttribute(const unsigned int &l_obj, T &l_attr)
     {
-        ctx.m_attrMan->registerAttributeType<T>(l_attr.getType());
-        ctx.m_attrMan->addAttribute(ctx, l_obj, l_attr.getType());
+        m_ctx->m_attrMan->registerAttributeType<T>(l_attr.getType());
+        m_ctx->m_attrMan->addAttribute(m_ctx, l_obj, l_attr.getType());
     }
 
     /**
@@ -28,7 +28,7 @@ protected:
      */
     void removeAttribute(const unsigned int &l_obj, T &l_attr)
     {
-        ctx.m_attrMan->removeAttribute(ctx, l_obj, l_attr.getType());
+        m_ctx->m_attrMan->removeAttribute(m_ctx, l_obj, l_attr.getType());
     }
 
     /**
@@ -39,12 +39,13 @@ protected:
      */
     std::shared_ptr<T> getAttribute(const unsigned int &l_obj, T &l_attr)
     {
-        return ctx.m_attrMan->getAttribute<T>(l_obj, l_attr.getType());
+        return m_ctx->m_attrMan->getAttribute<T>(l_obj, l_attr.getType());
     }
 
     void SetUp() override
     {
-        ctx.purge();
+
+        m_ctx = makeContext();
     }
 
     /**
@@ -52,8 +53,8 @@ protected:
      */
     void TearDown() override
     {
-        auto &ctx = ATMA::ATMAContext::getContext();
-        ctx.purge();
+        m_ctx->purge();
+        destroyContext(m_ctx);
     }
 };
 
@@ -63,13 +64,20 @@ protected:
  */
 class UntypedAttributeFixture: public ::testing::Test
 {
+public:
+    ATMA::ATMAContext *m_ctx;
 protected:
+    void SetUp() override
+    {
+        m_ctx = makeContext();
+    }
+
     /**
      * Cleans up context after each test
      */
     void TearDown() override
     {
-        auto &ctx = ATMA::ATMAContext::getContext();
-        ctx.purge();
+        m_ctx->purge();
+        destroyContext(m_ctx);
     }
 };

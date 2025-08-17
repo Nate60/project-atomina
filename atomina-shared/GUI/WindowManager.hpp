@@ -18,7 +18,7 @@ namespace ATMA
          * Creates a new app window in the context
          * @returns id of the new window
          */
-        [[nodiscard]] unsigned int createWindow();
+        [[nodiscard]] unsigned int createWindow(ATMAContext *ctx);
 
         /**
          * Gets the window pointer from the associated id

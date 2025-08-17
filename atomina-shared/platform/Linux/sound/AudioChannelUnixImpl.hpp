@@ -10,6 +10,7 @@ namespace ATMA
 
     struct PipewireStreamState
     {
+        ATMAContext *ctx = nullptr;
         const int16_t m_channels;
         const float m_volume;
         const int m_freq;
@@ -25,6 +26,7 @@ namespace ATMA
     {
     public:
         AudioChannelUnixImpl(
+            ATMAContext *ctx,
             const unsigned int &l_bufferSize = 1024u,
             const unsigned int &l_channelCount = 2u,
             const AudioFrequency &l_freq = AudioFrequency::FREQ_44100

@@ -25,11 +25,10 @@ int main(int argc, char **argv)
     {
         std::chrono::steady_clock engineClock{};
         std::chrono::time_point<std::chrono::steady_clock> lastUpdate = engineClock.now();
-        app->initializeContext();
-        auto &ctx = ATMA::ATMAContext::getContext();
+        auto ctx = app->initializeContext();
         ATMA_ENGINE_INFO("Setting up application");
-        ctx.argc = &argc;
-        ctx.argv = argv;
+        ctx->argc = &argc;
+        ctx->argv = argv;
         app->setup(ctx);
         ATMA_ENGINE_INFO("Starting game loop");
         while(app->active)

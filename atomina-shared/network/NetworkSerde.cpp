@@ -6,7 +6,6 @@ namespace ATMA
     const NetworkMessage NetworkSerde::deserialize(const std::vector<unsigned char> &l_bytes, size_t &l_amountUsed)
     {
         l_amountUsed = 0;
-        ATMA_ENGINE_TRACE("deserializing message with {} bytes", l_bytes.size());
         // skip byte size header
         l_amountUsed += sizeof(unsigned short);
         // determine message type

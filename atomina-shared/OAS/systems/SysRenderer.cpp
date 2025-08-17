@@ -24,7 +24,7 @@ namespace ATMA
 
     SysRenderer::~SysRenderer() {}
 
-    void SysRenderer::update(ATMAContext &l_ctx, const long long &l_dt)
+    void SysRenderer::update(ATMAContext *l_ctx, const long long &l_dt)
     {
         m_stopwatch.start();
         for(auto &id: m_objects)
@@ -34,20 +34,20 @@ namespace ATMA
             case RENDER_PATTERN:
                 {
                     auto attr =
-                        l_ctx.m_attrMan->getAttribute<AttrRenderable>(id.second, AttributeType(Attribute::Render));
-                    l_ctx.m_renderer->addElement(attr->m_self);
+                        l_ctx->m_attrMan->getAttribute<AttrRenderable>(id.second, AttributeType(Attribute::Render));
+                    l_ctx->m_renderer->addElement(attr->m_self);
                     break;
                 }
             case TEXT_PATTERN:
                 {
-                    auto attr = l_ctx.m_attrMan->getAttribute<AttrText>(id.second, AttributeType(Attribute::Text));
-                    l_ctx.m_renderer->addElement(attr->m_self);
+                    auto attr = l_ctx->m_attrMan->getAttribute<AttrText>(id.second, AttributeType(Attribute::Text));
+                    l_ctx->m_renderer->addElement(attr->m_self);
                     break;
                 }
             case SPRITE_PATTERN:
                 {
-                    auto attr = l_ctx.m_attrMan->getAttribute<AttrSprite>(id.second, AttributeType(Attribute::Sprite));
-                    l_ctx.m_renderer->addElement(attr->m_self);
+                    auto attr = l_ctx->m_attrMan->getAttribute<AttrSprite>(id.second, AttributeType(Attribute::Sprite));
+                    l_ctx->m_renderer->addElement(attr->m_self);
                     break;
                 }
             }
@@ -56,6 +56,6 @@ namespace ATMA
         m_stopwatch.reset();
     }
 
-    void SysRenderer::notify(const ObjectEventContext &l_e) {}
+    void SysRenderer::notify(ATMAContext *l_ctx, const ObjectEventContext &l_e) {}
 
 }

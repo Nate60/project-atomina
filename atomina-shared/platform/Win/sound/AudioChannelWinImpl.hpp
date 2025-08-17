@@ -8,10 +8,22 @@
 namespace ATMA
 {
 
+    struct RtAudioStreamState
+    {
+        ATMAContext *ctx = nullptr;
+        std::mutex m_stateLock;
+        unsigned int m_channelCount{};
+        unsigned int m_chunkIndex{};
+        unsigned int m_sampleIndex{};
+        float m_volume{1.0f};
+        std::queue<unsigned int> m_soundQueue{};
+    };
+
     class AudioChannelWinImpl: public AudioChannel
     {
     public:
         AudioChannelWinImpl(
+            ATMAContext *l_ctx,
             const unsigned int &l_bufferSize = 1024u,
             const unsigned int &l_channelCount = 2u,
             const AudioFrequency &l_freq = AudioFrequency::FREQ_44100
@@ -33,6 +45,7 @@ namespace ATMA
         );
     protected:
         RtAudio m_dac;
+        RtAudioStreamState *m_state{};
     };
 }
 #endif

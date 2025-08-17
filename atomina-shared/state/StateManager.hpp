@@ -22,7 +22,7 @@ namespace ATMA
          * @param l_state unique pointer to the state
          * @throws Registration Exception if the state id has a state already registered
          */
-        void addState(const unsigned int &l_stateType, std::shared_ptr<BaseState> l_state);
+        void addState(ATMAContext *l_ctx, const unsigned int &l_stateType, std::shared_ptr<BaseState> l_state);
 
         /**
          * Remove state from the context
@@ -36,7 +36,7 @@ namespace ATMA
          * @param l_stateType state type id of the state to switch to
          * @throws ValueNotFound Exception when the state type id is not registered
          */
-        void switchToState(const unsigned int &l_stateType);
+        void switchToState(ATMAContext *l_ctx, const unsigned int &l_stateType);
 
         /**
          * checks if the state is registered in the context
@@ -47,9 +47,10 @@ namespace ATMA
 
         /**
          * Pushes event to the state stack until it is handled
+         * @param l_ctx Engine Context
          * @param l_winEvent window event
          */
-        void dispatchWindowEvent(const WindowEvent &l_winEvent);
+        void dispatchWindowEvent(ATMAContext *l_ctx, const WindowEvent &l_winEvent);
 
         /**
          * removes and deletes all states from the context

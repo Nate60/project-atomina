@@ -5,10 +5,10 @@
  */
 TEST_F(StateFixture, CanAddState)
 {
-    std::shared_ptr<TestState> state{new TestState{}};
+    std::shared_ptr<TestState> state{new TestState{this->m_ctx}};
     auto id = state->getId();
-    this->ctx.m_stateMan->addState(id, std::move(state));
-    EXPECT_TRUE(this->ctx.m_stateMan->hasState(id));
+    this->m_ctx->m_stateMan->addState(this->m_ctx, id, std::move(state));
+    EXPECT_TRUE(this->m_ctx->m_stateMan->hasState(id));
 }
 
 /**
@@ -17,11 +17,11 @@ TEST_F(StateFixture, CanAddState)
  */
 TEST_F(StateFixture, AddDuplicateState)
 {
-    std::shared_ptr<TestState> state{new TestState{}};
-    std::shared_ptr<TestState> state2{new TestState{}};
+    std::shared_ptr<TestState> state{new TestState{this->m_ctx}};
+    std::shared_ptr<TestState> state2{new TestState{this->m_ctx}};
     auto id = state->getId();
-    this->ctx.m_stateMan->addState(id, std::move(state));
-    EXPECT_THROW(this->ctx.m_stateMan->addState(id, std::move(state2)), ATMA::RegistrationException);
+    this->m_ctx->m_stateMan->addState(this->m_ctx, id, std::move(state));
+    EXPECT_THROW(this->m_ctx->m_stateMan->addState(this->m_ctx, id, std::move(state2)), ATMA::RegistrationException);
 }
 
 /**
@@ -29,7 +29,7 @@ TEST_F(StateFixture, AddDuplicateState)
  */
 TEST_F(StateFixture, RemoveNonExistentState)
 {
-    EXPECT_THROW(this->ctx.m_stateMan->removeState(0u), ATMA::ValueNotFoundException);
+    EXPECT_THROW(this->m_ctx->m_stateMan->removeState(0u), ATMA::ValueNotFoundException);
 }
 
 /**
@@ -37,7 +37,7 @@ TEST_F(StateFixture, RemoveNonExistentState)
  */
 TEST_F(StateFixture, SwitchToNonExistentState)
 {
-    EXPECT_THROW(this->ctx.m_stateMan->switchToState(0u), ATMA::ValueNotFoundException);
+    EXPECT_THROW(this->m_ctx->m_stateMan->switchToState(this->m_ctx, 0u), ATMA::ValueNotFoundException);
 }
 
 /**
@@ -45,12 +45,12 @@ TEST_F(StateFixture, SwitchToNonExistentState)
  */
 TEST_F(StateFixture, CanRemoveState)
 {
-    std::shared_ptr<TestState> state{new TestState{}};
+    std::shared_ptr<TestState> state{new TestState{this->m_ctx}};
     auto id = state->getId();
-    this->ctx.m_stateMan->addState(id, std::move(state));
-    EXPECT_TRUE(this->ctx.m_stateMan->hasState(id));
-    this->ctx.m_stateMan->removeState(id);
-    EXPECT_FALSE(this->ctx.m_stateMan->hasState(id));
+    this->m_ctx->m_stateMan->addState(this->m_ctx, id, std::move(state));
+    EXPECT_TRUE(this->m_ctx->m_stateMan->hasState(id));
+    this->m_ctx->m_stateMan->removeState(id);
+    EXPECT_FALSE(this->m_ctx->m_stateMan->hasState(id));
 }
 
 /**
@@ -58,20 +58,20 @@ TEST_F(StateFixture, CanRemoveState)
  */
 TEST_F(StateFixture, OnStateChangeCanDisableSystem)
 {
-    std::shared_ptr<TestState> state{new TestState{}};
-    std::shared_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
+    std::shared_ptr<TestState> state{new TestState{this->m_ctx}};
+    std::shared_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{this->m_ctx}};
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
     auto sysType = TestSystem{}.getType();
-    ctx.m_attrMan->registerAttributeType<TestAttribute>(0u);
-    ctx.m_sysMan->addSystemType<TestSystem>(sysType);
-    auto obj = ctx.m_attrMan->createObject(ctx);
-    ctx.m_attrMan->addAttribute(ctx, obj, 0u);
-    ctx.m_stateMan->addState(stateType, std::move(state));
-    ctx.m_stateMan->addState(dummyType, std::move(dummyState));
-    ctx.m_stateMan->switchToState(dummyType);
-    ctx.m_sysMan->update(ctx, 0LL);
-    EXPECT_FALSE(ctx.m_attrMan->getAttribute<TestAttribute>(obj, 0u)->flag);
+    m_ctx->m_attrMan->registerAttributeType<TestAttribute>(0u);
+    m_ctx->m_sysMan->addSystemType<TestSystem>(this->m_ctx, sysType);
+    auto obj = m_ctx->m_attrMan->createObject();
+    m_ctx->m_attrMan->addAttribute(m_ctx, obj, 0u);
+    m_ctx->m_stateMan->addState(this->m_ctx, stateType, std::move(state));
+    m_ctx->m_stateMan->addState(this->m_ctx, dummyType, std::move(dummyState));
+    m_ctx->m_stateMan->switchToState(this->m_ctx, dummyType);
+    m_ctx->m_sysMan->update(m_ctx, 0LL);
+    EXPECT_FALSE(m_ctx->m_attrMan->getAttribute<TestAttribute>(obj, 0u)->flag);
 }
 
 /**
@@ -79,23 +79,23 @@ TEST_F(StateFixture, OnStateChangeCanDisableSystem)
  */
 TEST_F(StateFixture, OnStateChangeCanEnableSystem)
 {
-    std::shared_ptr<TestState> state{new TestState{}};
-    std::shared_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{}};
+    std::shared_ptr<TestState> state{new TestState{this->m_ctx}};
+    std::shared_ptr<ATMA::DummyState> dummyState{new ATMA::DummyState{this->m_ctx}};
     auto sysType = TestSystem{}.getType();
     auto stateType = state->getId();
     auto dummyType = dummyState->getId();
-    ctx.m_attrMan->registerAttributeType<TestAttribute>(0u);
-    ctx.m_sysMan->addSystemType<TestSystem>(sysType);
-    auto obj = ctx.m_attrMan->createObject(ctx);
-    ctx.m_attrMan->addAttribute(ctx, obj, 0u);
-    ctx.m_stateMan->addState(stateType, std::move(state));
-    ctx.m_stateMan->addState(dummyType, std::move(dummyState));
-    ctx.m_stateMan->switchToState(dummyType);
-    ctx.m_sysMan->update(ctx, 0LL);
-    EXPECT_FALSE(ctx.m_attrMan->getAttribute<TestAttribute>(obj, 0u)->flag);
-    ctx.m_stateMan->switchToState(stateType);
-    ctx.m_sysMan->update(ctx, 0LL);
-    EXPECT_TRUE(ctx.m_attrMan->getAttribute<TestAttribute>(obj, 0u)->flag);
+    m_ctx->m_attrMan->registerAttributeType<TestAttribute>(0u);
+    m_ctx->m_sysMan->addSystemType<TestSystem>(this->m_ctx, sysType);
+    auto obj = m_ctx->m_attrMan->createObject();
+    m_ctx->m_attrMan->addAttribute(m_ctx, obj, 0u);
+    m_ctx->m_stateMan->addState(this->m_ctx, stateType, std::move(state));
+    m_ctx->m_stateMan->addState(this->m_ctx, dummyType, std::move(dummyState));
+    m_ctx->m_stateMan->switchToState(this->m_ctx, dummyType);
+    m_ctx->m_sysMan->update(m_ctx, 0LL);
+    EXPECT_FALSE(m_ctx->m_attrMan->getAttribute<TestAttribute>(obj, 0u)->flag);
+    m_ctx->m_stateMan->switchToState(this->m_ctx, stateType);
+    m_ctx->m_sysMan->update(m_ctx, 0LL);
+    EXPECT_TRUE(m_ctx->m_attrMan->getAttribute<TestAttribute>(obj, 0u)->flag);
 }
 
 /**
@@ -105,8 +105,10 @@ TEST_F(StateFixture, StateReceivesEvent)
 {
     std::unique_ptr<TestState> state{new TestState{0u}};
     auto stateType = state->getId();
-    ctx.m_stateMan->addState(stateType, std::move(state));
-    ctx.m_stateMan->dispatchWindowEvent(ATMA::WindowEvent{nullptr, ATMA::WindowEventEnum::COUNT, ATMA::Props{}});
+    m_ctx->m_stateMan->addState(this->m_ctx, stateType, std::move(state));
+    m_ctx->m_stateMan->dispatchWindowEvent(
+        this->m_ctx, ATMA::WindowEvent{nullptr, ATMA::WindowEventEnum::COUNT, ATMA::Props{}}
+    );
     EXPECT_TRUE(TestState::m_flags[0u]);
 }
 
@@ -115,12 +117,18 @@ TEST_F(StateFixture, StateReceivesEvent)
  */
 TEST_F(StateFixture, TwoStatesBothHandle)
 {
-    std::shared_ptr<TestState> state{new TestState{0u}};
-    std::shared_ptr<TestState> state2{new TestState{1u}};
+    std::shared_ptr<TestState> state{
+        new TestState{this->m_ctx, 0u}
+    };
+    std::shared_ptr<TestState> state2{
+        new TestState{this->m_ctx, 1u}
+    };
     auto stateType = state->getId();
-    ctx.m_stateMan->addState(stateType, std::move(state));
-    ctx.m_stateMan->addState(5u, std::move(state2));
-    ctx.m_stateMan->dispatchWindowEvent(ATMA::WindowEvent{nullptr, ATMA::WindowEventEnum::COUNT, ATMA::Props{}});
+    m_ctx->m_stateMan->addState(this->m_ctx, stateType, std::move(state));
+    m_ctx->m_stateMan->addState(this->m_ctx, 5u, std::move(state2));
+    m_ctx->m_stateMan->dispatchWindowEvent(
+        this->m_ctx, ATMA::WindowEvent{nullptr, ATMA::WindowEventEnum::COUNT, ATMA::Props{}}
+    );
     EXPECT_TRUE(TestState::m_flags[0u]);
     EXPECT_TRUE(TestState::m_flags[1u]);
 }

@@ -5,7 +5,13 @@
 namespace ATMA
 {
 
-    BaseState::BaseState(): m_active(false), m_communicable(false), m_transcendent(false), m_transparent(false) {}
+    BaseState::BaseState(ATMAContext *l_ctx):
+        m_active(false),
+        m_communicable(false),
+        m_transcendent(false),
+        m_transparent(false)
+    {
+    }
 
     BaseState::BaseState(BaseState &&b) noexcept:
         m_active(b.m_active),
@@ -17,12 +23,12 @@ namespace ATMA
 
     BaseState::~BaseState() {}
 
-    void BaseState::activate()
+    void BaseState::activate(ATMAContext *l_ctx)
     {
         m_active = true;
     }
 
-    void BaseState::deactivate()
+    void BaseState::deactivate(ATMAContext *l_ctx)
     {
         m_active = false;
     }

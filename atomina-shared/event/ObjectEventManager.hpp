@@ -23,7 +23,7 @@ namespace ATMA
          * for that object event type
          * @param l_e object event details
          */
-        void dispatchObjectEvent(const ObjectEventContext &l_e);
+        void dispatchObjectEvent(ATMAContext *l_ctx, const ObjectEventContext &l_e);
 
         /**
          * Adds object event listener to the notification interface

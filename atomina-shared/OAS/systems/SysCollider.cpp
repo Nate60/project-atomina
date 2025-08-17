@@ -15,17 +15,17 @@ namespace ATMA
 
     SysCollider::~SysCollider() {}
 
-    void SysCollider::update(ATMAContext &l_ctx, const long long &l_dt)
+    void SysCollider::update(ATMAContext *l_ctx, const long long &l_dt)
     {
         m_stopwatch.start();
         for(int i = 0; i < m_objects.size(); ++i)
         {
-            std::shared_ptr<AttrCollidable> collideComp = l_ctx.m_attrMan->getAttribute<AttrCollidable>(
+            std::shared_ptr<AttrCollidable> collideComp = l_ctx->m_attrMan->getAttribute<AttrCollidable>(
                 m_objects[i].second, AttributeType(Attribute::Collidable)
             );
             for(int j = i + 1; j < m_objects.size(); ++j)
             {
-                std::shared_ptr<AttrCollidable> otherComp = l_ctx.m_attrMan->getAttribute<AttrCollidable>(
+                std::shared_ptr<AttrCollidable> otherComp = l_ctx->m_attrMan->getAttribute<AttrCollidable>(
                     m_objects[j].second, AttributeType(Attribute::Collidable)
                 );
                 Vec2<float> result{};
@@ -35,8 +35,8 @@ namespace ATMA
                     eventProps["id1"] = std::make_any<unsigned int>(m_objects[i].second);
                     eventProps["id2"] = std::make_any<unsigned int>(m_objects[j].second);
                     eventProps["vec"] = std::make_any<Vec2<float>>(result);
-                    l_ctx.m_eventMan->dispatchObjectEvent(
-                        ObjectEventContext{ObjectEventType(ObjectEvent::Collision), eventProps}
+                    l_ctx->m_eventMan->dispatchObjectEvent(
+                        l_ctx, ObjectEventContext{ObjectEventType(ObjectEvent::Collision), eventProps}
                     );
                 }
             }
@@ -45,6 +45,6 @@ namespace ATMA
         m_stopwatch.reset();
     }
 
-    void SysCollider::notify(const ObjectEventContext &l_e) {}
+    void SysCollider::notify(ATMAContext *l_ctx, const ObjectEventContext &l_e) {}
 
 }
