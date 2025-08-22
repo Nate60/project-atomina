@@ -7,9 +7,9 @@ namespace ATMA
 
     WindowManager::~WindowManager() {}
 
-    unsigned int WindowManager::createWindow()
+    unsigned int WindowManager::createWindow(ATMAContext *ctx)
     {
-        m_windows[m_lastWindowID] = std::make_shared<AppWindow>();
+        m_windows[m_lastWindowID] = std::make_shared<AppWindow>(ctx);
         auto id = m_lastWindowID++;
         ATMA_ENGINE_INFO("Created Window with id {}", id);
         return id;

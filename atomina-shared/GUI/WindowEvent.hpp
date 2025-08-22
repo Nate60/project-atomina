@@ -66,7 +66,7 @@ namespace ATMA
         }
 
         AppWindow *m_win;
-        const WindowEventEnum &m_type;
+        const WindowEventEnum m_type;
     protected:
         const Props m_props;
     };

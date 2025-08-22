@@ -10,7 +10,6 @@
 class NetworkSystem: public ATMA::SysBase, public ATMA::NetworkMessageListener
 {
 private:
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
 public:
     /**
      * Default Constructor
@@ -26,24 +25,29 @@ public:
      * how many ticks have passed
      * @param l_dt time since last update
      */
-    virtual void update(ATMA::ATMAContext &l_ctx, const long long &l_dt) override {}
+    virtual void update(ATMA::ATMAContext *l_ctx, const long long &l_dt) override {}
 
     /**
      * Triggers any event specific functionality of the system
      * @param l_e event details of the passed event
      */
-    virtual void notify(const ATMA::ObjectEventContext &l_e) override {}
+    virtual void notify(ATMA::ATMAContext *l_ctx, const ATMA::ObjectEventContext &l_e) override {}
 
     /**
      * pass the event details to the object to be handled
      * @param l_e event details
      */
-    virtual void notify(const std::optional<const unsigned int> &l_id, const ATMA::NetworkMessage &l_e) override
+    virtual void notify(
+        ATMA::ATMAContext *l_ctx,
+        const std::optional<const unsigned int> &l_id,
+        const ATMA::NetworkMessage &l_e
+    ) override
     {
         if(m_enabled)
             for(auto &obj: m_objects)
             {
-                std::shared_ptr<NetworkAttribute> attr = ctx.m_attrMan->getAttribute<NetworkAttribute>(obj.second, 0u);
+                std::shared_ptr<NetworkAttribute> attr =
+                    l_ctx->m_attrMan->getAttribute<NetworkAttribute>(obj.second, 0u);
                 attr->m_connId = l_id;
                 if(auto itr = attr->m_resps.find(l_e.type()); itr != attr->m_resps.end())
                 {

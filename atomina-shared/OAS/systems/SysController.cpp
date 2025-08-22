@@ -15,13 +15,13 @@ namespace ATMA
 
     SysController::~SysController() {}
 
-    void SysController::update(ATMAContext &l_ctx, const long long &l_dt)
+    void SysController::update(ATMAContext *l_ctx, const long long &l_dt)
     {
         m_stopwatch.start();
         m_stopwatch.stop();
         m_stopwatch.reset();
     }
 
-    void SysController::notify(const ObjectEventContext &l_e) {}
+    void SysController::notify(ATMAContext *l_ctx, const ObjectEventContext &l_e) {}
 
 }

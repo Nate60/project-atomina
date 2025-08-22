@@ -10,7 +10,7 @@ namespace ATMA
 
     AttributeManager::~AttributeManager() {}
 
-    unsigned int AttributeManager::createObject(ATMAContext &l_ctx)
+    unsigned int AttributeManager::createObject()
     {
         std::lock_guard<std::mutex> lock{m_mtx};
         auto id = m_lastObjectID++;
@@ -18,7 +18,7 @@ namespace ATMA
         return id;
     }
 
-    unsigned int AttributeManager::createObject(ATMAContext &l_ctx, const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits)
+    unsigned int AttributeManager::createObject(ATMAContext *l_ctx, const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits)
     {
         std::lock_guard<std::mutex> lock{m_mtx};
         auto id = m_lastObjectID++;
@@ -29,12 +29,12 @@ namespace ATMA
                 continue;
             addAttribute(l_ctx, id, i);
         }
-        l_ctx.m_sysMan->objectUpdated(id, l_bits);
+        l_ctx->m_sysMan->objectUpdated(id, l_bits);
         return id;
     }
 
     void
-    AttributeManager::addAttribute(ATMAContext &l_ctx, const unsigned int &l_objectID, const unsigned int &l_attrType)
+    AttributeManager::addAttribute(ATMAContext *l_ctx, const unsigned int &l_objectID, const unsigned int &l_attrType)
     {
         if(l_objectID >= m_lastObjectID)
             throw ValueNotFoundException("Object id: " + std::to_string(l_objectID) + " was not found");
@@ -59,7 +59,7 @@ namespace ATMA
             ObjectAttributes attrs{pair};
             m_objects[l_objectID] = attrs;
             ATMA_ENGINE_INFO("Added attribute type {0:d} to object id {1:d}", l_attrType, l_objectID);
-            l_ctx.m_sysMan->objectUpdated(l_objectID, bits);
+            l_ctx->m_sysMan->objectUpdated(l_objectID, bits);
         }
         else
         {
@@ -67,12 +67,12 @@ namespace ATMA
             itr->second.first.set(l_attrType);
             itr->second.second[l_attrType] = m_attrFactory[l_attrType]();
             ATMA_ENGINE_INFO("Added attribute type {0:d} to object id {1:d}", l_attrType, l_objectID);
-            l_ctx.m_sysMan->objectUpdated(l_objectID, itr->second.first);
+            l_ctx->m_sysMan->objectUpdated(l_objectID, itr->second.first);
         }
     }
 
     void AttributeManager::removeAttribute(
-        ATMAContext &l_ctx,
+        ATMAContext *l_ctx,
         const unsigned int &l_objectID,
         const unsigned int &l_attrType
     )
@@ -99,7 +99,7 @@ namespace ATMA
                 itr->second.first.reset(innerItr->first);
                 itr->second.second.erase(innerItr);
                 ATMA_ENGINE_INFO("Removed attribute type {0:d} to object id {1:d}", l_attrType, l_objectID);
-                l_ctx.m_sysMan->objectUpdated(l_objectID, itr->second.first);
+                l_ctx->m_sysMan->objectUpdated(l_objectID, itr->second.first);
             }
         }
     }
@@ -117,14 +117,14 @@ namespace ATMA
         }
     }
 
-    void AttributeManager::purge(ATMAContext &l_ctx)
+    void AttributeManager::purge(ATMAContext *l_ctx)
     {
         m_objects.clear();
         m_attrFactory.clear();
         std::bitset<ATConst::OBJECT_BIT_SIZE> emptybits{};
-        for(auto &system: l_ctx.m_sysMan->m_systems)
+        for(auto &system: l_ctx->m_sysMan->m_systems)
         {
-            l_ctx.m_sysMan->purgeSystem(system.second->getType());
+            l_ctx->m_sysMan->purgeSystem(system.second->getType());
         }
         m_lastObjectID = 0;
         ATMA_ENGINE_INFO("purged objects from context");

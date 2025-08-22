@@ -30,6 +30,7 @@ namespace ATMA
          * only way to construct a Network Connection, with all its required members
          */
         NetworkConnection(
+            ATMAContext *l_ctx,
             const std::optional<const unsigned int> &l_id,
             std::shared_ptr<Socket> &l_conn,
             const std::shared_ptr<bool> &l_connected,
@@ -40,7 +41,7 @@ namespace ATMA
             m_connected(l_connected),
             m_subscribers(l_subscribers)
         {
-            m_thread = std::thread{&NetworkConnection::run, this};
+            m_thread = std::thread{&NetworkConnection::run, this, l_ctx};
             if(m_id.has_value())
             {
                 m_thread.detach();
@@ -64,13 +65,7 @@ namespace ATMA
          */
         virtual ~NetworkConnection()
         {
-            ATMA_ENGINE_TRACE(
-                "waiting for termination signal from conn {} ", m_id.value_or(std::numeric_limits<unsigned int>::max())
-            );
             m_termSignal.acquire();
-            ATMA_ENGINE_TRACE(
-                "starting destruction of connection {} ", m_id.value_or(std::numeric_limits<unsigned int>::max())
-            );
             if(m_thread.joinable())
             {
                 ATMA_ENGINE_INFO(
@@ -80,7 +75,7 @@ namespace ATMA
             }
         }
     protected:
-        void run();
+        void run(ATMAContext *l_ctx);
 
         std::shared_ptr<Socket> m_conn;
         const std::shared_ptr<bool> m_connected;
@@ -101,6 +96,7 @@ namespace ATMA
          * only way to construct a Network Listener, with all its required members
          */
         NetworkListener(
+            ATMAContext *l_ctx,
             std::shared_ptr<SocketListener> &l_listener,
             const std::shared_ptr<bool> &l_listening,
             std::shared_ptr<ConnMap> &l_connections,
@@ -113,7 +109,7 @@ namespace ATMA
             m_lastId(l_lastId),
             m_subscribers(l_subscribers)
         {
-            m_thread = std::thread{&NetworkListener::run, this};
+            m_thread = std::thread{&NetworkListener::run, this, l_ctx};
         }
 
         // destructor
@@ -122,7 +118,7 @@ namespace ATMA
             m_thread.join();
         }
     protected:
-        void run();
+        void run(ATMAContext *l_ctx);
         std::shared_ptr<SocketListener> m_listener;
         const std::shared_ptr<bool> m_listening;
         const std::shared_ptr<MessageSubscribers> m_subscribers;
@@ -149,7 +145,7 @@ namespace ATMA
          * for beginning a port listener for accepting connections
          * @param l_port the port to open
          */
-        void startHosting(const unsigned int &l_port);
+        void startHosting(ATMAContext *l_ctx, const unsigned int &l_port);
 
         /**
          * publish a message on all open ports
@@ -167,7 +163,7 @@ namespace ATMA
          * @param l_url url to connect to
          * @param l_port port to connect on
          */
-        void startConnection(const URL &l_url, const unsigned short &l_port);
+        void startConnection(ATMAContext *l_ctx, const URL &l_url, const unsigned short &l_port);
 
         /**
          * send message to specified connection, by default no id is given and will use the direct connection

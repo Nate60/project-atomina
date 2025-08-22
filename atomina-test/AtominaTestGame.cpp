@@ -5,21 +5,21 @@ GameTest::GameTest() {}
 
 GameTest::~GameTest() {}
 
-void GameTest::setup(ATMA::ATMAContext &l_ctx)
+void GameTest::setup(ATMA::ATMAContext *l_ctx)
 {
     ATMA_ENGINE_INFO("Setting up test wrapper");
     active = true;
 }
 
-void GameTest::update(ATMA::ATMAContext &l_ctx, const long long &l_dt)
+void GameTest::update(ATMA::ATMAContext *l_ctx, const long long &l_dt)
 {
     ATMA_ENGINE_INFO("Test Wrapper is now running");
-    ATMA_ENGINE_INFO("Running Test Game with argc: {}", *l_ctx.argc);
-    for(int i = 0; i < *l_ctx.argc; i++)
+    ATMA_ENGINE_INFO("Running Test Game with argc: {}", *l_ctx->argc);
+    for(int i = 0; i < *l_ctx->argc; i++)
     {
-        ATMA_ENGINE_INFO("Running with arg: {}", l_ctx.argv[i]);
+        ATMA_ENGINE_INFO("Running with arg: {}", l_ctx->argv[i]);
     }
-    ::testing::InitGoogleTest(l_ctx.argc, l_ctx.argv);
+    ::testing::InitGoogleTest(l_ctx->argc, l_ctx->argv);
     auto result = RUN_ALL_TESTS();
     if(result > 0)
     {
@@ -34,7 +34,7 @@ void GameTest::update(ATMA::ATMAContext &l_ctx, const long long &l_dt)
     active = false;
 }
 
-void GameTest::shutdown(ATMA::ATMAContext &l_ctx) {}
+void GameTest::shutdown(ATMA::ATMAContext *l_ctx) {}
 
 std::unique_ptr<ATMA::Game> ATMA::CreateGame()
 {

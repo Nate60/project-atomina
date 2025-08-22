@@ -26,9 +26,10 @@ namespace ATMA
         /**
          * Called when a system has been removed or added to the context and
          * will notify the system of any potential relevant objects
+         * @param l_ctx Engine Context
          * @param l_systemID id of the system that has changed
          */
-        void systemUpdated(const unsigned int &l_systemID);
+        void systemUpdated(ATMAContext *l_ctx, const unsigned int &l_systemID);
 
         /**
          * Registers a system type to the context and associates it with the given class type
@@ -38,7 +39,7 @@ namespace ATMA
          * registered
          */
         template<class T>
-        void addSystemType(const unsigned int &l_systemID)
+        void addSystemType(ATMAContext *l_ctx, const unsigned int &l_systemID)
         {
             auto itr = m_systems.find(l_systemID);
             if(itr != m_systems.end())
@@ -51,7 +52,7 @@ namespace ATMA
             {
                 m_systems[l_systemID] = std::make_shared<T>();
                 ATMA_ENGINE_INFO("Registered System of type {0}", m_systems[l_systemID]->getType());
-                systemUpdated(l_systemID);
+                systemUpdated(l_ctx, l_systemID);
             }
         }
 
@@ -108,7 +109,7 @@ namespace ATMA
          * update all systems according to delta time
          * @param l_dt time since last tick
          */
-        void update(ATMAContext &l_ctx, const long long &l_dt);
+        void update(ATMAContext *l_ctx, const long long &l_dt);
 
         /**
          * removes all systems and resets the next id back to 0

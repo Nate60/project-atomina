@@ -3,11 +3,12 @@
 #include "util/Log.hpp"
 #ifdef _WINDOWS
 #    include "platform/Win/sound/AudioChannelWinImpl.hpp"
-#    define __ATMAMAKEAUDIOCHANNEL(size, count, freq) return std::make_shared<AudioChannelWinImpl>(size, count, freq)
+#    define __ATMAMAKEAUDIOCHANNEL(ctx, size, count, freq)                                                             \
+        return std::make_shared<AudioChannelWinImpl>(ctx, size, count, freq)
 #elif __linux__
 #    include "platform/Linux/sound/AudioChannelUnixImpl.hpp"
-#    define __ATMAMAKEAUDIOCHANNEL(size, count, freq) return std::make_shared<AudioChannelUnixImpl>(size, count, freq)
-
+#    define __ATMAMAKEAUDIOCHANNEL(ctx, size, count, freq)                                                             \
+        return std::make_shared<AudioChannelUnixImpl>(ctx, size, count, freq)
 #endif
 
 namespace ATMA
@@ -24,18 +25,16 @@ namespace ATMA
     {
     }
 
-    AudioChannel::~AudioChannel()
-    {
-        delete m_state;
-    }
+    AudioChannel::~AudioChannel() {}
 
     std::shared_ptr<AudioChannel> AudioChannel::makeAudioChannel(
+        ATMAContext *l_ctx,
         const unsigned int &l_bufferSize,
         const unsigned int &l_channelCount,
         const AudioFrequency &l_freq
     )
     {
-        __ATMAMAKEAUDIOCHANNEL(l_bufferSize, l_channelCount, l_freq);
+        __ATMAMAKEAUDIOCHANNEL(l_ctx, l_bufferSize, l_channelCount, l_freq);
     }
 
     void AudioChannel::pushSound(const unsigned int &l_id) {}

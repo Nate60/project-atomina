@@ -12,36 +12,35 @@ using namespace std::string_literals;
 class LobbyState: public ATMA::BaseState, public ATMA::ObjectEventListener
 {
 public:
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
-
     // default constructor
     LobbyState(
+        ATMA::ATMAContext *l_ctx,
         std::shared_ptr<ATMA::AppWindow> l_win,
         const unsigned int &l_vertID,
         const unsigned int &l_fragID,
         const unsigned int &l_fontID
     ):
-        BaseState()
+        BaseState(l_ctx)
     {
         m_win = l_win;
-        auto vertShader = ctx.m_resMan->loadResource<ATMA::GLShader>(l_vertID);
+        auto vertShader = l_ctx->m_resMan->loadResource<ATMA::GLShader>(l_vertID);
         vertShader->compile(ATMA::ShaderType::Vertex);
-        auto fragShader = ctx.m_resMan->loadResource<ATMA::GLShader>(l_fragID);
+        auto fragShader = l_ctx->m_resMan->loadResource<ATMA::GLShader>(l_fragID);
         fragShader->compile(ATMA::ShaderType::Fragment);
-        m_font = ctx.m_resMan->loadResource<ATMA::GLTexture>(l_fontID);
+        m_font = l_ctx->m_resMan->loadResource<ATMA::GLTexture>(l_fontID);
         m_defaultProg = ATMA::GLProgram::makeProgram();
         m_defaultProg->attachShader(vertShader);
         m_defaultProg->attachShader(fragShader);
         m_defaultProg->link();
-        auto unselectedTextID = ctx.m_resMan->registerResource("unselected", 0u, "res/unselected.png");
-        m_unselectedTexture = ctx.m_resMan->loadResource<ATMA::GLTexture>(unselectedTextID);
+        auto unselectedTextID = l_ctx->m_resMan->registerResource("unselected", 0u, "res/unselected.png");
+        m_unselectedTexture = l_ctx->m_resMan->loadResource<ATMA::GLTexture>(unselectedTextID);
         for(int i = 0; i < 2; i++)
         {
-            m_connectedPlayers[i].first = ctx.m_attrMan->createObject(ctx);
-            m_connectedPlayers[i].second = ctx.m_attrMan->createObject(ctx);
+            m_connectedPlayers[i].first = l_ctx->m_attrMan->createObject();
+            m_connectedPlayers[i].second = l_ctx->m_attrMan->createObject();
         }
-        m_startButtonObjId = ctx.m_attrMan->createObject(ctx);
-        m_startButtonTextId = ctx.m_attrMan->createObject(ctx);
+        m_startButtonObjId = l_ctx->m_attrMan->createObject();
+        m_startButtonTextId = l_ctx->m_attrMan->createObject();
     }
 
     virtual ~LobbyState() {}
@@ -49,21 +48,25 @@ public:
     /**
      * stub implementation of activate function
      */
-    virtual void activate() override
+    virtual void activate(ATMA::ATMAContext *l_ctx) override
     {
 
-        ctx.m_netMan->startConnection(ATMA::URL{"127.0.0.1"}, 4734);
+        l_ctx->m_netMan->startConnection(l_ctx, ATMA::URL{"127.0.0.1"}, 4734);
         static ATMA::NetworkMessage nm{ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_REQUEST)};
-        ctx.m_netMan->sendMessage(nm);
+        l_ctx->m_netMan->sendMessage(nm);
 
         for(int i = 0; i < 2; i++)
         {
-            ctx.m_attrMan->addAttribute(ctx, m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render));
-            ctx.m_attrMan->addAttribute(ctx, m_connectedPlayers[i].second, ATMA::AttributeType(ATMA::Attribute::Text));
-            m_connectedPlayersObjs[i].first = ctx.m_attrMan->getAttribute<ATMA::AttrRenderable>(
+            l_ctx->m_attrMan->addAttribute(
+                l_ctx, m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render)
+            );
+            l_ctx->m_attrMan->addAttribute(
+                l_ctx, m_connectedPlayers[i].second, ATMA::AttributeType(ATMA::Attribute::Text)
+            );
+            m_connectedPlayersObjs[i].first = l_ctx->m_attrMan->getAttribute<ATMA::AttrRenderable>(
                 m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render)
             );
-            m_connectedPlayersObjs[i].second = ctx.m_attrMan->getAttribute<ATMA::AttrText>(
+            m_connectedPlayersObjs[i].second = l_ctx->m_attrMan->getAttribute<ATMA::AttrText>(
                 m_connectedPlayers[i].second, ATMA::AttributeType(ATMA::Attribute::Text)
             );
             m_connectedPlayersObjs[i].first->m_self->m_prog = m_defaultProg;
@@ -93,35 +96,36 @@ public:
     /**
      * stub implementation of deactivate function
      */
-    virtual void deactivate() override
+    virtual void deactivate(ATMA::ATMAContext *l_ctx) override
     {
         m_active = false;
         m_startable = false;
         m_connectCount = 0;
         for(int i = 0; i < 3; i++)
         {
-            if(ctx.m_attrMan->hasAttribute(m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render)))
+            if(l_ctx->m_attrMan->hasAttribute(
+                   m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render)
+               ))
             {
-                ctx.m_attrMan->removeAttribute(
-                    ctx, m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render)
+                l_ctx->m_attrMan->removeAttribute(
+                    l_ctx, m_connectedPlayers[i].first, ATMA::AttributeType(ATMA::Attribute::Render)
                 );
-                ctx.m_attrMan->removeAttribute(
-                    ctx, m_connectedPlayers[i].second, ATMA::AttributeType(ATMA::Attribute::Text)
+                l_ctx->m_attrMan->removeAttribute(
+                    l_ctx, m_connectedPlayers[i].second, ATMA::AttributeType(ATMA::Attribute::Text)
                 );
             }
         }
-        if(ctx.m_attrMan->hasAttribute(m_startButtonObjId, ATMA::AttributeType(ATMA::Attribute::Render)))
+        if(l_ctx->m_attrMan->hasAttribute(m_startButtonObjId, ATMA::AttributeType(ATMA::Attribute::Render)))
         {
-            ctx.m_attrMan->removeAttribute(ctx, m_startButtonObjId, ATMA::AttributeType(ATMA::Attribute::Render));
-            ctx.m_attrMan->removeAttribute(ctx, m_startButtonTextId, ATMA::AttributeType(ATMA::Attribute::Text));
+            l_ctx->m_attrMan->removeAttribute(l_ctx, m_startButtonObjId, ATMA::AttributeType(ATMA::Attribute::Render));
+            l_ctx->m_attrMan->removeAttribute(l_ctx, m_startButtonTextId, ATMA::AttributeType(ATMA::Attribute::Text));
         }
     }
 
-    virtual void notify(const ATMA::ObjectEventContext &l_e) override
+    virtual void notify(ATMA::ATMAContext *l_ctx, const ATMA::ObjectEventContext &l_e) override
     {
         if(l_e.m_objectEventType != ATMA::ObjectEventType(ATMA::ObjectEvent::Network))
             return;
-        auto &ctx = ATMA::ATMAContext::getContext();
         switch(l_e.m_properties.getAs<unsigned int>("msgType"))
         {
         case static_cast<unsigned int>(ATMA::NetworkMessageEnum::PORT_RESPONSE):
@@ -156,7 +160,7 @@ public:
             }
         case static_cast<unsigned int>(ATMA::NetworkMessageEnum::STATE_CHANGE):
             {
-                ctx.m_stateMan->switchToState(GameStateType(GameStateEnum::PLAYSTATE));
+                l_ctx->m_stateMan->switchToState(l_ctx, GameStateType(GameStateEnum::PLAYSTATE));
             }
             break;
         default:
@@ -164,9 +168,9 @@ public:
         }
         if(m_connectCount == 2)
         {
-            ctx.m_attrMan->addAttribute(ctx, m_startButtonObjId, ATMA::AttributeType(ATMA::Attribute::Render));
-            ctx.m_attrMan->addAttribute(ctx, m_startButtonTextId, ATMA::AttributeType(ATMA::Attribute::Text));
-            auto startRender = ctx.m_attrMan->getAttribute<ATMA::AttrRenderable>(
+            l_ctx->m_attrMan->addAttribute(l_ctx, m_startButtonObjId, ATMA::AttributeType(ATMA::Attribute::Render));
+            l_ctx->m_attrMan->addAttribute(l_ctx, m_startButtonTextId, ATMA::AttributeType(ATMA::Attribute::Text));
+            auto startRender = l_ctx->m_attrMan->getAttribute<ATMA::AttrRenderable>(
                 m_startButtonObjId, ATMA::AttributeType(ATMA::Attribute::Render)
             );
             startRender->m_self->m_prog = m_defaultProg;
@@ -174,7 +178,7 @@ public:
             startRender->m_self->m_stackPos = 0;
             startRender->m_self->m_pos = ATMA::Vec2{150.f, 100.f};
             startRender->m_self->m_size = ATMA::Vec2{90.f, 45.f};
-            auto startText = ctx.m_attrMan->getAttribute<ATMA::AttrText>(
+            auto startText = l_ctx->m_attrMan->getAttribute<ATMA::AttrText>(
                 m_startButtonTextId, ATMA::AttributeType(ATMA::Attribute::Text)
             );
             startText->m_self->m_prog = m_defaultProg;
@@ -201,7 +205,7 @@ public:
      * @param l_winEvent the event generated by the window
      * @returns whether or not the event was handled
      */
-    virtual void handleInput(const ATMA::WindowEvent &l_winEvent) override
+    virtual void handleInput(ATMA::ATMAContext *l_ctx, const ATMA::WindowEvent &l_winEvent) override
     {
         if(!m_active)
             return;
@@ -220,9 +224,11 @@ public:
                         {{"state",
                           std::pair<unsigned char, std::any>{
                               ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::UNSIGNEDINT),
-                              (unsigned int)(GameStateType(GameStateEnum::PLAYSTATE))}}}};
+                              (unsigned int)(GameStateType(GameStateEnum::PLAYSTATE))
+                          }}}
+                    };
                     ATMA::NetworkMessage nm{ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::STATE_CHANGE), p};
-                    ctx.m_netMan->sendMessage(nm);
+                    l_ctx->m_netMan->sendMessage(nm);
                 }
             }
         }

@@ -48,7 +48,7 @@ namespace ATMA
          * updates all attributes of all the objects contained in the system
          * @param time time since last update
          */
-        virtual void update(ATMAContext &l_ctx, const long long &l_dt) = 0;
+        virtual void update(ATMAContext *l_ctx, const long long &l_dt) = 0;
 
         friend class SystemManager;
     protected:
@@ -77,7 +77,7 @@ namespace ATMA
          * interface function for event listeners
          * @param l_e event details
          */
-        virtual void notify(const ObjectEventContext &l_e) = 0;
+        virtual void notify(ATMAContext *l_ctx, const ObjectEventContext &l_e) = 0;
 
         /**
          * removes all objects

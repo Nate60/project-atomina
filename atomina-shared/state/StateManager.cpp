@@ -8,7 +8,7 @@ namespace ATMA
 
     StateManager::~StateManager() {}
 
-    void StateManager::addState(const unsigned int &l_stateType, std::shared_ptr<BaseState> l_state)
+    void StateManager::addState(ATMAContext *l_ctx, const unsigned int &l_stateType, std::shared_ptr<BaseState> l_state)
     {
         ATMA_ENGINE_INFO("Registering State type: {0:d}", l_stateType);
         bool initState = m_states.empty();
@@ -16,7 +16,7 @@ namespace ATMA
         {
             m_states[l_stateType] = std::move(l_state);
             if(initState)
-                switchToState(l_stateType);
+                switchToState(l_ctx, l_stateType);
         }
         else
             throw RegistrationException(
@@ -41,7 +41,7 @@ namespace ATMA
         }
     }
 
-    void StateManager::switchToState(const unsigned int &l_stateType)
+    void StateManager::switchToState(ATMAContext *l_ctx, const unsigned int &l_stateType)
     {
         if(m_states.count(l_stateType) == 0)
         {
@@ -52,12 +52,12 @@ namespace ATMA
         if(m_states.count(m_currentStateID) != 0)
         {
             ATMA_ENGINE_INFO("Deactivating State: {0:d}", m_currentStateID);
-            m_states[m_currentStateID]->deactivate();
+            m_states[m_currentStateID]->deactivate(l_ctx);
         }
         ATMA_ENGINE_INFO("Switching from state Type: {0:d} to state Type: {1:d}", m_currentStateID, l_stateType);
         m_currentStateID = l_stateType;
         ATMA_ENGINE_INFO("Activating State: {0:d}", m_currentStateID);
-        m_states[m_currentStateID]->activate();
+        m_states[m_currentStateID]->activate(l_ctx);
     }
 
     bool StateManager::hasState(const unsigned int &l_stateType)
@@ -65,7 +65,7 @@ namespace ATMA
         return m_states.count(l_stateType) > 0;
     }
 
-    void StateManager::dispatchWindowEvent(const WindowEvent &l_winEvent)
+    void StateManager::dispatchWindowEvent(ATMAContext *l_ctx, const WindowEvent &l_winEvent)
     {
         auto itr = m_states.begin();
         if(itr == m_states.end())
@@ -74,7 +74,7 @@ namespace ATMA
         }
         while(itr != m_states.end())
         {
-            itr->second->handleInput(l_winEvent);
+            itr->second->handleInput(l_ctx, l_winEvent);
             ++itr;
         }
     }

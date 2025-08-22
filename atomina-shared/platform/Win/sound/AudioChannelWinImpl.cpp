@@ -12,10 +12,10 @@ namespace ATMA
     }
 
     AudioChannelWinImpl::AudioChannelWinImpl(
+        ATMAContext *ctx,
         const unsigned int &l_bufferSize,
         const unsigned int &l_channelCount,
         const AudioFrequency &l_freq
-
     ):
         AudioChannel(l_bufferSize, l_channelCount, l_freq)
     {
@@ -33,7 +33,8 @@ namespace ATMA
         params.nChannels = l_channelCount;
         params.firstChannel = 0;
         unsigned int bufferFrames = l_bufferSize;
-        m_state = new AudioChannelState{};
+        m_state = new RtAudioStreamState{};
+        m_state->ctx = ctx;
         m_state->m_channelCount = l_channelCount;
         if(m_dac.openStream(
                &params,
@@ -87,8 +88,7 @@ namespace ATMA
     {
         if(status)
             ATMA_ENGINE_INFO("Stream underflow detected");
-        auto &ctx = ATMA::ATMAContext::getContext();
-        AudioChannelState *state = (AudioChannelState *)userData;
+        RtAudioStreamState *state = (RtAudioStreamState *)userData;
         unsigned int sampleCount = nBufferFrames * state->m_channelCount;
         unsigned short *buffer = (unsigned short *)outputBuffer;
         unsigned int i = 0;
@@ -96,7 +96,7 @@ namespace ATMA
             std::lock_guard<std::mutex> lock{state->m_stateLock};
             if(!state->m_soundQueue.empty())
             {
-                auto res = ctx.m_resMan->loadResource<ATMA::AudioWave>(state->m_soundQueue.front());
+                auto res = state->ctx->m_resMan->loadResource<ATMA::AudioWave>(state->m_soundQueue.front());
 
                 // Write interleaved audio data.
                 unsigned short *data = (unsigned short *)res->m_wave.m_data.data();
@@ -107,7 +107,7 @@ namespace ATMA
                     {
                         if(state->m_soundQueue.size() > 1)
                         {
-                            res = ctx.m_resMan->loadResource<ATMA::AudioWave>(state->m_soundQueue.front());
+                            res = state->ctx->m_resMan->loadResource<ATMA::AudioWave>(state->m_soundQueue.front());
                             state->m_soundQueue.pop();
                             state->m_sampleIndex = 0;
                             state->m_chunkIndex = 0;

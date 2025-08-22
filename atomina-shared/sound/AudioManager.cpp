@@ -9,13 +9,14 @@ namespace ATMA
     AudioManager::~AudioManager() {}
 
     unsigned int AudioManager::createAudioChannel(
+        ATMAContext *l_ctx,
         const unsigned int &l_bufferSize,
         const unsigned int &l_channelCount,
         const AudioFrequency &l_freq
     )
     {
         auto id = m_lastId++;
-        m_channels[id] = AudioChannel::makeAudioChannel(l_bufferSize, l_channelCount, l_freq);
+        m_channels[id] = AudioChannel::makeAudioChannel(l_ctx, l_bufferSize, l_channelCount, l_freq);
         return id;
     }
 

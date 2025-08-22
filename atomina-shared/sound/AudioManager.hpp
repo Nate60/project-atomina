@@ -13,6 +13,7 @@ namespace ATMA
         virtual ~AudioManager();
 
         [[nodiscard]] unsigned int createAudioChannel(
+            ATMAContext *l_ctx,
             const unsigned int &l_bufferSize = 1024u,
             const unsigned int &l_channelCount = 2u,
             const AudioFrequency &l_freq = AudioFrequency::FREQ_44100

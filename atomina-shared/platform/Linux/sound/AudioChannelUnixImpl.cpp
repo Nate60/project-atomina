@@ -58,9 +58,7 @@ namespace ATMA
             std::lock_guard<std::mutex> lock{d->m_lock};
             if(!d->m_soundQueue.empty())
             {
-                auto &ctx = ATMA::ATMAContext::getContext();
-
-                auto res = ctx.m_resMan->loadResource<ATMA::AudioWave>(d->m_soundQueue.front());
+                auto res = d->ctx->m_resMan->loadResource<ATMA::AudioWave>(d->m_soundQueue.front());
 
                 // Write interleaved audio data.
                 unsigned short *data = (unsigned short *)res->m_wave.m_data.data();
@@ -71,7 +69,7 @@ namespace ATMA
                     {
                         if(d->m_soundQueue.size() > 1)
                         {
-                            res = ctx.m_resMan->loadResource<ATMA::AudioWave>(d->m_soundQueue.front());
+                            res = d->ctx->m_resMan->loadResource<ATMA::AudioWave>(d->m_soundQueue.front());
                             d->m_soundQueue.pop();
                             d->m_sampleIndex = 0;
                             d->m_chunkIndex = 0;
@@ -107,30 +105,30 @@ namespace ATMA
         nullptr,
         nullptr,
         nullptr,
-        &onProcess};
+        &onProcess
+    };
 
     AudioChannelUnixImpl::AudioChannelUnixImpl(
+        ATMAContext *ctx,
         const unsigned int &l_bufferSize,
         const unsigned int &l_channelCount,
         const AudioFrequency &l_freq
     ):
         AudioChannel(l_bufferSize, l_channelCount, l_freq),
-        m_streamState(PipewireStreamState{(const int16_t)l_channelCount, 1.0f, (const int)l_freq})
+        m_streamState(PipewireStreamState{ctx, (const int16_t)l_channelCount, 1.0f, (const int)l_freq})
     {
         std::string headerVersion = std::string{pw_get_headers_version()};
         std::string libraryVersion = std::string{pw_get_library_version()};
         spa_audio_info_raw rawInfo =
             SPA_AUDIO_INFO_RAW_INIT(SPA_AUDIO_FORMAT_S16, 0, static_cast<unsigned int>(l_freq), l_channelCount);
 
-        int argc = 0;
-        char ***argv;
         const spa_pod *params[1];
         uint8_t buffer[1024];
         int streamFlags = PW_STREAM_FLAG_AUTOCONNECT | PW_STREAM_FLAG_MAP_BUFFERS | PW_STREAM_FLAG_RT_PROCESS;
         spa_pod_builder b = SPA_POD_BUILDER_INIT(buffer, sizeof(buffer));
         params[0] = spa_format_audio_raw_build(&b, SPA_PARAM_EnumFormat, &rawInfo);
 
-        pw_init(&argc, argv);
+        pw_init(ctx->argc, &ctx->argv);
         ATMA_ENGINE_INFO("compiled pipewire {} linked with pipewire {}", headerVersion.c_str(), libraryVersion.c_str());
         m_streamState.m_threadLoop = pw_thread_loop_new("pipewire-main", NULL);
         m_streamState.m_stream = pw_stream_new_simple(

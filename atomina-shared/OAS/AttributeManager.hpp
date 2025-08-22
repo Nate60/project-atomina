@@ -48,7 +48,7 @@ namespace ATMA
          * it
          * @returns id of the new object
          */
-        [[nodiscard]] unsigned int createObject(ATMAContext &l_ctx);
+        [[nodiscard]] unsigned int createObject();
 
         /**
          * allocates an unique id for a new object and creates the corresponding attributes listing
@@ -57,7 +57,7 @@ namespace ATMA
          * @returns id of the new object
          */
         [[nodiscard]] unsigned int
-        createObject(ATMAContext &l_ctx, const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
+        createObject(ATMAContext *l_ctx, const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
 
         /**
          * Adds an attribute of the given id type to the given id
@@ -66,7 +66,7 @@ namespace ATMA
          * @throws ValueNotFound Exception if either the object id or attribute type is not
          * registered to the context
          */
-        void addAttribute(ATMAContext &l_ctx, const unsigned int &l_objectID, const unsigned int &l_attrType);
+        void addAttribute(ATMAContext *l_ctx, const unsigned int &l_objectID, const unsigned int &l_attrType);
 
         /**
          * Removes an attribute of the given type from the specified object
@@ -76,7 +76,7 @@ namespace ATMA
          * registered to the context or if the object does not have the attribute
          */
 
-        void removeAttribute(ATMAContext &l_ctx, const unsigned int &l_objectID, const unsigned int &l_attrType);
+        void removeAttribute(ATMAContext *l_ctx, const unsigned int &l_objectID, const unsigned int &l_attrType);
 
         /** checks if the object id has the given attribute
          * @param l_objectID id of the object to check
@@ -123,7 +123,7 @@ namespace ATMA
         /**
          * removes all objects and attributes and resets the next id back to 0
          */
-        void purge(ATMAContext &l_ctx);
+        void purge(ATMAContext *l_ctx);
 
         friend class SystemManager;
     protected:

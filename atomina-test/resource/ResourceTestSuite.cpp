@@ -9,9 +9,8 @@ TYPED_TEST_SUITE(ResourceFixture, ResourceTypes);
  */
 TYPED_TEST(ResourceFixture, CanRegisterResource)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
-    EXPECT_TRUE(ctx.m_resMan->hasResource(id));
+    EXPECT_TRUE(this->m_ctx->m_resMan->hasResource(id));
 }
 
 /**
@@ -31,11 +30,10 @@ TYPED_TEST(ResourceFixture, CanLoadResource)
  */
 TYPED_TEST(ResourceFixture, CanUnloadResource)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
-    ctx.m_resMan->unloadResource(id);
-    EXPECT_FALSE(ctx.m_resMan->hasLoadedResource(id));
+    this->m_ctx->m_resMan->unloadResource(id);
+    EXPECT_FALSE(this->m_ctx->m_resMan->hasLoadedResource(id));
 }
 
 /**
@@ -60,10 +58,9 @@ TYPED_TEST(ResourceFixture, reloadingALoadedResourceReturnsResource)
  */
 TYPED_TEST(ResourceFixture, CanRemoveResource)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
-    ctx.m_resMan->removeResource(id);
-    EXPECT_FALSE(ctx.m_resMan->hasResource(id));
+    this->m_ctx->m_resMan->removeResource(id);
+    EXPECT_FALSE(this->m_ctx->m_resMan->hasResource(id));
 }
 
 /**
@@ -72,10 +69,9 @@ TYPED_TEST(ResourceFixture, CanRemoveResource)
  */
 TYPED_TEST(ResourceFixture, GetRemovedResource)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
-    ctx.m_resMan->removeResource(id);
+    this->m_ctx->m_resMan->removeResource(id);
     EXPECT_THROW(this->loadResource(id), ATMA::ValueNotFoundException);
 }
 
@@ -85,9 +81,8 @@ TYPED_TEST(ResourceFixture, GetRemovedResource)
  */
 TYPED_TEST(ResourceFixture, RemovingResourceUnloadsIt)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
-    ctx.m_resMan->removeResource(id);
-    EXPECT_FALSE(ctx.m_resMan->hasLoadedResource(id));
+    this->m_ctx->m_resMan->removeResource(id);
+    EXPECT_FALSE(this->m_ctx->m_resMan->hasLoadedResource(id));
 }

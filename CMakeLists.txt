@@ -56,7 +56,7 @@ message(STATUS "Atomina App Type: '${ATMA_APP_TYPE}'")
 message(STATUS "Compile Definitions: ${COMPILE_DEFINITIONS}")
 message(STATUS "Linux: ${LINUX}")
 
-project(Atomina_Main VERSION 0.2.2)
+project(Atomina_Main VERSION 0.2.3)
 
 # Stop in source builds
 SET(CMAKE_DISABLE_IN_SOURCE_BUILD ON)

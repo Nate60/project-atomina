@@ -7,7 +7,6 @@ namespace ATMA
 
     SocketListenerUnixImpl::SocketListenerUnixImpl(const unsigned short &l_port): SocketListener(l_port)
     {
-        ATMA_ENGINE_TRACE("Creating unix sock listener");
         m_hints = {};
         m_hints.ai_family = AF_UNSPEC;
         m_hints.ai_socktype = SOCK_STREAM;
@@ -47,12 +46,10 @@ namespace ATMA
             close(m_socket);
             throw NetworkException("Socket Listener unable to start listening " + std::to_string(errno));
         }
-        ATMA_ENGINE_TRACE("Finished creating unix sock listener {}", m_socket);
     }
 
     SocketListenerUnixImpl::~SocketListenerUnixImpl()
     {
-        ATMA_ENGINE_TRACE("Destroying unix socket listener {}", m_socket);
         freeaddrinfo(m_addrinfo);
         close(m_socket);
     }
@@ -66,7 +63,6 @@ namespace ATMA
         {
             return nullptr;
         }
-        ATMA_ENGINE_TRACE("unix socket {} accepted from listener {}", socket, m_socket);
         return std::make_shared<SocketUnixImpl>(std::move(socket), m_port);
     }
 

@@ -33,33 +33,18 @@ namespace ATMA
         int *argc = nullptr;
         char **argv = nullptr;
 
+        const long long m_id;
         // destructor
         ~ATMAContext();
-    protected:
-        /**
-         * protected constructor that should only be called
-         * by the get context function to maintain a singleton
-         * pattern
-         */
+        // constructor
         ATMAContext();
     public:
-        // deleted functions
-        ATMAContext(ATMAContext const &) = delete;
-        void operator=(ATMAContext const &) = delete;
-
         /**
-         * Global function to obtain a reference to the global Atomina
-         * context
-         * @returns reference to global Atomina context
+         * helper function for purging all members
          */
-        static ATMAContext &getContext()
-        {
-            static ATMAContext context; // Guaranteed to be destroyed.
-                                        // Instantiated on first use.
-            return context;
-        }
-
         void purge();
+    protected:
+        inline static std::atomic<long long> m_lastId{0LL};
     };
 
 }

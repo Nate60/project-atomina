@@ -9,24 +9,30 @@ template<class T>
 class SystemFixture: public ::testing::Test
 {
 public:
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
+    ATMA::ATMAContext *m_ctx;
 protected:
     /**
      * Helper function for adding system type of the template class
      * to the context
      * @param l_systemID id of the system type
      */
-    void addSystemType(const unsigned int &l_systemID)
+    void addSystemType(ATMA::ATMAContext *l_ctx, const unsigned int &l_systemID)
     {
-        ctx.m_sysMan->addSystemType<T>(l_systemID);
+        m_ctx->m_sysMan->addSystemType<T>(l_ctx, l_systemID);
+    }
+
+    void SetUp() override
+    {
+        m_ctx = makeContext();
     }
 
     /**
-     * Clean up context after each test
+     * Cleans up context after each test
      */
     void TearDown() override
     {
-        ctx.purge();
+        m_ctx->purge();
+        destroyContext(m_ctx);
     }
 };
 
@@ -36,13 +42,19 @@ protected:
 class UntypedSystemFixture: public ::testing::Test
 {
 public:
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
+    ATMA::ATMAContext *m_ctx;
 protected:
+    void SetUp() override
+    {
+        m_ctx = makeContext();
+    }
+
     /**
-     * Cleans up the context after each test
+     * Cleans up context after each test
      */
     void TearDown() override
     {
-        ctx.purge();
+        m_ctx->purge();
+        destroyContext(m_ctx);
     }
 };

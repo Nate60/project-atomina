@@ -9,19 +9,18 @@
 #include "resource/ResourceManager.hpp"
 #include "state/StateManager.hpp"
 #include "sound/AudioManager.hpp"
-#include "render/GLRenderer.hpp"
 
 namespace ATMA
 {
 
-    ATMAContext::ATMAContext()
+    ATMAContext::ATMAContext(): m_id(ATMAContext::m_lastId++)
     {
-        ATMA_ENGINE_INFO("ATMAContext has been initialized");
+        ATMA_ENGINE_INFO("ATMAContext[{}] has been initialized", m_id);
     }
 
     ATMAContext::~ATMAContext()
     {
-        ATMA_ENGINE_INFO("ATMAContext has been deleted");
+        ATMA_ENGINE_INFO("ATMAContext[{}] has been deleted", m_id);
     }
 
     void ATMAContext::purge()
@@ -34,6 +33,6 @@ namespace ATMA
         m_eventMan->purge();
         m_winMan->purge();
         m_audioMan->purge();
-        m_attrMan->purge(*this);
+        m_attrMan->purge(this);
     }
 }
