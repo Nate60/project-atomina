@@ -2,6 +2,7 @@
 #include "core/ATMAContext.hpp"
 #include "pch.hpp"
 #include "SysBase.hpp"
+#include "util/ATConst.hpp"
 
 namespace ATMA
 {
@@ -21,7 +22,7 @@ namespace ATMA
          * @param l_objectID object id of the object that was changed
          * @param l_bits the bit set of the object describing which attributes it has
          */
-        void objectUpdated(const unsigned int &l_objectID, const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
+        void objectUpdated(const unsigned int &l_objectID, const std::bitset<ATConst::BITSET_SIZE> &l_bits);
 
         /**
          * Called when a system has been removed or added to the context and
@@ -109,7 +110,7 @@ namespace ATMA
          * update all systems according to delta time
          * @param l_dt time since last tick
          */
-        void update(ATMAContext *l_ctx, const long long &l_dt);
+        void update(ATMAContext *l_ctx, const double &l_dt);
 
         /**
          * removes all systems and resets the next id back to 0

@@ -34,6 +34,16 @@ protected:
         return m_ctx->m_resMan->loadResource<T>(l_resourceID);
     }
 
+    /**
+     * saves resource from file into memory
+     * @param l_resourceID unique identifier of the resource
+     * @returns pointer to loaded resource
+     */
+    void saveResource(const unsigned int &l_resourceID, const ATMA::Path &l_path)
+    {
+        return m_ctx->m_resMan->saveResource<T>(l_resourceID, l_path);
+    }
+
     void SetUp() override
     {
 

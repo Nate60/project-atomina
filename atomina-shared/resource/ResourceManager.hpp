@@ -4,9 +4,16 @@
 #include "Resource.hpp"
 #include "ResourceLoader.hpp"
 #include "loaders/DummyResourceLoader.hpp"
+#include "loaders/AnimationLoader.hpp"
 #include "loaders/AudioWaveLoader.hpp"
 #include "loaders/GLShaderLoader.hpp"
 #include "loaders/GLTextureLoader.hpp"
+#include "ResourceWriter.hpp"
+#include "writers/DummyResourceWriter.hpp"
+#include "writers/AnimationWriter.hpp"
+#include "writers/AudioWaveWriter.hpp"
+#include "writers/GLShaderWriter.hpp"
+#include "writers/GLTextureWriter.hpp"
 #include "util/AtominaException.hpp"
 #include "util/Log.hpp"
 
@@ -55,7 +62,7 @@ namespace ATMA
          * @throws ValueNotFound Exception if the id is not registered in the context
          */
         template<class T>
-        [[nodiscard]] std::shared_ptr<T> loadResource(const unsigned int &l_resourceID)
+        std::shared_ptr<T> loadResource(const unsigned int &l_resourceID)
         {
             auto itr = m_resources.find(l_resourceID);
             if(itr == m_resources.end())
@@ -85,6 +92,28 @@ namespace ATMA
                 {
                     return std::static_pointer_cast<T>(loadeditr->second);
                 }
+            }
+        }
+
+        /**
+         * writes the resource data to disk at the specified path
+         * @param l_resourceID id of resource that has been loaded
+         * @throws ValueNotFound is the resourceID has not been loaded in the context
+         */
+        template<class T>
+        void saveResource(const unsigned int &l_resourceID, const Path &l_path)
+        {
+            if(auto loadeditr = m_loadedResources.find(l_resourceID); loadeditr == m_loadedResources.end())
+            {
+                throw ValueNotFoundException(
+                    "resource ID:" + std::to_string(l_resourceID) + " is not loaded in ATMA Context"
+                );
+            }
+            else
+            {
+                ResourceWriter<T> writer{};
+                std::shared_ptr<T> resource = std::static_pointer_cast<T>(loadeditr->second);
+                writer.write(resource, l_path);
             }
         }
 

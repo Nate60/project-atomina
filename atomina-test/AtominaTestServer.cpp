@@ -12,7 +12,7 @@ void ServerTest::setup(ATMA::ATMAContext *l_ctx)
     active = true;
 }
 
-void ServerTest::update(ATMA::ATMAContext *l_ctx, const long long &l_dt)
+void ServerTest::update(ATMA::ATMAContext *l_ctx, const double &l_dt)
 {
     ATMA_ENGINE_INFO("Test Wrapper is now running");
     ATMA_ENGINE_INFO("Running Test Game with argc: {}", *l_ctx->argc);

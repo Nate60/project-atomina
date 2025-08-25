@@ -59,7 +59,7 @@ namespace ATMA
          * stub virtual function to be extended and implemented by the game
          * and contains the main game loop
          */
-        virtual void update(ATMAContext *l_ctx, const long long &l_dt);
+        virtual void update(ATMAContext *l_ctx, const double &l_dt);
 
         /**
          * stub function to be implemented by the game to initiate shutdown

@@ -76,6 +76,7 @@ namespace ATMA
             {
                 data.emplace_back(buffer[44 + i]);
             }
+            audioFile.close();
             ATMA_ENGINE_INFO(
                 "loaded {} formatChunkSize={} format={} channels={} sampleRate={} sampleSize={} dataSize={}",
                 l_path.toString().c_str(),

@@ -31,7 +31,7 @@ namespace ATMA
             m_height(l_height),
             m_channels(l_channels),
             m_data(l_data),
-            m_proj(translationMatrix<float>(-1.f, -1.f) * scalingMatrix<float>(l_width, l_height))
+            m_proj(translationMatrix<float>(0.f, 0.f) * scalingMatrix<float>(l_width, l_height))
         {
         }
 

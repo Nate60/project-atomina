@@ -8,14 +8,14 @@ namespace ATMA
 
     SysTranslator::SysTranslator(): SysBase(SystemType(System::Translator), "Translator")
     {
-        m_req.push_back(std::bitset<ATConst::OBJECT_BIT_SIZE>{});
+        m_req.push_back(std::bitset<ATConst::BITSET_SIZE>{});
         m_req[0].set(AttrType(Attribute::Shape));
         m_req[0].set(AttrType(Attribute::Velocity));
     }
 
     SysTranslator::~SysTranslator() {}
 
-    void SysTranslator::update(ATMAContext *l_ctx, const long long &l_dt)
+    void SysTranslator::update(ATMAContext *l_ctx, const double &l_dt)
     {
         auto step = l_dt / 1000000.f;
         m_stopwatch.start();

@@ -10,7 +10,7 @@ namespace ATMA
     using ObjectID = unsigned int;
     using AttrTypeID = unsigned int;
     using ObjectAttributes =
-        std::pair<std::bitset<ATConst::OBJECT_BIT_SIZE>, std::unordered_map<AttrTypeID, std::shared_ptr<AttrBase>>>;
+        std::pair<std::bitset<ATConst::BITSET_SIZE>, std::unordered_map<AttrTypeID, std::shared_ptr<AttrBase>>>;
     using ObjectContainer = std::unordered_map<ObjectID, ObjectAttributes>;
     using AttributeFactory = std::unordered_map<AttrTypeID, std::function<std::shared_ptr<AttrBase>(void)>>;
 
@@ -53,14 +53,23 @@ namespace ATMA
         /**
          * allocates an unique id for a new object and creates the corresponding attributes listing
          * in the given bit set
+         * @param l_ctx Engine Context
          * @param l_bits
          * @returns id of the new object
          */
-        [[nodiscard]] unsigned int
-        createObject(ATMAContext *l_ctx, const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits);
+        [[nodiscard]] unsigned int createObject(ATMAContext *l_ctx, const std::bitset<ATConst::BITSET_SIZE> &l_bits);
+
+        /**
+         * removes all attributes from an object
+         * effectively destroying it, however its id can still be unsigned
+         * @param l_ctx Engine context
+         * @param l_objectID id of object to clear
+         */
+        void clearObject(ATMAContext *l_ctx, const unsigned int &l_objectID);
 
         /**
          * Adds an attribute of the given id type to the given id
+         * @param l_ctx Engine Context
          * @param l_objectID object id to add attribute to
          * @param l_attrType id type of the attribute
          * @throws ValueNotFound Exception if either the object id or attribute type is not
@@ -70,6 +79,7 @@ namespace ATMA
 
         /**
          * Removes an attribute of the given type from the specified object
+         * @param l_ctx Engine Context
          * @param l_objectID object id to remove the attribute from
          * @param l_attrType type id of the attribute to remove
          * @throws ValueNotFound Exception if either the object id or attribute type is not
@@ -122,6 +132,7 @@ namespace ATMA
 
         /**
          * removes all objects and attributes and resets the next id back to 0
+         * @param l_ctx Engine Context
          */
         void purge(ATMAContext *l_ctx);
 

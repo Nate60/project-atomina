@@ -1,4 +1,5 @@
 #include "ResourceTestSuite.hpp"
+#include "file/FileFuncs.hpp"
 #include <gtest/gtest.h>
 
 TYPED_TEST_SUITE(ResourceFixture, ResourceTypes);
@@ -21,6 +22,20 @@ TYPED_TEST(ResourceFixture, CanLoadResource)
 {
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
+    EXPECT_NE(res, nullptr);
+}
+
+/**
+ * Resources should be able to be saved
+ * using their id
+ */
+TYPED_TEST(ResourceFixture, CanSaveResource)
+{
+    auto path = ATMA::Path{"res.res"};
+    auto id = this->registerResource(0u);
+    auto res = this->loadResource(id);
+    this->saveResource(id, path);
+    ATMA::removeFile(path);
     EXPECT_NE(res, nullptr);
 }
 
