@@ -64,7 +64,7 @@ namespace ATMA
 
     void Server::setup(ATMAContext *l_ctx) {}
 
-    void Server::update(ATMAContext *l_ctx, const long long &l_dt) {}
+    void Server::update(ATMAContext *l_ctx, const double &l_dt) {}
 
     void Server::shutdown(ATMAContext *l_ctx) {}
 }

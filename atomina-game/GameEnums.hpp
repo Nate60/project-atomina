@@ -7,10 +7,6 @@
 enum class GameEventEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::ObjectEvent::COUNT),
-    CONNECT,
-    DISCONNECT,
-    SYNC,
-    TIMER_COMPLETE,
 };
 
 /**
@@ -19,40 +15,27 @@ enum class GameEventEnum
 enum class GameStateEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::State::COUNT),
-    MAINMENU,
-    LOBBY,
-    PLAYSTATE,
-    SERVER,
 };
 
 /**
-* defines all possible systems within the game
-*/
+ * defines all possible systems within the game
+ */
 enum class GameSystemEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::System::COUNT),
-    CONNECTION,
-    TIME,
 };
 
 /**
-* defines all possible systems within the game
-*/
+ * defines all possible systems within the game
+ */
 enum class GameAttributeEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::Attribute::COUNT),
-    CONNECTION,
-    TIMER,
 };
 
 enum class GameNetMessageEnum
 {
     COUNT = static_cast<unsigned int>(ATMA::NetworkMessageEnum::COUNT),
-    PLAYER_CHOICE,
-    PLAYER_WIN,
-    PLAYER_LOSE,
-    PLAYER_TIED,
-
 };
 
 /**
@@ -76,8 +59,6 @@ public:
 private:
     const GameEventEnum m_type;
 };
-
-
 
 /**
  * wrapper class for State Enum that allows for implicit
@@ -144,7 +125,6 @@ public:
 private:
     const GameAttributeEnum m_type;
 };
-
 
 /**
  * wrapper class for State Enum that allows for implicit

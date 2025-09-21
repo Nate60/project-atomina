@@ -18,6 +18,7 @@ namespace ATMA
         Render,
         Text,
         Sprite,
+        Animation,
         Collidable,
         COUNT
     };

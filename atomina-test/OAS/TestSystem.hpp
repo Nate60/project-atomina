@@ -20,7 +20,7 @@ public:
      * how many ticks have passed
      * @param l_dt time since last update
      */
-    virtual void update(ATMA::ATMAContext *l_ctx, const long long &l_dt) override;
+    virtual void update(ATMA::ATMAContext *l_ctx, const double &l_dt) override;
 
     /**
      * Triggers any event specific functionality of the system

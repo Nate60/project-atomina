@@ -1,8 +1,6 @@
 #pragma once
 #include <atomina.hpp>
 #include "GameEnums.hpp"
-#include "OAS/SysConnection.hpp"
-#include "OAS/AttrConnection.hpp"
 
 /*
  * extension of the Game class from atomina-api
@@ -27,7 +25,7 @@ public:
      * real implementation of the game apps run function to house the
      * game loop
      */
-    virtual void update(ATMA::ATMAContext *l_ctx, const long long &l_dt) override;
+    virtual void update(ATMA::ATMAContext *l_ctx, const double &l_dt) override;
 
     /**
      * real implementation of the game apps shut down function

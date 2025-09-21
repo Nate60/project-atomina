@@ -65,11 +65,11 @@ namespace ATMA
          * @returns Graphics shader for the platform
          */
         static std::shared_ptr<GLShader> makeShader(const Shader &l_shader);
+        const Shader m_shader;
     protected:
         // constructor with  filename of resource
         GLShader(const Shader &l_shader);
 
-        const Shader m_shader;
         unsigned int m_bindID;
     };
 

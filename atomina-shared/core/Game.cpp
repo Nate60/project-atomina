@@ -1,3 +1,4 @@
+#include "OAS/attributes/AttrAnimation.hpp"
 #include "event/ObjectEventManager.hpp"
 #include "network/NetworkManager.hpp"
 #include "pch.hpp"
@@ -53,6 +54,7 @@ namespace ATMA
         ctx->m_attrMan->registerAttributeType<AttrText>(AttributeType(Attribute::Text));
         ctx->m_attrMan->registerAttributeType<AttrSprite>(AttributeType(Attribute::Sprite));
         ctx->m_attrMan->registerAttributeType<AttrCollidable>(AttributeType(Attribute::Collidable));
+        ctx->m_attrMan->registerAttributeType<AttrAnimation>(AttributeType(Attribute::Animation));
 
         // system registration
         ctx->m_sysMan->addSystemType<SysController>(ctx, SystemType(System::Controller));
@@ -79,7 +81,7 @@ namespace ATMA
 
     void Game::setup(ATMAContext *l_ctx) {}
 
-    void Game::update(ATMAContext *l_ctx, const long long &l_dt) {}
+    void Game::update(ATMAContext *l_ctx, const double &l_dt) {}
 
     void Game::shutdown(ATMAContext *l_ctx) {}
 }

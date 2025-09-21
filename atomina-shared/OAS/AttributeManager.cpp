@@ -2,6 +2,7 @@
 #include "core/ATMAContext.hpp"
 #include "AttributeManager.hpp"
 #include "SystemManager.hpp"
+#include "util/ATConst.hpp"
 
 namespace ATMA
 {
@@ -18,12 +19,12 @@ namespace ATMA
         return id;
     }
 
-    unsigned int AttributeManager::createObject(ATMAContext *l_ctx, const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits)
+    unsigned int AttributeManager::createObject(ATMAContext *l_ctx, const std::bitset<ATConst::BITSET_SIZE> &l_bits)
     {
         std::lock_guard<std::mutex> lock{m_mtx};
         auto id = m_lastObjectID++;
         ATMA_ENGINE_INFO("Created Object ID {0:d}", id);
-        for(unsigned int i = 0; i < ATConst::OBJECT_BIT_SIZE; i++)
+        for(unsigned int i = 0; i < ATConst::BITSET_SIZE; i++)
         {
             if(!l_bits.test(i))
                 continue;
@@ -31,6 +32,34 @@ namespace ATMA
         }
         l_ctx->m_sysMan->objectUpdated(id, l_bits);
         return id;
+    }
+
+    void AttributeManager::clearObject(ATMAContext *l_ctx, const unsigned int &l_objectID)
+    {
+        auto itr = m_objects.find(l_objectID);
+        if(itr == m_objects.end())
+        {
+            return;
+        }
+        auto bitset = itr->second.first;
+        for(unsigned int i = 0; i < ATConst::BITSET_SIZE; i++)
+        {
+
+            if(bitset.test(i))
+            {
+                itr->second.first.reset(i);
+                auto innerItr = itr->second.second.find(i);
+                if(innerItr == itr->second.second.end())
+                {
+                    throw ValueNotFoundException(
+                        "object id: " + std::to_string(l_objectID)
+                        + " does not contain attribute type: " + std::to_string(i)
+                    );
+                }
+                itr->second.second.erase(innerItr);
+            }
+        }
+        l_ctx->m_sysMan->objectUpdated(l_objectID, itr->second.first);
     }
 
     void
@@ -49,12 +78,12 @@ namespace ATMA
         if(itr == m_objects.end())
         {
             // create new attribute container
-            std::bitset<ATConst::OBJECT_BIT_SIZE> bits{};
+            std::bitset<ATConst::BITSET_SIZE> bits{};
             bits.set(l_attrType);
             std::shared_ptr<AttrBase> attr = m_attrFactory[l_attrType]();
             std::unordered_map<AttrTypeID, std::shared_ptr<AttrBase>> attrMap{};
             attrMap[l_attrType] = attr;
-            std::pair<std::bitset<ATConst::OBJECT_BIT_SIZE>, std::unordered_map<AttrTypeID, std::shared_ptr<AttrBase>>>
+            std::pair<std::bitset<ATConst::BITSET_SIZE>, std::unordered_map<AttrTypeID, std::shared_ptr<AttrBase>>>
                 pair{bits, attrMap};
             ObjectAttributes attrs{pair};
             m_objects[l_objectID] = attrs;
@@ -121,7 +150,7 @@ namespace ATMA
     {
         m_objects.clear();
         m_attrFactory.clear();
-        std::bitset<ATConst::OBJECT_BIT_SIZE> emptybits{};
+        std::bitset<ATConst::BITSET_SIZE> emptybits{};
         for(auto &system: l_ctx->m_sysMan->m_systems)
         {
             l_ctx->m_sysMan->purgeSystem(system.second->getType());

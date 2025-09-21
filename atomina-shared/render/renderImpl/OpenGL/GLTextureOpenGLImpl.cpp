@@ -26,6 +26,8 @@ namespace ATMA
         glTexStorage2D(
             GL_TEXTURE_2D, 1, OpenGLImageDataFormat(m_texture.m_channels), m_texture.m_width, m_texture.m_height
         );
+        // when scaling up use nearest pixel instead of sampling
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     }
 
     GLTextureOpenGLImpl::~GLTextureOpenGLImpl()

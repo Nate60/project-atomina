@@ -1,5 +1,6 @@
 #include "event/ObjectEventContext.hpp"
 #include "pch.hpp"
+#include "util/ATConst.hpp"
 #include "SysBase.hpp"
 
 namespace ATMA
@@ -49,7 +50,7 @@ namespace ATMA
         return m_type;
     }
 
-    const int SysBase::match(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits) const
+    const int SysBase::match(const std::bitset<ATConst::BITSET_SIZE> &l_bits) const
     {
         for(auto itr = m_req.begin(); itr != m_req.end(); itr++)
         {

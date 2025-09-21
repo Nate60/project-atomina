@@ -33,7 +33,7 @@ int main(int argc, char **argv)
         ATMA_ENGINE_INFO("Starting game loop");
         while(app->active)
         {
-            auto dt = engineClock.now() - lastUpdate;
+            std::chrono::duration<double> dt = engineClock.now() - lastUpdate;
             lastUpdate = engineClock.now();
             app->update(ctx, dt.count());
         }

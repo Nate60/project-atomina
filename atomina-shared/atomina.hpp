@@ -32,6 +32,7 @@
 // File
 #include "file/FileHandler.hpp"
 #include "file/FileFuncs.hpp"
+#include "file/FileSystem.hpp"
 
 // Events
 #include "event/ObjectEventContext.hpp"
@@ -69,14 +70,13 @@
 #include "resource/ResourceEnum.hpp"
 #include "resource/DummyResource.hpp"
 #include "resource/ResourceManager.hpp"
+#include "resource/loaders/AnimationLoader.hpp"
 #include "resource/loaders/AudioWaveLoader.hpp"
 #include "resource/loaders/GLTextureLoader.hpp"
 #include "resource/loaders/GLShaderLoader.hpp"
 #include "resource/loaders/DummyResourceLoader.hpp"
 
-#include "resource/graphics/AnimBase.hpp"
-#include "resource/graphics/animation/AnimDefault.hpp"
-#include "resource/graphics/animation/AnimIdle.hpp"
+#include "resource/graphics/Animation.hpp"
 
 // Network
 #include "network/URL.hpp"
@@ -134,8 +134,12 @@
 // Network
 #    include "platform/Win/network/SocketWinImpl.hpp"
 #    include "platform/Win/network/SocketListenerWinImpl.hpp"
+#    include "platform/Win/sound/AudioChannelWinImpl.hpp"
+#    include "platform/Win/file/FileSystem.hpp"
 #elif __linux__
 // Network
 #    include "platform/Linux/network/SocketUnixImpl.hpp"
 #    include "platform/Linux/network/SocketListenerUnixImpl.hpp"
+#    include "platform/Linux/sound/AudioChannelUnixImpl.hpp"
+#    include "platform/Linux/file/FileSystem.hpp"
 #endif

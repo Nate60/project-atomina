@@ -42,13 +42,13 @@ namespace ATMA
          * @param l_bits bitset of the object to see if it matches the requirements
          * @returns if the bitset matches the requirement of the system
          */
-        [[nodiscard]] const int match(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits) const;
+        [[nodiscard]] const int match(const std::bitset<ATConst::BITSET_SIZE> &l_bits) const;
 
         /**
          * updates all attributes of all the objects contained in the system
          * @param time time since last update
          */
-        virtual void update(ATMAContext *l_ctx, const long long &l_dt) = 0;
+        virtual void update(ATMAContext *l_ctx, const double &l_dt) = 0;
 
         friend class SystemManager;
     protected:
@@ -85,7 +85,7 @@ namespace ATMA
         void purge();
 
         SystemType m_type;
-        std::vector<std::bitset<ATConst::OBJECT_BIT_SIZE>> m_req;
+        std::vector<std::bitset<ATConst::BITSET_SIZE>> m_req;
         std::vector<std::pair<unsigned int, ObjectId>> m_objects;
         StopWatch m_stopwatch{};
     };

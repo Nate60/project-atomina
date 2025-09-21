@@ -33,7 +33,7 @@ namespace ATMA
          */
         std::shared_ptr<T> load(const std::string &l_name)
         {
-            throw ResourceAcquisitionException("Empty Resource cannot be loaded with path");
+            throw ResourceAcquisitionException("Empty Resource cannot be loaded without path");
         }
 
         // default constructor

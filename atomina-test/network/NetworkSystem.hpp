@@ -16,7 +16,7 @@ public:
      */
     NetworkSystem(): SysBase(0u, "network")
     {
-        m_req.push_back(std::bitset<ATConst::OBJECT_BIT_SIZE>{});
+        m_req.push_back(std::bitset<ATConst::BITSET_SIZE>{});
         m_req[0].set(0);
     }
 
@@ -25,7 +25,7 @@ public:
      * how many ticks have passed
      * @param l_dt time since last update
      */
-    virtual void update(ATMA::ATMAContext *l_ctx, const long long &l_dt) override {}
+    virtual void update(ATMA::ATMAContext *l_ctx, const double &l_dt) override {}
 
     /**
      * Triggers any event specific functionality of the system
@@ -37,11 +37,9 @@ public:
      * pass the event details to the object to be handled
      * @param l_e event details
      */
-    virtual void notify(
-        ATMA::ATMAContext *l_ctx,
-        const std::optional<const unsigned int> &l_id,
-        const ATMA::NetworkMessage &l_e
-    ) override
+    virtual void
+    notify(ATMA::ATMAContext *l_ctx, const std::optional<const unsigned int> &l_id, const ATMA::NetworkMessage &l_e)
+        override
     {
         if(m_enabled)
             for(auto &obj: m_objects)

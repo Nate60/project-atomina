@@ -2,6 +2,7 @@
 #include "pch.hpp"
 #include "SystemManager.hpp"
 #include "AttributeManager.hpp"
+#include "util/ATConst.hpp"
 #include "util/AtominaException.hpp"
 
 namespace ATMA
@@ -11,8 +12,7 @@ namespace ATMA
 
     SystemManager::~SystemManager() {}
 
-    void
-    SystemManager::objectUpdated(const unsigned int &l_objectID, const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits)
+    void SystemManager::objectUpdated(const unsigned int &l_objectID, const std::bitset<ATConst::BITSET_SIZE> &l_bits)
     {
         for(auto &system: m_systems)
         {
@@ -100,7 +100,7 @@ namespace ATMA
         }
     }
 
-    void SystemManager::update(ATMAContext *l_ctx, const long long &l_dt)
+    void SystemManager::update(ATMAContext *l_ctx, const double &l_dt)
     {
         for(auto &sys: m_systems)
         {

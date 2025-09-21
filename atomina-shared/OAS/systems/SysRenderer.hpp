@@ -6,6 +6,7 @@
 #include "OAS/attributes/AttrRenderable.hpp"
 #include "OAS/attributes/AttrText.hpp"
 #include "OAS/attributes/AttrSprite.hpp"
+#include "OAS/attributes/AttrAnimation.hpp"
 #include "core/ATMAContext.hpp"
 
 namespace ATMA
@@ -26,7 +27,7 @@ namespace ATMA
          * update internal members on an engine tick basis
          * @param l_dt the time since last update
          */
-        virtual void update(ATMAContext *l_ctx, const long long &l_dt) override;
+        virtual void update(ATMAContext *l_ctx, const double &l_dt) override;
 
         /**
          * event callback function where the system will changes
