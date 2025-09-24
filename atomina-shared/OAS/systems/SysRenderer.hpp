@@ -3,11 +3,8 @@
 #include "core/api.hpp"
 #include "OAS/SysBase.hpp"
 #include "OAS/System.hpp"
-#include "OAS/attributes/AttrRenderable.hpp"
-#include "OAS/attributes/AttrText.hpp"
-#include "OAS/attributes/AttrSprite.hpp"
-#include "OAS/attributes/AttrAnimation.hpp"
 #include "core/ATMAContext.hpp"
+#include "render/Transform.hpp"
 
 namespace ATMA
 {
@@ -35,6 +32,20 @@ namespace ATMA
          * @param l_e details of the event
          */
         virtual void notify(ATMAContext *l_ctx, const ObjectEventContext &l_e) override;
+
+        /**
+         * adds object to the system
+         * @param l_id id of the object
+         * @returns if the operation was successful
+         */
+        virtual bool addObject(ATMAContext *l_ctx, const ObjectId &l_id, const unsigned int &l_patternID = 0u) override;
+
+        /**
+         * removes object from the system
+         * @param l_id id of the object
+         * @returns if the operation was successful
+         */
+        virtual bool removeObject(ATMAContext *l_ctx, const ObjectId &l_id) override;
     };
 
 }

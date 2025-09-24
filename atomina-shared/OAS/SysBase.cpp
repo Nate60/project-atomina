@@ -1,12 +1,12 @@
-#include "event/ObjectEventContext.hpp"
 #include "pch.hpp"
+#include "event/ObjectEventContext.hpp"
 #include "util/ATConst.hpp"
 #include "SysBase.hpp"
 
 namespace ATMA
 {
 
-    bool SysBase::addObject(const ObjectId &l_id, const unsigned int &l_patternID)
+    bool SysBase::addObject(ATMAContext *l_ctx, const ObjectId &l_id, const unsigned int &l_patternID)
     {
         if(hasObject(l_id) >= 0)
         {
@@ -30,7 +30,7 @@ namespace ATMA
         return -1;
     }
 
-    bool SysBase::removeObject(const ObjectId &l_id)
+    bool SysBase::removeObject(ATMAContext *l_ctx, const ObjectId &l_id)
     {
         for(auto itr = m_objects.begin(); itr != m_objects.end(); itr++)
         {

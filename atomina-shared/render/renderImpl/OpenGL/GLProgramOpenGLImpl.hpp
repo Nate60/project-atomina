@@ -40,6 +40,13 @@ namespace ATMA
          * @param l_mat matrix of values
          */
         virtual void setUniformMat3f(const std::string &l_name, const Mat3<float> &l_mat) override;
+
+        /**
+         * @brief sets a uniform value to a float
+         * @param l_name name of the uniform in the shader program
+         * @param l_uni float value
+         */
+        virtual void setUniformf(const std::string &l_name, const float &l_uni) override;
     };
 
 }

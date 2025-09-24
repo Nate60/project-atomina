@@ -1,7 +1,7 @@
 #include "pch.hpp"
 #include "AppWindow.hpp"
 #include "core/ATMAContext.hpp"
-#include "render/GLRenderer.hpp"
+#include "render/Renderer.hpp"
 #include "state/StateManager.hpp"
 
 namespace ATMA

@@ -2,7 +2,7 @@
 #include "api.hpp"
 #include "Game.hpp"
 #include "Server.hpp"
-#ifdef _WINDOWS
+#ifdef _WIN32
 #    include <winsock2.h>
 #endif
 

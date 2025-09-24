@@ -10,7 +10,7 @@
     },
     {
       "name": "gtest",
-      "version>=": "1.11.0#5",
+      "version>=": "1.12.1#1",
       "default-features": true
     },
     {

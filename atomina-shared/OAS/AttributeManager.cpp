@@ -30,7 +30,7 @@ namespace ATMA
                 continue;
             addAttribute(l_ctx, id, i);
         }
-        l_ctx->m_sysMan->objectUpdated(id, l_bits);
+        l_ctx->m_sysMan->objectUpdated(l_ctx, id, l_bits);
         return id;
     }
 
@@ -59,7 +59,7 @@ namespace ATMA
                 itr->second.second.erase(innerItr);
             }
         }
-        l_ctx->m_sysMan->objectUpdated(l_objectID, itr->second.first);
+        l_ctx->m_sysMan->objectUpdated(l_ctx, l_objectID, itr->second.first);
     }
 
     void
@@ -88,7 +88,7 @@ namespace ATMA
             ObjectAttributes attrs{pair};
             m_objects[l_objectID] = attrs;
             ATMA_ENGINE_INFO("Added attribute type {0:d} to object id {1:d}", l_attrType, l_objectID);
-            l_ctx->m_sysMan->objectUpdated(l_objectID, bits);
+            l_ctx->m_sysMan->objectUpdated(l_ctx, l_objectID, bits);
         }
         else
         {
@@ -96,7 +96,7 @@ namespace ATMA
             itr->second.first.set(l_attrType);
             itr->second.second[l_attrType] = m_attrFactory[l_attrType]();
             ATMA_ENGINE_INFO("Added attribute type {0:d} to object id {1:d}", l_attrType, l_objectID);
-            l_ctx->m_sysMan->objectUpdated(l_objectID, itr->second.first);
+            l_ctx->m_sysMan->objectUpdated(l_ctx, l_objectID, itr->second.first);
         }
     }
 
@@ -128,7 +128,7 @@ namespace ATMA
                 itr->second.first.reset(innerItr->first);
                 itr->second.second.erase(innerItr);
                 ATMA_ENGINE_INFO("Removed attribute type {0:d} to object id {1:d}", l_attrType, l_objectID);
-                l_ctx->m_sysMan->objectUpdated(l_objectID, itr->second.first);
+                l_ctx->m_sysMan->objectUpdated(l_ctx, l_objectID, itr->second.first);
             }
         }
     }

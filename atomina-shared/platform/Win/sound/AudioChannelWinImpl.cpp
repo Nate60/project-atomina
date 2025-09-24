@@ -1,4 +1,4 @@
-#ifdef _WINDOWS
+#ifdef _WIN32
 #    include "pch.hpp"
 #    include "AudioChannelWinImpl.hpp"
 #    include "resource/ResourceManager.hpp"
@@ -96,7 +96,7 @@ namespace ATMA
             std::lock_guard<std::mutex> lock{state->m_stateLock};
             if(!state->m_soundQueue.empty())
             {
-                auto res = state->ctx->m_resMan->loadResource<ATMA::AudioWave>(state->m_soundQueue.front());
+                auto res = state->ctx->m_resMan->loadResource<ATMA::AudioWave>(state->ctx, state->m_soundQueue.front());
 
                 // Write interleaved audio data.
                 unsigned short *data = (unsigned short *)res->m_wave.m_data.data();
@@ -107,7 +107,9 @@ namespace ATMA
                     {
                         if(state->m_soundQueue.size() > 1)
                         {
-                            res = state->ctx->m_resMan->loadResource<ATMA::AudioWave>(state->m_soundQueue.front());
+                            res = state->ctx->m_resMan->loadResource<ATMA::AudioWave>(
+                                state->ctx, state->m_soundQueue.front()
+                            );
                             state->m_soundQueue.pop();
                             state->m_sampleIndex = 0;
                             state->m_chunkIndex = 0;

@@ -15,6 +15,7 @@ namespace ATMA
         None = 0u,
         Collision,
         Network,
+        Transform,
         COUNT
     };
 

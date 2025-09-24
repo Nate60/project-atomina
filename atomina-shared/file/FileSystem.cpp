@@ -1,6 +1,6 @@
 #include "pch.hpp"
 #include "FileSystem.hpp"
-#ifdef _WINDOWS
+#ifdef _WIN32
 #    include "platform/Win/file/FileSystem.hpp"
 #    define __ATMAMAKEFS() return std::make_shared<FileSystemWin>()
 #elif __linux__

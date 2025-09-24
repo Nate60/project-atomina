@@ -2,7 +2,6 @@
 #include "Server.hpp"
 #include "OAS/AttributeManager.hpp"
 #include "OAS/SystemManager.hpp"
-#include "render/GLRenderer.hpp"
 #include "resource/ResourceManager.hpp"
 #include "state/StateManager.hpp"
 #include "event/ObjectEventManager.hpp"
@@ -10,7 +9,7 @@
 #include "GUI/WindowManager.hpp"
 #include "event/ObjectEventManager.hpp"
 #include "network/NetworkManager.hpp"
-#include "render/GLRenderer.hpp"
+#include "render/Renderer.hpp"
 
 namespace ATMA
 {
@@ -33,7 +32,7 @@ namespace ATMA
         ctx->m_audioMan = new AudioManager{};
         ctx->m_winMan = new WindowManager{};
         ctx->m_netMan = new NetworkManager{};
-        ctx->m_renderer = new GLRenderer{};
+        ctx->m_renderer = new Renderer{};
         GLContext::init();
         // attribute registration
         ctx->m_attrMan->registerAttributeType<AttrControllable>(AttributeType(Attribute::Controllable));

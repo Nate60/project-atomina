@@ -33,6 +33,12 @@ namespace ATMA
         virtual void clear() override;
 
         virtual void toggleBlend(const bool &l_toggle) override;
+
+        virtual void toggleDepthTest(const bool &l_toggle) override;
+        /**
+         * Draw call to draw triangles in context buffer
+         */
+        virtual void drawElements() override;
     };
 
 }

@@ -16,6 +16,9 @@ namespace ATMA
     ATMAContext::ATMAContext(): m_id(ATMAContext::m_lastId++)
     {
         ATMA_ENGINE_INFO("ATMAContext[{}] has been initialized", m_id);
+#ifdef _DEBUG
+        ATMA_ENGINE_INFO("Debug mode active");
+#endif
     }
 
     ATMAContext::~ATMAContext()

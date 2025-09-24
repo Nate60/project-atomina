@@ -15,12 +15,30 @@ namespace ATMA
         // constructor defining name, path, and type of resource
         Resource(const std::string &l_name, const Path &l_path, const unsigned int &l_type);
 
+        // Copy constructor
+        Resource(const Resource &l_other);
+
+        // Move constructor
+        Resource(Resource &&l_other);
+
         // destructor
         virtual ~Resource();
 
-        const std::string m_name;
-        const Path m_path;
-        const unsigned int m_type;
+        // Copy operator
+        void operator=(const Resource &l_other);
+
+        // Move operator
+        void operator=(Resource &&l_other);
+
+        const std::string &name() const;
+        const Path &path() const;
+        const unsigned int &type() const;
+
+        friend inline std::ostream &operator<<(std::ostream &os, const Resource &res);
+    protected:
+        std::string m_name;
+        Path m_path;
+        unsigned int m_type;
     };
 
     /**

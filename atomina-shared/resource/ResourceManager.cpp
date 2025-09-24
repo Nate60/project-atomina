@@ -16,6 +16,11 @@ namespace ATMA
     {
         auto id = m_lastResourceId++;
         m_resources[id] = std::make_tuple(l_resourceType, l_name, l_filename);
+        if(m_aliasMap.contains(l_name))
+        {
+            throw RegistrationException("Resource alias: " + l_name + " already has been registered to the context");
+        }
+        m_aliasMap[l_name] = id;
         ATMA_ENGINE_INFO("registered resource {0} with id {1:d}", l_name, l_resourceType);
         return id;
     }
@@ -61,7 +66,7 @@ namespace ATMA
             {
                 unloadResource(l_resourceID);
             }
-            catch(ValueNotFoundException e)
+            catch(ValueNotFoundException const &e)
             {
                 ATMA_ENGINE_INFO("Resource being removed: {0}", e.what());
             }

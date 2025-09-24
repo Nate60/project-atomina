@@ -1,7 +1,7 @@
 #include "pch.hpp"
 #include "AudioChannel.hpp"
 #include "util/Log.hpp"
-#ifdef _WINDOWS
+#ifdef _WIN32
 #    include "platform/Win/sound/AudioChannelWinImpl.hpp"
 #    define __ATMAMAKEAUDIOCHANNEL(ctx, size, count, freq)                                                             \
         return std::make_shared<AudioChannelWinImpl>(ctx, size, count, freq)

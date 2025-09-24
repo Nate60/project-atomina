@@ -96,7 +96,7 @@ namespace ATMA
 
     void VertexArrayOpenGLImpl::bindLayout()
     {
-        for(int i = 0; i < m_elementSpecs.size(); i++)
+        for(unsigned long i = 0; i < m_elementSpecs.size(); i++)
         {
 
             glVertexAttribPointer(
@@ -123,7 +123,7 @@ namespace ATMA
 
     void VertexArrayOpenGLImpl::unbindLayout()
     {
-        for(int i = 0; i < m_elementSpecs.size(); i++)
+        for(unsigned long i = 0; i < m_elementSpecs.size(); i++)
         {
             glDisableVertexAttribArray(i);
         }

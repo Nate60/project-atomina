@@ -26,8 +26,8 @@ namespace ATMA
         ):
             Resource(l_name, l_path, ResType(ResourceEnum::Waveform)),
             m_channels(l_channels),
-            m_sampleRate(l_sampleRate),
             m_sampleSize(l_sampleSize),
+            m_sampleRate(l_sampleRate),
             m_data(l_data)
         {
         }
@@ -36,8 +36,8 @@ namespace ATMA
         Wave():
             Resource("", Path{""}, ResType(ResourceEnum::Waveform)),
             m_channels(0),
-            m_sampleRate(0),
             m_sampleSize(0),
+            m_sampleRate(0),
             m_data(std::vector<unsigned char>{})
         {
         }

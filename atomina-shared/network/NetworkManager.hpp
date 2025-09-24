@@ -36,9 +36,9 @@ namespace ATMA
             const std::shared_ptr<bool> &l_connected,
             const std::shared_ptr<MessageSubscribers> &l_subscribers
         ):
-            m_id(l_id),
             m_conn(l_conn),
             m_connected(l_connected),
+            m_id(l_id),
             m_subscribers(l_subscribers)
         {
             m_thread = std::thread{&NetworkConnection::run, this, l_ctx};
@@ -105,9 +105,9 @@ namespace ATMA
         ):
             m_listener(l_listener),
             m_listening(l_listening),
+            m_subscribers(l_subscribers),
             m_connections(l_connections),
-            m_lastId(l_lastId),
-            m_subscribers(l_subscribers)
+            m_lastId(l_lastId)
         {
             m_thread = std::thread{&NetworkListener::run, this, l_ctx};
         }

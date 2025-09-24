@@ -2,13 +2,13 @@
 #include "core/api.hpp"
 #include "OAS/Attribute.hpp"
 #include "OAS/AttrBase.hpp"
-#include "render/GLRenderable.hpp"
+#include "render/Renderable.hpp"
 
 namespace ATMA
 {
 
     /**
-     * An Attribute that holds the members of an object required to render to a display
+     * An Attribute that holds the members of an object required to animate a sprite
      */
     class AttrRenderable: public AttrBase
     {
@@ -28,7 +28,7 @@ namespace ATMA
          */
         void readIn(std::stringstream &l_stream);
 
-        std::shared_ptr<GLRenderable> m_self = GLRenderable::makeRenderable();
+        std::shared_ptr<Renderable> m_self = nullptr;
     };
 
 }

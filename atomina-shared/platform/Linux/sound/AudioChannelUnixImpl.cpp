@@ -22,14 +22,14 @@
 namespace ATMA
 {
 
-    static void onProcess(void *userData)
+    void AudioChannelUnixImpl::onProcess(void *userData)
     {
         PipewireStreamState *d = (PipewireStreamState *)userData;
         pw_buffer *b;
         spa_buffer *buf;
         unsigned int i = 0;
         int frameCount, stride;
-        int16_t *dst, val;
+        int16_t *dst;
 
         pw_thread_loop_lock(d->m_threadLoop);
         if((b = pw_stream_dequeue_buffer(d->m_stream)) == NULL)
@@ -58,7 +58,7 @@ namespace ATMA
             std::lock_guard<std::mutex> lock{d->m_lock};
             if(!d->m_soundQueue.empty())
             {
-                auto res = d->ctx->m_resMan->loadResource<ATMA::AudioWave>(d->m_soundQueue.front());
+                auto res = d->ctx->m_resMan->loadResource<ATMA::AudioWave>(d->ctx, d->m_soundQueue.front());
 
                 // Write interleaved audio data.
                 unsigned short *data = (unsigned short *)res->m_wave.m_data.data();
@@ -69,7 +69,7 @@ namespace ATMA
                     {
                         if(d->m_soundQueue.size() > 1)
                         {
-                            res = d->ctx->m_resMan->loadResource<ATMA::AudioWave>(d->m_soundQueue.front());
+                            res = d->ctx->m_resMan->loadResource<ATMA::AudioWave>(d->ctx, d->m_soundQueue.front());
                             d->m_soundQueue.pop();
                             d->m_sampleIndex = 0;
                             d->m_chunkIndex = 0;
@@ -105,7 +105,7 @@ namespace ATMA
         nullptr,
         nullptr,
         nullptr,
-        &onProcess
+        &AudioChannelUnixImpl::onProcess
     };
 
     AudioChannelUnixImpl::AudioChannelUnixImpl(

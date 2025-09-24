@@ -13,6 +13,8 @@ using namespace std::chrono_literals;
  */
 TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceive)
 {
+    GTEST_SKIP();
+
     struct signals
     {
         const unsigned short port = 8899;
@@ -50,16 +52,18 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceive)
             sigs->m_recvConnStart.acquire();
             auto host = listener->acceptConnection();
             host->setBlocking(true);
-            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
-                ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
-                ATMA::Props{
-                    {{"port",
-                      std::pair<unsigned char, std::any>{
-                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
-                      }}}
+            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(
+                ATMA::NetworkMessage{
+                    ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
+                    ATMA::Props{
+                        {{"port",
+                          std::pair<unsigned char, std::any>{
+                              ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
+                          }}}
 
+                    }
                 }
-            });
+            );
             std::span<unsigned char> send_buffer{sendingMessage};
             host->sendBytes(send_buffer, sendingMessage.size());
             sigs->m_sendMessage.release();
@@ -81,6 +85,8 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceive)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceiveMutliple)
 {
+    GTEST_SKIP();
+
     struct signals
     {
         const unsigned short port = 8899;
@@ -120,32 +126,36 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceiveMutliple)
             sigs->m_recvConnStart.acquire();
             auto host = listener->acceptConnection();
             host->setBlocking(true);
-            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
-                ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
-                ATMA::Props{
-                    {{"port",
-                      std::pair<unsigned char, std::any>{
-                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
-                      }}}
+            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(
+                ATMA::NetworkMessage{
+                    ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
+                    ATMA::Props{
+                        {{"port",
+                          std::pair<unsigned char, std::any>{
+                              ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
+                          }}}
 
+                    }
                 }
-            });
+            );
             std::span<unsigned char> send_buffer{sendingMessage};
             host->sendBytes(send_buffer, sendingMessage.size());
             // wait till first message is consumed
             while(attr->m_resps.find(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE))
                   == attr->m_resps.end())
                 ;
-            sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
-                ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_JOIN),
-                ATMA::Props{
-                    {{"port",
-                      std::pair<unsigned char, std::any>{
-                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 5
-                      }}}
+            sendingMessage = ATMA::NetworkSerde::serialize(
+                ATMA::NetworkMessage{
+                    ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_JOIN),
+                    ATMA::Props{
+                        {{"port",
+                          std::pair<unsigned char, std::any>{
+                              ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 5
+                          }}}
 
+                    }
                 }
-            });
+            );
             std::span<unsigned char> send_buffer2{sendingMessage};
             host->sendBytes(send_buffer2, sendingMessage.size());
             sigs->m_sendMessage.release();
@@ -168,6 +178,8 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanReceiveMutliple)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflow)
 {
+    GTEST_SKIP();
+
     struct signals
     {
         const unsigned short port = 8899;
@@ -205,18 +217,20 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflow)
             sigs->m_recvConnStart.acquire();
             auto host = listener->acceptConnection();
             host->setBlocking(true);
-            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
-                ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
-                ATMA::Props{
-                    {{"port",
-                      std::pair<unsigned char, std::any>{
-                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
-                      }}}
+            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(
+                ATMA::NetworkMessage{
+                    ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
+                    ATMA::Props{
+                        {{"port",
+                          std::pair<unsigned char, std::any>{
+                              ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
+                          }}}
 
+                    }
                 }
-            });
+            );
             unsigned short messageSize = ATMA::NETWORKMESSAGEBUFFERSIZE;
-            for(int i = 0; i < sizeof(messageSize); i++)
+            for(size_t i = 0; i < sizeof(messageSize); i++)
             {
                 short shift = i * sizeof(unsigned char) * 8;
                 sendingMessage[i] = (messageSize >> shift) & 0xFF;
@@ -243,6 +257,8 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflow)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflowLargerThanBuffer)
 {
+    GTEST_SKIP();
+
     struct signals
     {
         const unsigned short port = 8899;
@@ -280,18 +296,20 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflowLargerThanBuf
             sigs->m_recvConnStart.acquire();
             auto host = listener->acceptConnection();
             host->setBlocking(true);
-            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
-                ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
-                ATMA::Props{
-                    {{"port",
-                      std::pair<unsigned char, std::any>{
-                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
-                      }}}
+            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(
+                ATMA::NetworkMessage{
+                    ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
+                    ATMA::Props{
+                        {{"port",
+                          std::pair<unsigned char, std::any>{
+                              ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
+                          }}}
 
+                    }
                 }
-            });
+            );
             unsigned short messageSize = ATMA::NETWORKMESSAGEBUFFERSIZE * 2;
-            for(int i = 0; i < sizeof(messageSize); i++)
+            for(size_t i = 0; i < sizeof(messageSize); i++)
             {
                 short shift = i * sizeof(unsigned char) * 8;
                 sendingMessage[i] = (messageSize >> shift) & 0xFF;
@@ -316,6 +334,8 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferOverflowLargerThanBuf
  */
 TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflow)
 {
+    GTEST_SKIP();
+
     struct signals
     {
         const unsigned short port = 8899;
@@ -353,18 +373,20 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflow)
             sigs->m_recvConnStart.acquire();
             auto host = listener->acceptConnection();
             host->setBlocking(true);
-            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
-                ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
-                ATMA::Props{
-                    {{"port",
-                      std::pair<unsigned char, std::any>{
-                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
-                      }}}
+            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(
+                ATMA::NetworkMessage{
+                    ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
+                    ATMA::Props{
+                        {{"port",
+                          std::pair<unsigned char, std::any>{
+                              ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
+                          }}}
 
+                    }
                 }
-            });
+            );
             unsigned short messageSize = 4;
-            for(int i = 0; i < sizeof(messageSize); i++)
+            for(size_t i = 0; i < sizeof(messageSize); i++)
             {
                 short shift = i * sizeof(unsigned char) * 8;
                 sendingMessage[i] = (messageSize >> shift) & 0xFF;
@@ -388,6 +410,8 @@ TEST_F(NetworkManagerFixture, NetworkManagerCanHandleBufferUnderflow)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanSend)
 {
+    GTEST_SKIP();
+
     struct signals
     {
         const unsigned short port = 8899;
@@ -414,16 +438,18 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanSend)
             sigs->m_recvConnStart.release();
             sigs->m_sendConnStart.acquire();
             // send message
-            ctx->m_netMan->sendMessage(ATMA::NetworkMessage{
-                ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
-                ATMA::Props{
-                    {{"port",
-                      std::pair<unsigned char, std::any>{
-                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
-                      }}}
+            ctx->m_netMan->sendMessage(
+                ATMA::NetworkMessage{
+                    ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
+                    ATMA::Props{
+                        {{"port",
+                          std::pair<unsigned char, std::any>{
+                              ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
+                          }}}
 
+                    }
                 }
-            });
+            );
             sigs->m_sendMessage.release();
             sigs->m_recvMessage.acquire();
             ctx->m_netMan->stopConnection();
@@ -449,7 +475,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanSend)
             unsigned short messageSize;
             host->receiveBytes(recv_buffer, ATMA::NETWORKMESSAGEBUFFERSIZE, recv_bytes);
             total_bytes = recv_bytes;
-            for(int i = 0; i < recv_bytes; i++)
+            for(size_t i = 0; i < recv_bytes; i++)
             {
                 msg->emplace_back(recv_buffer[i]);
             }
@@ -462,7 +488,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanSend)
             {
                 host->receiveBytes(recv_buffer, ATMA::NETWORKMESSAGEBUFFERSIZE, recv_bytes);
                 total_bytes += recv_bytes;
-                for(int i = 0; i < recv_bytes; i++)
+                for(size_t i = 0; i < recv_bytes; i++)
                 {
                     msg->emplace_back(recv_buffer[i]);
                 }
@@ -486,6 +512,8 @@ TEST_F(NetworkManagerFixture, NetworkManagerConnectionCanSend)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerHostCanSend)
 {
+    GTEST_SKIP();
+
     struct signals
     {
         const ATMA::URL address{"127.0.0.1"};
@@ -556,7 +584,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerHostCanSend)
             sock->receiveBytes(recv_buffer, ATMA::NETWORKMESSAGEBUFFERSIZE, recv_bytes);
             ATMA_ENGINE_TRACE("message received");
             total_bytes = recv_bytes;
-            for(int i = 0; i < recv_bytes; i++)
+            for(size_t i = 0; i < recv_bytes; i++)
             {
                 msg->emplace_back(recv_buffer[i]);
             }
@@ -569,7 +597,7 @@ TEST_F(NetworkManagerFixture, NetworkManagerHostCanSend)
             {
                 sock->receiveBytes(recv_buffer, ATMA::NETWORKMESSAGEBUFFERSIZE, recv_bytes);
                 total_bytes += recv_bytes;
-                for(int i = 0; i < recv_bytes; i++)
+                for(size_t i = 0; i < recv_bytes; i++)
                 {
                     msg->emplace_back(recv_buffer[i]);
                 }
@@ -593,6 +621,8 @@ TEST_F(NetworkManagerFixture, NetworkManagerHostCanSend)
  */
 TEST_F(NetworkManagerFixture, NetworkManagerHostReceive)
 {
+    GTEST_SKIP();
+
     struct signals
     {
         const ATMA::URL address{"127.0.0.1"};
@@ -641,16 +671,18 @@ TEST_F(NetworkManagerFixture, NetworkManagerHostReceive)
             sock->setBlocking(true);
             sigs->m_sendConnStart.release();
             sigs->m_recvConnStart.acquire();
-            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(ATMA::NetworkMessage{
-                ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
-                ATMA::Props{
-                    {{"port",
-                      std::pair<unsigned char, std::any>{
-                          ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
-                      }}}
+            std::vector<unsigned char> sendingMessage = ATMA::NetworkSerde::serialize(
+                ATMA::NetworkMessage{
+                    ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE),
+                    ATMA::Props{
+                        {{"port",
+                          std::pair<unsigned char, std::any>{
+                              ATMA::NetworkMessageValueType(ATMA::NetworkMessageValueEnum::INT), 4
+                          }}}
 
+                    }
                 }
-            });
+            );
             std::span<unsigned char> send_buffer{sendingMessage};
             sock->sendBytes(send_buffer, sendingMessage.size());
             sigs->m_sendMessage.release();

@@ -53,7 +53,7 @@ namespace ATMA
          * @param l_receivedBytes stores the amount of bytes actually received
          * @return 0 if no message received, 1 if message received, and -1 if an error occured
          */
-        virtual const short
+        virtual short
         receiveBytes(std::span<unsigned char> &l_buffer, const size_t &l_size, size_t &l_receivedBytes) override;
 
         /**

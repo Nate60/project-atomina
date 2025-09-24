@@ -1,4 +1,3 @@
-#include "OAS/attributes/AttrAnimation.hpp"
 #include "event/ObjectEventManager.hpp"
 #include "network/NetworkManager.hpp"
 #include "pch.hpp"
@@ -7,17 +6,16 @@
 #include "OAS/attributes/AttrControllable.hpp"
 #include "OAS/attributes/AttrShape.hpp"
 #include "OAS/attributes/AttrVelocity.hpp"
-#include "OAS/attributes/AttrRenderable.hpp"
-#include "OAS/attributes/AttrText.hpp"
-#include "OAS/attributes/AttrSprite.hpp"
 #include "OAS/attributes/AttrCollidable.hpp"
+#include "OAS/attributes/AttrRenderable.hpp"
 #include "OAS/systems/SysController.hpp"
 #include "OAS/systems/SysTranslator.hpp"
 #include "OAS/systems/SysRenderer.hpp"
+#include "OAS/systems/SysAnimator.hpp"
 #include "OAS/systems/SysCollider.hpp"
 #include "OAS/AttributeManager.hpp"
 #include "OAS/SystemManager.hpp"
-#include "render/GLRenderer.hpp"
+#include "render/Renderer.hpp"
 #include "resource/ResourceManager.hpp"
 #include "state/StateManager.hpp"
 #include "event/ObjectEventManager.hpp"
@@ -43,23 +41,21 @@ namespace ATMA
         ctx->m_audioMan = new AudioManager{};
         ctx->m_winMan = new WindowManager{};
         ctx->m_netMan = new NetworkManager{};
-        ctx->m_renderer = new GLRenderer{};
+        ctx->m_renderer = new Renderer{};
 
         GLContext::init();
         // attribute registration
         ctx->m_attrMan->registerAttributeType<AttrControllable>(AttributeType(Attribute::Controllable));
         ctx->m_attrMan->registerAttributeType<AttrShape>(AttributeType(Attribute::Shape));
         ctx->m_attrMan->registerAttributeType<AttrVelocity>(AttributeType(Attribute::Velocity));
-        ctx->m_attrMan->registerAttributeType<AttrRenderable>(AttributeType(Attribute::Render));
-        ctx->m_attrMan->registerAttributeType<AttrText>(AttributeType(Attribute::Text));
-        ctx->m_attrMan->registerAttributeType<AttrSprite>(AttributeType(Attribute::Sprite));
         ctx->m_attrMan->registerAttributeType<AttrCollidable>(AttributeType(Attribute::Collidable));
-        ctx->m_attrMan->registerAttributeType<AttrAnimation>(AttributeType(Attribute::Animation));
+        ctx->m_attrMan->registerAttributeType<AttrRenderable>(AttributeType(Attribute::Renderable));
 
         // system registration
         ctx->m_sysMan->addSystemType<SysController>(ctx, SystemType(System::Controller));
         ctx->m_sysMan->addSystemType<SysTranslator>(ctx, SystemType(System::Translator));
         ctx->m_sysMan->addSystemType<SysRenderer>(ctx, SystemType(System::Renderer));
+        ctx->m_sysMan->addSystemType<SysAnimator>(ctx, SystemType(System::Animator));
         ctx->m_sysMan->addSystemType<SysCollider>(ctx, SystemType(System::Collider));
         return ctx;
     }

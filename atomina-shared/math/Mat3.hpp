@@ -29,7 +29,7 @@ namespace ATMA
             };
         }
 
-        constexpr inline Mat3<T> inverse()
+        constexpr inline Mat3<T> inverse() const
         {
             T determinant = m_values[0][0] * (m_values[1][1] * m_values[2][2] - m_values[2][1] * m_values[1][2])
                           - m_values[0][1] * (m_values[1][0] * m_values[2][2] - m_values[1][2] * m_values[2][0])

@@ -55,6 +55,8 @@ while :; do
                         ;;
                     Test)
                         ;;
+                    Bench)
+                        ;;
                     *)
                         printf "$2 is not a valid project type\n"
                         exit 1

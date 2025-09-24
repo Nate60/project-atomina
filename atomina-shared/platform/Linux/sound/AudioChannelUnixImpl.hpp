@@ -6,8 +6,6 @@
 namespace ATMA
 {
 
-    static void onProcess(void *userData);
-
     struct PipewireStreamState
     {
         ATMAContext *ctx = nullptr;
@@ -37,6 +35,9 @@ namespace ATMA
         virtual void pushSound(const unsigned int &l_id);
 
         virtual void playNow(const unsigned int &l_id);
+
+        static void onProcess(void *userData);
+
         PipewireStreamState m_streamState{};
     protected:
     };

@@ -1,6 +1,9 @@
-#include "render/GLTexture.hpp"
-#include "util/ATConst.hpp"
+#include "OAS/attributes/AttrRenderable.hpp"
+#include "render/Renderable.hpp"
 #include <atomina.hpp>
+#include "render/Tilemap.hpp"
+#include "resource/writers/TilesetWriter.hpp"
+#include "util/Log.hpp"
 #include <memory>
 
 class RunState: public ATMA::BaseState
@@ -11,18 +14,23 @@ public:
     {
         m_obj = l_ctx->m_attrMan->createObject();
         m_backgroundObj = l_ctx->m_attrMan->createObject();
-        m_vertID = l_ctx->m_resMan->registerResource("vertex", 1u, "shader/defaultVertex.shader");
-        m_fragID = l_ctx->m_resMan->registerResource("frag", 1u, "shader/defaultFrag.shader");
+        m_textObj = l_ctx->m_attrMan->createObject();
+        m_mapObj = l_ctx->m_attrMan->createObject();
         m_animID = l_ctx->m_resMan->registerResource("anim", 2u, "res/Ball.anim");
         m_textureID = l_ctx->m_resMan->registerResource("texture", 0u, "res/Ball.png");
         m_backgroundID = l_ctx->m_resMan->registerResource("pixel", 0u, "res/Pixels.png");
-        m_vert = l_ctx->m_resMan->loadResource<ATMA::GLShader>(m_vertID);
-        m_vert->compile(ATMA::ShaderType::Vertex);
-        m_frag = l_ctx->m_resMan->loadResource<ATMA::GLShader>(m_fragID);
-        m_frag->compile(ATMA::ShaderType::Fragment);
-        m_anim = l_ctx->m_resMan->loadResource<ATMA::Animation>(m_animID);
-        m_texture = l_ctx->m_resMan->loadResource<ATMA::GLTexture>(m_textureID);
-        m_background = l_ctx->m_resMan->loadResource<ATMA::GLTexture>(m_backgroundID);
+        m_fontID = l_ctx->m_resMan->registerResource("font", 1u, "res/defaultFont.png");
+        m_mapdataID = l_ctx->m_resMan->registerResource("mapdata", 3u, "res/test.map");
+        m_tileSetID = l_ctx->m_resMan->registerResource("tileset", 4u, "res/test.mts");
+        m_tilesID = l_ctx->m_resMan->registerResource("tiles", 0u, "res/tiles.png");
+        m_anim = l_ctx->m_resMan->loadResource<ATMA::Animation>(l_ctx, m_animID);
+        m_texture = l_ctx->m_resMan->loadResource<ATMA::GLTexture>(l_ctx, m_textureID);
+        m_background = l_ctx->m_resMan->loadResource<ATMA::GLTexture>(l_ctx, m_backgroundID);
+        m_font = l_ctx->m_resMan->loadResource<ATMA::GLTexture>(l_ctx, m_fontID);
+        m_mapdata = l_ctx->m_resMan->loadResource<ATMA::Mapdata>(l_ctx, m_mapdataID);
+        m_tileset = l_ctx->m_resMan->loadResource<ATMA::Tileset>(l_ctx, m_tileSetID);
+        m_tiles = l_ctx->m_resMan->loadResource<ATMA::GLTexture>(l_ctx, m_tilesID);
+        ATMA_ENGINE_INFO("finished loading resources");
     }
 
     /**
@@ -46,35 +54,55 @@ public:
             },
             true
         });
-        m_prog = ATMA::GLProgram::makeProgram();
-        m_prog->attachShader(m_vert);
-        m_prog->attachShader(m_frag);
-        m_prog->link();
-        m_prog->exec();
-        l_ctx->m_attrMan->addAttribute(l_ctx, m_obj, ATMA::AttributeType(ATMA::Attribute::Animation));
-        l_ctx->m_attrMan->addAttribute(l_ctx, m_backgroundObj, ATMA::AttributeType(ATMA::Attribute::Animation));
-        l_ctx->m_attrMan->addAttribute(l_ctx, m_obj, ATMA::AttributeType(ATMA::Attribute::Sprite));
-        l_ctx->m_attrMan->addAttribute(l_ctx, m_backgroundObj, ATMA::AttributeType(ATMA::Attribute::Sprite));
-        auto animAttr =
-            l_ctx->m_attrMan->getAttribute<ATMA::AttrAnimation>(m_obj, ATMA::AttributeType(ATMA::Attribute::Animation));
-        animAttr->m_self = m_anim;
-        auto spriteAttr =
-            l_ctx->m_attrMan->getAttribute<ATMA::AttrSprite>(m_obj, ATMA::AttributeType(ATMA::Attribute::Sprite));
-        spriteAttr->m_self->m_texture = m_texture;
-        spriteAttr->m_self->m_prog = m_prog;
-        spriteAttr->m_self->m_size = ATMA::Vec2<float>{100.f, 100.f};
-        spriteAttr->m_self->m_stackPos = 1;
-        animAttr = l_ctx->m_attrMan->getAttribute<ATMA::AttrAnimation>(
-            m_backgroundObj, ATMA::AttributeType(ATMA::Attribute::Animation)
+        ATMA_ENGINE_TRACE("Setting up objects");
+        l_ctx->m_attrMan->addAttribute(l_ctx, m_obj, ATMA::AttributeType(ATMA::Attribute::Renderable));
+        l_ctx->m_attrMan->addAttribute(l_ctx, m_backgroundObj, ATMA::AttributeType(ATMA::Attribute::Renderable));
+        l_ctx->m_attrMan->addAttribute(l_ctx, m_textObj, ATMA::AttributeType(ATMA::Attribute::Renderable));
+        l_ctx->m_attrMan->addAttribute(l_ctx, m_mapObj, ATMA::AttributeType(ATMA::Attribute::Renderable));
+
+        ATMA_ENGINE_TRACE("Setting object values");
+
+        auto renderAttr = l_ctx->m_attrMan->getAttribute<ATMA::AttrRenderable>(
+            m_obj, ATMA::AttributeType(ATMA::Attribute::Renderable)
         );
-        animAttr->m_self = anim;
-        spriteAttr = l_ctx->m_attrMan->getAttribute<ATMA::AttrSprite>(
-            m_backgroundObj, ATMA::AttributeType(ATMA::Attribute::Sprite)
+        ATMA::Transform tt{};
+        tt.m_size = ATMA::Vec2<float>{100.f, 100.f};
+        tt.m_selectPos = ATMA::Vec2<float>{0.f, 64.f};
+        tt.m_selectSize = ATMA::Vec2<float>{64.f, 64.f};
+        renderAttr->m_self = std::make_shared<ATMA::Renderable>(ATMA::TransformContainer{
+            ATMA::TransformElement{m_anim, tt}
+        });
+        renderAttr->m_self->m_texture = m_texture;
+        l_ctx->m_renderer->changeElementPriority(m_backgroundObj, -1);
+        ATMA_ENGINE_TRACE("Setting background values");
+        renderAttr = l_ctx->m_attrMan->getAttribute<ATMA::AttrRenderable>(
+            m_backgroundObj, ATMA::AttributeType(ATMA::Attribute::Renderable)
         );
-        spriteAttr->m_self->m_texture = m_background;
-        spriteAttr->m_self->m_prog = m_prog;
-        spriteAttr->m_self->m_size = ATMA::Vec2<float>{100.f, 100.f};
-        spriteAttr->m_self->m_stackPos = 0;
+        tt = ATMA::Transform{};
+        tt.m_size = ATMA::Vec2<float>{100.f, 100.f};
+        renderAttr->m_self = std::make_shared<ATMA::Renderable>(ATMA::TransformContainer{
+            ATMA::TransformElement{m_anim, tt}
+        });
+        renderAttr->m_self->m_texture = m_background;
+        ATMA_ENGINE_TRACE("Setting text values");
+        ATMA_ENGINE_TRACE("Setting text text");
+        renderAttr = l_ctx->m_attrMan->getAttribute<ATMA::AttrRenderable>(
+            m_textObj, ATMA::AttributeType(ATMA::Attribute::Renderable)
+        );
+        renderAttr->m_self = std::make_shared<ATMA::Renderable>(ATMA::Text{
+            {"Let's Bounce", {-85.f, 80.f}, {15.f, 15.f}, {16.f, 16.f}}
+        });
+        renderAttr->m_self->m_texture = m_font;
+
+        renderAttr = l_ctx->m_attrMan->getAttribute<ATMA::AttrRenderable>(
+            m_mapObj, ATMA::AttributeType(ATMA::Attribute::Renderable)
+        );
+        renderAttr->m_self = std::make_shared<ATMA::Renderable>(ATMA::Tilemap{
+            {m_tileset, m_mapdata, {0.f, 0.f}, 96}
+        });
+        renderAttr->m_self->m_texture = m_tiles;
+        l_ctx->m_renderer->changeElementPriority(m_mapObj, 3);
+        ATMA_ENGINE_TRACE("Run state activation complete");
     }
 
     /**
@@ -83,6 +111,8 @@ public:
     void deactivate(ATMA::ATMAContext *l_ctx) override
     {
         l_ctx->m_attrMan->clearObject(l_ctx, m_obj);
+        l_ctx->m_attrMan->clearObject(l_ctx, m_backgroundObj);
+        l_ctx->m_attrMan->clearObject(l_ctx, m_textObj);
     }
 
     /**
@@ -105,15 +135,25 @@ public:
 
     unsigned int m_obj;
     unsigned int m_backgroundObj;
+    unsigned int m_textObj;
     unsigned int m_animID;
+    unsigned int m_mapObj;
     std::shared_ptr<ATMA::Animation> m_anim;
     unsigned int m_textureID;
     std::shared_ptr<ATMA::GLTexture> m_texture;
     unsigned int m_backgroundID;
     std::shared_ptr<ATMA::GLTexture> m_background;
+    unsigned int m_tilesID;
+    std::shared_ptr<ATMA::GLTexture> m_tiles;
     unsigned int m_vertID;
     std::shared_ptr<ATMA::GLShader> m_vert;
     unsigned int m_fragID;
     std::shared_ptr<ATMA::GLShader> m_frag;
+    unsigned int m_fontID;
+    std::shared_ptr<ATMA::GLTexture> m_font;
     std::shared_ptr<ATMA::GLProgram> m_prog;
+    unsigned int m_mapdataID;
+    std::shared_ptr<ATMA::Mapdata> m_mapdata;
+    unsigned int m_tileSetID;
+    std::shared_ptr<ATMA::Tileset> m_tileset;
 };

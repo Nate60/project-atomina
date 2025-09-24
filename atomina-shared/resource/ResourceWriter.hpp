@@ -2,6 +2,7 @@
 #include "pch.hpp"
 #include "core/api.hpp"
 #include "util/Path.hpp"
+#include "util/Log.hpp"
 
 namespace ATMA
 {
@@ -19,7 +20,10 @@ namespace ATMA
          * @param l_path file path to resource
          * @return shared pointer to resource
          */
-        void write(const std::shared_ptr<T> res, const Path &l_path) {}
+        void write(const std::shared_ptr<T> res, const Path &l_path)
+        {
+            ATMA_ENGINE_WARN("Called resource writer with no target resource (default implementation is empty)");
+        }
 
         // default constructor
         ResourceWriter() {}

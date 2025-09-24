@@ -22,7 +22,11 @@ namespace ATMA
          * @param l_objectID object id of the object that was changed
          * @param l_bits the bit set of the object describing which attributes it has
          */
-        void objectUpdated(const unsigned int &l_objectID, const std::bitset<ATConst::BITSET_SIZE> &l_bits);
+        void objectUpdated(
+            ATMAContext *l_ctx,
+            const unsigned int &l_objectID,
+            const std::bitset<ATConst::BITSET_SIZE> &l_bits
+        );
 
         /**
          * Called when a system has been removed or added to the context and
