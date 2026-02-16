@@ -8,13 +8,16 @@ namespace ATMA
     GLTextureOpenGLImpl::GLTextureOpenGLImpl(const Texture &l_texture): GLTexture(l_texture)
     {
         m_vertArr = VertexArray::makeBuffer({
-            {3, 8, 0},
-            {3, 8, 3},
-            {2, 8, 6}
+            {2, 8, 0}, //  screen x,y
+            {4, 8, 2}, //  colour r,b,g,a
+            {2, 8, 6}  //  texture x,y
         });
-        m_vertBuf = VertexBuffer::makeBuffer({1.0f, 1.0f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f,  0.0f, 1.0f, -1.0f, 0.0f,
-                                              0.0f, 1.0f, 0.0f,  1.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,  1.0f,
-                                              0.0f, 1.0f, -1.0f, 1.0f, 0.0f, 1.0f,  1.0f,  0.0f, 0.0f, 0.0f});
+        m_vertBuf = VertexBuffer::makeBuffer({
+            0.5f,  0.5f,  1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, // vertex 1
+            0.5f,  -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, // vertex 2
+            -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, // vertex 3
+            -0.5f, 0.5f,  1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f  // vertex 4
+        });
         m_indexBuf = IndexBuffer::makeBuffer({0, 1, 2, 0, 2, 3});
         m_vertArr->bind();
         m_vertBuf->bind();
@@ -24,8 +27,10 @@ namespace ATMA
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_bindID);
         glTexStorage2D(
-            GL_TEXTURE_2D, 1, OpenGLImageDataFormat(m_texture.m_channels), m_texture.m_width, m_texture.m_height
+            GL_TEXTURE_2D, 1, OpenGLImageDataFormat(m_texture.channels()), m_texture.width(), m_texture.height()
         );
+        // when scaling up use nearest pixel instead of sampling
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     }
 
     GLTextureOpenGLImpl::~GLTextureOpenGLImpl()
@@ -41,11 +46,11 @@ namespace ATMA
             0,
             0,
             0,
-            m_texture.m_width,
-            m_texture.m_height,
-            OpenGLImageFormat(m_texture.m_channels),
+            m_texture.width(),
+            m_texture.height(),
+            OpenGLImageFormat(m_texture.channels()),
             GL_UNSIGNED_BYTE,
-            m_texture.m_data
+            m_texture.data()
         );
         glGenerateMipmap(GL_TEXTURE_2D); // Generate num_mipmaps number of mipmaps here.
     }

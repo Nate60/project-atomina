@@ -1,7 +1,7 @@
 # project-atomina
 2D Game Engine Project
 
-Version [0.2.1]
+Version [0.2.3]
 
 My Personal Game Engine using CMake and C++20
 
@@ -36,6 +36,14 @@ GLFW3 3.3.8:
 
 https://github.com/glfw/glfw
 
+RtAudio 6.0.1:
+
+https://github.com/thestk/rtaudio
+
+PipeWire 1.2.7:
+
+https://github.com/PipeWire/pipewire
+
 ## Project Setup
 
 ### Windows:
@@ -57,6 +65,8 @@ Install the prerequsite libraries:
 	*  xorg-dev 
 	*  libgl1-mesa-dev 
 	*  libglu1-mesa-dev 
+    *  libtbb-dev
+    *  libpipewire-0.3-dev 
 	*  ninja-build
 )
 

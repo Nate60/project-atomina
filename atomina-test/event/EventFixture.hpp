@@ -7,8 +7,13 @@
 class EventFixture: public ::testing::Test
 {
 public:
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
+    ATMA::ATMAContext *m_ctx;
 protected:
+    /**
+     * Inherited test function run after each test
+     */
+    void SetUp() override;
+
     /**
      * Inherited test function run after each test
      */

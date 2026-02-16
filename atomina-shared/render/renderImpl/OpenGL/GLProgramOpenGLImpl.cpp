@@ -43,4 +43,10 @@ namespace ATMA
         glUniformMatrix3fv(location, 1, GL_TRUE, &(l_mat.m_values[0][0]));
     }
 
+    void GLProgramOpenGLImpl::setUniformf(const std::string &l_name, const float &l_uni)
+    {
+        int location = glGetUniformLocation(m_bindID, l_name.c_str());
+        glUniform1f(location, l_uni);
+    }
+
 }

@@ -1,4 +1,4 @@
-#ifdef _WINDOWS
+#ifdef _WIN32
 #    include "pch.hpp"
 #    include "SocketWinImpl.hpp"
 
@@ -7,7 +7,6 @@ namespace ATMA
 
     SocketWinImpl::SocketWinImpl(const URL &l_url, const unsigned short &l_port): Socket(l_url, l_port)
     {
-        ATMA_ENGINE_TRACE("Creating win sock");
         ZeroMemory(&m_hints, sizeof(m_hints));
         m_hints.ai_family = AF_UNSPEC;
         m_hints.ai_socktype = SOCK_STREAM;
@@ -43,19 +42,16 @@ namespace ATMA
         }
 
         freeaddrinfo(m_addrinfo);
-        ATMA_ENGINE_TRACE("Finished creating win sock {}", m_socket);
     }
 
     SocketWinImpl::SocketWinImpl(SOCKET &&l_socket, const unsigned short &l_port):
         Socket(URL{""}, l_port),
         m_socket(l_socket)
     {
-        ATMA_ENGINE_TRACE("move constructing win sock {}", m_socket);
     }
 
     SocketWinImpl::~SocketWinImpl()
     {
-        ATMA_ENGINE_TRACE("Destroying Win Socket {}", m_socket);
         shutdown(m_socket, SD_SEND);
         closesocket(m_socket);
         m_socket = INVALID_SOCKET;
@@ -63,7 +59,6 @@ namespace ATMA
 
     void SocketWinImpl::setBlocking(const bool &l_bool)
     {
-        ATMA_ENGINE_TRACE("setting win socket blocking={}", l_bool);
         if(!l_bool)
         {
             unsigned long ul = 1;
@@ -85,7 +80,6 @@ namespace ATMA
             );
             return false;
         }
-        ATMA_ENGINE_TRACE("win sock {} sending {} bytes", m_socket, l_size);
         int result = send(m_socket, reinterpret_cast<char *>(l_buffer.data()), l_size, 0);
         if(result == SOCKET_ERROR)
         {
@@ -96,7 +90,7 @@ namespace ATMA
         return true;
     }
 
-    const short
+    short
     SocketWinImpl::receiveBytes(std::span<unsigned char> &l_buffer, const size_t &l_size, size_t &l_receivedBytes)
     {
         int result = recv(m_socket, reinterpret_cast<char *>(l_buffer.data()), l_size, 0);

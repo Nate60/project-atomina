@@ -1,4 +1,5 @@
 #include "SystemTestSuite.hpp"
+#include "TestSystem.hpp"
 
 TYPED_TEST_SUITE(SystemFixture, SystemTypes);
 
@@ -8,8 +9,8 @@ TYPED_TEST_SUITE(SystemFixture, SystemTypes);
 TYPED_TEST(SystemFixture, AddSystem)
 {
     unsigned int sysType = TypeParam{}.getType();
-    this->addSystemType(sysType);
-    EXPECT_TRUE(this->ctx.hasSystem(sysType));
+    this->addSystemType(this->m_ctx, sysType);
+    EXPECT_TRUE(this->m_ctx->m_sysMan->hasSystem(sysType));
 }
 
 /**
@@ -20,8 +21,8 @@ TYPED_TEST(SystemFixture, AddDuplicateSystem)
 {
     unsigned int sysType = TypeParam{}.getType();
     TypeParam sys2{};
-    this->addSystemType(sysType);
-    EXPECT_THROW(this->addSystemType(sysType), ATMA::RegistrationException);
+    this->addSystemType(this->m_ctx, sysType);
+    EXPECT_THROW(this->addSystemType(this->m_ctx, sysType), ATMA::RegistrationException);
 }
 
 /**
@@ -30,9 +31,9 @@ TYPED_TEST(SystemFixture, AddDuplicateSystem)
 TYPED_TEST(SystemFixture, RemoveSystem)
 {
     unsigned int sysType = TypeParam{}.getType();
-    this->addSystemType(sysType);
-    this->ctx.removeSystem(sysType);
-    EXPECT_FALSE(this->ctx.hasSystem(sysType));
+    this->addSystemType(this->m_ctx, sysType);
+    this->m_ctx->m_sysMan->removeSystem(sysType);
+    EXPECT_FALSE(this->m_ctx->m_sysMan->hasSystem(sysType));
 }
 
 /**
@@ -41,7 +42,7 @@ TYPED_TEST(SystemFixture, RemoveSystem)
  */
 TYPED_TEST(SystemFixture, RemoveNonExistentSystem)
 {
-    EXPECT_THROW(this->ctx.removeSystem(0u), ATMA::ValueNotFoundException);
+    EXPECT_THROW(this->m_ctx->m_sysMan->removeSystem(0u), ATMA::ValueNotFoundException);
 }
 
 /**
@@ -50,13 +51,13 @@ TYPED_TEST(SystemFixture, RemoveNonExistentSystem)
 TEST_F(UntypedSystemFixture, DisableSystem)
 {
     unsigned int sysType = TestSystem{}.getType();
-    ctx.registerAttributeType<TestAttribute>(0u);
-    ctx.addSystemType<TestSystem>(sysType);
-    auto obj = ctx.createObject();
-    ctx.addAttribute(obj, 0u);
-    ctx.disableSystem(sysType);
-    ctx.update();
-    EXPECT_FALSE(ctx.getAttribute<TestAttribute>(obj, 0u)->flag);
+    m_ctx->m_attrMan->registerAttributeType<TestAttribute>(0u);
+    m_ctx->m_sysMan->addSystemType<TestSystem>(this->m_ctx, sysType);
+    auto obj = m_ctx->m_attrMan->createObject();
+    m_ctx->m_attrMan->addAttribute(m_ctx, obj, 0u);
+    m_ctx->m_sysMan->disableSystem(sysType);
+    m_ctx->m_sysMan->update(m_ctx, 0LL);
+    EXPECT_FALSE(m_ctx->m_attrMan->getAttribute<TestAttribute>(obj, 0u)->flag);
 }
 
 /**
@@ -66,12 +67,12 @@ TEST_F(UntypedSystemFixture, DisableSystem)
 TEST_F(UntypedSystemFixture, AddAttributeAddsToSystem)
 {
     unsigned int sysType = TestSystem{}.getType();
-    this->ctx.registerAttributeType<TestAttribute>(0u);
-    this->ctx.addSystemType<TestSystem>(sysType);
-    auto obj = this->ctx.createObject();
-    this->ctx.addAttribute(obj, 0u);
-    this->ctx.update();
-    EXPECT_TRUE(this->ctx.getAttribute<TestAttribute>(obj, 0u)->flag);
+    this->m_ctx->m_attrMan->registerAttributeType<TestAttribute>(0u);
+    this->m_ctx->m_sysMan->addSystemType<TestSystem>(this->m_ctx, sysType);
+    auto obj = this->m_ctx->m_attrMan->createObject();
+    this->m_ctx->m_attrMan->addAttribute(m_ctx, obj, 0u);
+    this->m_ctx->m_sysMan->update(m_ctx, 0LL);
+    EXPECT_TRUE(this->m_ctx->m_attrMan->getAttribute<TestAttribute>(obj, 0u)->flag);
 }
 
 /**
@@ -81,10 +82,10 @@ TEST_F(UntypedSystemFixture, AddAttributeAddsToSystem)
 TEST_F(UntypedSystemFixture, AddSystemThatMatchesAttributeShouldUpdateIt)
 {
     unsigned int sysType = TestSystem{}.getType();
-    this->ctx.registerAttributeType<TestAttribute>(0u);
-    auto obj = this->ctx.createObject();
-    this->ctx.addAttribute(obj, 0u);
-    this->ctx.addSystemType<TestSystem>(sysType);
-    this->ctx.update();
-    EXPECT_TRUE(this->ctx.getAttribute<TestAttribute>(obj, 0u)->flag);
+    this->m_ctx->m_attrMan->registerAttributeType<TestAttribute>(0u);
+    auto obj = this->m_ctx->m_attrMan->createObject();
+    this->m_ctx->m_attrMan->addAttribute(m_ctx, obj, 0u);
+    this->m_ctx->m_sysMan->addSystemType<TestSystem>(this->m_ctx, sysType);
+    this->m_ctx->m_sysMan->update(m_ctx, 0LL);
+    EXPECT_TRUE(this->m_ctx->m_attrMan->getAttribute<TestAttribute>(obj, 0u)->flag);
 }

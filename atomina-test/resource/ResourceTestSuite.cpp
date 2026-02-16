@@ -1,4 +1,5 @@
 #include "ResourceTestSuite.hpp"
+#include "file/FileFuncs.hpp"
 #include <gtest/gtest.h>
 
 TYPED_TEST_SUITE(ResourceFixture, ResourceTypes);
@@ -9,9 +10,8 @@ TYPED_TEST_SUITE(ResourceFixture, ResourceTypes);
  */
 TYPED_TEST(ResourceFixture, CanRegisterResource)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
-    EXPECT_TRUE(ctx.hasResource(id));
+    EXPECT_TRUE(this->m_ctx->m_resMan->hasResource(id));
 }
 
 /**
@@ -20,9 +20,22 @@ TYPED_TEST(ResourceFixture, CanRegisterResource)
  */
 TYPED_TEST(ResourceFixture, CanLoadResource)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
+    EXPECT_NE(res, nullptr);
+}
+
+/**
+ * Resources should be able to be saved
+ * using their id
+ */
+TYPED_TEST(ResourceFixture, CanSaveResource)
+{
+    auto path = ATMA::Path{"res.res"};
+    auto id = this->registerResource(0u);
+    auto res = this->loadResource(id);
+    this->saveResource(id, path);
+    ATMA::removeFile(path);
     EXPECT_NE(res, nullptr);
 }
 
@@ -32,11 +45,10 @@ TYPED_TEST(ResourceFixture, CanLoadResource)
  */
 TYPED_TEST(ResourceFixture, CanUnloadResource)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
-    ctx.unloadResource(id);
-    EXPECT_FALSE(ctx.hasLoadedResource(id));
+    this->m_ctx->m_resMan->unloadResource(id);
+    EXPECT_FALSE(this->m_ctx->m_resMan->hasLoadedResource(id));
 }
 
 /**
@@ -46,8 +58,6 @@ TYPED_TEST(ResourceFixture, CanUnloadResource)
 TYPED_TEST(ResourceFixture, reloadingALoadedResourceReturnsResource)
 {
 
-    auto &ctx = this->ctx;
-    ATMA_ENGINE_INFO("loaded context");
     auto id = this->registerResource(0u);
     ATMA_ENGINE_INFO("resource registered");
     auto res = this->loadResource(id);
@@ -63,10 +73,9 @@ TYPED_TEST(ResourceFixture, reloadingALoadedResourceReturnsResource)
  */
 TYPED_TEST(ResourceFixture, CanRemoveResource)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
-    ctx.removeResource(id);
-    EXPECT_FALSE(ctx.hasResource(id));
+    this->m_ctx->m_resMan->removeResource(id);
+    EXPECT_FALSE(this->m_ctx->m_resMan->hasResource(id));
 }
 
 /**
@@ -75,10 +84,9 @@ TYPED_TEST(ResourceFixture, CanRemoveResource)
  */
 TYPED_TEST(ResourceFixture, GetRemovedResource)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
-    ctx.removeResource(id);
+    this->m_ctx->m_resMan->removeResource(id);
     EXPECT_THROW(this->loadResource(id), ATMA::ValueNotFoundException);
 }
 
@@ -88,9 +96,8 @@ TYPED_TEST(ResourceFixture, GetRemovedResource)
  */
 TYPED_TEST(ResourceFixture, RemovingResourceUnloadsIt)
 {
-    auto &ctx = this->ctx;
     auto id = this->registerResource(0u);
     auto res = this->loadResource(id);
-    ctx.removeResource(id);
-    EXPECT_FALSE(ctx.hasLoadedResource(id));
+    this->m_ctx->m_resMan->removeResource(id);
+    EXPECT_FALSE(this->m_ctx->m_resMan->hasLoadedResource(id));
 }

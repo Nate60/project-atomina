@@ -1,6 +1,6 @@
 #include "pch.hpp"
 #include "SocketListener.hpp"
-#ifdef _WINDOWS
+#ifdef _WIN32
 #    include "platform/Win/network/SocketListenerWinImpl.hpp"
 #    define __ATMAMAKESOCKETLISTENER(port) return std::make_shared<SocketListenerWinImpl>(port)
 #elif __linux__

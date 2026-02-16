@@ -15,8 +15,7 @@ target_link_directories(Atomina_Game PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/../lib/$
 # "$<LINK_LIBRARY:WHOLE_ARCHIVE,Atomina_Shared>"
 target_link_libraries(Atomina_Game spdlog::spdlog Atomina_Shared)
 
-
-target_include_directories(Atomina_Game PRIVATE "../ext/include" "../atomina-shared")
+target_include_directories(Atomina_Game PRIVATE "../ext/include" "../atomina-shared") 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Atomina_Game PROPERTY CXX_STANDARD 20)

@@ -1,7 +1,13 @@
 #include "EventFixture.hpp"
+#include "core/ATMAContext.hpp"
 
-void
-EventFixture::TearDown()
+void EventFixture::SetUp()
 {
-    ctx.purge();
+    m_ctx = makeContext();
+}
+
+void EventFixture::TearDown()
+{
+    m_ctx->purge();
+    destroyContext(m_ctx);
 }

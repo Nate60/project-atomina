@@ -5,14 +5,14 @@
 namespace ATMA
 {
     /**
-    * class for initializing GL library
-    */
+     * class for initializing GL library
+     */
     class GLContext
     {
     public:
         /**
-        * initialize GL library 
-        */
+         * initialize GL library
+         */
         static void init()
         {
             static std::once_flag once;

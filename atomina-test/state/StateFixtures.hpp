@@ -10,8 +10,9 @@ class TestState;
 class StateFixture: public ::testing::Test
 {
 public:
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
+    ATMA::ATMAContext *m_ctx;
 protected:
+    void SetUp() override;
     /**
      * Cleans up context between states
      */

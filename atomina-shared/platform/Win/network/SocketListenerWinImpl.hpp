@@ -1,4 +1,4 @@
-#ifdef _WINDOWS
+#ifdef _WIN32
 #    pragma once
 #    include "pch.hpp"
 #    include "core/api.hpp"

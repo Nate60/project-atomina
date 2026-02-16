@@ -7,12 +7,14 @@
 namespace ATConst
 {
     using namespace std::string_literals;
-    static const size_t OBJECT_BIT_SIZE = 32;
+    static const int FONT_CHARS_PER_ROW = 11;
+    static const size_t BITSET_SIZE = sizeof(unsigned long long) * 8;
+    static const double TICK_RATE = 1.0 / 60.0;
 
     static const ATMA::Path DEFAULT_SHADER_PATH = ATMA::Path{"shader/defaultVertex.shader"s};
     static const ATMA::Path DEFAULT_FRAG_SHADER_PATH = ATMA::Path{"shader/defaultFrag.shader"s};
 
-#ifdef _WINDOWS
+#ifdef _WIN32
     const PIXELFORMATDESCRIPTOR DEFAULT_PIXEL_FORMAT_D = {
         sizeof(PIXELFORMATDESCRIPTOR),
         1,
@@ -39,7 +41,8 @@ namespace ATConst
         0,
         0,
         0,
-        0};
+        0
+    };
 
 #elif __linux__
     const int DEFAULT_VISUAL_ATTRIBUTES[] = {
@@ -69,6 +72,7 @@ namespace ATConst
         1,
         GLX_SAMPLES,
         4,
-        0L};
+        0L
+    };
 #endif
 }

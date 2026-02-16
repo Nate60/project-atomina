@@ -7,6 +7,8 @@
 namespace ATMA
 {
 
+    class ATMAContext;
+
     /**
      * interface for handling internal engine events
      */
@@ -26,6 +28,7 @@ namespace ATMA
          * @param l_subs list of subscribers to send to
          */
         static inline void dispatch(
+            ATMAContext *ctx,
             const std::optional<const unsigned int> &l_id,
             const NetworkMessage &l_msg,
             const std::vector<std::shared_ptr<NetworkMessageListener>> &l_subs
@@ -33,7 +36,7 @@ namespace ATMA
         {
             for(auto &sub: l_subs)
             {
-                sub->notify(l_id, l_msg);
+                sub->notify(ctx, l_id, l_msg);
             }
         }
 
@@ -42,7 +45,8 @@ namespace ATMA
          * so all operations done here so be thread safe
          * @param l_e event details
          */
-        virtual void notify(const std::optional<const unsigned int> &l_id, const NetworkMessage &l_e) = 0;
+        virtual void
+        notify(ATMAContext *ctx, const std::optional<const unsigned int> &l_id, const NetworkMessage &l_e) = 0;
 
         /**
          * checks if the object is actively listening

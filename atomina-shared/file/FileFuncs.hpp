@@ -1,6 +1,8 @@
 #pragma once
-#include "core/api.hpp"
 #include "pch.hpp"
+#include "core/api.hpp"
+#include "util/Path.hpp"
+#include "FileSystem.hpp"
 
 namespace ATMA
 {
@@ -19,6 +21,21 @@ namespace ATMA
      * @param l_filter regex pattern to match against
      * @return list of full qualified paths in the directory
      */
-    std::vector<stdfs::path> getDirectoryList(const stdfs::path &l_path, const std::string &l_filter = ".*[.].*");
+    std::vector<stdfs::path> getDirectoryList(const Path &l_path, const std::string &l_filter = ".*[.].*");
 
+    /**
+     * to remove file from the file system at the given path
+     * does not support directories.
+     * @param l_path
+     */
+    void removeFile(const Path &l_path);
+
+    /**
+     * move bytes from buffer into another value reinterpreted as a char pointer
+     * @param l_buffer buffer to consume
+     * @param l_cursor cursor to track position in buffer
+     * @param l_adv how many bytes to consume
+     * @param l_dest destination pointer
+     */
+    void move(std::vector<char> &l_buffer, size_t &l_cursor, const size_t &l_adv, unsigned char *l_dest);
 }

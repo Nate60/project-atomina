@@ -1,9 +1,10 @@
 #pragma once
 #include "pch.hpp"
 #include "core/api.hpp"
-#include "render/GLRenderable.hpp"
-#include "render/GLBuffer.hpp"
-#include "render/GLBuffer.hpp"
+#include "GLProgram.hpp"
+#include "math/Mat3.hpp"
+#include "math/Vec2.hpp"
+#include "Camera.hpp"
 
 namespace ATMA
 {
@@ -39,6 +40,16 @@ namespace ATMA
         virtual void setViewPort(const Vec2<int> &l_pos, const Vec2<int> &l_size) = 0;
 
         /**
+         * Sets the camera for following draw calls
+         */
+        virtual void setCamera(const Camera &l_camera);
+
+        /**
+         * Get camera set for context
+         */
+        virtual const Camera &getCamera() const;
+
+        /**
          * clears the view port that he Render context has been set to
          * to be all one colour
          */
@@ -48,9 +59,37 @@ namespace ATMA
          * toggles rendering blends
          */
         virtual void toggleBlend(const bool &l_toggle) = 0;
+
+        /**
+         * toggles depth buffer testing
+         */
+        virtual void toggleDepthTest(const bool &l_toggle) = 0;
+
+        /**
+         * sets the shader program for the context for any following draw calls
+         */
+        virtual void setShaderProgram(std::shared_ptr<GLProgram> l_prog);
+
+        /**
+         * get the shader program
+         */
+        virtual std::shared_ptr<GLProgram> getShaderProgram();
+
+        /**
+         * set uniform for set shader
+         */
+        template<class T>
+        void setUniform(const std::string &l_name, const T &l_uni);
+
+        /**
+         * Draw call to draw triangles in context buffer
+         */
+        virtual void drawElements() = 0;
     protected:
         // protected constructor so it cannot be publicly instantiated
 
+        std::shared_ptr<GLProgram> m_prog;
+        Camera m_camera;
         GLRenderContext();
         friend class AppWindow;
     };

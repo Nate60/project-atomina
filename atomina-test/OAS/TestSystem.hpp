@@ -1,6 +1,7 @@
 #pragma once
 #include "AtominaTest.hpp"
 #include "TestAttribute.hpp"
+#include "core/ATMAContext.hpp"
 
 /**
  * Dummy system for testing internals of ATMA Contexts
@@ -8,8 +9,6 @@
  */
 class TestSystem: public ATMA::SysBase
 {
-private:
-    ATMA::ATMAContext &ctx = ATMA::ATMAContext::getContext();
 public:
     /**
      * Default Constructor
@@ -21,11 +20,11 @@ public:
      * how many ticks have passed
      * @param l_dt time since last update
      */
-    virtual void update(const long long &l_dt) override;
+    virtual void update(ATMA::ATMAContext *l_ctx, const double &l_dt) override;
 
     /**
      * Triggers any event specific functionality of the system
      * @param l_e event details of the passed event
      */
-    virtual void notify(const ATMA::ObjectEventContext &l_e) override;
+    virtual void notify(ATMA::ATMAContext *l_ctx, const ATMA::ObjectEventContext &l_e) override;
 };

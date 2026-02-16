@@ -23,6 +23,18 @@ protected:
     }
 
     /**
+     * @brief helper function to test addition of vectors
+     * @param a first vector
+     * @param b second vector
+     * @param exp expected resulting vector
+     */
+    void addAssignmentTest(ATMA::Vec2<T> a, ATMA::Vec2<T> b, ATMA::Vec2<T> exp)
+    {
+        a += b;
+        EXPECT_TRUE(a == exp);
+    }
+
+    /**
      * @brief helper function to test subtraction of vectors
      * @param a first vector
      * @param b second vector
@@ -58,7 +70,6 @@ protected:
         EXPECT_TRUE(res == exp);
     }
 
-
     /**
      * @brief helper function to test scalar division
      * @param a vector
@@ -75,7 +86,7 @@ protected:
      * @brief helper function to test vector normalization
      * @param v vector
      * @param exp expected resulting vector
-    */
+     */
     void normTest(ATMA::Vec2<T> v, ATMA::Vec2<T> exp)
     {
         ATMA::Vec2<T> res = ATMA::normalize(v);
@@ -161,12 +172,10 @@ protected:
      * @brief helper function to test vector normalization
      * @param v vector
      * @param exp expected resulting vector
-    */
+     */
     void normTest(ATMA::Vec3<T> v, ATMA::Vec3<T> exp)
     {
         ATMA::Vec3<T> res = ATMA::normalize(v);
         EXPECT_TRUE(res == exp);
     }
-
-
 };

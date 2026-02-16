@@ -10,7 +10,7 @@
 namespace ATMA
 {
 
-    GLShader::GLShader(const Shader &l_shader): m_shader(l_shader), LoadedResource() {}
+    GLShader::GLShader(const Shader &l_shader): LoadedResource(), m_shader(l_shader) {}
 
     GLShader::~GLShader() {}
 

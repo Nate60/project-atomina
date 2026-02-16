@@ -1,71 +1,60 @@
+#include <memory>
 #ifndef ATMA_SERVER
 #    include "GameApp.hpp"
-
-
+#    include "state/RunState.hpp"
 
 GameApp::GameApp() {}
 
 GameApp::~GameApp() {}
 
-void GameApp::setup(ATMA::ATMAContext &l_ctx)
+void GameApp::setup(ATMA::ATMAContext *l_ctx)
 {
-    l_ctx.registerAttributeType<AttrConnection>(GameAttributeType(GameAttributeEnum::CONNECTION));
-    l_ctx.addSystemType<SysConnection>(GameSystemType(GameSystemEnum::CONNECTION));
-    l_ctx.registerAttributeType<AttrTimer>(GameAttributeType(GameAttributeEnum::TIMER));
-    l_ctx.addSystemType<SysTime>(GameSystemType(GameSystemEnum::TIME));
-    auto netSys = l_ctx.getSystem<SysConnection>(GameSystemType(GameSystemEnum::CONNECTION));
-    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::CONNECTION_STARTED), netSys);
-    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_JOIN), netSys);
-    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_REQUEST), netSys); 
-    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::PORT_RESPONSE), netSys); 
-    l_ctx.netManager.addMessageListener(ATMA::NetworkMessageType(ATMA::NetworkMessageEnum::STATE_CHANGE), netSys);
-    l_ctx.netManager.addMessageListener(GameNetMessageType(GameNetMessageEnum::PLAYER_WIN), netSys);
-    l_ctx.netManager.addMessageListener(GameNetMessageType(GameNetMessageEnum::PLAYER_TIED), netSys);
-    l_ctx.netManager.addMessageListener(GameNetMessageType(GameNetMessageEnum::PLAYER_LOSE), netSys);
     active = true;
 
-    auto winID = l_ctx.createWindow();
-    m_win = l_ctx.getWindow(winID);
-    m_renderer = l_ctx.getRenderer();
+    auto winID = l_ctx->m_winMan->createWindow(l_ctx);
+    m_win = l_ctx->m_winMan->getWindow(winID);
     m_win->setSize({1920, 1080});
 
     m_win->show();
     // note that the context is reset when set to a new window, so any memory associated with
     // it will cause an error. So best to set window before anything else
-    m_renderer->setWindow(m_win);
-    auto vertShaderID = l_ctx.registerResource("vertex", 1u, "shader/defaultVertex.shader");
-    auto fragShaderID = l_ctx.registerResource("frag", 1u, "shader/defaultFrag.shader");
-    auto fontID = l_ctx.registerResource("font", 0u, "res/defaultFont.png");
-    std::shared_ptr<MainMenuState> state = std::make_shared<MainMenuState>(m_win, vertShaderID, fragShaderID, fontID);
-    l_ctx.addState(GameStateType(GameStateEnum::MAINMENU), std::move(state));
-    std::shared_ptr<LobbyState> lobby = std::make_shared<LobbyState>(m_win, vertShaderID, fragShaderID, fontID);
-    l_ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::Network), lobby);
-    l_ctx.addState(GameStateType(GameStateEnum::LOBBY), std::move(lobby));
-    std::shared_ptr<PlayState> play = std::make_shared<PlayState>(m_win, vertShaderID, fragShaderID, fontID);
-    l_ctx.addObjectEventListener(ATMA::ObjectEventType(ATMA::ObjectEvent::Network), play);
-    l_ctx.addObjectEventListener(GameEventType(GameEventEnum::TIMER_COMPLETE), play);
-    l_ctx.addState(GameStateType(GameStateEnum::PLAYSTATE), std::move(play));
-    m_renderer->toggleBlend(true);
+    l_ctx->m_renderer->setWindow(m_win);
+    l_ctx->m_renderer->toggleBlend(true);
+    l_ctx->m_renderer->toggleDepthTest(false);
+    auto vertID = l_ctx->m_resMan->registerResource("vertex", 1u, "shader/defaultVertex.shader");
+    auto fragID = l_ctx->m_resMan->registerResource("frag", 1u, "shader/defaultFrag.shader");
+    auto vert = l_ctx->m_resMan->loadResource<ATMA::GLShader>(l_ctx, vertID);
+    auto frag = l_ctx->m_resMan->loadResource<ATMA::GLShader>(l_ctx, fragID);
+    vert->compile(ATMA::ShaderType::Vertex);
+    frag->compile(ATMA::ShaderType::Fragment);
+    auto prog = ATMA::GLProgram::makeProgram();
+    prog->attachShader(vert);
+    prog->attachShader(frag);
+    prog->link();
+    l_ctx->m_renderer->m_ctx->setShaderProgram(prog);
+    std::shared_ptr<RunState> runState = std::make_shared<RunState>(l_ctx);
+    l_ctx->m_stateMan->addState(l_ctx, 0u, runState);
 }
 
-void GameApp::update(ATMA::ATMAContext &l_ctx)
+void GameApp::update(ATMA::ATMAContext *l_ctx, const double &l_dt)
 {
     if(m_win->shouldClose())
     {
         active = false;
     }
-
     m_win->poll();
-    m_renderer->startScene(ATMA::GLCamera{
-        {  0.f,   0.f},
-        {360.f, 360.f}
-    });
-    l_ctx.update();
-    m_renderer->finishScene();
+    l_ctx->m_renderer->startScene(
+        ATMA::Camera{
+            {  0.f,   0.f},
+            {320.f, 180.f}
+    }
+    );
+    l_ctx->m_sysMan->update(l_ctx, l_dt);
+    l_ctx->m_renderer->finishScene(l_ctx);
     m_win->swapBuffers();
 }
 
-void GameApp::shutdown(ATMA::ATMAContext &l_ctx)
+void GameApp::shutdown(ATMA::ATMAContext *l_ctx)
 {
     ATMA_ENGINE_INFO("Shutting down game");
 }
@@ -74,4 +63,5 @@ std::unique_ptr<ATMA::Game> ATMA::CreateGame()
 {
     return std::unique_ptr<ATMA::Game>{new GameApp()};
 }
+
 #endif

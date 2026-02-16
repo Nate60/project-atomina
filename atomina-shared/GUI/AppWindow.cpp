@@ -1,14 +1,17 @@
 #include "pch.hpp"
 #include "AppWindow.hpp"
 #include "core/ATMAContext.hpp"
+#include "render/Renderer.hpp"
+#include "state/StateManager.hpp"
 
 namespace ATMA
 {
-    AppWindow::AppWindow(const Vec2<unsigned int> &l_size, const std::string &l_name)
+    AppWindow::AppWindow(ATMAContext *ctx, const Vec2<unsigned int> &l_size, const std::string &l_name)
     {
         m_size = l_size;
         m_name = l_name;
         m_closed = false;
+        this->ctx = ctx;
         m_windowHandle = glfwCreateWindow(m_size.x, m_size.y, m_name.c_str(), NULL, NULL);
         glfwSetWindowUserPointer(m_windowHandle, this);
         glfwSetFramebufferSizeCallback(
@@ -16,9 +19,8 @@ namespace ATMA
             [](GLFWwindow *win, int w, int h)
             {
                 AppWindow *appwindow = (AppWindow *)(glfwGetWindowUserPointer(win));
-                ATMAContext &ctx = ATMAContext::getContext();
                 appwindow->setSize(Vec2<unsigned int>{(unsigned int)w, (unsigned int)h});
-                ctx.getRenderer()->setFrameBufferDimensions(w, h);
+                appwindow->ctx->m_renderer->setFrameBufferDimensions(w, h);
             }
         );
         glfwSetKeyCallback(
@@ -26,7 +28,6 @@ namespace ATMA
             [](GLFWwindow *win, int key, int scancode, int action, int mods)
             {
                 AppWindow *appwindow = (AppWindow *)(glfwGetWindowUserPointer(win));
-                ATMAContext &ctx = ATMAContext::getContext();
                 Props p{};
                 p["keycode"] = key;
                 p["repeat"] = (action == GLFW_REPEAT);
@@ -39,7 +40,7 @@ namespace ATMA
                 {
                     t = WindowEventEnum::KeyUpped;
                 }
-                ctx.dispatchWindowEvent(WindowEvent{appwindow, t, p});
+                appwindow->ctx->m_stateMan->dispatchWindowEvent(appwindow->ctx, WindowEvent{appwindow, t, p});
             }
         );
     }

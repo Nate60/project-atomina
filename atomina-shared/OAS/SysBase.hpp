@@ -26,7 +26,7 @@ namespace ATMA
         const std::string m_sysTypeName;
 
         // constructor with system type and type name
-        SysBase(const SystemType &l_type, const std::string &l_typeName): m_type(l_type), m_sysTypeName(l_typeName) {}
+        SysBase(const SystemType &l_type, const std::string &l_typeName): m_sysTypeName(l_typeName), m_type(l_type) {}
 
         // destructor
         virtual ~SysBase() {}
@@ -35,29 +35,29 @@ namespace ATMA
          * gives the enumerator for the type of system
          * @returns type enum of the system
          */
-        [[nodiscard]] SystemType getType() const;
+        [[nodiscard]] unsigned int getType() const;
 
         /**
          * returns true if the bitset matches the required bitset completely
          * @param l_bits bitset of the object to see if it matches the requirements
          * @returns if the bitset matches the requirement of the system
          */
-        [[nodiscard]] const int match(const std::bitset<ATConst::OBJECT_BIT_SIZE> &l_bits) const;
+        [[nodiscard]] const int match(const std::bitset<ATConst::BITSET_SIZE> &l_bits) const;
 
         /**
          * updates all attributes of all the objects contained in the system
          * @param time time since last update
          */
-        virtual void update(const long long &l_dt) = 0;
+        virtual void update(ATMAContext *l_ctx, const double &l_dt) = 0;
 
-        friend class ATMAContext;
+        friend class SystemManager;
     protected:
         /**
          * adds object to the system
          * @param l_id id of the object
          * @returns if the operation was successful
          */
-        bool addObject(const ObjectId &l_id, const unsigned int &l_patternID = 0u);
+        virtual bool addObject(ATMAContext *l_ctx, const ObjectId &l_id, const unsigned int &l_patternID = 0u);
 
         /**
          * checks if the object is registering in the system
@@ -71,13 +71,13 @@ namespace ATMA
          * @param l_id id of the object
          * @returns if the operation was successful
          */
-        bool removeObject(const ObjectId &l_id);
+        virtual bool removeObject(ATMAContext *l_ctx, const ObjectId &l_id);
 
         /**
          * interface function for event listeners
          * @param l_e event details
          */
-        virtual void notify(const ObjectEventContext &l_e) = 0;
+        virtual void notify(ATMAContext *l_ctx, const ObjectEventContext &l_e) = 0;
 
         /**
          * removes all objects
@@ -85,7 +85,7 @@ namespace ATMA
         void purge();
 
         SystemType m_type;
-        std::vector<std::bitset<ATConst::OBJECT_BIT_SIZE>> m_req;
+        std::vector<std::bitset<ATConst::BITSET_SIZE>> m_req;
         std::vector<std::pair<unsigned int, ObjectId>> m_objects;
         StopWatch m_stopwatch{};
     };

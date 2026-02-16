@@ -1,21 +1,25 @@
 #ifndef ATMA_SERVER
-#include "AtominaTestGame.hpp"
+#    include "AtominaTestGame.hpp"
 
 GameTest::GameTest() {}
 
 GameTest::~GameTest() {}
 
-void GameTest::setup(ATMA::ATMAContext &l_ctx)
+void GameTest::setup(ATMA::ATMAContext *l_ctx)
 {
     ATMA_ENGINE_INFO("Setting up test wrapper");
-    l_ctx.purge();
     active = true;
 }
 
-void GameTest::update(ATMA::ATMAContext &l_ctx)
+void GameTest::update(ATMA::ATMAContext *l_ctx, const double &l_dt)
 {
     ATMA_ENGINE_INFO("Test Wrapper is now running");
-    ::testing::InitGoogleTest();
+    ATMA_ENGINE_INFO("Running Test Game with argc: {}", *l_ctx->argc);
+    for(int i = 0; i < *l_ctx->argc; i++)
+    {
+        ATMA_ENGINE_INFO("Running with arg: {}", l_ctx->argv[i]);
+    }
+    ::testing::InitGoogleTest(l_ctx->argc, l_ctx->argv);
     auto result = RUN_ALL_TESTS();
     if(result > 0)
     {
@@ -30,13 +34,9 @@ void GameTest::update(ATMA::ATMAContext &l_ctx)
     active = false;
 }
 
-void GameTest::shutdown(ATMA::ATMAContext &l_ctx) {
+void GameTest::shutdown(ATMA::ATMAContext *l_ctx) {}
 
-}
-
-
-std::unique_ptr<ATMA::Game>
-ATMA::CreateGame()
+std::unique_ptr<ATMA::Game> ATMA::CreateGame()
 {
     return std::unique_ptr<ATMA::Game>{new GameTest()};
 }

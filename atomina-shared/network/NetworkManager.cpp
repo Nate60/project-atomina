@@ -4,13 +4,13 @@
 namespace ATMA
 {
 
-    void NetworkConnection::run()
+    void NetworkConnection::run(ATMAContext *l_ctx)
     {
 
         ATMA_ENGINE_INFO(
             "Starting connection thread for id {} with handle {}",
             m_id.value_or(std::numeric_limits<unsigned int>::max()),
-            m_conn
+            m_conn->toString()
         );
 
         m_conn->setBlocking(false);
@@ -26,7 +26,7 @@ namespace ATMA
             }
             else if(res < 0)
             {
-                ATMA_ENGINE_WARN("socket handle {} received error", m_conn);
+                ATMA_ENGINE_WARN("socket handle {} received error", m_conn->toString());
                 break;
             }
 
@@ -34,7 +34,7 @@ namespace ATMA
             size_t totalBytes = recvBytes;
             unsigned short messageSize;
 
-            for(int i = 0; i < recvBytes; i++)
+            for(size_t i = 0; i < recvBytes; i++)
             {
                 wholeMessage.emplace_back(bufSpan[i]);
             }
@@ -47,17 +47,11 @@ namespace ATMA
             {
                 m_conn->receiveBytes(bufSpan, NETWORKMESSAGEBUFFERSIZE, recvBytes);
                 totalBytes += recvBytes;
-                for(int i = 0; i < recvBytes; i++)
+                for(size_t i = 0; i < recvBytes; i++)
                 {
                     wholeMessage.emplace_back(bufSpan[i]);
                 }
             }
-            ATMA_ENGINE_TRACE(
-                "Got Network message of {} bytes on handle {} id {}",
-                totalBytes,
-                m_conn,
-                m_id.value_or(std::numeric_limits<unsigned int>::max())
-            );
             // its possible that multiple messages can be received at once from
             // a connection, so we need to use the same byte stream to deserialize
             // multiple messages
@@ -71,11 +65,10 @@ namespace ATMA
                 offset += cursor;
                 if(auto itr = m_subscribers->find(msg.type()); itr != m_subscribers->end())
                 {
-                    ATMA_ENGINE_TRACE("Dispatching message type {} to {} subscribers", msg.type(), itr->second.size());
-                    NetworkMessageListener::dispatch(m_id, msg, itr->second);
+                    NetworkMessageListener::dispatch(l_ctx, m_id, msg, itr->second);
                 }
-                //if message becomes invalid, we have no idea where the start of the message is so we need
-                //to abandon it
+                // if message becomes invalid, we have no idea where the start of the message is so we need
+                // to abandon it
                 if(msg.type() == NetworkMessageType(NetworkMessageEnum::INVALID))
                     break;
             }
@@ -90,7 +83,7 @@ namespace ATMA
         m_termSignal.release();
     }
 
-    void NetworkListener::run()
+    void NetworkListener::run(ATMAContext *l_ctx)
     {
         ATMA_ENGINE_INFO("Starting listening thread");
         while(*m_listening)
@@ -99,15 +92,15 @@ namespace ATMA
             {
                 const ConnId id = (*m_lastId)++;
                 ATMA_ENGINE_INFO("Accepting connection with id {}", id);
-                sock->setBlocking(false);
+                sock->setBlocking(true);
                 std::optional<const ConnId> idOpt{id};
                 std::shared_ptr<bool> connected = std::make_shared<bool>(true);
                 std::shared_ptr<NetworkConnection> conn =
-                    std::make_shared<NetworkConnection>(idOpt, sock, connected, m_subscribers);
+                    std::make_shared<NetworkConnection>(l_ctx, idOpt, sock, connected, m_subscribers);
                 (*m_connections)[id] = std::make_shared<Conn>(std::make_pair(connected, conn));
                 NetworkMessage msg{NetworkMessageType(NetworkMessageEnum::CONNECTION_STARTED)};
                 if(auto itr = m_subscribers->find(msg.type()); itr != m_subscribers->end())
-                    NetworkMessageListener::dispatch(idOpt, msg, itr->second);
+                    NetworkMessageListener::dispatch(l_ctx, idOpt, msg, itr->second);
             }
         }
         ATMA_ENGINE_INFO("Terminating listening thread");
@@ -132,7 +125,7 @@ namespace ATMA
         m_connections->clear();
     }
 
-    void NetworkManager::startHosting(const unsigned int &l_port)
+    void NetworkManager::startHosting(ATMAContext *l_ctx, const unsigned int &l_port)
     {
         m_listenerSocket = SocketListener::makeSocketListener(l_port);
         if(*m_listening)
@@ -143,7 +136,7 @@ namespace ATMA
         *m_listening = true;
         ATMA_ENGINE_INFO("Creating Network Listener");
         m_listener = std::make_unique<NetworkListener>(
-            m_listenerSocket, m_listening, m_connections, m_lastConnId, m_subscribers
+            l_ctx, m_listenerSocket, m_listening, m_connections, m_lastConnId, m_subscribers
         );
     }
 
@@ -152,7 +145,6 @@ namespace ATMA
         std::vector<unsigned char> msg = NetworkSerde::serialize(l_msg);
         for(auto &conn: *m_connections)
         {
-            ATMA_ENGINE_TRACE("Send message type {} to conn id {}", l_msg.type(), conn.first);
             conn.second->second->send(l_msg);
         }
     }
@@ -165,7 +157,7 @@ namespace ATMA
         m_listenerSocket = nullptr;
     }
 
-    void NetworkManager::startConnection(const URL &l_url, const unsigned short &l_port)
+    void NetworkManager::startConnection(ATMAContext *l_ctx, const URL &l_url, const unsigned short &l_port)
     {
         if(*m_connected)
         {
@@ -176,10 +168,10 @@ namespace ATMA
         m_connSocket->setBlocking(false);
         *m_connected = true;
         ATMA_ENGINE_INFO("Creating Network Connection");
-        m_conn = std::make_unique<NetworkConnection>(std::nullopt, m_connSocket, m_connected, m_subscribers);
+        m_conn = std::make_unique<NetworkConnection>(l_ctx, std::nullopt, m_connSocket, m_connected, m_subscribers);
         NetworkMessage msg{NetworkMessageType(NetworkMessageEnum::CONNECTION_STARTED)};
         if(auto itr = m_subscribers->find(msg.type()); itr != m_subscribers->end())
-            NetworkMessageListener::dispatch(std::nullopt, msg, itr->second);
+            NetworkMessageListener::dispatch(l_ctx, std::nullopt, msg, itr->second);
     }
 
     void NetworkManager::sendMessage(const NetworkMessage &l_msg, const std::optional<const ConnId> &l_id)
@@ -187,7 +179,6 @@ namespace ATMA
         std::vector<unsigned char> msg = NetworkSerde::serialize(l_msg);
         if(l_id.has_value())
         {
-            ATMA_ENGINE_TRACE("Send message type {} to conn id {}", l_msg.type(), l_id.value());
             (*m_connections)[l_id.value()]->second->send(l_msg);
         }
         else
@@ -205,7 +196,6 @@ namespace ATMA
         {
             if(auto c = m_connections->find(l_id.value()); c != m_connections->end())
             {
-                // ATMA_ENGINE_TRACE("removing connection with id {}", l_id.value());
                 *(c->second->first) = false;
                 m_connections->erase(l_id.value());
             }

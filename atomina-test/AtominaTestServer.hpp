@@ -11,7 +11,7 @@ class ServerTest: public ATMA::Server
 public:
     ServerTest();
     ~ServerTest();
-    virtual void setup(ATMA::ATMAContext &l_ctx) override;
-    virtual void update(ATMA::ATMAContext &l_ctx) override;
-    virtual void shutdown(ATMA::ATMAContext &l_ctx) override;
+    virtual void setup(ATMA::ATMAContext *l_ctx) override;
+    virtual void update(ATMA::ATMAContext *l_ctx, const double &l_dt) override;
+    virtual void shutdown(ATMA::ATMAContext *l_ctx) override;
 };

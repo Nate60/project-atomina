@@ -6,6 +6,8 @@
 namespace ATMA
 {
 
+    class ATMAContext;
+
     /**
      * interface for handling internal engine events
      */
@@ -22,7 +24,7 @@ namespace ATMA
          * pass the event details to the object to be handled
          * @param l_e event details
          */
-        virtual void notify(const ObjectEventContext &l_e) = 0;
+        virtual void notify(ATMAContext *l_ctx, const ObjectEventContext &l_e) = 0;
 
         /**
          * checks if the object is actively listening

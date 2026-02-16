@@ -18,4 +18,6 @@ namespace ATMA
 
     void GLProgramDummyImpl::setUniformMat3f(const std::string &l_name, const Mat3<float> &l_mat) {}
 
+    void GLProgramDummyImpl::setUniformf(const std::string &l_name, const float &l_uni) {}
+
 }

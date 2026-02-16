@@ -15,10 +15,8 @@ namespace ATMA
         Shape,
         Velocity,
         Controllable,
-        Render,
-        Text,
-        Sprite,
         Collidable,
+        Renderable,
         COUNT
     };
 

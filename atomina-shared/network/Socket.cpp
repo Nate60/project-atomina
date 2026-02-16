@@ -1,6 +1,6 @@
 #include "pch.hpp"
 #include "Socket.hpp"
-#ifdef _WINDOWS
+#ifdef _WIN32
 #    include "platform/Win/network/SocketWinImpl.hpp"
 #    define __ATMAMAKESOCKET(url, port) return std::make_shared<SocketWinImpl>(url, port)
 #elif __linux__

@@ -6,7 +6,6 @@ namespace ATMA
     const NetworkMessage NetworkSerde::deserialize(const std::vector<unsigned char> &l_bytes, size_t &l_amountUsed)
     {
         l_amountUsed = 0;
-        ATMA_ENGINE_TRACE("deserializing message with {} bytes", l_bytes.size());
         // skip byte size header
         l_amountUsed += sizeof(unsigned short);
         // determine message type
@@ -74,7 +73,7 @@ namespace ATMA
                 break;
             case NetworkMessageValueEnum::UNSIGNEDSHORT:
                 {
-                    if(l_bytes.size() <=l_amountUsed + sizeof(unsigned short))
+                    if(l_bytes.size() <= l_amountUsed + sizeof(unsigned short))
                     {
                         ATMA_ENGINE_WARN("network message unexpected end of stream");
                         return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
@@ -252,8 +251,8 @@ namespace ATMA
                 return NetworkMessage{NetworkMessageType(NetworkMessageEnum::INVALID)};
             }
         }
-        //we want cursor to point to index after last character used
-        // also this will make l_amountUsed equal to the bytestream of one entire message
+        // we want cursor to point to index after last character used
+        //  also this will make l_amountUsed equal to the bytestream of one entire message
         l_amountUsed++;
         return NetworkMessage{messageType, p};
     }
@@ -264,14 +263,14 @@ namespace ATMA
         bytes.reserve(l_message.values().size() * 16 + 6);
         // reserve space for byte size header
         unsigned short messageSize = 0;
-        for(int i = 0; i < sizeof(messageSize); i++)
+        for(size_t i = 0; i < sizeof(messageSize); i++)
         {
             short shift = i * sizeof(unsigned char) * 8;
             bytes.emplace_back((messageSize >> shift) & 0xFF);
             messageSize++;
         }
         // get message type
-        for(int i = 0; i < sizeof(l_message.type()); i++)
+        for(size_t i = 0; i < sizeof(l_message.type()); i++)
         {
             short shift = i * sizeof(unsigned char) * 8;
             bytes.emplace_back((l_message.type() >> shift) & 0xFF);
@@ -307,7 +306,7 @@ namespace ATMA
                 {
                     auto v = std::any_cast<short>(valuePair.second);
                     const unsigned char *b = reinterpret_cast<const unsigned char *>(&v);
-                    for(int i = 0; i < sizeof(short); i++)
+                    for(size_t i = 0; i < sizeof(short); i++)
                     {
                         bytes.emplace_back(b[i]);
                         messageSize++;
@@ -318,7 +317,7 @@ namespace ATMA
                 {
                     auto v = std::any_cast<unsigned short>(valuePair.second);
                     const unsigned char *b = reinterpret_cast<const unsigned char *>(&v);
-                    for(int i = 0; i < sizeof(unsigned short); i++)
+                    for(size_t i = 0; i < sizeof(unsigned short); i++)
                     {
                         bytes.emplace_back(b[i]);
                         messageSize++;
@@ -329,7 +328,7 @@ namespace ATMA
                 {
                     auto v = std::any_cast<int>(valuePair.second);
                     const unsigned char *b = reinterpret_cast<const unsigned char *>(&v);
-                    for(int i = 0; i < sizeof(int); i++)
+                    for(size_t i = 0; i < sizeof(int); i++)
                     {
                         bytes.emplace_back(b[i]);
                         messageSize++;
@@ -340,7 +339,7 @@ namespace ATMA
                 {
                     auto v = std::any_cast<unsigned int>(valuePair.second);
                     const unsigned char *b = reinterpret_cast<const unsigned char *>(&v);
-                    for(int i = 0; i < sizeof(unsigned int); i++)
+                    for(size_t i = 0; i < sizeof(unsigned int); i++)
                     {
                         bytes.emplace_back(b[i]);
                         messageSize++;
@@ -351,7 +350,7 @@ namespace ATMA
                 {
                     auto v = std::any_cast<float>(valuePair.second);
                     const unsigned char *b = reinterpret_cast<const unsigned char *>(&v);
-                    for(int i = 0; i < sizeof(float); i++)
+                    for(size_t i = 0; i < sizeof(float); i++)
                     {
                         bytes.emplace_back(b[i]);
                         messageSize++;
@@ -362,7 +361,7 @@ namespace ATMA
                 {
                     auto v = std::any_cast<long>(valuePair.second);
                     const unsigned char *b = reinterpret_cast<const unsigned char *>(&v);
-                    for(int i = 0; i < sizeof(long); i++)
+                    for(size_t i = 0; i < sizeof(long); i++)
                     {
                         bytes.emplace_back(b[i]);
                         messageSize++;
@@ -373,7 +372,7 @@ namespace ATMA
                 {
                     auto v = std::any_cast<unsigned long>(valuePair.second);
                     const unsigned char *b = reinterpret_cast<const unsigned char *>(&v);
-                    for(int i = 0; i < sizeof(unsigned long); i++)
+                    for(size_t i = 0; i < sizeof(unsigned long); i++)
                     {
                         bytes.emplace_back(b[i]);
                         messageSize++;
@@ -384,7 +383,7 @@ namespace ATMA
                 {
                     auto v = std::any_cast<double>(valuePair.second);
                     const unsigned char *b = reinterpret_cast<const unsigned char *>(&v);
-                    for(int i = 0; i < sizeof(double); i++)
+                    for(size_t i = 0; i < sizeof(double); i++)
                     {
                         bytes.emplace_back(b[i]);
                         messageSize++;
@@ -395,7 +394,7 @@ namespace ATMA
                 {
                     auto v = std::any_cast<long long>(valuePair.second);
                     const unsigned char *b = reinterpret_cast<const unsigned char *>(&v);
-                    for(int i = 0; i < sizeof(long long); i++)
+                    for(size_t i = 0; i < sizeof(long long); i++)
                     {
                         bytes.emplace_back(b[i]);
                         messageSize++;
@@ -406,7 +405,7 @@ namespace ATMA
                 {
                     auto v = std::any_cast<unsigned long long>(valuePair.second);
                     const unsigned char *b = reinterpret_cast<const unsigned char *>(&v);
-                    for(int i = 0; i < sizeof(unsigned long long); i++)
+                    for(size_t i = 0; i < sizeof(unsigned long long); i++)
                     {
                         bytes.emplace_back(b[i]);
                         messageSize++;
@@ -432,7 +431,7 @@ namespace ATMA
         bytes.emplace_back('\0');
         messageSize++;
         // update message size
-        for(int i = 0; i < sizeof(messageSize); i++)
+        for(size_t i = 0; i < sizeof(messageSize); i++)
         {
             short shift = i * sizeof(unsigned char) * 8;
             bytes[i] = (messageSize >> shift) & 0xFF;

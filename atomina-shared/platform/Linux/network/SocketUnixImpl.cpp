@@ -7,7 +7,6 @@ namespace ATMA
 
     SocketUnixImpl::SocketUnixImpl(const URL &l_addr, const unsigned short &l_port): Socket(l_addr, l_port)
     {
-        ATMA_ENGINE_TRACE("Creating unix sock");
         m_hints = {};
         m_hints.ai_family = AF_UNSPEC;
         m_hints.ai_socktype = SOCK_STREAM;
@@ -40,26 +39,21 @@ namespace ATMA
         }
 
         freeaddrinfo(m_addrinfo);
-        ATMA_ENGINE_TRACE("Finished creating unix sock {}", m_socket);
     }
 
     SocketUnixImpl::SocketUnixImpl(int &&l_socket, const unsigned short &l_port):
         Socket(URL{""}, l_port),
         m_socket(l_socket)
     {
-        ATMA_ENGINE_TRACE("move constructing unix sock {}", m_socket);
     }
 
     SocketUnixImpl::~SocketUnixImpl()
     {
-        ATMA_ENGINE_TRACE("Destroying unix socket {}", m_socket);
-        // TODO: shutdown
         close(m_socket);
     }
 
     void SocketUnixImpl::setBlocking(const bool &l_bool)
     {
-        ATMA_ENGINE_TRACE("setting unix socket blocking={}", l_bool);
         if(!l_bool)
         {
             fcntl(m_socket, F_SETFL, O_NONBLOCK);
@@ -79,7 +73,6 @@ namespace ATMA
             );
             return false;
         }
-        ATMA_ENGINE_TRACE("unix sock {} sending {} bytes", m_socket, l_size);
         int result = send(m_socket, reinterpret_cast<const char *>(l_buffer.data()), l_size, 0);
         if(result < 0)
         {
@@ -90,7 +83,7 @@ namespace ATMA
         return true;
     }
 
-    const short
+    short
     SocketUnixImpl::receiveBytes(std::span<unsigned char> &l_buffer, const size_t &l_size, size_t &l_receivedBytes)
     {
         int result = read(m_socket, reinterpret_cast<char *>(l_buffer.data()), l_size);

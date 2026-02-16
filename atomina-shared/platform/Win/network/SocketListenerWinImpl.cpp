@@ -1,4 +1,4 @@
-#ifdef _WINDOWS
+#ifdef _WIN32
 #    include "pch.hpp"
 #    include "SocketListenerWinImpl.hpp"
 
@@ -7,7 +7,6 @@ namespace ATMA
 
     SocketListenerWinImpl::SocketListenerWinImpl(const unsigned short &l_port): SocketListener(l_port)
     {
-        ATMA_ENGINE_TRACE("Creating win sock listener");
         ZeroMemory(&m_hints, sizeof(m_hints));
         m_hints.ai_family = AF_INET;
         m_hints.ai_socktype = SOCK_STREAM;
@@ -49,12 +48,10 @@ namespace ATMA
             closesocket(m_listener);
             throw NetworkException("Socket Listener unable to listen " + std::to_string(err));
         }
-        ATMA_ENGINE_TRACE("Finished creating win sock listener {}", m_listener);
     }
 
     SocketListenerWinImpl::~SocketListenerWinImpl()
     {
-        ATMA_ENGINE_TRACE("Destroying win socket listener {}", m_listener);
         closesocket(m_listener);
     }
 
@@ -65,7 +62,6 @@ namespace ATMA
         {
             return nullptr;
         }
-        ATMA_ENGINE_TRACE("win socket {} accepted from listener {}", socket, m_listener);
         return std::make_shared<SocketWinImpl>(std::move(socket), m_port);
     }
 

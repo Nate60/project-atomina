@@ -13,7 +13,12 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "ALSA_CONFIG_PATH",
+                    "value": "/usr/share/alsa/alsa.conf"
+                }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [

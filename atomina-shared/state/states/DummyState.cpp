@@ -3,12 +3,12 @@
 
 namespace ATMA
 {
-    DummyState::DummyState(): BaseState() {}
+    DummyState::DummyState(ATMAContext *l_ctx): BaseState(l_ctx) {}
 
     DummyState::~DummyState() {}
 
-    void DummyState::activate() {}
+    void DummyState::activate(ATMAContext *l_ctx) {}
 
-    void DummyState::deactivate() {}
+    void DummyState::deactivate(ATMAContext *l_ctx) {}
 
 }
