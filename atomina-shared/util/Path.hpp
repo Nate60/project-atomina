@@ -38,7 +38,7 @@ namespace ATMA
                 {
 #ifdef __linux__
                     l_path = std::filesystem::canonical("/proc/self/exe");
-#elif _WINDOWS
+#elif _WIN32
                     wchar_t filename[MAX_PATH];
                     DWORD maxLength = MAX_PATH;
                     GetModuleFileNameW(NULL, filename, maxLength);

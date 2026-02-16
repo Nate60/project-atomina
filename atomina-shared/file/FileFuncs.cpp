@@ -20,7 +20,7 @@ namespace ATMA
             paths.emplace_back(dir.path());
         }
 
-        auto filtered = std::copy_if(
+        std::copy_if(
             std::make_move_iterator(paths.begin()),
             std::make_move_iterator(paths.end()),
             std::back_inserter(filtered_paths),
@@ -36,4 +36,11 @@ namespace ATMA
         filesystem->removeFile(l_path);
     }
 
+    void move(std::vector<char> &l_buffer, size_t &l_cursor, const size_t &l_adv, unsigned char *l_dest)
+    {
+        size_t begin = l_cursor;
+        size_t end = l_cursor + l_adv;
+        l_cursor += l_adv;
+        std::move(l_buffer.begin() + begin, l_buffer.begin() + end, l_dest);
+    }
 }

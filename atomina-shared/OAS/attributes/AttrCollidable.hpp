@@ -10,7 +10,7 @@ namespace ATMA
     /**
      * Attribute that holds the collider shape for an object
      */
-    class AttrCollidable: public AttrBase
+    class AttrCollidable: public AttrBase, public Stadium<float>
     {
     public:
         AttrCollidable();
@@ -22,8 +22,6 @@ namespace ATMA
          * @param l_stream string stream containing data of the attribute members
          */
         void readIn(std::stringstream &l_stream) override;
-
-        Stadium<float> m_collider{};
     protected:
     };
 

@@ -39,7 +39,7 @@ TEST(PathTest, EmptyPathDefaultsToExePath)
 */
 TEST(PathTest, AbsolutePathIsUnchanged)
 {
-    #ifdef _WINDOWS
+    #ifdef _WIN32
     ATMA::Path path = ATMA::Path{"C:/abc/a"};
     EXPECT_EQ("C:/abc/a"s, path.toString());
     #elif __linux__

@@ -1,4 +1,4 @@
-#ifdef _WINDOWS
+#ifdef _WIN32
 #    include "pch.hpp"
 #    include "sound/AudioChannel.hpp"
 #    include "util/Log.hpp"

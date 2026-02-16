@@ -18,19 +18,18 @@ namespace ATMA
 
     void SysCollider::update(ATMAContext *l_ctx, const double &l_dt)
     {
-        m_stopwatch.start();
-        for(int i = 0; i < m_objects.size(); ++i)
+        for(unsigned long i = 0; i < m_objects.size(); ++i)
         {
             std::shared_ptr<AttrCollidable> collideComp = l_ctx->m_attrMan->getAttribute<AttrCollidable>(
                 m_objects[i].second, AttributeType(Attribute::Collidable)
             );
-            for(int j = i + 1; j < m_objects.size(); ++j)
+            for(unsigned long j = i + 1; j < m_objects.size(); ++j)
             {
                 std::shared_ptr<AttrCollidable> otherComp = l_ctx->m_attrMan->getAttribute<AttrCollidable>(
                     m_objects[j].second, AttributeType(Attribute::Collidable)
                 );
                 Vec2<float> result{};
-                if(getCollideVector(collideComp->m_collider, otherComp->m_collider, result))
+                if(getCollideVector(*collideComp, *otherComp, result))
                 {
                     Props eventProps{};
                     eventProps["id1"] = std::make_any<unsigned int>(m_objects[i].second);
@@ -42,8 +41,6 @@ namespace ATMA
                 }
             }
         }
-        m_stopwatch.stop();
-        m_stopwatch.reset();
     }
 
     void SysCollider::notify(ATMAContext *l_ctx, const ObjectEventContext &l_e) {}

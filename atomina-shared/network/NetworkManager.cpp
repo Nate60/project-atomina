@@ -34,7 +34,7 @@ namespace ATMA
             size_t totalBytes = recvBytes;
             unsigned short messageSize;
 
-            for(int i = 0; i < recvBytes; i++)
+            for(size_t i = 0; i < recvBytes; i++)
             {
                 wholeMessage.emplace_back(bufSpan[i]);
             }
@@ -47,7 +47,7 @@ namespace ATMA
             {
                 m_conn->receiveBytes(bufSpan, NETWORKMESSAGEBUFFERSIZE, recvBytes);
                 totalBytes += recvBytes;
-                for(int i = 0; i < recvBytes; i++)
+                for(size_t i = 0; i < recvBytes; i++)
                 {
                     wholeMessage.emplace_back(bufSpan[i]);
                 }

@@ -23,6 +23,7 @@ set_property(TARGET Atomina_Shared PROPERTY POSITION_INDEPENDENT_CODE ON)
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Atomina_Shared PROPERTY CXX_STANDARD 20)
 endif()
+target_precompile_headers(Atomina_Shared PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/pch.hpp)
 target_link_libraries(Atomina_Shared PUBLIC spdlog::spdlog glfw)
 if(ATMA_APP_TYPE STREQUAL "OpenGL")
     list(FILTER atomina_shared_src EXCLUDE REGEX ".*/renderImpl/Dummy/.*")
@@ -45,6 +46,7 @@ target_sources(Atomina_Shared PRIVATE ${atomina_shared_src})
 set_target_properties(Atomina_Shared PROPERTIES COMPILE_DEFINITIONS "ATOMINADLL_EXPORTS")
 
 message(STATUS "Compile Definitions: ${COMPILE_DEFINITIONS}")
+message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "ATMA_APP_TYPE: ${ATMA_APP_TYPE}")
 
 install(TARGETS Atomina_Shared

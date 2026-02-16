@@ -18,7 +18,6 @@ namespace ATMA
     void SysTranslator::update(ATMAContext *l_ctx, const double &l_dt)
     {
         auto step = l_dt / 1000000.f;
-        m_stopwatch.start();
         for(auto &obj: m_objects)
         {
             std::shared_ptr<AttrShape> attrPos =
@@ -29,8 +28,6 @@ namespace ATMA
             attrPos->m_pos.y += attrVel->m_dpos.y * step;
             attrPos->m_rot += attrVel->m_drot * step;
         }
-        m_stopwatch.stop();
-        m_stopwatch.reset();
     }
 
     void SysTranslator::notify(ATMAContext *l_ctx, const ObjectEventContext &l_e) {}

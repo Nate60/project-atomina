@@ -31,7 +31,7 @@ namespace ATMA
         );                                                                               // stride: 34
         waveFile.write(reinterpret_cast<const char *>(&clearInt), sizeof(unsigned int)); // stride: 36
         waveFile.write(reinterpret_cast<const char *>(&dataSize), sizeof(unsigned int)); // stride: 40
-        for(int i = 0; i < dataSize; i++)
+        for(unsigned int i = 0; i < dataSize; i++)
         {
             waveFile.write(reinterpret_cast<const char *>(&l_res->m_wave.m_data[i]), sizeof(unsigned char));
         }

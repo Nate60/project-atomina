@@ -26,7 +26,7 @@ namespace ATMA
         const std::string m_sysTypeName;
 
         // constructor with system type and type name
-        SysBase(const SystemType &l_type, const std::string &l_typeName): m_type(l_type), m_sysTypeName(l_typeName) {}
+        SysBase(const SystemType &l_type, const std::string &l_typeName): m_sysTypeName(l_typeName), m_type(l_type) {}
 
         // destructor
         virtual ~SysBase() {}
@@ -57,7 +57,7 @@ namespace ATMA
          * @param l_id id of the object
          * @returns if the operation was successful
          */
-        bool addObject(const ObjectId &l_id, const unsigned int &l_patternID = 0u);
+        virtual bool addObject(ATMAContext *l_ctx, const ObjectId &l_id, const unsigned int &l_patternID = 0u);
 
         /**
          * checks if the object is registering in the system
@@ -71,7 +71,7 @@ namespace ATMA
          * @param l_id id of the object
          * @returns if the operation was successful
          */
-        bool removeObject(const ObjectId &l_id);
+        virtual bool removeObject(ATMAContext *l_ctx, const ObjectId &l_id);
 
         /**
          * interface function for event listeners

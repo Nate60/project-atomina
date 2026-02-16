@@ -13,7 +13,7 @@
     ctx->m_audioMan = new ATMA::AudioManager{};
     ctx->m_winMan = new ATMA::WindowManager{};
     ctx->m_netMan = new ATMA::NetworkManager{};
-    ctx->m_renderer = new ATMA::GLRenderer{};
+    ctx->m_renderer = new ATMA::Renderer{};
     return ctx;
 }
 

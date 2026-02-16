@@ -7,17 +7,17 @@ namespace ATMA
 
     BaseState::BaseState(ATMAContext *l_ctx):
         m_active(false),
-        m_communicable(false),
+        m_transparent(false),
         m_transcendent(false),
-        m_transparent(false)
+        m_communicable(false)
     {
     }
 
     BaseState::BaseState(BaseState &&b) noexcept:
         m_active(b.m_active),
-        m_communicable(b.m_communicable),
+        m_transparent(b.m_transparent),
         m_transcendent(b.m_transcendent),
-        m_transparent(b.m_transparent)
+        m_communicable(b.m_communicable)
     {
     }
 

@@ -108,9 +108,6 @@ namespace ATMA
     template<class T>
     bool getCollideVector(const Stadium<T> &l_a, const Stadium<T> &l_b, Vec2<T> &l_result)
     {
-        Vec2<T> principalA = normalize(l_a.b - l_a.a);
-        Vec2<T> principalB = normalize(l_b.b - l_b.a);
-
         Vec2<T> v0 = l_b.a - l_a.a;
         Vec2<T> v1 = l_b.b - l_a.a;
         Vec2<T> v2 = l_b.a - l_a.b;

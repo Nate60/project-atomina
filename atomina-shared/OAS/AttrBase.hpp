@@ -18,7 +18,7 @@ namespace ATMA
         const std::string m_attrTypeName;
 
         // constructor specifying attribute type id and name
-        AttrBase(const AttributeType &l_type, const std::string &l_typeName): m_type(l_type), m_attrTypeName(l_typeName)
+        AttrBase(const AttributeType &l_type, const std::string &l_typeName): m_attrTypeName(l_typeName), m_type(l_type)
         {
         }
 

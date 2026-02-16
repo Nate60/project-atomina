@@ -46,6 +46,13 @@ namespace ATMA
          * @param l_mat matrix of values
          */
         virtual void setUniformMat3f(const std::string &l_name, const Mat3<float> &l_mat) = 0;
+
+        /**
+         * @brief sets a uniform value to an int
+         * @param l_name name of the uniform in the shader program
+         * @param l_uni int value
+         */
+        virtual void setUniformf(const std::string &l_name, const float &l_uni) = 0;
     protected:
         // default constructor, protected so it cannot be created outside the class
         GLProgram();

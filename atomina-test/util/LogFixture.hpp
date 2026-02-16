@@ -13,7 +13,7 @@ using namespace std::string_literals;
 class LogFixture: public ::testing::Test
 {
 public:
-#ifdef _WINDOWS
+#ifdef _WIN32
     static const inline std::string endLine = "\r\n"s;
 #else
     static const inline std::string endLine = "\n"s;

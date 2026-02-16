@@ -11,6 +11,14 @@ TYPED_TEST(Vector2TestFixture, AddTest)
 }
 
 /**
+ * Tests that addition of vector 2 gives the correct result
+ */
+TYPED_TEST(Vector2TestFixture, AddAssignmentTest)
+{
+    this->addTest({1, 2}, {3, 4}, {4, 6});
+}
+
+/**
  * Tests that subtraction of vector 2 gives the correct result
  */
 TYPED_TEST(Vector2TestFixture, SubTest)
@@ -44,17 +52,15 @@ TYPED_TEST(Vector2TestFixture, DivideTest)
 
 /**
  * Tests that normalization of a vector gives correct result
-*/
+ */
 TYPED_TEST(Vector2TestFixture, NormalizeTest)
 {
-    this->normTest(
-        {1, 1}, {1 / static_cast<TypeParam>(std::sqrt(2)), 1 / static_cast<TypeParam>(std::sqrt(2))}
-    );
+    this->normTest({1, 1}, {1 / static_cast<TypeParam>(std::sqrt(2)), 1 / static_cast<TypeParam>(std::sqrt(2))});
 }
 
 /**
  * Normalizing a vector with a zero component does not break normalization
-*/
+ */
 TYPED_TEST(Vector2TestFixture, NormalizeTestAxis)
 {
     this->normTest({1, 0}, {1, 0});
@@ -62,7 +68,7 @@ TYPED_TEST(Vector2TestFixture, NormalizeTestAxis)
 
 /**
  * Normalizing a zero vector will return the zero vector
-*/
+ */
 TYPED_TEST(Vector2TestFixture, NormalizeTestZero)
 {
     this->normTest({0, 0}, {0, 0});

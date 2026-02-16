@@ -15,6 +15,8 @@ namespace ATMA
         Translator = 1u,
         Controller,
         Renderer,
+        TextWriter,
+        Animator,
         Collider,
         COUNT
     };

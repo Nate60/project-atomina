@@ -13,11 +13,10 @@ uniform mat3 u_rot;
 uniform mat3 u_textureRegion;
 uniform mat3 u_texturePos;
 uniform mat3 u_textureCamera;
-void
-main()
+void main()
 {
 
-    gl_Position = vec4((inverse(u_camera) * u_translate * u_scale * u_rot * vec3(a_pos, 1.0)), 1.0);
+    gl_Position = vec4(u_camera * u_translate * u_scale * u_rot * vec3(a_pos, 1.0), 1.0);
     v_colour = a_colour;
     vec3 srcRegion = inverse(u_textureCamera) * u_texturePos * u_textureRegion * vec3(a_texCoord, 1.0);
     v_texCoord = vec2(srcRegion.x, srcRegion.y);

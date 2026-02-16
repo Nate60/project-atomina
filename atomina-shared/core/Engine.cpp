@@ -8,7 +8,7 @@
  */
 int main(int argc, char **argv)
 {
-#ifdef _WINDOWS
+#ifdef _WIN32
     // required for winsock
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -41,11 +41,11 @@ int main(int argc, char **argv)
         app->shutdown(ctx);
         app->destoryContext(ctx);
     }
-    catch(ATMA::AtominaException e)
+    catch(ATMA::AtominaException const &e)
     {
         ATMA_ENGINE_ERROR("Fatal error {0} shutting down...", e.what());
     }
-    catch(std::exception e)
+    catch(std::exception const &e)
     {
         ATMA_ENGINE_ERROR("Fatal error {0} shutting down...", e.what());
     }

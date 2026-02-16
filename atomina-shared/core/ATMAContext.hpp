@@ -4,7 +4,7 @@
 namespace ATMA
 {
 
-    class GLRenderer;
+    class Renderer;
     class WindowManager;
     class NetworkManager;
     class ObjectEventManager;
@@ -21,7 +21,7 @@ namespace ATMA
     class ATMAContext
     {
     public:
-        GLRenderer *m_renderer = nullptr;
+        Renderer *m_renderer = nullptr;
         WindowManager *m_winMan = nullptr;
         NetworkManager *m_netMan = nullptr;
         ObjectEventManager *m_eventMan = nullptr;

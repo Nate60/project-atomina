@@ -12,7 +12,11 @@ namespace ATMA
 
     SystemManager::~SystemManager() {}
 
-    void SystemManager::objectUpdated(const unsigned int &l_objectID, const std::bitset<ATConst::BITSET_SIZE> &l_bits)
+    void SystemManager::objectUpdated(
+        ATMAContext *l_ctx,
+        const unsigned int &l_objectID,
+        const std::bitset<ATConst::BITSET_SIZE> &l_bits
+    )
     {
         for(auto &system: m_systems)
         {
@@ -20,11 +24,11 @@ namespace ATMA
             bool hasObj = system.second->hasObject(l_objectID) != -1;
             if(patternID >= 0 && !hasObj)
             {
-                system.second->addObject(l_objectID, patternID);
+                system.second->addObject(l_ctx, l_objectID, patternID);
             }
             else if(patternID < 0 && hasObj)
             {
-                system.second->removeObject(l_objectID);
+                system.second->removeObject(l_ctx, l_objectID);
             }
         }
     }
@@ -35,7 +39,7 @@ namespace ATMA
         {
             if(auto patternID = m_systems[l_systemID]->match(obj.second.first); patternID >= 0)
             {
-                m_systems[l_systemID]->addObject(obj.first, patternID);
+                m_systems[l_systemID]->addObject(l_ctx, obj.first, patternID);
             }
         }
     }

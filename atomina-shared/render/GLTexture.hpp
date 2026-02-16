@@ -24,14 +24,14 @@ namespace ATMA
             const int &l_width,
             const int &l_height,
             const int &l_channels,
-            const unsigned char *l_data
+            unsigned char *l_data
         ):
             Resource(l_name, l_path, ResType(ResourceEnum::Texture)),
             m_width(l_width),
             m_height(l_height),
             m_channels(l_channels),
-            m_data(l_data),
-            m_proj(translationMatrix<float>(0.f, 0.f) * scalingMatrix<float>(l_width, l_height))
+            m_proj(translationMatrix<float>(0.f, 0.f) * scalingMatrix<float>(l_width, l_height)),
+            m_data(l_data)
         {
         }
 
@@ -41,16 +41,50 @@ namespace ATMA
             m_width(0),
             m_height(0),
             m_channels(0),
-            m_data(),
-            m_proj(identityMatrix<float>())
+            m_proj(identityMatrix<float>()),
+            m_data()
         {
         }
 
-        const int m_width;
-        const int m_height;
-        const int m_channels;
-        const Mat3<float> m_proj;
-        const unsigned char *m_data;
+        // Copy Constructor
+        Texture(const Texture &l_other):
+            Resource(l_other.m_name, l_other.m_path, l_other.m_type),
+            m_width(l_other.m_width),
+            m_height(l_other.m_height),
+            m_channels(l_other.m_channels),
+            m_proj(l_other.m_proj),
+            m_data(l_other.m_data)
+        {
+        }
+
+        // Move Constructor
+        Texture(Texture &&l_other):
+            Resource(std::move(l_other.m_name), std::move(l_other.m_path), std::move(l_other.m_type)),
+            m_width(std::move(l_other.m_width)),
+            m_height(std::move(l_other.m_height)),
+            m_channels(std::move(l_other.m_channels)),
+            m_proj(std::move(l_other.m_proj)),
+            m_data(std::move(l_other.m_data))
+        {
+        }
+
+        // Copy Constructor
+        void operator=(const Texture &l_other);
+
+        // Move Constructor
+        void operator=(Texture &&l_other);
+
+        const int &width() const;
+        const int &height() const;
+        const int &channels() const;
+        const Mat3<float> &proj() const;
+        const unsigned char *const data() const;
+    protected:
+        int m_width;
+        int m_height;
+        int m_channels;
+        Mat3<float> m_proj;
+        unsigned char *m_data;
     };
 
     /**
@@ -59,7 +93,13 @@ namespace ATMA
     class GLTexture: public LoadedResource
     {
     public:
-        const Texture m_texture;
+        Texture m_texture;
+
+        // copy constructor
+        GLTexture(const GLTexture &l_texture);
+
+        // move constructor
+        GLTexture(GLTexture &&l_texture);
 
         // deconstructor
         virtual ~GLTexture();
@@ -88,6 +128,12 @@ namespace ATMA
          * @return id of the texture
          */
         const unsigned int &getID() const;
+
+        // copy assignment operator
+        void operator=(const GLTexture &l_texture);
+
+        // move assignment operator
+        void operator=(GLTexture &&l_texture);
 
         /**
          * static factory function for creating a GL texture

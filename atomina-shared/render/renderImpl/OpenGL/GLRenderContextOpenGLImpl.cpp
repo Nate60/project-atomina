@@ -47,4 +47,21 @@ namespace ATMA
         }
     }
 
+    void GLRenderContextOpenGLImpl::toggleDepthTest(const bool &l_toggle)
+    {
+        if(l_toggle)
+        {
+            glEnable(GL_DEPTH_TEST);
+            glDepthFunc(GL_LESS);
+        }
+        else
+        {
+            glDisable(GL_DEPTH_TEST);
+        }
+    }
+
+    void GLRenderContextOpenGLImpl::drawElements()
+    {
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    }
 }

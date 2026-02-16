@@ -31,7 +31,7 @@ protected:
      */
     std::shared_ptr<T> loadResource(const unsigned int &l_resourceID)
     {
-        return m_ctx->m_resMan->loadResource<T>(l_resourceID);
+        return m_ctx->m_resMan->loadResource<T>(m_ctx, l_resourceID);
     }
 
     /**

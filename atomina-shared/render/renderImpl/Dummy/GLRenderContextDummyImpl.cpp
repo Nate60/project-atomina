@@ -18,4 +18,7 @@ namespace ATMA
 
     void GLRenderContextDummyImpl::toggleBlend(const bool &l_toggle) {}
 
+    void GLRenderContextDummyImpl::toggleDepthTest(const bool &l_toggle) {}
+
+    void GLRenderContextDummyImpl::drawElements() {}
 }

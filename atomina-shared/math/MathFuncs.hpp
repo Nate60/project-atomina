@@ -141,6 +141,22 @@ namespace ATMA
         return mat;
     }
 
+    template<class T>
+    constexpr inline Mat3<T> orthogonalMatrix(const T &l_x, const T &l_y, const T &l_w, const T &l_h)
+    {
+        const T halfw = l_w / 2;
+        const T halfh = l_h / 2;
+        const T left = -halfw + l_x;
+        const T right = halfw + l_x;
+        const T bottom = -halfh + l_y;
+        const T top = halfh + l_y;
+        return {
+            {{2 / (right - left), 0, -(right + left) / (right - left)},
+             {0, 2 / (top - bottom), -(top + bottom) / (top - bottom)},
+             {0, 0, 1}}
+        };
+    }
+
     /**
      * @brief given two points, find the closest point between those
      * two points to the given point

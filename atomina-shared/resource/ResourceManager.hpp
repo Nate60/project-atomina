@@ -8,14 +8,19 @@
 #include "loaders/AudioWaveLoader.hpp"
 #include "loaders/GLShaderLoader.hpp"
 #include "loaders/GLTextureLoader.hpp"
+#include "loaders/MapdataLoader.hpp"
+#include "loaders/TilesetLoader.hpp"
 #include "ResourceWriter.hpp"
 #include "writers/DummyResourceWriter.hpp"
 #include "writers/AnimationWriter.hpp"
 #include "writers/AudioWaveWriter.hpp"
 #include "writers/GLShaderWriter.hpp"
 #include "writers/GLTextureWriter.hpp"
+#include "writers/MapdataWriter.hpp"
+#include "writers/TilesetWriter.hpp"
 #include "util/AtominaException.hpp"
 #include "util/Log.hpp"
+#include "gtest/gtest.h"
 
 namespace ATMA
 {
@@ -62,7 +67,7 @@ namespace ATMA
          * @throws ValueNotFound Exception if the id is not registered in the context
          */
         template<class T>
-        std::shared_ptr<T> loadResource(const unsigned int &l_resourceID)
+        std::shared_ptr<T> loadResource(ATMAContext *l_ctx, const unsigned int &l_resourceID)
         {
             auto itr = m_resources.find(l_resourceID);
             if(itr == m_resources.end())
@@ -80,11 +85,48 @@ namespace ATMA
                     auto &name = std::get<1>(itr->second);
                     if(auto &filename = std::get<2>(itr->second); filename.has_value())
                     {
-                        m_loadedResources[l_resourceID] = loader.load(name, Path{filename.value()});
+                        Path filepath = Path{filename.value()};
+                        std::basic_ifstream<char> bufferFile{filepath.toString(), std::ios_base::binary};
+                        std::vector<char> buffer;
+                        bufferFile.seekg(0, bufferFile.end);
+                        size_t length = bufferFile.tellg();
+                        bufferFile.seekg(0, bufferFile.beg);
+                        if(length > 0)
+                        {
+                            ATMA_ENGINE_TRACE(
+                                "loading resource {} filelength={} filename={}",
+                                name.c_str(),
+                                length,
+                                filepath.toString().c_str()
+                            );
+                            buffer.resize(length);
+                            bufferFile.exceptions(std::ios::failbit | std::ios::badbit);
+                            try
+                            {
+                                bufferFile.read(&buffer[0], length);
+                            }
+                            catch(const std::bad_cast &e)
+                            {
+                                ATMA_ENGINE_ERROR("failed to cast: {}", e.what());
+                                return nullptr;
+                            }
+                            catch(const std::ios_base::failure &e)
+                            {
+                                ATMA_ENGINE_ERROR("failed to read file {} : {}", filepath.toString().c_str(), e.what());
+                                return nullptr;
+                            }
+                            size_t bytes{};
+                            m_loadedResources[l_resourceID] = loader.load(l_ctx, name, filepath, buffer, bytes);
+                        }
+                        else
+                        {
+                            ATMA_ENGINE_ERROR("file is empty {}", filepath.toString().c_str());
+                            return nullptr;
+                        }
                     }
                     else
                     {
-                        m_loadedResources[l_resourceID] = loader.load(name);
+                        m_loadedResources[l_resourceID] = loader.load(l_ctx, name);
                     }
                     return std::static_pointer_cast<T>(m_loadedResources[l_resourceID]);
                 }
@@ -92,6 +134,20 @@ namespace ATMA
                 {
                     return std::static_pointer_cast<T>(loadeditr->second);
                 }
+            }
+        }
+
+        template<class T>
+        std::shared_ptr<T> loadResource(ATMAContext *l_ctx, const std::string &l_name)
+        {
+            auto itr = m_aliasMap.find(l_name);
+            if(itr == m_aliasMap.end())
+            {
+                throw ValueNotFoundException("resource name: " + l_name + " has not been registered with ATMA Context");
+            }
+            else
+            {
+                return loadResource<T>(l_ctx, itr->second);
             }
         }
 
@@ -146,6 +202,7 @@ namespace ATMA
         void purge();
     protected:
         ResourceContainer m_resources{};
+        std::unordered_map<std::string, ResourceID> m_aliasMap{};
         LoadedResourceContainer m_loadedResources{};
         ResourceID m_lastResourceId{0u};
     };
