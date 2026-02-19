@@ -31,4 +31,8 @@ public:
      * to initiate shut down of the app
      */
     virtual void shutdown(ATMA::ATMAContext *l_ctx) override;
+protected:
+    unsigned int m_fpsObj;
+    std::shared_ptr<ATMA::Text> m_fpsText;
+    double acc = 0;
 };
